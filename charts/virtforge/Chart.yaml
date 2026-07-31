@@ -7,7 +7,7 @@ appVersion: "0.1.0"
 home: https://github.com/virtforge-cloud/virtforge
 sources:
   - https://github.com/virtforge-cloud/virtforge
-  - https://github.com/virtforge-cloud/charts
+  - https://github.com/virtforge-cloud/virtforge-chart
 keywords:
   - iaas
   - kubevirt

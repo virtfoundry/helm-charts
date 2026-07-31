@@ -2,7 +2,7 @@
 
 Official Helm charts for deploying [VirtForge Cloud](https://github.com/virtforge-cloud/virtforge).
 
-Extended install docs: **[Wiki](https://github.com/virtforge-cloud/charts/wiki)**
+Extended install docs: **[Wiki](https://github.com/virtforge-cloud/virtforge-chart/wiki)**
 
 ## Charts
 
@@ -45,6 +45,35 @@ helm upgrade virtforge ./charts/virtforge -n nimbus-system
 | `ingress.host` | `iaas.local` | Ingress hostname |
 
 See [charts/virtforge/values.yaml](charts/virtforge/values.yaml) for all options.
+
+## Homelab (Kustomize)
+
+Clone [virtforge](https://github.com/virtforge-cloud/virtforge) next to this repo, then:
+
+```bash
+./setup-kubevirt.sh
+./deploy-homelab.sh
+```
+
+`deploy-homelab.sh` builds images from the sibling `virtforge` repo, applies the kustomize overlay, and imports images into node containerd (NodePort UI on `:30880`).
+
+Manual apply only:
+
+```bash
+kubectl apply -k kustomize/overlays/homelab
+```
+
+## Layout
+
+| Path | Purpose |
+|------|---------|
+| `charts/virtforge/` | Helm chart (production install) |
+| `kustomize/base/` | Kustomize base manifests |
+| `kustomize/overlays/homelab/` | Homelab overlay (NodePort, local images) |
+| `deploy-homelab.sh` | Full homelab rebuild + deploy |
+| `setup-kubevirt.sh` | Install KubeVirt on cluster |
+| `setup-multus.sh` | Install Multus + bridge |
+| `setup-cdi.sh` | Install CDI for DataVolumes |
 
 ## Contributing
 
