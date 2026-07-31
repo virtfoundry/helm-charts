@@ -1,0 +1,70 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.fullnamePrefix }}-api
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: {{ .Values.fullnamePrefix }}-api
+spec:
+  replicas: {{ .Values.api.replicas }}
+  selector:
+    matchLabels:
+      app: {{ .Values.fullnamePrefix }}-api
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.fullnamePrefix }}-api
+    spec:
+      serviceAccountName: {{ .Values.fullnamePrefix }}-api
+      containers:
+        - name: api
+          image: {{ .Values.images.api }}
+          imagePullPolicy: {{ .Values.images.pullPolicy }}
+          ports:
+            - containerPort: 8080
+              name: http
+          env:
+            - name: CONFIG_PATH
+              value: /etc/nimbus/config.yaml
+            - name: ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.fullnamePrefix }}-secrets
+                  key: ROOT_PASSWORD
+            - name: JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.fullnamePrefix }}-secrets
+                  key: JWT_SECRET
+          volumeMounts:
+            - name: config
+              mountPath: /etc/nimbus
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+            initialDelaySeconds: 15
+            periodSeconds: 20
+      volumes:
+        - name: config
+          configMap:
+            name: {{ .Values.fullnamePrefix }}-config
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.fullnamePrefix }}-api
+  namespace: {{ .Values.namespace }}
+spec:
+  selector:
+    app: {{ .Values.fullnamePrefix }}-api
+  ports:
+    - port: {{ .Values.api.service.port }}
+      targetPort: 8080
+      name: http

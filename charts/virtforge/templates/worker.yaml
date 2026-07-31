@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.fullnamePrefix }}-worker
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: {{ .Values.fullnamePrefix }}-worker
+spec:
+  replicas: {{ .Values.worker.replicas }}
+  selector:
+    matchLabels:
+      app: {{ .Values.fullnamePrefix }}-worker
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.fullnamePrefix }}-worker
+    spec:
+      serviceAccountName: {{ .Values.fullnamePrefix }}-api
+      containers:
+        - name: worker
+          image: {{ .Values.images.worker }}
+          imagePullPolicy: {{ .Values.images.pullPolicy }}
+          command: ["./worker"]
+          env:
+            - name: CONFIG_PATH
+              value: /etc/nimbus/config.yaml
+          volumeMounts:
+            - name: config
+              mountPath: /etc/nimbus
+      volumes:
+        - name: config
+          configMap:
+            name: {{ .Values.fullnamePrefix }}-config

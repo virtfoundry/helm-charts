@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Values.fullnamePrefix }}-config
+  namespace: {{ .Values.namespace }}
+data:
+  config.yaml: |
+    server:
+      host: "0.0.0.0"
+      port: 8080
+    logger:
+      level: {{ .Values.config.logLevel | quote }}
+      format: "json"
+    security:
+      jwt_secret: {{ .Values.secrets.jwtSecret | quote }}
+      jwt_expire: {{ .Values.config.jwtExpire }}
+    kubevirt:
+      enabled: {{ .Values.config.kubevirtEnabled }}
+      kubeconfig: ""
+      namespace: "default"
+    database:
+      driver: mysql
+      dsn: "{{ .Values.mysql.auth.user }}:{{ .Values.mysql.auth.password }}@tcp({{ .Values.fullnamePrefix }}-mysql.{{ .Values.namespace }}.svc:3306)/{{ .Values.mysql.auth.database }}?charset=utf8mb4"
+    observability:
+      velas_explore_url: ""

@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.fullnamePrefix }}-ui
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: {{ .Values.fullnamePrefix }}-ui
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ .Values.fullnamePrefix }}-ui
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.fullnamePrefix }}-ui
+    spec:
+      containers:
+        - name: ui
+          image: {{ .Values.images.ui }}
+          imagePullPolicy: {{ .Values.images.pullPolicy }}
+          ports:
+            - containerPort: 80
+              name: http
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 3
+            periodSeconds: 10
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.fullnamePrefix }}-ui
+  namespace: {{ .Values.namespace }}
+spec:
+  type: {{ .Values.ui.service.type }}
+  selector:
+    app: {{ .Values.fullnamePrefix }}-ui
+  ports:
+    - port: {{ .Values.ui.service.port }}
+      targetPort: 80
+      name: http

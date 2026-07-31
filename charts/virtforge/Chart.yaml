@@ -1,0 +1,18 @@
+apiVersion: v2
+name: virtforge
+description: VirtForge Cloud control plane — API, worker, UI, and optional MySQL
+type: application
+version: 0.1.0
+appVersion: "0.1.0"
+home: https://github.com/virtforge-cloud/virtforge
+sources:
+  - https://github.com/virtforge-cloud/virtforge
+  - https://github.com/virtforge-cloud/charts
+keywords:
+  - iaas
+  - kubevirt
+  - kubernetes
+  - multus
+maintainers:
+  - name: virtforge-cloud
+    url: https://github.com/virtforge-cloud

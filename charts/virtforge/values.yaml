@@ -1,0 +1,54 @@
+# Default values for VirtForge Cloud.
+# Installs API, worker, UI, and optional embedded MySQL.
+
+nameOverride: ""
+fullnamePrefix: nimbus
+
+namespace: nimbus-system
+
+images:
+  api: ghcr.io/virtforge-cloud/iaas-api:0.1.0
+  worker: ghcr.io/virtforge-cloud/iaas-api:0.1.0
+  ui: ghcr.io/virtforge-cloud/iaas-ui:0.1.0
+  pullPolicy: IfNotPresent
+
+mysql:
+  enabled: true
+  image: mysql:8.0
+  storage: 5Gi
+  auth:
+    rootPassword: nimbus-root
+    database: nimbus
+    user: nimbus
+    password: nimbus
+
+secrets:
+  rootPassword: nimbus
+  jwtSecret: change-me-in-production
+
+config:
+  logLevel: info
+  jwtExpire: 86400
+  kubevirtEnabled: true
+
+ingress:
+  enabled: true
+  className: nginx
+  host: iaas.local
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
+
+ui:
+  service:
+    type: ClusterIP
+    port: 80
+
+api:
+  service:
+    type: ClusterIP
+    port: 8080
+  replicas: 1
+
+worker:
+  replicas: 1
