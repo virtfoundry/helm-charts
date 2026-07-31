@@ -1,6 +1,6 @@
-# VirtForge Cloud — Helm Charts
+# VirtForge Cloud — Helm Chart
 
-Official Helm charts for deploying [VirtForge Cloud](https://github.com/virtforge-cloud/virtforge).
+Official Helm chart and homelab tooling for deploying [VirtForge Cloud](https://github.com/virtforge-cloud/virtforge).
 
 Extended install docs: **[Wiki](https://github.com/virtforge-cloud/virtforge-chart/wiki)**
 
