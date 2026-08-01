@@ -1,13 +1,16 @@
-# One-shot pod to import images into node containerd (single-node homelab).
+# One-shot pod to import images into node containerd (single-node homelab, no registry).
+# Applied by scripts/deploy/homelab.sh — not part of the Helm chart.
+#
+# Override node with: sed "s/nodeName: .*/nodeName: YOUR_NODE/" before kubectl apply
 apiVersion: v1
 kind: Pod
 metadata:
-  name: nimbus-image-import
-  namespace: nimbus-system
+  name: virtforge-image-import
+  namespace: virtforge-system
   labels:
-    app: nimbus-image-import
+    app: virtforge-image-import
 spec:
-  nodeName: mgmt-01
+  nodeName: homelab-worker-01
   restartPolicy: Never
   hostPID: true
   containers:

@@ -1,0 +1,22 @@
+name: Chart lint
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Helm
+        uses: azure/setup-helm@v4
+
+      - name: Render default values
+        run: helm template virtforge ./charts/virtforge
+
+      - name: Render homelab profile
+        run: helm template virtforge ./charts/virtforge -f ./charts/virtforge/values-homelab.yaml

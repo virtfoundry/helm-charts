@@ -1,0 +1,32 @@
+{{- if .Values.platform.kubevirt.featureGates.enabled }}
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ .Values.fullnamePrefix }}-kubevirt-gates
+  namespace: {{ .Values.namespace }}
+  labels:
+    {{- include "virtforge.labels" . | nindent 4 }}
+  annotations:
+    helm.sh/hook: post-install,post-upgrade
+    helm.sh/hook-weight: "5"
+    helm.sh/hook-delete-policy: before-hook-creation
+spec:
+  ttlSecondsAfterFinished: 600
+  template:
+    spec:
+      serviceAccountName: {{ .Values.fullnamePrefix }}-platform
+      restartPolicy: OnFailure
+      containers:
+        - name: patch
+          image: registry.k8s.io/kubectl:v1.35.4
+          command:
+            - /bin/sh
+            - -ec
+            - |
+              if ! kubectl get kubevirt kubevirt -n kubevirt >/dev/null 2>&1; then
+                echo "WARN: KubeVirt CR not found — run: make setup-kubevirt"
+                exit 0
+              fi
+              kubectl patch kubevirt kubevirt -n kubevirt --type merge \
+                -p '{"spec":{"configuration":{"developerConfiguration":{"featureGates":{{ .Values.platform.kubevirt.featureGates.gates | toJson }}}}}}'
+{{- end }}

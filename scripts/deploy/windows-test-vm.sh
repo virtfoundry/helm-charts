@@ -1,19 +1,20 @@
 #!/usr/bin/env bash
-# Deploy a Windows Server 2022 eval VM for IOPS testing with pod-network internet (masquerade).
+# Deploy a Windows Server 2022 eval VM for IOPS testing (optional homelab helper).
 #
-# First boot: install Windows via VirtForge console VNC (~30-45 min). After install, use datadisk for IOPS.
-# Internet: pod masquerade (no Multus network) — DHCP inside guest via KubeVirt.
-#
-# Requires CDI (setup-cdi.sh). Blank disks use CDI DataVolumes because local-path
-# direct PVC provisioning often times out on this homelab.
+# First boot: install Windows via VirtForge console VNC (~30-45 min).
+# Requires CDI and Multus on the cluster.
 #
 # Usage:
-#   KUBE_CONTEXT=homelab TENANT_NS=nimbus-tenant-acme ./deploy-windows-test-vm.sh
+#   KUBE_CONTEXT=homelab TENANT_NS=virtforge-tenant-acme make deploy-windows-test-vm
 set -euo pipefail
 
-CHART_ROOT="$(cd "$(dirname "$0")" && pwd)"
-KUBE_CONTEXT="${KUBE_CONTEXT:-homelab}"
-TENANT_NS="${TENANT_NS:-nimbus-tenant-acme}"
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+# shellcheck source=scripts/lib/common.sh
+source "$SCRIPT_DIR/../lib/common.sh"
+virtforge_source_common
+
+KUBE_CONTEXT="${KUBE_CONTEXT:-$(kubectl config current-context 2>/dev/null || echo homelab)}"
+TENANT_NS="${TENANT_NS:-virtforge-tenant-acme}"
 VM_NAME="${VM_NAME:-win-iops-test}"
 BOOT_SIZE="${BOOT_SIZE:-32Gi}"
 DATA_SIZE="${DATA_SIZE:-16Gi}"
@@ -33,19 +34,19 @@ echo "==> Context: $KUBE_CONTEXT | namespace: $TENANT_NS | VM: $VM_NAME"
 kubectl config use-context "$KUBE_CONTEXT"
 
 if ! kubectl get ns "$TENANT_NS" &>/dev/null; then
-  echo "ERROR: namespace $TENANT_NS not found"
+  echo "ERROR: namespace $TENANT_NS not found" >&2
   exit 1
 fi
 
 if ! kubectl get cdi cdi -n cdi &>/dev/null; then
   echo "==> CDI not found — installing"
-  KUBE_CONTEXT="$KUBE_CONTEXT" "$CHART_ROOT/setup-cdi.sh"
+  KUBE_CONTEXT="$KUBE_CONTEXT" "$SCRIPT_DIR/../setup/cdi.sh"
 fi
 
 if ! kubectl -n kube-system get pod -l app=multus -o jsonpath='{.items[0].status.phase}' 2>/dev/null | grep -q Running; then
-  echo "WARN: Multus not Running — restarting daemonset"
-  kubectl -n kube-system delete pod -l app=multus --force --grace-period=0 2>/dev/null || true
-  kubectl -n kube-system rollout status daemonset/kube-multus-ds --timeout=120s || true
+  echo "WARN: Multus not Running — recovering"
+  KUBE_CONTEXT="$KUBE_CONTEXT" "$SCRIPT_DIR/../setup/multus.sh" --ensure-only || \
+    KUBE_CONTEXT="$KUBE_CONTEXT" "$SCRIPT_DIR/../setup/multus.sh"
 fi
 
 dv_apply() {
@@ -64,8 +65,8 @@ metadata:
   name: ${name}
   namespace: ${TENANT_NS}
   labels:
-    app.kubernetes.io/managed-by: nimbus-iaas
-    nimbus.io/vm: ${VM_NAME}
+    app.kubernetes.io/managed-by: virtforge-cloud
+    virtforge.io/vm: ${VM_NAME}
   annotations:
     cdi.kubevirt.io/storage.bind.immediate.requested: "true"
 spec:
@@ -131,16 +132,16 @@ metadata:
   name: ${VM_NAME}
   namespace: ${TENANT_NS}
   labels:
-    app.kubernetes.io/managed-by: nimbus-iaas
-    nimbus.io/os: windows
+    app.kubernetes.io/managed-by: virtforge-cloud
+    virtforge.io/os: windows
 spec:
   runStrategy: Always
   template:
     metadata:
       labels:
         kubevirt.io/domain: ${VM_NAME}
-        nimbus.io/vm: ${VM_NAME}
-        nimbus.io/log-source: velas
+        virtforge.io/vm: ${VM_NAME}
+        virtforge.io/log-source: velas
     spec:
       domain:
         machine:
@@ -201,10 +202,5 @@ echo "=== Windows test VM deployed ==="
 echo "VM:        $VM_NAME"
 echo "Namespace: $TENANT_NS"
 echo "Console:   http://${NODE_IP}:30880/console?name=${VM_NAME}&namespace=${TENANT_NS}"
-echo "UI login:  root / nimbus  (select tenant acme in header)"
-echo ""
-echo "First boot: Windows installer from ISO. Install on bootdisk; datadisk stays empty for IOPS."
-echo "After install: load VirtIO drivers from virtio CD, then diskspd/CrystalDiskMark on datadisk."
-echo "Internet: masquerade pod network — guest DHCP after Windows setup."
 echo ""
 kubectl -n "$TENANT_NS" get vm,vmi,pvc 2>/dev/null | grep -E "${VM_NAME}|NAME" || kubectl -n "$TENANT_NS" get vm,vmi

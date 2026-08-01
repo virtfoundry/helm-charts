@@ -1,8 +1,13 @@
 #!/usr/bin/env bash
-# Install CDI (Containerized Data Importer) for ISO/DataVolume imports on homelab.
+# Install CDI (Containerized Data Importer) for ISO/DataVolume imports (idempotent).
 set -euo pipefail
 
-KUBE_CONTEXT="${KUBE_CONTEXT:-homelab}"
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+# shellcheck source=scripts/lib/common.sh
+source "$SCRIPT_DIR/../lib/common.sh"
+virtforge_source_common
+
+KUBE_CONTEXT="${KUBE_CONTEXT:-$(kubectl config current-context 2>/dev/null || echo homelab)}"
 
 echo "==> Context: $KUBE_CONTEXT"
 kubectl config use-context "$KUBE_CONTEXT"
@@ -12,6 +17,8 @@ if kubectl get cdi cdi -n cdi &>/dev/null; then
   kubectl -n cdi get pods
   exit 0
 fi
+
+echo "TIP: CDI can also be installed via Helm hook: platform.cdi.install=true"
 
 VERSION="${CDI_VERSION:-$(curl -fsSL https://api.github.com/repos/kubevirt/containerized-data-importer/releases/latest | grep '"tag_name"' | head -1 | cut -d'"' -f4)}"
 echo "==> Installing CDI $VERSION"

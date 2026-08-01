@@ -1,0 +1,44 @@
+# VirtForge Cloud control plane
+#
+# Deploy with Gateway API HTTPRoute (Traefik homelab-gateway example).
+# Prerequisites: Gateway API CRDs, Gateway controller, parent Gateway resource.
+#
+# Homelab: make deploy-homelab  (or helm -f values-homelab.yaml)
+
+images:
+  api: ghcr.io/virtforge-cloud/iaas-api:latest
+  worker: ghcr.io/virtforge-cloud/iaas-api:latest
+  ui: ghcr.io/virtforge-cloud/iaas-ui:latest
+  pullPolicy: IfNotPresent
+  # Uncomment if GHCR packages are private:
+  # pullSecrets:
+  #   - ghcr-credentials
+
+ingress:
+  enabled: false
+
+gateway:
+  enabled: true
+  parentRefs:
+    - name: homelab-gateway
+      namespace: traefik
+      sectionName: web
+  hostnames:
+    - virtforge-cloud.homelab
+
+ui:
+  service:
+    type: ClusterIP
+    port: 80
+
+platform:
+  multus:
+    install: false  # use: make setup-multus (or INSTALL_MULTUS=true on deploy)
+  networking:
+    bridge:
+      enabled: false  # enable after Multus + KubeVirt are ready
+  kubevirt:
+    featureGates:
+      enabled: false  # enable after: make setup-kubevirt
+  cdi:
+    install: false

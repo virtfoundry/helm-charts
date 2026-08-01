@@ -1,17 +1,22 @@
-#!/bin/bash
-# Install KubeVirt on homelab — https://kubevirt.io/quickstart_cloud/
-# Does not remove existing cluster resources.
+#!/usr/bin/env bash
+# Install KubeVirt on the target cluster (idempotent).
+# https://kubevirt.io/quickstart_cloud/
 set -euo pipefail
 
-KUBE_CONTEXT="${KUBE_CONTEXT:-homelab}"
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+# shellcheck source=scripts/lib/common.sh
+source "$SCRIPT_DIR/../lib/common.sh"
+virtforge_source_common
 
-echo "=== KubeVirt quickstart — $KUBE_CONTEXT ==="
+KUBE_CONTEXT="${KUBE_CONTEXT:-$(kubectl config current-context 2>/dev/null || echo homelab)}"
+
+echo "=== KubeVirt — context: $KUBE_CONTEXT ==="
 kubectl config use-context "$KUBE_CONTEXT"
 
 if kubectl get kubevirt.kubevirt.io/kubevirt -n kubevirt &>/dev/null; then
   echo "KubeVirt already installed — skipping"
 else
-  VERSION=$(curl -s https://storage.googleapis.com/kubevirt-prow/release/kubevirt/kubevirt/stable.txt)
+  VERSION="$(curl -fsSL https://storage.googleapis.com/kubevirt-prow/release/kubevirt/kubevirt/stable.txt)"
   echo "Stable version: $VERSION"
   kubectl create -f "https://github.com/kubevirt/kubevirt/releases/download/${VERSION}/kubevirt-operator.yaml"
   kubectl create -f "https://github.com/kubevirt/kubevirt/releases/download/${VERSION}/kubevirt-cr.yaml"
@@ -23,8 +28,9 @@ kubectl get kubevirt.kubevirt.io/kubevirt -n kubevirt -o=jsonpath="{.status.phas
 kubectl get all -n kubevirt
 
 echo ""
-echo "Local API against homelab cluster:"
+echo "Local API against this cluster:"
 echo "  kubectl config use-context $KUBE_CONTEXT"
-echo "  cd ../virtforge && ROOT_PASSWORD=nimbus go run ./cmd/server"
-echo ""
-echo "UI dev: cd ../virtforge/ui && npm run dev — login root/nimbus"
+if [ -n "${APP_ROOT:-}" ]; then
+  echo "  cd $APP_ROOT && ROOT_PASSWORD=virtforge go run ./cmd/server"
+  echo "  UI dev: cd $APP_ROOT/ui && npm run dev"
+fi

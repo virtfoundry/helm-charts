@@ -2,9 +2,9 @@
 # Installs API, worker, UI, and optional embedded MySQL.
 
 nameOverride: ""
-fullnamePrefix: nimbus
+fullnamePrefix: virtforge
 
-namespace: nimbus-system
+namespace: virtforge-system
 
 images:
   api: ghcr.io/virtforge-cloud/iaas-api:0.1.0
@@ -17,13 +17,13 @@ mysql:
   image: mysql:8.0
   storage: 5Gi
   auth:
-    rootPassword: nimbus-root
-    database: nimbus
-    user: nimbus
-    password: nimbus
+    rootPassword: virtforge-root
+    database: virtforge
+    user: virtforge
+    password: virtforge
 
 secrets:
-  rootPassword: nimbus
+  rootPassword: virtforge
   jwtSecret: change-me-in-production
 
 config:
@@ -39,10 +39,21 @@ ingress:
     nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
     nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
 
+# Gateway API HTTPRoute (mutually exclusive with ingress.enabled)
+gateway:
+  enabled: false
+  parentRefs:
+    - name: homelab-gateway
+      namespace: traefik
+      sectionName: web
+  hostnames:
+    - iaas.local
+
 ui:
   service:
     type: ClusterIP
     port: 80
+    nodePort: 30880
 
 api:
   service:
@@ -52,3 +63,25 @@ api:
 
 worker:
   replicas: 1
+
+# Optional cluster/platform bootstrap (homelab / bare-metal without a registry).
+# Image sideloading stays outside the chart — see scripts/deploy/homelab.sh.
+platform:
+  multus:
+    # Install Multus thick plugin from upstream manifest when absent.
+    install: false
+    manifestUrl: https://raw.githubusercontent.com/k8snetworkplumbingwg/multus-cni/master/deployments/multus-daemonset-thick.yml
+  networking:
+    bridge:
+      enabled: false
+      name: virtforge-br0
+      namespace: kube-system
+  kubevirt:
+    featureGates:
+      enabled: false
+      gates:
+        - Snapshot
+        - VideoConfig
+  cdi:
+    install: false
+    version: ""  # empty = latest from GitHub releases API at install time

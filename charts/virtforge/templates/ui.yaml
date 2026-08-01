@@ -15,6 +15,7 @@ spec:
       labels:
         app: {{ .Values.fullnamePrefix }}-ui
     spec:
+      {{- include "virtforge.imagePullSecrets" . | nindent 6 }}
       containers:
         - name: ui
           image: {{ .Values.images.ui }}
@@ -42,3 +43,6 @@ spec:
     - port: {{ .Values.ui.service.port }}
       targetPort: 80
       name: http
+      {{- if and (eq .Values.ui.service.type "NodePort") .Values.ui.service.nodePort }}
+      nodePort: {{ .Values.ui.service.nodePort }}
+      {{- end }}
