@@ -20,7 +20,7 @@ IMAGE_TAG="${IMAGE_TAG:-latest}"
 IMPORT_POD="virtforge-image-import"
 IMPORT_NS="virtforge-system"
 IMPORT_MANIFEST="${IMPORT_MANIFEST:-$SCRIPTS_DIR/sideload/import-pod.yaml}"
-IMPORT_NODE="${IMPORT_NODE:-homelab-worker-01}"
+IMPORT_NODE="${IMPORT_NODE:?IMPORT_NODE is required for sideload (e.g. worker-01)}"
 IMPORT_NODE_IP="${IMPORT_NODE_IP:-}"
 LOCAL_REGISTRY="${LOCAL_REGISTRY:-docker.io/virtforge}"
 USE_SIDELOAD="${USE_SIDELOAD:-false}"
@@ -98,7 +98,7 @@ if [ "$USE_SIDELOAD" = "true" ]; then
       LOCAL_REGISTRY="$LOCAL_REGISTRY" "$SCRIPTS_DIR/sideload/ssh.sh"
   else
     kubectl -n "$IMPORT_NS" delete pod "$IMPORT_POD" --ignore-not-found --wait=true 2>/dev/null || true
-    sed "s/nodeName: .*/nodeName: ${IMPORT_NODE}/" "$IMPORT_MANIFEST" | kubectl apply -f -
+    sed "s/REPLACE_NODE_NAME/${IMPORT_NODE}/" "$IMPORT_MANIFEST" | kubectl apply -f -
     kubectl -n "$IMPORT_NS" wait --for=condition=Ready pod/"$IMPORT_POD" --timeout=120s
     TMPDIR="$(mktemp -d)"
     trap 'rm -rf "$TMPDIR"' EXIT

@@ -10,7 +10,7 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 # shellcheck source=scripts/lib/common.sh
-source "$SCRIPT_DIR/../lib/common.sh"
+source "$SCRIPT_DIR/../../scripts/lib/common.sh"
 virtforge_source_common
 
 KUBE_CONTEXT="${KUBE_CONTEXT:-$(kubectl config current-context 2>/dev/null || echo homelab)}"
@@ -40,13 +40,13 @@ fi
 
 if ! kubectl get cdi cdi -n cdi &>/dev/null; then
   echo "==> CDI not found — installing"
-  KUBE_CONTEXT="$KUBE_CONTEXT" "$SCRIPT_DIR/../setup/cdi.sh"
+  KUBE_CONTEXT="$KUBE_CONTEXT" "$SCRIPT_DIR/../../scripts/setup/cdi.sh"
 fi
 
 if ! kubectl -n kube-system get pod -l app=multus -o jsonpath='{.items[0].status.phase}' 2>/dev/null | grep -q Running; then
   echo "WARN: Multus not Running — recovering"
-  KUBE_CONTEXT="$KUBE_CONTEXT" "$SCRIPT_DIR/../setup/multus.sh" --ensure-only || \
-    KUBE_CONTEXT="$KUBE_CONTEXT" "$SCRIPT_DIR/../setup/multus.sh"
+  KUBE_CONTEXT="$KUBE_CONTEXT" "$SCRIPT_DIR/../../scripts/setup/multus.sh" --ensure-only || \
+    KUBE_CONTEXT="$KUBE_CONTEXT" "$SCRIPT_DIR/../../scripts/setup/multus.sh"
 fi
 
 dv_apply() {

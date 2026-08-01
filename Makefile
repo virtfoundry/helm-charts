@@ -1,4 +1,4 @@
-.PHONY: help lint template deploy-homelab setup-kubevirt setup-multus setup-cdi deploy-windows-test-vm
+.PHONY: help lint template deploy-homelab setup-kubevirt setup-multus setup-cdi
 
 CHART := ./charts/virtforge
 
@@ -11,17 +11,14 @@ template: ## Render Helm templates locally
 	helm template virtforge $(CHART)
 	helm template virtforge $(CHART) -f $(CHART)/values-homelab.yaml
 
-deploy-homelab: ## Build/push images and deploy homelab profile
+deploy-homelab: ## Optional: build images and deploy homelab profile
 	./scripts/deploy/homelab.sh
 
-setup-kubevirt: ## Install KubeVirt on the cluster (one-time)
+setup-kubevirt: ## Optional: install KubeVirt prerequisite
 	./scripts/setup/kubevirt.sh
 
-setup-multus: ## Install or verify Multus CNI
+setup-multus: ## Optional: install Multus (or use platform.multus.install)
 	./scripts/setup/multus.sh
 
-setup-cdi: ## Install CDI for ISO/DataVolume imports
+setup-cdi: ## Optional: install CDI (or use platform.cdi.install)
 	./scripts/setup/cdi.sh
-
-deploy-windows-test-vm: ## Deploy optional Windows IOPS test VM
-	./scripts/deploy/windows-test-vm.sh

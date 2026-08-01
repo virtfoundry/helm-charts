@@ -15,10 +15,7 @@ virtforge_source_common() {
   fi
 
   if [ -z "${KUBECONFIG:-}" ]; then
-    KUBESPRAY_ROOT="${KUBESPRAY_ROOT:-$(cd "$CHART_ROOT/../../../homelab/kubespray" 2>/dev/null && pwd || true)}"
-    if [ -n "${KUBESPRAY_ROOT:-}" ] && [ -f "$KUBESPRAY_ROOT/inventory/homelab-cluster/artifacts/admin.conf" ]; then
-      KUBECONFIG="$KUBESPRAY_ROOT/inventory/homelab-cluster/artifacts/admin.conf"
-    fi
+    echo "WARN: KUBECONFIG not set — export KUBECONFIG=/path/to/kubeconfig" >&2
   fi
 
   export KUBECONFIG

@@ -10,7 +10,7 @@ metadata:
   labels:
     app: virtforge-image-import
 spec:
-  nodeName: homelab-worker-01
+  nodeName: REPLACE_NODE_NAME
   restartPolicy: Never
   hostPID: true
   containers:

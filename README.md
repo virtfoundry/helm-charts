@@ -61,34 +61,21 @@ Profiles:
 - **Production / generic:** `values.yaml`
 - **Homelab (Gateway API + GHCR):** [values-homelab.yaml](charts/virtforge/values-homelab.yaml)
 
-## Homelab workflow
+## Homelab (optional)
 
-Clone [virtforge](https://github.com/virtforge-cloud/virtforge) as a sibling directory, then:
+For bare-metal clusters without a private registry, see [`scripts/deploy/homelab.sh`](scripts/deploy/homelab.sh).
 
 ```bash
-export KUBECONFIG=/path/to/kubeconfig   # required unless auto-detected
-
-make setup-kubevirt    # one-time
-make deploy-homelab      # build images, helm upgrade, optional sideload
+export KUBECONFIG=/path/to/kubeconfig
+make deploy-homelab
 ```
 
-Environment variables (common):
-
-| Variable | Purpose |
-|----------|---------|
-| `KUBECONFIG` | Cluster credentials |
-| `APP_ROOT` | Path to virtforge app repo (default: `../virtforge`) |
-| `BUILD_IMAGES` | `true` / `false` — skip local docker build |
-| `PUSH_IMAGES` | Push to GHCR; falls back to sideload on failure |
-| `IMPORT_NODE` / `IMPORT_NODE_IP` | Target node for SSH sideload (no registry) |
-| `INSTALL_MULTUS` | Run Multus setup before helm when `true` |
-
-Helm only (images already in a registry):
+Most users only need:
 
 ```bash
 helm upgrade --install virtforge ./charts/virtforge \
   -n virtforge-system --create-namespace \
-  -f ./charts/virtforge/values-homelab.yaml
+  -f ./charts/virtforge/values-homelab.yaml   # optional profile
 ```
 
 ## Repository layout
@@ -96,7 +83,8 @@ helm upgrade --install virtforge ./charts/virtforge \
 ```
 virtforge-chart/
 ├── charts/virtforge/          # Helm chart (templates, values, profiles)
-├── scripts/
+├── examples/homelab/          # Optional one-off demos (not core tooling)
+├── scripts/                   # Optional homelab deploy helpers
 │   ├── lib/common.sh          # Shared paths and kubeconfig resolution
 │   ├── deploy/                # End-to-end deploy helpers
 │   ├── setup/                 # One-time cluster bootstrap (KubeVirt, Multus, CDI)
@@ -110,14 +98,11 @@ See [scripts/README.md](scripts/README.md) for script details.
 ## Makefile targets
 
 ```bash
-make help                  # list targets
-make lint                  # helm template (default + homelab)
-make deploy-homelab        # full homelab deploy
-make setup-kubevirt       # install KubeVirt
-make setup-multus         # install / verify Multus
-make setup-cdi            # install CDI
-make deploy-windows-test-vm   # optional Windows IOPS test VM
+make help       # list targets
+make lint       # helm template (default + homelab profile)
 ```
+
+Optional homelab targets: `deploy-homelab`, `setup-kubevirt`, `setup-multus`, `setup-cdi` — see [scripts/README.md](scripts/README.md).
 
 ## Contributing
 
