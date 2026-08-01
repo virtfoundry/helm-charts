@@ -12,7 +12,6 @@ data:
       level: {{ .Values.config.logLevel | quote }}
       format: "json"
     security:
-      jwt_secret: {{ .Values.secrets.jwtSecret | quote }}
       jwt_expire: {{ .Values.config.jwtExpire }}
     kubevirt:
       enabled: {{ .Values.config.kubevirtEnabled }}

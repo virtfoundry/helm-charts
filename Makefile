@@ -1,4 +1,4 @@
-.PHONY: help lint template deploy-homelab setup-kubevirt setup-multus setup-cdi
+.PHONY: help lint template deploy-homelab setup-kubevirt setup-multus setup-cdi render-local-config
 
 CHART := ./charts/virtforge
 
@@ -22,3 +22,6 @@ setup-multus: ## Optional: install Multus (or use platform.multus.install)
 
 setup-cdi: ## Optional: install CDI (or use platform.cdi.install)
 	./scripts/setup/cdi.sh
+
+render-local-config: ## Render ../virtforge/config/config.yaml from Helm values
+	./scripts/dev/render-local-config.sh

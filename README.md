@@ -54,7 +54,7 @@ Platform bootstrap (KubeVirt, Multus, CDI) lives in [`scripts/`](scripts/) — o
 | `gateway.enabled` | `false` | Gateway API HTTPRoute |
 | `platform.multus.install` | `false` | Multus via Helm hook |
 
-Full reference: [charts/virtforge/values.yaml](charts/virtforge/values.yaml)
+Full reference: [charts/virtforge/values.yaml](charts/virtforge/values.yaml) · [docs/CONFIGURATION.md](docs/CONFIGURATION.md)
 
 Profiles:
 
@@ -83,9 +83,11 @@ helm upgrade --install virtforge ./charts/virtforge \
 ```
 virtforge-chart/
 ├── charts/virtforge/          # Helm chart (templates, values, profiles)
+├── docs/                      # Configuration reference
 ├── examples/homelab/          # Optional one-off demos (not core tooling)
 ├── scripts/                   # Optional homelab deploy helpers
 │   ├── lib/common.sh          # Shared paths and kubeconfig resolution
+│   ├── dev/                   # Local dev helpers (render config from values)
 │   ├── deploy/                # End-to-end deploy helpers
 │   ├── setup/                 # One-time cluster bootstrap (KubeVirt, Multus, CDI)
 │   └── sideload/              # Image import without a registry
@@ -100,6 +102,7 @@ See [scripts/README.md](scripts/README.md) for script details.
 ```bash
 make help       # list targets
 make lint       # helm template (default + homelab profile)
+make render-local-config   # write ../virtforge/config/config.yaml from values
 ```
 
 Optional homelab targets: `deploy-homelab`, `setup-kubevirt`, `setup-multus`, `setup-cdi` — see [scripts/README.md](scripts/README.md).
