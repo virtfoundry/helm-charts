@@ -30,9 +30,20 @@ jobs:
           helm template virtforge ./charts/virtforge
           helm template virtforge ./charts/virtforge -f ./charts/virtforge/values-homelab.yaml
 
+      - name: Bootstrap gh-pages branch
+        run: |
+          if ! git ls-remote --exit-code --heads origin gh-pages >/dev/null 2>&1; then
+            git checkout --orphan gh-pages
+            git reset --hard
+            git commit --allow-empty -m "Initialize gh-pages for Helm repo"
+            git push origin gh-pages
+            git checkout -
+          fi
+
       - name: Run chart-releaser
         uses: helm/chart-releaser-action@v1.6.0
         env:
           CR_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           charts_dir: charts
+          skip_existing: true
