@@ -22,6 +22,15 @@ helm template virtforge ./charts/virtforge -f ./charts/virtforge/values-homelab.
 
 CI runs the same checks on pull requests (`.github/workflows/chart-lint.yaml`).
 
+## Branch workflow
+
+**Do not commit directly to `main`.** Every feature or fix uses its own branch:
+
+1. Branch from `main`: `feat/<name>`, `fix/<name>`, or `chore/<name>`
+2. Run `make lint` and deploy with `make deploy-homelab` on **homelab**
+3. Open PR → maintainer validates on homelab → **merge only after approval**
+4. After merge to `main`, tag `v*` to publish the chart to GitHub Pages
+
 ## Documentation
 
 - Update [README.md](README.md) when layout or Makefile targets change
