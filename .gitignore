@@ -1,4 +1,5 @@
 .DS_Store
+.cr-release-packages/
 *.tar
 *.tgz
 .idea/

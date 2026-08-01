@@ -6,6 +6,30 @@ Extended install docs: **[Wiki](https://github.com/virtforge-cloud/virtforge-cha
 
 ## Quick start
 
+### From Helm repository (recommended)
+
+```bash
+helm repo add virtforge https://virtforge-cloud.github.io/virtforge-chart
+helm repo update
+helm install virtforge virtforge/virtforge \
+  --namespace virtforge-system \
+  --create-namespace \
+  --set secrets.rootPassword='your-root-password' \
+  --set secrets.jwtSecret='your-jwt-secret'
+```
+
+Homelab profile (Gateway API + GHCR `latest` tags):
+
+```bash
+helm upgrade --install virtforge virtforge/virtforge \
+  -n virtforge-system --create-namespace \
+  -f https://raw.githubusercontent.com/virtforge-cloud/virtforge-chart/main/charts/virtforge/values-homelab.yaml
+```
+
+Also on [Artifact Hub](https://artifacthub.io/packages/search?org=virtforge-cloud) after registration.
+
+### From a git clone (chart developers)
+
 ```bash
 helm install virtforge ./charts/virtforge \
   --namespace virtforge-system \
@@ -70,12 +94,12 @@ export KUBECONFIG=/path/to/kubeconfig
 make deploy-homelab
 ```
 
-Most users only need:
+Most users install from the Helm repo (see Quick start). Clone + local path is optional:
 
 ```bash
 helm upgrade --install virtforge ./charts/virtforge \
   -n virtforge-system --create-namespace \
-  -f ./charts/virtforge/values-homelab.yaml   # optional profile
+  -f ./charts/virtforge/values-homelab.yaml
 ```
 
 ## Repository layout
@@ -92,7 +116,9 @@ virtforge-chart/
 │   ├── setup/                 # One-time cluster bootstrap (KubeVirt, Multus, CDI)
 │   └── sideload/              # Image import without a registry
 ├── Makefile                   # Primary CLI (make help)
-└── .github/workflows/         # CI: helm template lint
+├── artifacthub-repo.yml       # Artifact Hub metadata
+├── docs/ARTIFACTHUB.md        # Release + Pages + Artifact Hub setup
+└── .github/workflows/         # CI lint + chart-releaser (GitHub Pages)
 ```
 
 See [scripts/README.md](scripts/README.md) for script details.

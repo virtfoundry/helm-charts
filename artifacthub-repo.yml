@@ -1,0 +1,6 @@
+# Artifact Hub metadata — https://artifacthub.io/docs/topics/repositories/helm-charts/
+# After registering the repo at https://artifacthub.io, paste repositoryID below.
+# repositoryID: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+owners:
+  - name: virtforge-cloud
+    email: virtforge-cloud@users.noreply.github.com

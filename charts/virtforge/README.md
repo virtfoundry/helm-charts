@@ -5,10 +5,14 @@ Helm chart for the VirtForge Cloud control plane (API, worker, UI, optional MySQ
 ## Install
 
 ```bash
-helm install virtforge . \
+helm repo add virtforge https://virtforge-cloud.github.io/virtforge-chart
+helm repo update
+helm install virtforge virtforge/virtforge \
   --namespace virtforge-system \
   --create-namespace
 ```
+
+From a git clone: `helm install virtforge ./charts/virtforge ...`
 
 ## Profiles
 
