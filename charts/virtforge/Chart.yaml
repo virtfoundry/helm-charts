@@ -19,16 +19,3 @@ keywords:
 maintainers:
   - name: virtforge-cloud
     url: https://github.com/virtforge-cloud
-annotations:
-  artifacthub.io/license: Apache-2.0
-  artifacthub.io/prerelease: "false"
-  artifacthub.io/links: |
-    - name: Chart repository
-      url: https://github.com/virtforge-cloud/virtforge-chart
-    - name: Application
-      url: https://github.com/virtforge-cloud/virtforge
-    - name: Documentation
-      url: https://github.com/virtforge-cloud/virtforge-chart/wiki
-  artifacthub.io/changes: |
-    - kind: added
-      description: Initial published Helm chart (API, worker, UI, MySQL, Gateway API profile)

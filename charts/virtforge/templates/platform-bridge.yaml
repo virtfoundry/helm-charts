@@ -1,4 +1,4 @@
-{{- if .Values.platform.networking.bridge.enabled }}
+{{- if or .Values.platform.networking.public.enabled .Values.platform.networking.isolated.enabled }}
 apiVersion: apps/v1
 kind: DaemonSet
 metadata:
@@ -21,7 +21,7 @@ spec:
       tolerations:
         - operator: Exists
       initContainers:
-        - name: setup-bridge
+        - name: setup-bridges
           image: alpine:3.21
           securityContext:
             privileged: true
@@ -30,10 +30,23 @@ spec:
             - -c
             - |
               set -e
-              BR="{{ .Values.platform.networking.bridge.name }}"
-              ip link show "$BR" >/dev/null 2>&1 || ip link add "$BR" type bridge
-              ip link set "$BR" up
-              echo "$BR ready on $(hostname)"
+              setup_bridge() {
+                local name="$1"
+                local uplink="$2"
+                ip link show "$name" >/dev/null 2>&1 || ip link add "$name" type bridge
+                ip link set "$name" up
+                if [ -n "$uplink" ] && ip link show "$uplink" >/dev/null 2>&1; then
+                  ip link set "$uplink" up || true
+                  ip link set "$uplink" master "$name" || true
+                fi
+                echo "bridge $name ready on $(hostname) uplink=${uplink:-none}"
+              }
+              {{- if .Values.platform.networking.isolated.enabled }}
+              setup_bridge "{{ .Values.platform.networking.isolated.bridge.name }}" ""
+              {{- end }}
+              {{- if .Values.platform.networking.public.enabled }}
+              setup_bridge "{{ .Values.platform.networking.public.bridge.name }}" "{{ .Values.platform.networking.public.bridge.uplink }}"
+              {{- end }}
       containers:
         - name: pause
           image: registry.k8s.io/pause:3.10

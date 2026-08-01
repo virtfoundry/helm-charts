@@ -35,8 +35,34 @@ platform:
   multus:
     install: false  # use: make setup-multus (or INSTALL_MULTUS=true on deploy)
   networking:
+    public:
+      enabled: true
+      cidr: 10.0.50.0/24
+      gateway: 10.0.50.254
+      dns:
+        - 10.0.50.254
+      ipPool:
+        start: 10.0.50.10
+        end: 10.0.50.99
+      reservedRanges:
+        - start: 10.0.50.100
+          end: 10.0.50.150
+          reason: metallb-loadbalancer
+      bridge:
+        name: virtforge-pub0
+        uplink: enp3s0.50
+      nad:
+        name: virtforge-public
+        namespace: virtforge-system
+    isolated:
+      enabled: true
+      bridge:
+        name: virtforge-br0
+    vm:
+      defaultNetwork: public
+      allowPodNetwork: false
     bridge:
-      enabled: false  # enable after Multus + KubeVirt are ready
+      namespace: kube-system
   kubevirt:
     featureGates:
       enabled: false  # enable after: make setup-kubevirt

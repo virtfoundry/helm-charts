@@ -26,8 +26,6 @@ helm upgrade --install virtforge virtforge/virtforge \
   -f https://raw.githubusercontent.com/virtforge-cloud/virtforge-chart/main/charts/virtforge/values-homelab.yaml
 ```
 
-Also on [Artifact Hub](https://artifacthub.io/packages/search?org=virtforge-cloud) after registration.
-
 ### From a git clone (chart developers)
 
 ```bash
@@ -116,8 +114,7 @@ virtforge-chart/
 │   ├── setup/                 # One-time cluster bootstrap (KubeVirt, Multus, CDI)
 │   └── sideload/              # Image import without a registry
 ├── Makefile                   # Primary CLI (make help)
-├── artifacthub-repo.yml       # Artifact Hub metadata
-├── docs/ARTIFACTHUB.md        # Release + Pages + Artifact Hub setup
+├── docs/HELM-REPO.md          # GitHub Pages release guide
 └── .github/workflows/         # CI lint + chart-releaser (GitHub Pages)
 ```
 

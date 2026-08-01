@@ -22,3 +22,20 @@ data:
       dsn: "{{ .Values.mysql.auth.user }}:{{ .Values.mysql.auth.password }}@tcp({{ .Values.fullnamePrefix }}-mysql.{{ .Values.namespace }}.svc:3306)/{{ .Values.mysql.auth.database }}?charset=utf8mb4"
     observability:
       velas_explore_url: ""
+    networking:
+      public:
+        enabled: {{ .Values.platform.networking.public.enabled }}
+        mode: {{ .Values.platform.networking.public.mode | quote }}
+        cidr: {{ .Values.platform.networking.public.cidr | quote }}
+        gateway: {{ .Values.platform.networking.public.gateway | quote }}
+        dns: {{ .Values.platform.networking.public.dns | toJson }}
+        ip_pool_start: {{ .Values.platform.networking.public.ipPool.start | quote }}
+        ip_pool_end: {{ .Values.platform.networking.public.ipPool.end | quote }}
+        bridge_name: {{ .Values.platform.networking.public.bridge.name | quote }}
+        nad_name: {{ .Values.platform.networking.public.nad.name | quote }}
+        nad_namespace: {{ .Values.platform.networking.public.nad.namespace | quote }}
+      isolated:
+        bridge_name: {{ .Values.platform.networking.isolated.bridge.name | quote }}
+      vm:
+        default_network: {{ .Values.platform.networking.vm.defaultNetwork | quote }}
+        allow_pod_network: {{ .Values.platform.networking.vm.allowPodNetwork }}

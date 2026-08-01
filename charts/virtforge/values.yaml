@@ -72,10 +72,41 @@ platform:
     install: false
     manifestUrl: https://raw.githubusercontent.com/k8snetworkplumbingwg/multus-cni/master/deployments/multus-daemonset-thick.yml
   networking:
-    bridge:
+    # Public/shared network for tenant VMs (Multus bridge or macvlan — configured per site).
+    public:
       enabled: false
-      name: virtforge-br0
-      namespace: kube-system
+      mode: bridge                    # bridge | macvlan
+      cidr: 10.0.50.0/24
+      gateway: 10.0.50.254
+      dns:
+        - 10.0.50.254
+      ipPool:
+        start: 10.0.50.10
+        end: 10.0.50.99
+      reservedRanges:
+        - start: 10.0.50.100
+          end: 10.0.50.150
+          reason: metallb-loadbalancer
+      bridge:
+        name: virtforge-pub0
+        uplink: ""                    # e.g. enp3s0.50 on homelab workers
+      macvlan:
+        master: ""
+        mode: bridge
+      nad:
+        name: virtforge-public
+        namespace: virtforge-system
+    # Private tenant VPC networks (isolated L2 on internal bridge).
+    isolated:
+      enabled: true
+      bridge:
+        name: virtforge-br0
+    # Default VM networking when no network_ids are set on deploy.
+    vm:
+      defaultNetwork: pod             # pod | public
+      allowPodNetwork: true           # false = Multus-only when public network is used
+    bridge:
+      namespace: kube-system          # DaemonSet namespace for bridge setup
   kubevirt:
     featureGates:
       enabled: false
