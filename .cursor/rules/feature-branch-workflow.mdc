@@ -23,7 +23,9 @@ Every feature or fix must follow this flow. Do **not** commit directly to `main`
 
 1. Open a PR to `main` — do **not** merge without maintainer approval
 2. Maintainer validates on homelab and approves merge
-3. After merge: push git tag `v*` to publish chart to GitHub Pages
+3. After merge: push git tag `v*` to publish chart to GitHub Pages and rebuild docs at `/docs/`
+
+See `.cursor/rules/versioning.mdc` for SemVer policy (aligned with `virtforge` app repo).
 
 ## Cross-repo features
 

@@ -2,7 +2,7 @@
 
 Official Helm chart and deployment tooling for [VirtForge Cloud](https://github.com/virtforge-cloud/virtforge).
 
-Extended install docs: **[Wiki](https://github.com/virtforge-cloud/virtforge-chart/wiki)**
+Extended install docs: **[Documentation (GitHub Pages)](https://virtforge-cloud.github.io/virtforge-chart/docs/)** · [Wiki](https://github.com/virtforge-cloud/virtforge-chart/wiki)
 
 ## Quick start
 

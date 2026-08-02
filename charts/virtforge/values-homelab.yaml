@@ -38,9 +38,9 @@ platform:
     public:
       enabled: true
       cidr: 10.0.50.0/24
-      gateway: 10.0.50.254
+      gateway: 10.0.50.1
       dns:
-        - 10.0.50.254
+        - 10.0.50.1
       ipPool:
         start: 10.0.50.10
         end: 10.0.50.99
@@ -51,6 +51,14 @@ platform:
       bridge:
         name: virtforge-pub0
         uplink: enp3s0.50
+        address: 10.0.50.2/24   # bridge IP for dnsmasq; outside VM pool (.10-.99)
+        # cloudbr0 also has 10.0.50.1/24 on homelab — steer VM pool (.10-.99) via virtforge-pub0
+        routePoolViaBridge:
+          - 10.0.50.0/28
+          - 10.0.50.16/28
+          - 10.0.50.32/27
+          - 10.0.50.64/27
+          - 10.0.50.96/30
       nad:
         name: virtforge-public
         namespace: virtforge-system
@@ -59,12 +67,16 @@ platform:
       bridge:
         name: virtforge-br0
     vm:
-      defaultNetwork: public
-      allowPodNetwork: false
+      defaultNetwork: pod
+      allowPodNetwork: true   # pod masquerade for sandbox; public IP on secondary macvlan NIC
     bridge:
       namespace: kube-system
+  storage:
+    defaultClass: local-path
+    windowsBootSizeGi: 32
+    windowsISOSizeGi: 8
   kubevirt:
     featureGates:
       enabled: false  # enable after: make setup-kubevirt
   cdi:
-    install: false
+    install: false  # installed via scripts/setup/cdi.sh

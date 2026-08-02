@@ -39,3 +39,7 @@ data:
       vm:
         default_network: {{ .Values.platform.networking.vm.defaultNetwork | quote }}
         allow_pod_network: {{ .Values.platform.networking.vm.allowPodNetwork }}
+    storage:
+      default_class: {{ .Values.platform.storage.defaultClass | quote }}
+      windows_boot_size_gi: {{ .Values.platform.storage.windowsBootSizeGi }}
+      windows_iso_size_gi: {{ .Values.platform.storage.windowsISOSizeGi }}
