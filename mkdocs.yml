@@ -1,0 +1,66 @@
+site_name: VirtForge Cloud
+site_description: Kubernetes-native IaaS control plane — KubeVirt, Multus, multi-tenant networking
+site_url: https://virtforge-cloud.github.io/virtforge-chart/docs/
+repo_url: https://github.com/virtforge-cloud/virtforge-chart
+repo_name: virtforge-cloud/virtforge-chart
+edit_uri: edit/main/docs/
+
+theme:
+  name: material
+  language: en
+  palette:
+    - scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Dark mode
+    - scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Light mode
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.expand
+    - navigation.top
+    - search.suggest
+    - content.code.copy
+    - toc.integrate
+
+plugins:
+  - search
+
+exclude_docs: |
+  CONFIGURATION.md
+  HELM-REPO.md
+
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - tables
+  - toc:
+      permalink: true
+
+nav:
+  - Home: index.md
+  - Getting started:
+      - Installation: guide/installation.md
+      - Configuration: guide/configuration.md
+      - Helm repository: guide/helm-repository.md
+  - Homelab:
+      - Deploy: homelab/deploy.md
+      - Public networking: homelab/networking.md
+  - Project:
+      - Versioning: project/versioning.md
+      - Changelog: project/changelog.md
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/virtforge-cloud

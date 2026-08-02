@@ -26,7 +26,7 @@ Configure public VM networking per site — no app code changes required.
 |-----|---------|-------------|
 | `public.enabled` | `false` | Enable shared public network for VMs |
 | `public.cidr` | `10.0.50.0/24` | L3 network CIDR |
-| `public.gateway` | `10.0.50.254` | Default gateway for VMs |
+| `public.gateway` | `10.0.50.254` | VM default gateway — **must exist on your router** (homelab: `10.0.50.1`) |
 | `public.ipPool.start/end` | `10.0.50.10`–`.99` | Allocatable IP range |
 | `public.bridge.name` | `virtforge-pub0` | Host bridge for Multus |
 | `public.bridge.uplink` | `""` | Physical/VLAN iface (homelab: `enp3s0.50`) |

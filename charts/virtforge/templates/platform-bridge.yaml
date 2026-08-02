@@ -33,25 +33,67 @@ spec:
               setup_bridge() {
                 local name="$1"
                 local uplink="$2"
+                local addr="$3"
                 ip link show "$name" >/dev/null 2>&1 || ip link add "$name" type bridge
                 ip link set "$name" up
                 if [ -n "$uplink" ] && ip link show "$uplink" >/dev/null 2>&1; then
                   ip link set "$uplink" up || true
                   ip link set "$uplink" master "$name" || true
                 fi
-                echo "bridge $name ready on $(hostname) uplink=${uplink:-none}"
+                if [ -n "$addr" ]; then
+                  ip addr show "$name" | grep -q "${addr%%/*}" || ip addr add "$addr" dev "$name"
+                fi
+                echo "bridge $name ready on $(hostname) uplink=${uplink:-none} addr=${addr:-none}"
               }
               {{- if .Values.platform.networking.isolated.enabled }}
               setup_bridge "{{ .Values.platform.networking.isolated.bridge.name }}" ""
               {{- end }}
               {{- if .Values.platform.networking.public.enabled }}
-              setup_bridge "{{ .Values.platform.networking.public.bridge.name }}" "{{ .Values.platform.networking.public.bridge.uplink }}"
+              setup_bridge "{{ .Values.platform.networking.public.bridge.name }}" "{{ .Values.platform.networking.public.bridge.uplink }}" "{{ .Values.platform.networking.public.bridge.address }}"
+              {{- if .Values.platform.networking.public.bridge.routePoolViaBridge }}
+              # When cloudbr0 (or similar) also owns 10.0.50.0/24, steer the VM pool via virtforge-pub0.
+              for cidr in {{ .Values.platform.networking.public.bridge.routePoolViaBridge | join " " }}; do
+                ip route replace "$cidr" dev "{{ .Values.platform.networking.public.bridge.name }}" metric 50 2>/dev/null || true
+              done
+              {{- end }}
               {{- end }}
       containers:
+        {{- if .Values.platform.networking.public.enabled }}
+        - name: dhcp
+          image: alpine:3.21
+          securityContext:
+            privileged: true
+          command:
+            - sh
+            - -c
+            - |
+              set -e
+              apk add --no-cache dnsmasq
+              BR="{{ .Values.platform.networking.public.bridge.name }}"
+              GW="{{ .Values.platform.networking.public.gateway }}"
+              START="{{ .Values.platform.networking.public.ipPool.start }}"
+              END="{{ .Values.platform.networking.public.ipPool.end }}"
+              mkdir -p /run/dnsmasq
+              cat > /etc/dnsmasq.d/virtforge-public.conf <<EOF
+              interface=${BR}
+              bind-interfaces
+              except-interface=lo
+              dhcp-range=${START},${END},255.255.255.0,12h
+              dhcp-option=3,${GW}
+              dhcp-option=6,${GW}
+              EOF
+              echo "dnsmasq on ${BR} range ${START}-${END} gw ${GW}"
+              exec dnsmasq --keep-in-foreground --log-dhcp
+          resources:
+            requests:
+              cpu: 5m
+              memory: 16Mi
+        {{- else }}
         - name: pause
           image: registry.k8s.io/pause:3.10
           resources:
             requests:
               cpu: 1m
               memory: 8Mi
+        {{- end }}
 {{- end }}

@@ -1,0 +1,59 @@
+---
+description: Homelab VLAN50 public network — gateway, MikroTik, CloudStack coexistence
+alwaysApply: false
+globs:
+  - charts/virtforge/values-homelab.yaml
+  - charts/virtforge/templates/platform-bridge.yaml
+  - docs/homelab/**
+---
+
+# Homelab public networking (VLAN 50)
+
+This is **site infrastructure**, not an application bug. Document and validate before blaming VirtForge SSH/API issues.
+
+## VLAN 50 is required
+
+Keep `10.0.50.0/24` for:
+
+- MetalLB LoadBalancer pool (`.100–.150`, e.g. gateway `10.0.50.102`)
+- VM public IP pool (`.10–.99`)
+- Bridge `virtforge-pub0` + uplink VLAN iface (homelab: `enp3s0.50`)
+
+Do **not** remove the VLAN or bridge to “fix” a VM — fix L3/L2 config instead.
+
+## VM default gateway must exist on the router
+
+Homelab MikroTik gateway on VLAN50: **`10.0.50.1`**.
+
+Helm homelab profile uses `platform.networking.public.gateway: 10.0.50.1`. VMs receive this via cloud-init (static IP from pool).
+
+If legacy configs or DHCP still reference **`10.0.50.254`**, either:
+
+- Add `/ip address add address=10.0.50.254/32 interface=VLAN50-PUBLIC` on MikroTik (alias), **or**
+- Recreate VMs after gateway fix in values
+
+**Symptom when wrong:** ping/SSH works from the worker (L2) but **fails from WiFi/VLAN20** — VM replies cannot route back.
+
+## CloudStack `cloudbr0` on workers
+
+Workers may have **`10.0.50.1/24` on `cloudbr0`** plus **`10.0.50.251/24` on `enp3s0.50`**. Linux may prefer `cloudbr0` for `10.0.50.0/24` traffic.
+
+Chart `values-homelab.yaml` sets **`routePoolViaBridge`** so VM pool subnets use `virtforge-pub0` (metric 50). Do not delete `cloudbr0` — only steer the VM pool.
+
+## MikroTik firewall
+
+Forward rules **WIFI → PUBLIC** and **PUBLIC → WIFI** must exist (`VLAN-WIFI` / `VLAN-PUBLIC` address lists). Homelab script: `kubespray/scripts/mikrotik-vlan50-access.sh` (DNS + gateway alias).
+
+## DNS
+
+`virtforge-cloud.homelab` should resolve to the **MetalLB gateway IP** (`10.0.50.102`), not the worker Node IP on VLAN30.
+
+## Validation (from a WiFi client, e.g. Mac on `10.0.20.x`)
+
+```bash
+ping -c 2 10.0.50.102    # gateway
+ping -c 2 10.0.50.<vm>   # VM pool IP
+ssh -i ~/.ssh/id_ed25519 ubuntu@10.0.50.<vm>
+```
+
+If gateway ping fails, fix **router/VLAN routing** before debugging cloud-init or KubeVirt.

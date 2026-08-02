@@ -7,9 +7,9 @@ fullnamePrefix: virtforge
 namespace: virtforge-system
 
 images:
-  api: ghcr.io/virtforge-cloud/iaas-api:0.1.0
-  worker: ghcr.io/virtforge-cloud/iaas-api:0.1.0
-  ui: ghcr.io/virtforge-cloud/iaas-ui:0.1.0
+  api: ghcr.io/virtforge-cloud/iaas-api:0.2.0
+  worker: ghcr.io/virtforge-cloud/iaas-api:0.2.0
+  ui: ghcr.io/virtforge-cloud/iaas-ui:0.2.0
   pullPolicy: IfNotPresent
 
 mysql:
@@ -90,6 +90,7 @@ platform:
       bridge:
         name: virtforge-pub0
         uplink: ""                    # e.g. enp3s0.50 on homelab workers
+        address: ""                   # optional bridge IPv4 for dnsmasq (outside VM pool)
       macvlan:
         master: ""
         mode: bridge
@@ -107,6 +108,10 @@ platform:
       allowPodNetwork: true           # false = Multus-only when public network is used
     bridge:
       namespace: kube-system          # DaemonSet namespace for bridge setup
+  storage:
+    defaultClass: local-path
+    windowsBootSizeGi: 32
+    windowsISOSizeGi: 8
   kubevirt:
     featureGates:
       enabled: false
