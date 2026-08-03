@@ -11,11 +11,13 @@ virtfoundry_source_common() {
   SCRIPTS_DIR="${SCRIPTS_DIR:-$CHART_ROOT/scripts}"
 
   if [ -z "${APP_ROOT:-}" ]; then
-    APP_ROOT="$(cd "$CHART_ROOT/../virtfoundry" 2>/dev/null && pwd \
+    APP_ROOT="$(cd "$CHART_ROOT/../virtforge" 2>/dev/null && pwd \
       || cd "$CHART_ROOT/../core" 2>/dev/null && pwd \
       || cd "$CHART_ROOT/../virtfoundry" 2>/dev/null && pwd \
       || true)"
   fi
+
+  export APP_ROOT
 
   if [ -z "${KUBECONFIG:-}" ]; then
     echo "WARN: KUBECONFIG not set — export KUBECONFIG=/path/to/kubeconfig" >&2
