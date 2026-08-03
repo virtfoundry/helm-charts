@@ -43,7 +43,7 @@ ingress:
 gateway:
   enabled: false
   parentRefs:
-    - name: homelab-gateway
+    - name: platform-gateway
       namespace: traefik
       sectionName: web
   hostnames:
@@ -64,8 +64,8 @@ api:
 worker:
   replicas: 1
 
-# Optional cluster/platform bootstrap (homelab / bare-metal without a registry).
-# Image sideloading stays outside the chart — see scripts/deploy/homelab.sh.
+# Optional cluster/platform bootstrap (bare-metal / air-gapped without a registry).
+# Image sideloading stays outside the chart — see scripts/sideload/.
 platform:
   multus:
     # Install Multus thick plugin from upstream manifest when absent.
@@ -89,7 +89,7 @@ platform:
           reason: metallb-loadbalancer
       bridge:
         name: virtfoundry-pub0
-        uplink: ""                    # e.g. enp3s0.50 on homelab workers
+        uplink: ""                    # physical NIC or VLAN interface on the node
         address: ""                   # optional bridge IPv4 for dnsmasq (outside VM pool)
       macvlan:
         master: ""

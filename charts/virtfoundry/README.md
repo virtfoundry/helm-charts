@@ -29,7 +29,7 @@ From a git clone: `helm install virtfoundry ./charts/virtfoundry ...`
 | File | Use case |
 |------|----------|
 | `values.yaml` | Default — Ingress, GHCR image tags |
-| `values-homelab.yaml` | Gateway API HTTPRoute, homelab hostnames |
+| `values-gateway.yaml` | Gateway API HTTPRoute example |
 
 ## Docs
 

@@ -7,7 +7,7 @@ SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 source "$SCRIPT_DIR/../lib/common.sh"
 virtfoundry_source_common
 
-NODE="${IMPORT_NODE:?IMPORT_NODE is required (e.g. homelab-worker-01)}"
+NODE="${IMPORT_NODE:?IMPORT_NODE is required (e.g. worker-01)}"
 NODE_IP="${IMPORT_NODE_IP:?IMPORT_NODE_IP is required (e.g. 10.0.30.251)}"
 SSH_USER="${SSH_USER:-${USER}}"
 LOCAL_REGISTRY="${LOCAL_REGISTRY:-docker.io/virtfoundry}"

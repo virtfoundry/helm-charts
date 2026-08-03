@@ -1,5 +1,5 @@
-# One-shot pod to import images into node containerd (single-node homelab, no registry).
-# Applied by scripts/deploy/homelab.sh — not part of the Helm chart.
+# One-shot pod to import images into node containerd (single-node cluster, no registry).
+# Not part of the Helm chart — apply manually or via scripts/sideload/.
 #
 # Override node with: sed "s/nodeName: .*/nodeName: YOUR_NODE/" before kubectl apply
 apiVersion: v1

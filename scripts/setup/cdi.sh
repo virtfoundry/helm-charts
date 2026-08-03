@@ -7,7 +7,7 @@ SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 source "$SCRIPT_DIR/../lib/common.sh"
 virtfoundry_source_common
 
-KUBE_CONTEXT="${KUBE_CONTEXT:-$(kubectl config current-context 2>/dev/null || echo homelab)}"
+KUBE_CONTEXT="${KUBE_CONTEXT:-$(kubectl config current-context)}"
 
 echo "==> Context: $KUBE_CONTEXT"
 kubectl config use-context "$KUBE_CONTEXT"

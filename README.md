@@ -20,22 +20,19 @@ helm install virtfoundry virtfoundry/virtfoundry \
 
 KubeVirt, Multus, and CDI must be present on the cluster. The chart installs the **control plane only**. See the [installation guide](docs/guide/installation.md).
 
-## Homelab deploy
+## Local validation
 
 ```bash
 export KUBECONFIG=/path/to/kubeconfig
-export IMPORT_NODE=homelab-worker-01
-make deploy-homelab
+make lint
 ```
-
-Builds images locally, sideloads when GHCR push is unavailable.
 
 ## Repository layout
 
 ```
 charts/virtfoundry/     # Main application chart
 docs/                    # MkDocs site (GitHub Pages)
-scripts/deploy/          # homelab.sh and setup helpers
+scripts/                 # Optional setup and sideload helpers
 ```
 
 ## Related

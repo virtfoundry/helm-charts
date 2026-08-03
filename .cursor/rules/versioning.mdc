@@ -1,18 +1,18 @@
 ---
-description: SemVer releases for virtforge app + chart (aligned tags and versions)
+description: SemVer releases for VirtFoundry app + chart (aligned tags and versions)
 alwaysApply: true
 ---
 
 # Versioning
 
-VirtForge Cloud uses **Semantic Versioning 2.0.0** while pre-1.0 (`0.x.y`).
+VirtFoundry uses **Semantic Versioning 2.0.0** while pre-1.0 (`0.x.y`).
 
 ## Repositories (release together)
 
 | Repo | Version location | Git tag | Published artifact |
 |------|------------------|---------|-------------------|
-| [virtforge](https://github.com/virtforge-cloud/virtforge) | git tag `vX.Y.Z` | `v0.2.0` | GHCR `iaas-api`, `iaas-ui` |
-| [virtforge-chart](https://github.com/virtforge-cloud/virtforge-chart) | `Chart.yaml` `version` + `appVersion` | `v0.2.0` | Helm repo on GitHub Pages |
+| [core](https://github.com/virtfoundry/core) | git tag `vX.Y.Z` | `v0.2.0` | GHCR `core`, `ui` |
+| [helm-charts](https://github.com/virtfoundry/helm-charts) | `Chart.yaml` `version` + `appVersion` | `v0.2.0` | Helm repo on GitHub Pages |
 
 **Rule:** For a user-facing release, bump **both** repos to the **same** `X.Y.Z` and use the **same** git tag `vX.Y.Z`.
 
@@ -21,7 +21,7 @@ VirtForge Cloud uses **Semantic Versioning 2.0.0** while pre-1.0 (`0.x.y`).
 | Bump | When | Examples |
 |------|------|----------|
 | **PATCH** `0.1.0 → 0.1.1` | Bug fixes, doc-only chart fixes | NAD typo, UI label |
-| **MINOR** `0.1.0 → 0.2.0` | New features, homelab profile changes | VM templates, public network fix |
+| **MINOR** `0.1.0 → 0.2.0` | New features, chart profile changes | VM templates, public network fix |
 | **MAJOR** `0.x → 1.0.0` | First stable API/chart contract | Reserved for 1.0 launch |
 
 Breaking changes before 1.0 may land in MINOR releases; document them in `CHANGELOG.md`.
@@ -29,9 +29,9 @@ Breaking changes before 1.0 may land in MINOR releases; document them in `CHANGE
 ## Release checklist
 
 1. Update `CHANGELOG.md` in **both** repos
-2. Chart: bump `charts/virtforge/Chart.yaml` (`version` + `appVersion`)
+2. Chart: bump `charts/virtfoundry/Chart.yaml` (`version` + `appVersion`)
 3. Chart: bump default `images.*` tags in `values.yaml` to match release
-4. Merge to `main` (PR + homelab validation)
+4. Merge to `main` (PR + cluster validation when applicable)
 5. Tag and push: `git tag vX.Y.Z && git push origin vX.Y.Z` in **both** repos
 6. CI publishes GHCR images (app) and Helm package (chart)
 7. Docs site rebuilds on tag push (MkDocs → GitHub Pages `/docs/`)

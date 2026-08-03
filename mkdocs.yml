@@ -36,7 +36,6 @@ plugins:
 exclude_docs: |
   CONFIGURATION.md
   HELM-REPO.md
-  homelab/**
 
 markdown_extensions:
   - admonition

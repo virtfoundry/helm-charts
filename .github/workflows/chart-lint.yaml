@@ -15,8 +15,11 @@ jobs:
       - name: Install Helm
         uses: azure/setup-helm@v4
 
+      - name: Helm lint
+        run: helm lint ./charts/virtfoundry
+
       - name: Render default values
         run: helm template virtfoundry ./charts/virtfoundry
 
-      - name: Render homelab profile
-        run: helm template virtfoundry ./charts/virtfoundry -f ./charts/virtfoundry/values-homelab.yaml
+      - name: Render gateway profile
+        run: helm template virtfoundry ./charts/virtfoundry -f ./charts/virtfoundry/values-gateway.yaml

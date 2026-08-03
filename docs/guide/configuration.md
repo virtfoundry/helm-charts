@@ -48,7 +48,7 @@ VirtFoundry does **not** ship a storage backend. It uses **StorageClasses alread
 | `storage.windowsBootSizeGi` | `32` | Boot disk size when deploying from an ISO template |
 | `storage.windowsISOSizeGi` | `8` | ISO import PVC size |
 
-The chart default (`local-path`) is a common homelab choice — **replace it with any StorageClass that exists in your cluster**:
+The chart default (`local-path`) is a common lab choice — **replace it with any StorageClass that exists in your cluster**:
 
 ```bash
 kubectl get storageclass

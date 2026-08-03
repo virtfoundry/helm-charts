@@ -29,8 +29,9 @@ jobs:
 
       - name: Lint chart
         run: |
+          helm lint ./charts/virtfoundry
           helm template virtfoundry ./charts/virtfoundry
-          helm template virtfoundry ./charts/virtfoundry -f ./charts/virtfoundry/values-homelab.yaml
+          helm template virtfoundry ./charts/virtfoundry -f ./charts/virtfoundry/values-gateway.yaml
 
       - name: Bootstrap gh-pages branch
         run: |

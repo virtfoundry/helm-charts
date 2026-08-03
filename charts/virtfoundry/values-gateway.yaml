@@ -1,0 +1,13 @@
+# Example: Gateway API HTTPRoute instead of Ingress.
+# Requires Gateway API CRDs and a controller (e.g. Traefik, Envoy Gateway).
+ingress:
+  enabled: false
+
+gateway:
+  enabled: true
+  parentRefs:
+    - name: platform-gateway
+      namespace: traefik
+      sectionName: web
+  hostnames:
+    - iaas.example.com

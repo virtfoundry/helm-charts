@@ -1,18 +1,16 @@
-.PHONY: help lint template deploy-homelab setup-kubevirt setup-multus setup-cdi render-local-config docs-build docs-serve
+.PHONY: help lint template setup-kubevirt setup-multus setup-cdi render-local-config docs-build docs-serve
 
 CHART := ./charts/virtfoundry
 
 help: ## Show available targets
 	@grep -E '^[a-zA-Z0-9_-]+:.*##' Makefile | awk 'BEGIN {FS = ":.*## "}; {printf "  %-22s %s\n", $$1, $$2}'
 
-lint: template ## Validate chart renders (default + homelab values)
+lint: template ## Validate chart renders (default + gateway profile)
 
 template: ## Render Helm templates locally
+	helm lint $(CHART)
 	helm template virtfoundry $(CHART)
-	helm template virtfoundry $(CHART) -f $(CHART)/values-homelab.yaml
-
-deploy-homelab: ## Optional: build images and deploy homelab profile
-	./scripts/deploy/homelab.sh
+	helm template virtfoundry $(CHART) -f $(CHART)/values-gateway.yaml
 
 setup-kubevirt: ## Optional: install KubeVirt prerequisite
 	./scripts/setup/kubevirt.sh

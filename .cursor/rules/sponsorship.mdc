@@ -32,7 +32,7 @@ alwaysApply: false
 1. Confirm prices and tier benefits with maintainer
 2. Enable GitHub Sponsors or Open Collective; add payment links
 3. Remove "draft" / "Setup in progress" from `docs/project/sponsorship.md`
-4. Keep public docs free of homelab / VLAN50 specifics
+4. Keep public docs free of site-specific infrastructure details
 
 ## Files
 
