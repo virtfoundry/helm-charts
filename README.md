@@ -47,15 +47,19 @@ Ingress or **Gateway API HTTPRoute** exposes the UI and API on a single hostname
 
 ## Prerequisites
 
-| Requirement | When |
-|-------------|------|
-| Kubernetes 1.28+ | Always |
-| [KubeVirt](https://kubevirt.io/) | VM workloads |
-| [Multus](https://github.com/k8snetworkplumbingwg/multus-cni) | VPC / multi-network |
-| Ingress controller | `ingress.enabled=true` |
-| Gateway API + controller | `gateway.enabled=true` |
+VirtForge installs the **control plane only**. The cluster must already provide:
 
-Platform bootstrap (KubeVirt, Multus, CDI) lives in [`scripts/`](scripts/) — outside the chart, by design.
+| Component | Required | Why |
+|-----------|----------|-----|
+| [KubeVirt](https://kubevirt.io/) | **Yes** | Runs VMs (VirtualMachine, console, snapshots) |
+| [Multus](https://github.com/k8snetworkplumbingwg/multus-cni) | **Yes** | Tenant VPCs, isolated networks, public VM NICs (NADs) |
+| [CDI](https://github.com/kubevirt/containerized-data-importer) | **Yes** for ISO/import; optional for container-disk-only | `DataVolume` ISO import and blank boot disks |
+| Ingress **or** Gateway API | One of them | UI/API hostname |
+| StorageClass | **Yes** | MySQL PVC, VM disks |
+
+Full explanation: **[Installation guide](https://virtforge-cloud.github.io/virtforge-chart/docs/guide/installation/#why-each-platform-component-is-needed)**.
+
+Install helpers (idempotent): [`scripts/setup/`](scripts/setup/) — KubeVirt, Multus, CDI. Optional chart hooks: `platform.multus.install`, `platform.cdi.install` (off by default).
 
 ## Configuration
 

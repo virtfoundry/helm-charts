@@ -16,6 +16,10 @@ helm install virtforge virtforge/virtforge \
 
 Gateway API or Ingress profiles are configured via Helm values — see [Configuration](guide/configuration.md).
 
+## Before you install
+
+VirtForge requires **KubeVirt**, **Multus**, and **CDI** (for ISO/import paths) on the cluster — the Helm chart deploys the control plane only. See [Installation → Prerequisites](guide/installation.md#why-each-platform-component-is-needed) for what each component does and why.
+
 ## Architecture at a glance
 
 | Layer | Technology |

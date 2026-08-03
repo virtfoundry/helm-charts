@@ -2,6 +2,16 @@
 
 Helm chart for the VirtForge Cloud control plane (API, worker, UI, optional MySQL).
 
+## Prerequisites (cluster)
+
+Install **before** this chart:
+
+- **KubeVirt** — VM hypervisor (required)
+- **Multus** — multi-network / VPC / public NICs (required)
+- **CDI** — ISO and `DataVolume` imports (required for ISO templates; optional for container-disk-only)
+
+See [Installation guide](https://virtforge-cloud.github.io/virtforge-chart/docs/guide/installation/#why-each-platform-component-is-needed).
+
 ## Install
 
 ```bash
