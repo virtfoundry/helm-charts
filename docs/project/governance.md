@@ -1,10 +1,10 @@
 # Governance
 
-VirtForge Cloud is an open-source project under the [Apache License 2.0](https://www.apache.org/licenses/LICENSE-2.0). This page describes who leads the project and how decisions are made.
+VirtFoundry is an open-source project under the [Apache License 2.0](https://www.apache.org/licenses/LICENSE-2.0). This page describes who leads the project and how decisions are made.
 
 ## Maintainer
 
-**VirtForge Cloud** is maintained by the [virtforge-cloud](https://github.com/virtforge-cloud) GitHub organization.
+**VirtFoundry** is maintained by the [virtfoundry](https://github.com/virtfoundry) GitHub organization.
 
 | Role | Responsibility |
 |------|----------------|
@@ -13,8 +13,8 @@ VirtForge Cloud is an open-source project under the [Apache License 2.0](https:/
 
 The official repositories are:
 
-- [virtforge](https://github.com/virtforge-cloud/virtforge) — application (API, worker, UI)
-- [virtforge-chart](https://github.com/virtforge-cloud/virtforge-chart) — Helm chart, deploy tooling, documentation site
+- [virtfoundry](https://github.com/virtfoundry/core) — application (API, worker, UI)
+- [virtfoundry-chart](https://github.com/virtfoundry/helm-charts) — Helm chart, deploy tooling, documentation site
 
 Forks and downstream distributions are independent; they are not the official project unless explicitly stated.
 
@@ -31,7 +31,7 @@ Apache 2.0 allows anyone to use, modify, and redistribute the code, including co
 1. **Day-to-day changes** — pull requests to `main`, reviewed by the maintainer; integration testing for infra-sensitive work.
 2. **Releases** — SemVer tags (`vX.Y.Z`) on aligned app + chart versions; see [Versioning](versioning.md).
 3. **Breaking or large changes** — discussed in GitHub Issues or Discussions before implementation when impact is broad.
-4. **Contributions** — welcome under [CONTRIBUTING.md](https://github.com/virtforge-cloud/virtforge-chart/blob/main/CONTRIBUTING.md); merged at maintainer discretion.
+4. **Contributions** — welcome under [CONTRIBUTING.md](https://github.com/virtfoundry/helm-charts/blob/main/CONTRIBUTING.md); merged at maintainer discretion.
 
 ## Contributions and copyright
 
@@ -41,7 +41,7 @@ There is **no CLA** today. If dual-licensing or enterprise offerings are introdu
 
 ## Trademarks and branding
 
-The name **VirtForge Cloud**, logos, and official documentation URLs represent the project brand. Use of the brand for commercial products or implied endorsement should be coordinated with the maintainer.
+The name **VirtFoundry**, logos, and official documentation URLs represent the project brand. Use of the brand for commercial products or implied endorsement should be coordinated with the maintainer.
 
 Code license (Apache 2.0) and trademark use are separate topics.
 
@@ -51,7 +51,7 @@ Financial sponsors support development; they do **not** acquire ownership of the
 
 ## Contact
 
-- [GitHub Issues](https://github.com/virtforge-cloud/virtforge/issues) — bugs and features
-- [GitHub Discussions](https://github.com/virtforge-cloud/virtforge/discussions) — questions and ideas (when enabled)
+- [GitHub Issues](https://github.com/virtfoundry/core/issues) — bugs and features
+- [GitHub Discussions](https://github.com/virtfoundry/core/discussions) — questions and ideas (when enabled)
 
-For security reports, follow [SECURITY.md](https://github.com/virtforge-cloud/virtforge/blob/main/SECURITY.md).
+For security reports, follow [SECURITY.md](https://github.com/virtfoundry/core/blob/main/SECURITY.md).

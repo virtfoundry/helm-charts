@@ -1,15 +1,15 @@
-# Default values for VirtForge Cloud.
+# Default values for VirtFoundry.
 # Installs API, worker, UI, and optional embedded MySQL.
 
 nameOverride: ""
-fullnamePrefix: virtforge
+fullnamePrefix: virtfoundry
 
-namespace: virtforge-system
+namespace: virtfoundry-system
 
 images:
-  api: ghcr.io/virtforge-cloud/iaas-api:0.2.0
-  worker: ghcr.io/virtforge-cloud/iaas-api:0.2.0
-  ui: ghcr.io/virtforge-cloud/iaas-ui:0.2.0
+  api: ghcr.io/virtfoundry/core:1.0.0
+  worker: ghcr.io/virtfoundry/core:1.0.0
+  ui: ghcr.io/virtfoundry/ui:1.0.0
   pullPolicy: IfNotPresent
 
 mysql:
@@ -17,13 +17,13 @@ mysql:
   image: mysql:8.0
   storage: 5Gi
   auth:
-    rootPassword: virtforge-root
-    database: virtforge
-    user: virtforge
-    password: virtforge
+    rootPassword: virtfoundry-root
+    database: virtfoundry
+    user: virtfoundry
+    password: virtfoundry
 
 secrets:
-  rootPassword: virtforge
+  rootPassword: virtfoundry
   jwtSecret: change-me-in-production
 
 config:
@@ -88,20 +88,20 @@ platform:
           end: 10.0.50.150
           reason: metallb-loadbalancer
       bridge:
-        name: virtforge-pub0
+        name: virtfoundry-pub0
         uplink: ""                    # e.g. enp3s0.50 on homelab workers
         address: ""                   # optional bridge IPv4 for dnsmasq (outside VM pool)
       macvlan:
         master: ""
         mode: bridge
       nad:
-        name: virtforge-public
-        namespace: virtforge-system
+        name: virtfoundry-public
+        namespace: virtfoundry-system
     # Private tenant VPC networks (isolated L2 on internal bridge).
     isolated:
       enabled: true
       bridge:
-        name: virtforge-br0
+        name: virtfoundry-br0
     # Default VM networking when no network_ids are set on deploy.
     vm:
       defaultNetwork: pod             # pod | public

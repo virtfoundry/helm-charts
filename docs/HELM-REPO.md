@@ -5,10 +5,10 @@ The chart is published to GitHub Pages on every git tag `v*`.
 ## User install
 
 ```bash
-helm repo add virtforge https://virtforge-cloud.github.io/virtforge-chart
+helm repo add virtfoundry https://virtfoundry.github.io/virtfoundry-chart
 helm repo update
-helm install virtforge virtforge/virtforge \
-  --namespace virtforge-system \
+helm install virtfoundry virtfoundry/virtfoundry \
+  --namespace virtfoundry-system \
   --create-namespace \
   --set secrets.rootPassword='your-root-password' \
   --set secrets.jwtSecret='your-jwt-secret'
@@ -26,7 +26,7 @@ The `gh-pages` branch is created automatically by chart-releaser on first releas
 
 ## Maintainer: publish a release
 
-1. Bump `version` in [`charts/virtforge/Chart.yaml`](../charts/virtforge/Chart.yaml)
+1. Bump `version` in [`charts/virtfoundry/Chart.yaml`](../charts/virtfoundry/Chart.yaml)
 2. Commit and push to `main`
 3. Create and push a matching tag (`0.1.0` → `v0.1.0`):
 
@@ -40,7 +40,7 @@ The `gh-pages` branch is created automatically by chart-releaser on first releas
 Verify:
 
 ```bash
-curl -sL https://virtforge-cloud.github.io/virtforge-chart/index.yaml | head
-helm repo add virtforge https://virtforge-cloud.github.io/virtforge-chart
-helm search repo virtforge/virtforge
+curl -sL https://virtfoundry.github.io/virtfoundry-chart/index.yaml | head
+helm repo add virtfoundry https://virtfoundry.github.io/virtfoundry-chart
+helm search repo virtfoundry/virtfoundry
 ```

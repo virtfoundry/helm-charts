@@ -1,6 +1,6 @@
 # Configuration
 
-VirtForge runtime config is YAML with sections: `server`, `logger`, `security`, `kubevirt`, `database`, `observability`, `networking`.
+VirtFoundry runtime config is YAML with sections: `server`, `logger`, `security`, `kubevirt`, `database`, `observability`, `networking`.
 
 **In Kubernetes, this repo is the source of truth.** Helm renders `templates/configmap.yaml` from `values.yaml` or additional `-f` overlays.
 
@@ -28,16 +28,16 @@ Configure public VM networking per site — no app code changes required.
 | `public.cidr` | `10.0.50.0/24` | L3 network CIDR — adjust for your environment |
 | `public.gateway` | `10.0.50.254` | VM default gateway — **must be reachable on your router for that CIDR** |
 | `public.ipPool.start/end` | `10.0.50.10`–`.99` | Allocatable IP range |
-| `public.bridge.name` | `virtforge-pub0` | Host bridge for Multus |
+| `public.bridge.name` | `virtfoundry-pub0` | Host bridge for Multus |
 | `public.bridge.uplink` | `""` | Physical or VLAN interface attached to the bridge |
-| `public.nad.name` | `virtforge-public` | Multus NAD name |
-| `isolated.bridge.name` | `virtforge-br0` | Internal bridge for tenant VPCs |
+| `public.nad.name` | `virtfoundry-public` | Multus NAD name |
+| `isolated.bridge.name` | `virtfoundry-br0` | Internal bridge for tenant VPCs |
 | `vm.defaultNetwork` | `pod` | `pod` or `public` when no network selected |
 | `vm.allowPodNetwork` | `true` | `false` = Multus-only for VM workloads |
 
 ## Storage (`platform.storage`)
 
-VirtForge uses **existing cluster StorageClasses** — not bundled storage. Default in chart: `local-path`; override with any class your cluster provides (Longhorn, Ceph RBD, NFS, cloud disks, etc.).
+VirtFoundry uses **existing cluster StorageClasses** — not bundled storage. Default in chart: `local-path`; override with any class your cluster provides (Longhorn, Ceph RBD, NFS, cloud disks, etc.).
 
 | Key | Default | Description |
 |-----|---------|-------------|
@@ -53,23 +53,23 @@ platform:
 
 MySQL PVC (embedded chart) uses the **cluster default** StorageClass unless the chart is extended. Per-template `storage_class` in the API overrides the global default for that template.
 
-See [Configuration guide](https://virtforge-cloud.github.io/virtforge-chart/docs/guide/configuration/#storage) for full details.
+See [Configuration guide](https://virtfoundry.github.io/virtfoundry-chart/docs/guide/configuration/#storage) for full details.
 
 ## Profiles
 
 | File | Use case |
 |------|----------|
-| [`values.yaml`](../charts/virtforge/values.yaml) | Generic / production defaults |
+| [`values.yaml`](../charts/virtfoundry/values.yaml) | Generic / production defaults |
 
 Use `-f` overlays for Gateway API hostnames, public networking, and image tags specific to your cluster.
 
 ## Local dev parity
 
-To generate `virtforge/config/config.yaml` from Helm values (sibling repo layout):
+To generate `virtfoundry/config/config.yaml` from Helm values (sibling repo layout):
 
 ```bash
 make render-local-config
-make render-local-config VALUES=./charts/virtforge/values.yaml
+make render-local-config VALUES=./charts/virtfoundry/values.yaml
 ```
 
 Or set `APP_CONFIG=/path/to/config.yaml` when repos are not siblings.
@@ -79,7 +79,7 @@ Or set `APP_CONFIG=/path/to/config.yaml` when repos are not siblings.
 Never commit real secrets in values files. Use:
 
 ```bash
-helm upgrade --install virtforge ./charts/virtforge \
+helm upgrade --install virtfoundry ./charts/virtfoundry \
   --set secrets.jwtSecret='...' \
   --set secrets.rootPassword='...'
 ```

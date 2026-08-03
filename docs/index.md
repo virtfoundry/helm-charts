@@ -1,14 +1,15 @@
-# VirtForge Cloud
+# VirtFoundry
 
-**VirtForge Cloud** is a multi-tenant IaaS control plane for Kubernetes. It wraps [KubeVirt](https://kubevirt.io/) for virtual machines, [Multus](https://github.com/k8snetworkplumbingwg/multus-cni) for L2/L3 networks, and Kubernetes NetworkPolicy for security groups — exposed through a REST API and React dashboard.
+**VirtFoundry** is a multi-tenant IaaS control plane for Kubernetes. It wraps [KubeVirt](https://kubevirt.io/) for virtual machines, [Multus](https://github.com/k8snetworkplumbingwg/multus-cni) for L2/L3 networks, and Kubernetes NetworkPolicy for security groups — exposed through a REST API and React dashboard.
 
 ## Quick install
 
 ```bash
-helm repo add virtforge https://virtforge-cloud.github.io/virtforge-chart
+helm repo add virtfoundry https://virtfoundry.github.io/helm-charts
 helm repo update
-helm install virtforge virtforge/virtforge \
-  --namespace virtforge-system \
+helm install virtfoundry virtfoundry/virtfoundry \
+  --version 1.0.0 \
+  --namespace virtfoundry-system \
   --create-namespace \
   --set secrets.rootPassword='your-root-password' \
   --set secrets.jwtSecret='your-jwt-secret'
@@ -18,7 +19,7 @@ Gateway API or Ingress profiles are configured via Helm values — see [Configur
 
 ## Before you install
 
-VirtForge requires **KubeVirt**, **Multus**, and **CDI** (for ISO/import paths) on the cluster — the Helm chart deploys the control plane only. See [Installation → Prerequisites](guide/installation.md#why-each-platform-component-is-needed) for what each component does and why.
+VirtFoundry requires **KubeVirt**, **Multus**, and **CDI** (for ISO/import paths) on the cluster — the Helm chart deploys the control plane only. See [Installation → Prerequisites](guide/installation.md#why-each-platform-component-is-needed).
 
 ## Architecture at a glance
 
@@ -27,29 +28,28 @@ VirtForge requires **KubeVirt**, **Multus**, and **CDI** (for ISO/import paths) 
 | Control plane | Go API + async worker |
 | Hypervisor | KubeVirt VirtualMachine |
 | Networking | Multus NADs, host bridges, optional MetalLB |
-| Security | JWT auth, tenant namespaces, NetworkPolicy SGs |
+| Security | IAM, JWT, API keys, tenant namespaces, NetworkPolicy |
 | UI | React + Vite + TanStack Query |
-| Packaging | Helm chart (`virtforge-chart`) |
+| Packaging | Helm chart (`helm-charts`) |
 
 ## Repositories
 
 | Repository | Role |
 |------------|------|
-| [virtforge](https://github.com/virtforge-cloud/virtforge) | Application source (API, worker, UI) |
-| [virtforge-chart](https://github.com/virtforge-cloud/virtforge-chart) | Helm chart, deploy scripts, this documentation |
-| [virtforge-website](https://github.com/virtforge-cloud/virtforge-website) | Marketing site (future) |
+| [core](https://github.com/virtfoundry/core) | Application source (API, worker, UI) |
+| [helm-charts](https://github.com/virtfoundry/helm-charts) | Helm chart, deploy scripts, this documentation |
 
 ## Current release
 
-**v0.2.0** — VM templates, public network with IP pool, ISO/CDI bootstrap paths.
+**v1.0.0** — VirtFoundry rebrand, IAM (users, roles, API keys), multi-tenant IaaS on KubeVirt.
 
 See [Changelog](project/changelog.md) and [Versioning](project/versioning.md).
 
 ## Support
 
-- [GitHub Issues](https://github.com/virtforge-cloud/virtforge/issues)
-- [Contributing](https://github.com/virtforge-cloud/virtforge-chart/blob/main/CONTRIBUTING.md)
-- [Governance](project/governance.md) — maintainer role and decision process
-- [Sponsorship](project/sponsorship.md) — support the project without buying the code
+- [GitHub Issues](https://github.com/virtfoundry/core/issues)
+- [Contributing](../CONTRIBUTING.md)
+- [Governance](project/governance.md)
+- [Sponsorship](project/sponsorship.md)
 
-Documentation is published on **GitHub Pages** (temporary site until [virtforge-website](https://github.com/virtforge-cloud/virtforge-website) is ready).
+Documentation: **https://virtfoundry.github.io/helm-charts/docs/**

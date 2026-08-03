@@ -15,7 +15,7 @@ spec:
       labels:
         app: {{ .Values.fullnamePrefix }}-ui
     spec:
-      {{- include "virtforge.imagePullSecrets" . | nindent 6 }}
+      {{- include "virtfoundry.imagePullSecrets" . | nindent 6 }}
       containers:
         - name: ui
           image: {{ .Values.images.ui }}

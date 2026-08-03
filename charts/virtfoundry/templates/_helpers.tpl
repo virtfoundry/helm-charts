@@ -1,23 +1,23 @@
-{{- define "virtforge.name" -}}
+{{- define "virtfoundry.name" -}}
 {{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
-{{- define "virtforge.namespace" -}}
+{{- define "virtfoundry.namespace" -}}
 {{- .Values.namespace }}
 {{- end }}
 
-{{- define "virtforge.fullname" -}}
+{{- define "virtfoundry.fullname" -}}
 {{- printf "%s-%s" .Values.fullnamePrefix .Chart.Name | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
-{{- define "virtforge.labels" -}}
-app.kubernetes.io/name: {{ include "virtforge.name" . }}
+{{- define "virtfoundry.labels" -}}
+app.kubernetes.io/name: {{ include "virtfoundry.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
 helm.sh/chart: {{ .Chart.Name }}-{{ .Chart.Version }}
 {{- end }}
 
-{{- define "virtforge.imagePullSecrets" -}}
+{{- define "virtfoundry.imagePullSecrets" -}}
 {{- with .Values.images.pullSecrets }}
 imagePullSecrets:
   {{- range . }}

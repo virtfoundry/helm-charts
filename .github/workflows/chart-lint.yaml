@@ -16,7 +16,7 @@ jobs:
         uses: azure/setup-helm@v4
 
       - name: Render default values
-        run: helm template virtforge ./charts/virtforge
+        run: helm template virtfoundry ./charts/virtfoundry
 
       - name: Render homelab profile
-        run: helm template virtforge ./charts/virtforge -f ./charts/virtforge/values-homelab.yaml
+        run: helm template virtfoundry ./charts/virtfoundry -f ./charts/virtfoundry/values-homelab.yaml

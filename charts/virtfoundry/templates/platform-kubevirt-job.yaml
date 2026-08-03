@@ -5,7 +5,7 @@ metadata:
   name: {{ .Values.fullnamePrefix }}-kubevirt-gates
   namespace: {{ .Values.namespace }}
   labels:
-    {{- include "virtforge.labels" . | nindent 4 }}
+    {{- include "virtfoundry.labels" . | nindent 4 }}
   annotations:
     helm.sh/hook: post-install,post-upgrade
     helm.sh/hook-weight: "5"

@@ -5,7 +5,7 @@ metadata:
   name: {{ .Values.fullnamePrefix }}-cdi-install
   namespace: {{ .Values.namespace }}
   labels:
-    {{- include "virtforge.labels" . | nindent 4 }}
+    {{- include "virtfoundry.labels" . | nindent 4 }}
   annotations:
     helm.sh/hook: pre-install,pre-upgrade
     helm.sh/hook-weight: "-5"

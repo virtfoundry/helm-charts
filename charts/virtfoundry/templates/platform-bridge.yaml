@@ -6,7 +6,7 @@ metadata:
   namespace: {{ .Values.platform.networking.bridge.namespace }}
   labels:
     app.kubernetes.io/name: {{ .Values.fullnamePrefix }}-bridge-setup
-    {{- include "virtforge.labels" . | nindent 4 }}
+    {{- include "virtfoundry.labels" . | nindent 4 }}
 spec:
   selector:
     matchLabels:
@@ -51,7 +51,7 @@ spec:
               {{- if .Values.platform.networking.public.enabled }}
               setup_bridge "{{ .Values.platform.networking.public.bridge.name }}" "{{ .Values.platform.networking.public.bridge.uplink }}" "{{ .Values.platform.networking.public.bridge.address }}"
               {{- if .Values.platform.networking.public.bridge.routePoolViaBridge }}
-              # When cloudbr0 (or similar) also owns 10.0.50.0/24, steer the VM pool via virtforge-pub0.
+              # When cloudbr0 (or similar) also owns 10.0.50.0/24, steer the VM pool via virtfoundry-pub0.
               for cidr in {{ .Values.platform.networking.public.bridge.routePoolViaBridge | join " " }}; do
                 ip route replace "$cidr" dev "{{ .Values.platform.networking.public.bridge.name }}" metric 50 2>/dev/null || true
               done
@@ -74,7 +74,7 @@ spec:
               START="{{ .Values.platform.networking.public.ipPool.start }}"
               END="{{ .Values.platform.networking.public.ipPool.end }}"
               mkdir -p /run/dnsmasq
-              cat > /etc/dnsmasq.d/virtforge-public.conf <<EOF
+              cat > /etc/dnsmasq.d/virtfoundry-public.conf <<EOF
               interface=${BR}
               bind-interfaces
               except-interface=lo

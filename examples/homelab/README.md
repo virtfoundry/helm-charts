@@ -10,7 +10,7 @@ Optional workflows for bare-metal / homelab clusters. **Not required** for a sta
 
 ```bash
 export KUBECONFIG=/path/to/kubeconfig
-KUBE_CONTEXT=my-cluster TENANT_NS=virtforge-tenant-acme ./windows-iops-test-vm.sh
+KUBE_CONTEXT=my-cluster TENANT_NS=virtfoundry-tenant-acme ./windows-iops-test-vm.sh
 ```
 
-Requires VirtForge already deployed, CDI, and a tenant namespace.
+Requires VirtFoundry already deployed, CDI, and a tenant namespace.

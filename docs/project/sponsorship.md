@@ -1,6 +1,6 @@
 # Sponsorship
 
-VirtForge Cloud is free and open source (Apache 2.0). **Sponsorship** helps fund development and documentation — without selling the codebase or transferring project leadership.
+VirtFoundry is free and open source (Apache 2.0). **Sponsorship** helps fund development and documentation — without selling the codebase or transferring project leadership.
 
 ## What sponsorship is
 
@@ -31,7 +31,7 @@ These tiers describe **intent**; enable GitHub Sponsors or Open Collective when 
 
 ### Supporter — from $5 / month
 
-- Name in [SPONSORS.md](https://github.com/virtforge-cloud/virtforge-chart/blob/main/SPONSORS.md) (opt-in)
+- Name in [SPONSORS.md](https://github.com/virtfoundry/helm-charts/blob/main/SPONSORS.md) (opt-in)
 - Our thanks in release notes when you start sponsoring
 
 ### Sponsor — from $50 / month
@@ -79,8 +79,8 @@ For **SLA**, on-prem install support, custom features, or training:
 
 Until then:
 
-1. Open a [GitHub Issue](https://github.com/virtforge-cloud/virtforge/issues/new) with label `sponsor`, or
-2. Reach out via the maintainer contact on the [virtforge-cloud](https://github.com/virtforge-cloud) organization profile
+1. Open a [GitHub Issue](https://github.com/virtfoundry/core/issues/new) with label `sponsor`, or
+2. Reach out via the maintainer contact on the [virtfoundry](https://github.com/virtfoundry) organization profile
 
 ## FAQ
 

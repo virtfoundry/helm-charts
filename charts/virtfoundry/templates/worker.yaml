@@ -15,7 +15,7 @@ spec:
       labels:
         app: {{ .Values.fullnamePrefix }}-worker
     spec:
-      {{- include "virtforge.imagePullSecrets" . | nindent 6 }}
+      {{- include "virtfoundry.imagePullSecrets" . | nindent 6 }}
       serviceAccountName: {{ .Values.fullnamePrefix }}-api
       containers:
         - name: worker
@@ -24,10 +24,10 @@ spec:
           command: ["./worker"]
           env:
             - name: CONFIG_PATH
-              value: /etc/virtforge/config.yaml
+              value: /etc/virtfoundry/config.yaml
           volumeMounts:
             - name: config
-              mountPath: /etc/virtforge
+              mountPath: /etc/virtfoundry
       volumes:
         - name: config
           configMap:

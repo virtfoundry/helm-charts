@@ -1,119 +1,54 @@
-# VirtForge Cloud — Helm Chart
+# VirtFoundry Helm Charts
 
-Official Helm chart and deployment tooling for [VirtForge Cloud](https://github.com/virtforge-cloud/virtforge).
+Official Helm charts for [VirtFoundry](https://github.com/virtfoundry/core) — private cloud IaaS on Kubernetes.
 
-Extended install docs: **[Documentation (GitHub Pages)](https://virtforge-cloud.github.io/virtforge-chart/docs/)** · [Wiki](https://github.com/virtforge-cloud/virtforge-chart/wiki)
+**Documentation:** [virtfoundry.github.io/helm-charts/docs/](https://virtfoundry.github.io/helm-charts/docs/)
 
-## Quick start
-
-### From Helm repository (recommended)
+## Quick install
 
 ```bash
-helm repo add virtforge https://virtforge-cloud.github.io/virtforge-chart
+helm repo add virtfoundry https://virtfoundry.github.io/helm-charts
 helm repo update
-helm install virtforge virtforge/virtforge \
-  --namespace virtforge-system \
-  --create-namespace \
-  --set secrets.rootPassword='your-root-password' \
-  --set secrets.jwtSecret='your-jwt-secret'
+helm install virtfoundry virtfoundry/virtfoundry \
+  --version 1.0.0 \
+  -n virtfoundry-system --create-namespace \
+  --set secrets.rootPassword='change-me' \
+  --set secrets.jwtSecret='change-me'
 ```
-
-### From a git clone (chart developers)
-
-```bash
-helm install virtforge ./charts/virtforge \
-  --namespace virtforge-system \
-  --create-namespace \
-  --set secrets.rootPassword='your-root-password' \
-  --set secrets.jwtSecret='your-jwt-secret'
-```
-
-Validate locally:
-
-```bash
-make lint
-```
-
-## What gets deployed
-
-| Component | Description |
-|-----------|-------------|
-| **API** | REST + WebSocket control plane |
-| **Worker** | Async reconciliation loop |
-| **UI** | React dashboard (nginx) |
-| **MySQL** | Optional embedded database (StatefulSet) |
-
-Ingress or **Gateway API HTTPRoute** exposes the UI and API on a single hostname.
 
 ## Prerequisites
 
-VirtForge installs the **control plane only**. The cluster must already provide:
+KubeVirt, Multus, and CDI must be present on the cluster. The chart installs the **control plane only**. See the [installation guide](docs/guide/installation.md).
 
-| Component | Required | Why |
-|-----------|----------|-----|
-| [KubeVirt](https://kubevirt.io/) | **Yes** | Runs VMs (VirtualMachine, console, snapshots) |
-| [Multus](https://github.com/k8snetworkplumbingwg/multus-cni) | **Yes** | Tenant VPCs, isolated networks, public VM NICs (NADs) |
-| [CDI](https://github.com/kubevirt/containerized-data-importer) | **Yes** for ISO/import; optional for container-disk-only | `DataVolume` ISO import and blank boot disks |
-| Ingress **or** Gateway API | One of them | UI/API hostname |
-| StorageClass | **Yes** | MySQL PVC, VM disks |
+## Homelab deploy
 
-Full explanation: **[Installation guide](https://virtforge-cloud.github.io/virtforge-chart/docs/guide/installation/#why-each-platform-component-is-needed)**.
+```bash
+export KUBECONFIG=/path/to/kubeconfig
+export IMPORT_NODE=homelab-worker-01
+make deploy-homelab
+```
 
-Install helpers (idempotent): [`scripts/setup/`](scripts/setup/) — KubeVirt, Multus, CDI. Optional chart hooks: `platform.multus.install`, `platform.cdi.install` (off by default).
-
-## Configuration
-
-| Key | Default | Description |
-|-----|---------|-------------|
-| `images.api` | `ghcr.io/virtforge-cloud/iaas-api:0.1.0` | API / worker image |
-| `images.ui` | `ghcr.io/virtforge-cloud/iaas-ui:0.1.0` | UI image |
-| `mysql.enabled` | `true` | Embedded MySQL |
-| `ingress.enabled` | `true` | Classic Ingress |
-| `gateway.enabled` | `false` | Gateway API HTTPRoute |
-| `platform.multus.install` | `false` | Multus via Helm hook |
-
-Full reference: [charts/virtforge/values.yaml](charts/virtforge/values.yaml) · [docs/CONFIGURATION.md](docs/CONFIGURATION.md)
-
-Default profile: [values.yaml](charts/virtforge/values.yaml). Additional overlays can enable Gateway API, public VM networking, and custom image tags.
+Builds images locally, sideloads when GHCR push is unavailable.
 
 ## Repository layout
 
 ```
-virtforge-chart/
-├── charts/virtforge/          # Helm chart (templates, values, profiles)
-├── docs/                      # Configuration reference + MkDocs site
-├── examples/                  # Optional demo workflows
-├── scripts/                   # Deploy and cluster bootstrap helpers
-│   ├── lib/common.sh          # Shared paths and kubeconfig resolution
-│   ├── dev/                   # Local dev helpers (render config from values)
-│   ├── deploy/                # End-to-end deploy helpers
-│   ├── setup/                 # One-time cluster bootstrap (KubeVirt, Multus, CDI)
-│   └── sideload/              # Image import without a registry
-├── Makefile                   # Primary CLI (make help)
-├── docs/HELM-REPO.md          # GitHub Pages release guide
-└── .github/workflows/         # CI lint + chart-releaser (GitHub Pages)
+charts/virtfoundry/     # Main application chart
+docs/                    # MkDocs site (GitHub Pages)
+scripts/deploy/          # homelab.sh and setup helpers
 ```
 
-See [scripts/README.md](scripts/README.md) for script details.
+## Related
 
-## Makefile targets
-
-```bash
-make help       # list targets
-make lint       # helm template (default values profile)
-make render-local-config   # write ../virtforge/config/config.yaml from values
-```
-
-Optional targets: `setup-kubevirt`, `setup-multus`, `setup-cdi` — see [scripts/README.md](scripts/README.md).
-
-## Contributing
-
-English commits, [Conventional Commits](https://www.conventionalcommits.org/). See [CONTRIBUTING.md](CONTRIBUTING.md).
-
-## Sponsorship
-
-Financial support helps maintain VirtForge without transferring code ownership. See [Sponsorship](https://virtforge-cloud.github.io/virtforge-chart/docs/project/sponsorship/) and [SPONSORS.md](SPONSORS.md).
+| Repository | Role |
+|------------|------|
+| [virtfoundry/core](https://github.com/virtfoundry/core) | Application source |
+| [virtfoundry/helm-charts](https://github.com/virtfoundry/helm-charts) | This repo |
 
 ## License
 
-Apache License 2.0
+Apache License 2.0 — see [LICENSE](LICENSE) and [NOTICE](NOTICE).
+
+## Migration from virtforge-chart
+
+Formerly [virtforge-cloud/virtforge-chart](https://github.com/virtforge-cloud/virtforge-chart). The old repo remains as a mirror until deprecated.

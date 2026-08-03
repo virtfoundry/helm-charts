@@ -1,33 +1,33 @@
 #!/usr/bin/env bash
-# Deploy VirtForge Cloud to homelab via Gateway API HTTPRoute.
+# Deploy VirtFoundry to homelab via Gateway API HTTPRoute.
 # Builds images locally; pushes to GHCR when possible, otherwise sideloads into containerd.
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 # shellcheck source=scripts/lib/common.sh
 source "$SCRIPT_DIR/../lib/common.sh"
-virtforge_source_common
-virtforge_require_chart
-virtforge_require_kubeconfig
+virtfoundry_source_common
+virtfoundry_require_chart
+virtfoundry_require_kubeconfig
 
-RELEASE="${RELEASE:-virtforge}"
-DNS_HOST="${DNS_HOST:-virtforge-cloud.homelab}"
+RELEASE="${RELEASE:-virtfoundry}"
+DNS_HOST="${DNS_HOST:-virtfoundry.homelab}"
 PLATFORM="${PLATFORM:-linux/amd64}"
 BUILD_IMAGES="${BUILD_IMAGES:-true}"
 PUSH_IMAGES="${PUSH_IMAGES:-true}"
-REGISTRY="${REGISTRY:-ghcr.io/virtforge-cloud}"
+REGISTRY="${REGISTRY:-ghcr.io/virtfoundry}"
 IMAGE_TAG="${IMAGE_TAG:-latest}"
-IMPORT_POD="virtforge-image-import"
-IMPORT_NS="virtforge-system"
+IMPORT_POD="virtfoundry-image-import"
+IMPORT_NS="virtfoundry-system"
 IMPORT_MANIFEST="${IMPORT_MANIFEST:-$SCRIPTS_DIR/sideload/import-pod.yaml}"
 IMPORT_NODE="${IMPORT_NODE:?IMPORT_NODE is required for sideload (e.g. worker-01)}"
 IMPORT_NODE_IP="${IMPORT_NODE_IP:-}"
-LOCAL_REGISTRY="${LOCAL_REGISTRY:-docker.io/virtforge}"
+LOCAL_REGISTRY="${LOCAL_REGISTRY:-docker.io/virtfoundry}"
 USE_SIDELOAD="${USE_SIDELOAD:-false}"
 
 if [ ! -d "$APP_ROOT/docker" ]; then
-  echo "ERROR: virtforge app repo not found at APP_ROOT=$APP_ROOT" >&2
-  echo "Clone https://github.com/virtforge-cloud/virtforge next to this repo or set APP_ROOT" >&2
+  echo "ERROR: virtfoundry app repo not found at APP_ROOT=$APP_ROOT" >&2
+  echo "Clone https://github.com/virtfoundry/core next to this repo or set APP_ROOT" >&2
   exit 1
 fi
 
@@ -41,19 +41,19 @@ fi
 if [ "$BUILD_IMAGES" = "true" ]; then
   echo "==> Build images ($PLATFORM)"
   docker buildx build --platform "$PLATFORM" \
-    -t "${REGISTRY}/iaas-api:${IMAGE_TAG}" \
-    -t "${LOCAL_REGISTRY}/iaas-api:${IMAGE_TAG}" \
+    -t "${REGISTRY}/core:${IMAGE_TAG}" \
+    -t "${LOCAL_REGISTRY}/core:${IMAGE_TAG}" \
     -f "$APP_ROOT/docker/Dockerfile" "$APP_ROOT" --load
   docker buildx build --platform "$PLATFORM" \
-    -t "${REGISTRY}/iaas-ui:${IMAGE_TAG}" \
-    -t "${LOCAL_REGISTRY}/iaas-ui:${IMAGE_TAG}" \
+    -t "${REGISTRY}/ui:${IMAGE_TAG}" \
+    -t "${LOCAL_REGISTRY}/ui:${IMAGE_TAG}" \
     -f "$APP_ROOT/docker/Dockerfile.ui" "$APP_ROOT" --load
 
   if [ "$PUSH_IMAGES" = "true" ]; then
     echo "==> Push to $REGISTRY"
     if echo "$(gh auth token)" | docker login ghcr.io -u "$(gh api user -q .login)" --password-stdin \
-      && docker push "${REGISTRY}/iaas-api:${IMAGE_TAG}" \
-      && docker push "${REGISTRY}/iaas-ui:${IMAGE_TAG}"; then
+      && docker push "${REGISTRY}/core:${IMAGE_TAG}" \
+      && docker push "${REGISTRY}/ui:${IMAGE_TAG}"; then
       echo "==> Images pushed to GHCR"
       USE_SIDELOAD="false"
     else
@@ -63,23 +63,23 @@ if [ "$BUILD_IMAGES" = "true" ]; then
   fi
 fi
 
-if [ "$BUILD_IMAGES" = "false" ] && docker image inspect "${LOCAL_REGISTRY}/iaas-api:${IMAGE_TAG}" >/dev/null 2>&1; then
+if [ "$BUILD_IMAGES" = "false" ] && docker image inspect "${LOCAL_REGISTRY}/core:${IMAGE_TAG}" >/dev/null 2>&1; then
   USE_SIDELOAD="true"
 fi
 
-IMAGE_API="${REGISTRY}/iaas-api:${IMAGE_TAG}"
-IMAGE_UI="${REGISTRY}/iaas-ui:${IMAGE_TAG}"
+IMAGE_API="${REGISTRY}/core:${IMAGE_TAG}"
+IMAGE_UI="${REGISTRY}/ui:${IMAGE_TAG}"
 PULL_POLICY="IfNotPresent"
 
 if [ "$USE_SIDELOAD" = "true" ]; then
-  IMAGE_API="${LOCAL_REGISTRY}/iaas-api:${IMAGE_TAG}"
-  IMAGE_UI="${LOCAL_REGISTRY}/iaas-ui:${IMAGE_TAG}"
+  IMAGE_API="${LOCAL_REGISTRY}/core:${IMAGE_TAG}"
+  IMAGE_UI="${LOCAL_REGISTRY}/ui:${IMAGE_TAG}"
   PULL_POLICY="Never"
 fi
 
 echo "==> Helm upgrade (Gateway HTTPRoute + platform bootstrap)"
 helm upgrade --install "$RELEASE" "$CHART_DIR" \
-  -n virtforge-system --create-namespace \
+  -n virtfoundry-system --create-namespace \
   -f "$CHART_DIR/values-homelab.yaml" \
   --set "images.api=${IMAGE_API}" \
   --set "images.worker=${IMAGE_API}" \
@@ -88,8 +88,8 @@ helm upgrade --install "$RELEASE" "$CHART_DIR" \
   --timeout 10m
 
 echo "==> Wait for MySQL"
-kubectl -n virtforge-system rollout status statefulset/virtforge-mysql --timeout=300s || true
-kubectl -n virtforge-system wait --for=condition=ready pod -l app=virtforge-mysql --timeout=300s || true
+kubectl -n virtfoundry-system rollout status statefulset/virtfoundry-mysql --timeout=300s || true
+kubectl -n virtfoundry-system wait --for=condition=ready pod -l app=virtfoundry-mysql --timeout=300s || true
 
 if [ "$USE_SIDELOAD" = "true" ]; then
   echo "==> Sideload images into ${IMPORT_NODE} containerd"
@@ -102,27 +102,27 @@ if [ "$USE_SIDELOAD" = "true" ]; then
     kubectl -n "$IMPORT_NS" wait --for=condition=Ready pod/"$IMPORT_POD" --timeout=120s
     TMPDIR="$(mktemp -d)"
     trap 'rm -rf "$TMPDIR"' EXIT
-    docker save "${LOCAL_REGISTRY}/iaas-api:${IMAGE_TAG}" -o "$TMPDIR/virtforge-api.tar"
-    docker save "${LOCAL_REGISTRY}/iaas-ui:${IMAGE_TAG}" -o "$TMPDIR/virtforge-ui.tar"
-    kubectl cp "$TMPDIR/virtforge-api.tar" "${IMPORT_NS}/${IMPORT_POD}:/import/virtforge-api.tar"
-    kubectl cp "$TMPDIR/virtforge-ui.tar" "${IMPORT_NS}/${IMPORT_POD}:/import/virtforge-ui.tar"
+    docker save "${LOCAL_REGISTRY}/core:${IMAGE_TAG}" -o "$TMPDIR/virtfoundry-api.tar"
+    docker save "${LOCAL_REGISTRY}/ui:${IMAGE_TAG}" -o "$TMPDIR/virtfoundry-ui.tar"
+    kubectl cp "$TMPDIR/virtfoundry-api.tar" "${IMPORT_NS}/${IMPORT_POD}:/import/virtfoundry-api.tar"
+    kubectl cp "$TMPDIR/virtfoundry-ui.tar" "${IMPORT_NS}/${IMPORT_POD}:/import/virtfoundry-ui.tar"
     kubectl -n "$IMPORT_NS" exec "$IMPORT_POD" -- sh -c \
-      'cp /import/virtforge-api.tar /host/tmp/virtforge-api.tar && cp /import/virtforge-ui.tar /host/tmp/virtforge-ui.tar && \
-       chroot /host ctr -n k8s.io images import /tmp/virtforge-api.tar && \
-       chroot /host ctr -n k8s.io images import /tmp/virtforge-ui.tar && \
-       chroot /host ctr -n k8s.io images label docker.io/virtforge/iaas-api:latest io.cri-containerd.image=managed && \
-       chroot /host ctr -n k8s.io images label docker.io/virtforge/iaas-ui:latest io.cri-containerd.image=managed'
+      'cp /import/virtfoundry-api.tar /host/tmp/virtfoundry-api.tar && cp /import/virtfoundry-ui.tar /host/tmp/virtfoundry-ui.tar && \
+       chroot /host ctr -n k8s.io images import /tmp/virtfoundry-api.tar && \
+       chroot /host ctr -n k8s.io images import /tmp/virtfoundry-ui.tar && \
+       chroot /host ctr -n k8s.io images label docker.io/virtfoundry/core:latest io.cri-containerd.image=managed && \
+       chroot /host ctr -n k8s.io images label docker.io/virtfoundry/ui:latest io.cri-containerd.image=managed'
     kubectl -n "$IMPORT_NS" delete pod "$IMPORT_POD" --ignore-not-found
   fi
-  kubectl -n virtforge-system rollout restart deployment/virtforge-api deployment/virtforge-ui deployment/virtforge-worker
+  kubectl -n virtfoundry-system rollout restart deployment/virtfoundry-api deployment/virtfoundry-ui deployment/virtfoundry-worker
 fi
 
 echo "==> Ensure Multus"
 "$SCRIPT_DIR/../setup/multus.sh"
 
 echo "==> Wait for workloads"
-for dep in virtforge-api virtforge-ui virtforge-worker; do
-  kubectl -n virtforge-system rollout status "deployment/$dep" --timeout=300s
+for dep in virtfoundry-api virtfoundry-ui virtfoundry-worker; do
+  kubectl -n virtfoundry-system rollout status "deployment/$dep" --timeout=300s
 done
 
 GATEWAY_IP="$(kubectl -n traefik get gateway homelab-gateway \
@@ -139,9 +139,9 @@ else
 fi
 
 echo ""
-echo "=== VirtForge Cloud deployed ==="
+echo "=== VirtFoundry deployed ==="
 echo "URL: http://${DNS_HOST}/"
 echo "API: http://${DNS_HOST}/api/v1"
-echo "Login: root / virtforge"
+echo "Login: root / virtfoundry"
 echo ""
-kubectl -n virtforge-system get pods,svc,httproute 2>/dev/null || kubectl -n virtforge-system get pods,svc
+kubectl -n virtfoundry-system get pods,svc,httproute 2>/dev/null || kubectl -n virtfoundry-system get pods,svc

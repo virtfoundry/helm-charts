@@ -33,5 +33,5 @@ Format based on [Keep a Changelog](https://keepachangelog.com/). Versioning: [Se
 - GitHub Pages Helm repository via chart-releaser
 - Deploy scripts and setup helpers (KubeVirt, Multus, CDI)
 
-[0.2.0]: https://github.com/virtforge-cloud/virtforge-chart/compare/v0.1.0...v0.2.0
-[0.1.0]: https://github.com/virtforge-cloud/virtforge-chart/releases/tag/v0.1.0
+[0.2.0]: https://github.com/virtfoundry/helm-charts/compare/v0.1.0...v0.2.0
+[0.1.0]: https://github.com/virtfoundry/helm-charts/releases/tag/v0.1.0

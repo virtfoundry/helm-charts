@@ -1,14 +1,14 @@
 # Versioning
 
-VirtForge Cloud follows [Semantic Versioning 2.0.0](https://semver.org/) while in **0.x** (pre-1.0).
+VirtFoundry follows [Semantic Versioning 2.0.0](https://semver.org/) while in **0.x** (pre-1.0).
 
 ## Release units
 
 | Artifact | Version source | Tag | Registry / URL |
 |----------|----------------|-----|----------------|
-| Application | Git tag | `vX.Y.Z` | `ghcr.io/virtforge-cloud/iaas-api`, `iaas-ui` |
-| Helm chart | `Chart.yaml` `version` | `vX.Y.Z` (same) | `https://virtforge-cloud.github.io/virtforge-chart` |
-| Documentation | Built from chart repo `main` / tags | — | `.../virtforge-chart/docs/` |
+| Application | Git tag | `vX.Y.Z` | `ghcr.io/virtfoundry/core`, `ui` |
+| Helm chart | `Chart.yaml` `version` | `vX.Y.Z` (same) | `https://virtfoundry.github.io/virtfoundry-chart` |
+| Documentation | Built from chart repo `main` / tags | — | `.../virtfoundry-chart/docs/` |
 
 `Chart.yaml` **`appVersion`** matches the application release the chart defaults target.
 
@@ -41,17 +41,17 @@ Breaking changes before 1.0 may appear in MINOR releases — always read [Change
 
 ```bash
 # Helm
-helm install virtforge virtforge/virtforge --version 0.2.0
+helm install virtfoundry virtfoundry/virtfoundry --version 0.2.0
 
 # Container images
-ghcr.io/virtforge-cloud/iaas-api:0.2.0
-ghcr.io/virtforge-cloud/iaas-ui:0.2.0
+ghcr.io/virtfoundry/core:0.2.0
+ghcr.io/virtfoundry/ui:0.2.0
 ```
 
 Tags `0.2`, `latest` (on `main` builds) may also exist — pin explicitly in production.
 
 ## Cross-repo features
 
-Use the **same branch name** in `virtforge` and `virtforge-chart`. Release with the **same version number** when both change.
+Use the **same branch name** in `virtfoundry` and `virtfoundry-chart`. Release with the **same version number** when both change.
 
 Cursor rules: `.cursor/rules/versioning.mdc` in each repository.

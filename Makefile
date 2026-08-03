@@ -1,6 +1,6 @@
 .PHONY: help lint template deploy-homelab setup-kubevirt setup-multus setup-cdi render-local-config docs-build docs-serve
 
-CHART := ./charts/virtforge
+CHART := ./charts/virtfoundry
 
 help: ## Show available targets
 	@grep -E '^[a-zA-Z0-9_-]+:.*##' Makefile | awk 'BEGIN {FS = ":.*## "}; {printf "  %-22s %s\n", $$1, $$2}'
@@ -8,8 +8,8 @@ help: ## Show available targets
 lint: template ## Validate chart renders (default + homelab values)
 
 template: ## Render Helm templates locally
-	helm template virtforge $(CHART)
-	helm template virtforge $(CHART) -f $(CHART)/values-homelab.yaml
+	helm template virtfoundry $(CHART)
+	helm template virtfoundry $(CHART) -f $(CHART)/values-homelab.yaml
 
 deploy-homelab: ## Optional: build images and deploy homelab profile
 	./scripts/deploy/homelab.sh
@@ -23,7 +23,7 @@ setup-multus: ## Optional: install Multus (or use platform.multus.install)
 setup-cdi: ## Optional: install CDI (or use platform.cdi.install)
 	./scripts/setup/cdi.sh
 
-render-local-config: ## Render ../virtforge/config/config.yaml from Helm values
+render-local-config: ## Render ../virtfoundry/config/config.yaml from Helm values
 	./scripts/dev/render-local-config.sh
 
 docs-build: ## Build MkDocs site locally

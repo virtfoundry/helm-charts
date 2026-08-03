@@ -5,10 +5,10 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: virtforge-image-import
-  namespace: virtforge-system
+  name: virtfoundry-image-import
+  namespace: virtfoundry-system
   labels:
-    app: virtforge-image-import
+    app: virtfoundry-image-import
 spec:
   nodeName: REPLACE_NODE_NAME
   restartPolicy: Never

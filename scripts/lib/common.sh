@@ -1,17 +1,20 @@
 #!/usr/bin/env bash
-# Shared paths and kubeconfig resolution for virtforge-chart scripts.
+# Shared paths and kubeconfig resolution for virtfoundry-chart scripts.
 
-virtforge_chart_root() {
+virtfoundry_chart_root() {
   cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd
 }
 
-virtforge_source_common() {
-  CHART_ROOT="${CHART_ROOT:-$(virtforge_chart_root)}"
-  CHART_DIR="${CHART_DIR:-$CHART_ROOT/charts/virtforge}"
+virtfoundry_source_common() {
+  CHART_ROOT="${CHART_ROOT:-$(virtfoundry_chart_root)}"
+  CHART_DIR="${CHART_DIR:-$CHART_ROOT/charts/virtfoundry}"
   SCRIPTS_DIR="${SCRIPTS_DIR:-$CHART_ROOT/scripts}"
 
   if [ -z "${APP_ROOT:-}" ]; then
-    APP_ROOT="$(cd "$CHART_ROOT/../virtforge" 2>/dev/null && pwd || true)"
+    APP_ROOT="$(cd "$CHART_ROOT/../virtfoundry" 2>/dev/null && pwd \
+      || cd "$CHART_ROOT/../core" 2>/dev/null && pwd \
+      || cd "$CHART_ROOT/../virtfoundry" 2>/dev/null && pwd \
+      || true)"
   fi
 
   if [ -z "${KUBECONFIG:-}" ]; then
@@ -21,14 +24,14 @@ virtforge_source_common() {
   export KUBECONFIG
 }
 
-virtforge_require_chart() {
+virtfoundry_require_chart() {
   if [ ! -f "$CHART_DIR/Chart.yaml" ]; then
     echo "ERROR: Helm chart not found at $CHART_DIR" >&2
     exit 1
   fi
 }
 
-virtforge_require_kubeconfig() {
+virtfoundry_require_kubeconfig() {
   if [ -z "${KUBECONFIG:-}" ] || [ ! -f "$KUBECONFIG" ]; then
     echo "ERROR: KUBECONFIG not set or file missing (export KUBECONFIG=/path/to/kubeconfig)" >&2
     exit 1

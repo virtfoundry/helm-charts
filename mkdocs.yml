@@ -1,8 +1,8 @@
-site_name: VirtForge Cloud
+site_name: VirtFoundry
 site_description: Kubernetes-native IaaS control plane — KubeVirt, Multus, multi-tenant networking
-site_url: https://virtforge-cloud.github.io/virtforge-chart/docs/
-repo_url: https://github.com/virtforge-cloud/virtforge-chart
-repo_name: virtforge-cloud/virtforge-chart
+site_url: https://virtfoundry.github.io/helm-charts/docs/
+repo_url: https://github.com/virtfoundry/helm-charts
+repo_name: virtfoundry/helm-charts
 edit_uri: edit/main/docs/
 
 theme:
@@ -63,4 +63,4 @@ nav:
 extra:
   social:
     - icon: fontawesome/brands/github
-      link: https://github.com/virtforge-cloud
+      link: https://github.com/virtfoundry

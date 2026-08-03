@@ -1,6 +1,6 @@
 # Contributing
 
-Thank you for improving VirtForge Cloud packaging.
+Thank you for improving VirtFoundry packaging.
 
 ## Commits
 
@@ -16,7 +16,7 @@ make lint
 Or manually:
 
 ```bash
-helm template virtforge ./charts/virtforge
+helm template virtfoundry ./charts/virtfoundry
 ```
 
 CI runs the same checks on pull requests (`.github/workflows/chart-lint.yaml`).
@@ -34,16 +34,16 @@ CI runs the same checks on pull requests (`.github/workflows/chart-lint.yaml`).
 
 - Update [README.md](README.md) when layout or Makefile targets change
 - Update [scripts/README.md](scripts/README.md) when adding or moving scripts
-- Update the [docs site](https://virtforge-cloud.github.io/virtforge-chart/docs/) (`docs/` + `mkdocs.yml`) for user-facing guides
-- Update the [Wiki](https://github.com/virtforge-cloud/virtforge-chart/wiki) for extended install guides
+- Update the [docs site](https://virtfoundry.github.io/virtfoundry-chart/docs/) (`docs/` + `mkdocs.yml`) for user-facing guides
+- Update the [Wiki](https://github.com/virtfoundry/helm-charts/wiki) for extended install guides
 
 ## Repositories
 
 | Repo | Scope |
 |------|-------|
-| [virtforge](https://github.com/virtforge-cloud/virtforge) | API, worker, UI, Dockerfiles, CI images |
-| [virtforge-chart](https://github.com/virtforge-cloud/virtforge-chart) | Helm chart, deploy/setup scripts |
-| [virtforge-website](https://github.com/virtforge-cloud/virtforge-website) | Docs site and marketing |
+| [virtfoundry](https://github.com/virtfoundry/core) | API, worker, UI, Dockerfiles, CI images |
+| [virtfoundry-chart](https://github.com/virtfoundry/helm-charts) | Helm chart, deploy/setup scripts |
+| [virtfoundry-website](https://github.com/virtfoundry/core-website) | Docs site and marketing |
 
 ## Adding scripts
 

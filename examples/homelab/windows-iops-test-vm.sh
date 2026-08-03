@@ -1,20 +1,20 @@
 #!/usr/bin/env bash
 # Deploy a Windows Server 2022 eval VM for IOPS testing (optional homelab helper).
 #
-# First boot: install Windows via VirtForge console VNC (~30-45 min).
+# First boot: install Windows via VirtFoundry console VNC (~30-45 min).
 # Requires CDI and Multus on the cluster.
 #
 # Usage:
-#   KUBE_CONTEXT=homelab TENANT_NS=virtforge-tenant-acme make deploy-windows-test-vm
+#   KUBE_CONTEXT=homelab TENANT_NS=virtfoundry-tenant-acme make deploy-windows-test-vm
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 # shellcheck source=scripts/lib/common.sh
 source "$SCRIPT_DIR/../../scripts/lib/common.sh"
-virtforge_source_common
+virtfoundry_source_common
 
 KUBE_CONTEXT="${KUBE_CONTEXT:-$(kubectl config current-context 2>/dev/null || echo homelab)}"
-TENANT_NS="${TENANT_NS:-virtforge-tenant-acme}"
+TENANT_NS="${TENANT_NS:-virtfoundry-tenant-acme}"
 VM_NAME="${VM_NAME:-win-iops-test}"
 BOOT_SIZE="${BOOT_SIZE:-32Gi}"
 DATA_SIZE="${DATA_SIZE:-16Gi}"
@@ -65,8 +65,8 @@ metadata:
   name: ${name}
   namespace: ${TENANT_NS}
   labels:
-    app.kubernetes.io/managed-by: virtforge-cloud
-    virtforge.io/vm: ${VM_NAME}
+    app.kubernetes.io/managed-by: virtfoundry
+    virtfoundry.io/vm: ${VM_NAME}
   annotations:
     cdi.kubevirt.io/storage.bind.immediate.requested: "true"
 spec:
@@ -132,16 +132,16 @@ metadata:
   name: ${VM_NAME}
   namespace: ${TENANT_NS}
   labels:
-    app.kubernetes.io/managed-by: virtforge-cloud
-    virtforge.io/os: windows
+    app.kubernetes.io/managed-by: virtfoundry
+    virtfoundry.io/os: windows
 spec:
   runStrategy: Always
   template:
     metadata:
       labels:
         kubevirt.io/domain: ${VM_NAME}
-        virtforge.io/vm: ${VM_NAME}
-        virtforge.io/log-source: velas
+        virtfoundry.io/vm: ${VM_NAME}
+        virtfoundry.io/log-source: velas
     spec:
       domain:
         machine:

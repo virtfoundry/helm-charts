@@ -1,6 +1,6 @@
 # Configuration
 
-VirtForge runtime configuration is YAML rendered by Helm into a ConfigMap. **Helm values are the source of truth in Kubernetes.**
+VirtFoundry runtime configuration is YAML rendered by Helm into a ConfigMap. **Helm values are the source of truth in Kubernetes.**
 
 ## Values → ConfigMap
 
@@ -27,10 +27,10 @@ Enable routable VM IPs on a host bridge + Multus NAD:
 | `public.cidr` | `10.0.50.0/24` | L3 CIDR — set to your environment |
 | `public.gateway` | `10.0.50.254` | VM default gateway in cloud-init — **must match a reachable router IP on that CIDR** |
 | `public.ipPool.start/end` | `.10`–`.99` | Allocatable addresses |
-| `public.bridge.name` | `virtforge-pub0` | Linux bridge |
+| `public.bridge.name` | `virtfoundry-pub0` | Linux bridge |
 | `public.bridge.uplink` | `""` | Physical or VLAN interface attached to the bridge |
 | `public.bridge.address` | `""` | Optional bridge IP for dnsmasq |
-| `public.nad.name` | `virtforge-public` | Multus NAD |
+| `public.nad.name` | `virtfoundry-public` | Multus NAD |
 | `vm.allowPodNetwork` | `true` | Pod masquerade + public secondary NIC |
 
 !!! warning "Gateway must be reachable"
@@ -38,7 +38,7 @@ Enable routable VM IPs on a host bridge + Multus NAD:
 
 ## Storage
 
-VirtForge does **not** ship a storage backend. It uses **StorageClasses already present on your cluster** (Longhorn, Ceph RBD, NFS, OpenEBS, `local-path`, cloud provider disks, etc.).
+VirtFoundry does **not** ship a storage backend. It uses **StorageClasses already present on your cluster** (Longhorn, Ceph RBD, NFS, OpenEBS, `local-path`, cloud provider disks, etc.).
 
 ### Default StorageClass (`platform.storage`)
 
@@ -65,7 +65,7 @@ platform:
 Helm one-liner:
 
 ```bash
-helm upgrade --install virtforge virtforge/virtforge \
+helm upgrade --install virtfoundry virtfoundry/virtfoundry \
   --set platform.storage.defaultClass=longhorn \
   ...
 ```
@@ -108,11 +108,11 @@ Additional value overlays can set Gateway API hostnames, image tags, and platfor
 
 ## Local dev
 
-Generate `virtforge/config/config.yaml` from Helm values:
+Generate `virtfoundry/config/config.yaml` from Helm values:
 
 ```bash
 make render-local-config
-make render-local-config VALUES=./charts/virtforge/values.yaml
+make render-local-config VALUES=./charts/virtfoundry/values.yaml
 ```
 
 ## Secrets
@@ -120,7 +120,7 @@ make render-local-config VALUES=./charts/virtforge/values.yaml
 Never commit production secrets. Prefer:
 
 ```bash
-helm upgrade --install virtforge ./charts/virtforge \
+helm upgrade --install virtfoundry ./charts/virtfoundry \
   --set secrets.jwtSecret='...' \
   --set secrets.rootPassword='...'
 ```

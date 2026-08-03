@@ -15,7 +15,7 @@ spec:
       labels:
         app: {{ .Values.fullnamePrefix }}-api
     spec:
-      {{- include "virtforge.imagePullSecrets" . | nindent 6 }}
+      {{- include "virtfoundry.imagePullSecrets" . | nindent 6 }}
       serviceAccountName: {{ .Values.fullnamePrefix }}-api
       containers:
         - name: api
@@ -26,7 +26,7 @@ spec:
               name: http
           env:
             - name: CONFIG_PATH
-              value: /etc/virtforge/config.yaml
+              value: /etc/virtfoundry/config.yaml
             - name: ROOT_PASSWORD
               valueFrom:
                 secretKeyRef:
@@ -39,7 +39,7 @@ spec:
                   key: JWT_SECRET
           volumeMounts:
             - name: config
-              mountPath: /etc/virtforge
+              mountPath: /etc/virtfoundry
           readinessProbe:
             httpGet:
               path: /health

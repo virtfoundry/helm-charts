@@ -1,10 +1,10 @@
 # Installation
 
-VirtForge installs the **control plane only** (API, worker, UI, optional MySQL). Virtual machines, extra networks, and disk imports rely on platform components that must already exist on the cluster — or be installed **before** `helm install`.
+VirtFoundry installs the **control plane only** (API, worker, UI, optional MySQL). Virtual machines, extra networks, and disk imports rely on platform components that must already exist on the cluster — or be installed **before** `helm install`.
 
 ## Prerequisites overview
 
-| Component | Required? | Role in VirtForge |
+| Component | Required? | Role in VirtFoundry |
 |-----------|-----------|-------------------|
 | Kubernetes 1.28+ | **Yes** | Runs all workloads |
 | Helm 3.x | **Yes** | Installs the chart |
@@ -16,7 +16,7 @@ VirtForge installs the **control plane only** (API, worker, UI, optional MySQL).
 | MetalLB (or cloud LB) | Bare metal only | When Services need external IPs |
 
 !!! note "Not bundled in the Helm chart by default"
-    KubeVirt, Multus, and CDI are **cluster-scoped platform operators**. They are installed separately so you can pin versions, align with your distro, and upgrade them independently of VirtForge releases.
+    KubeVirt, Multus, and CDI are **cluster-scoped platform operators**. They are installed separately so you can pin versions, align with your distro, and upgrade them independently of VirtFoundry releases.
 
 ---
 
@@ -24,7 +24,7 @@ VirtForge installs the **control plane only** (API, worker, UI, optional MySQL).
 
 ### KubeVirt — required
 
-VirtForge does **not** embed a hypervisor. The API and worker talk to KubeVirt CRDs:
+VirtFoundry does **not** embed a hypervisor. The API and worker talk to KubeVirt CRDs:
 
 - `VirtualMachine` / `VirtualMachineInstance` — create, start, stop, delete VMs
 - `VirtualMachineSnapshot` — VM snapshots
@@ -43,9 +43,9 @@ kubectl get crd virtualmachines.kubevirt.io
 
 ### Multus CNI — required
 
-VirtForge models **CloudStack-style networking**: tenants, VPCs, security groups, and an optional shared public network. That requires **more than the default pod CNI**:
+VirtFoundry models **CloudStack-style networking**: tenants, VPCs, security groups, and an optional shared public network. That requires **more than the default pod CNI**:
 
-| Feature | How VirtForge uses Multus |
+| Feature | How VirtFoundry uses Multus |
 |---------|---------------------------|
 | Tenant VPC / private networks | Creates `NetworkAttachmentDefinition` (NAD) per network on an isolated bridge |
 | Public / routable VM IPs | Secondary NIC on a bridge or macvlan NAD + cloud-init addressing |
@@ -66,7 +66,7 @@ kubectl get crd network-attachment-definitions.k8s.cni.cncf.io
 
 ### CDI — required for ISO and import workflows
 
-[CDI](https://github.com/kubevirt/containerized-data-importer) provides `DataVolume` resources. VirtForge uses CDI when:
+[CDI](https://github.com/kubevirt/containerized-data-importer) provides `DataVolume` resources. VirtFoundry uses CDI when:
 
 - Registering an **ISO template** (HTTP import of an `.iso` into a PVC)
 - Creating a **blank boot disk** for install-from-ISO (e.g. Windows eval)
@@ -93,7 +93,7 @@ kubectl get crd datavolumes.cdi.kubevirt.io
 
 ## Installing platform components
 
-The chart can optionally trigger install **hooks** (`platform.multus.install`, `platform.cdi.install`, KubeVirt job). By default these are **off** — most clusters install platform software once, outside VirtForge upgrades.
+The chart can optionally trigger install **hooks** (`platform.multus.install`, `platform.cdi.install`, KubeVirt job). By default these are **off** — most clusters install platform software once, outside VirtFoundry upgrades.
 
 **Recommended:** use the helper scripts (idempotent) from a chart clone:
 
@@ -111,16 +111,16 @@ Or install from upstream docs and verify CRDs before proceeding.
 
 ---
 
-## Install VirtForge from Helm repository
+## Install VirtFoundry from Helm repository
 
 After platform prerequisites are healthy:
 
 ```bash
-helm repo add virtforge https://virtforge-cloud.github.io/virtforge-chart
+helm repo add virtfoundry https://virtfoundry.github.io/virtfoundry-chart
 helm repo update
 
-helm install virtforge virtforge/virtforge \
-  --namespace virtforge-system \
+helm install virtfoundry virtfoundry/virtfoundry \
+  --namespace virtfoundry-system \
   --create-namespace \
   --set secrets.rootPassword='change-me' \
   --set secrets.jwtSecret='change-me-long-random'
@@ -129,25 +129,25 @@ helm install virtforge virtforge/virtforge \
 Pin a release:
 
 ```bash
-helm install virtforge virtforge/virtforge --version 0.2.0 \
-  --namespace virtforge-system \
+helm install virtfoundry virtfoundry/virtfoundry --version 0.2.0 \
+  --namespace virtfoundry-system \
   --create-namespace \
   --set secrets.rootPassword='change-me' \
   --set secrets.jwtSecret='change-me-long-random'
 ```
 
-Images default to `ghcr.io/virtforge-cloud/iaas-api:0.2.0` and `iaas-ui:0.2.0`.
+Images default to `ghcr.io/virtfoundry/core:0.2.0` and `ui:0.2.0`.
 
 ---
 
 ## Install from git clone
 
 ```bash
-git clone https://github.com/virtforge-cloud/virtforge-chart.git
-cd virtforge-chart
+git clone https://github.com/virtfoundry/helm-charts.git
+cd virtfoundry-chart
 
-helm install virtforge ./charts/virtforge \
-  --namespace virtforge-system \
+helm install virtfoundry ./charts/virtfoundry \
+  --namespace virtfoundry-system \
   --create-namespace \
   --set secrets.rootPassword='change-me' \
   --set secrets.jwtSecret='change-me'
@@ -166,7 +166,7 @@ make lint
 Default bootstrap credentials (override with `secrets.rootPassword`):
 
 - **User:** `root`
-- **Password:** value of `secrets.rootPassword` (default in chart values: `virtforge`)
+- **Password:** value of `secrets.rootPassword` (default in chart values: `virtfoundry`)
 
 API base path: `/api/v1` on the same hostname as the UI.
 
