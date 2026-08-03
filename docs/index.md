@@ -14,7 +14,7 @@ helm install virtforge virtforge/virtforge \
   --set secrets.jwtSecret='your-jwt-secret'
 ```
 
-Homelab (Gateway API + public VM network): see [Homelab deploy](homelab/deploy.md).
+Gateway API or Ingress profiles are configured via Helm values — see [Configuration](guide/configuration.md).
 
 ## Architecture at a glance
 
@@ -37,7 +37,7 @@ Homelab (Gateway API + public VM network): see [Homelab deploy](homelab/deploy.m
 
 ## Current release
 
-**v0.2.0** — VM templates, public network with IP pool, homelab VLAN50 profile, ISO/CDI bootstrap paths.
+**v0.2.0** — VM templates, public network with IP pool, ISO/CDI bootstrap paths.
 
 See [Changelog](project/changelog.md) and [Versioning](project/versioning.md).
 
@@ -45,5 +45,7 @@ See [Changelog](project/changelog.md) and [Versioning](project/versioning.md).
 
 - [GitHub Issues](https://github.com/virtforge-cloud/virtforge/issues)
 - [Contributing](https://github.com/virtforge-cloud/virtforge-chart/blob/main/CONTRIBUTING.md)
+- [Governance](project/governance.md) — maintainer role and decision process
+- [Sponsorship](project/sponsorship.md) — support the project without buying the code
 
 Documentation is published on **GitHub Pages** (temporary site until [virtforge-website](https://github.com/virtforge-cloud/virtforge-website) is ready).

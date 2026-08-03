@@ -23,26 +23,25 @@ Enable routable VM IPs on a host bridge + Multus NAD:
 | Key | Default | Description |
 |-----|---------|-------------|
 | `public.enabled` | `false` | Shared public network |
-| `public.cidr` | `10.0.50.0/24` | L3 CIDR |
-| `public.gateway` | `10.0.50.254` | VM default gateway in cloud-init — **set to your router IP on that VLAN** |
+| `public.cidr` | `10.0.50.0/24` | L3 CIDR — set to your environment |
+| `public.gateway` | `10.0.50.254` | VM default gateway in cloud-init — **must match a reachable router IP on that CIDR** |
 | `public.ipPool.start/end` | `.10`–`.99` | Allocatable addresses |
 | `public.bridge.name` | `virtforge-pub0` | Linux bridge |
-| `public.bridge.uplink` | `""` | VLAN/physical iface (homelab: `enp3s0.50`) |
+| `public.bridge.uplink` | `""` | Physical or VLAN interface attached to the bridge |
 | `public.bridge.address` | `""` | Optional bridge IP for dnsmasq |
 | `public.nad.name` | `virtforge-public` | Multus NAD |
 | `vm.allowPodNetwork` | `true` | Pod masquerade + public secondary NIC |
 
 !!! warning "Gateway must be reachable"
-    `public.gateway` must be an IP that exists on your L3 router for that VLAN. See [Homelab networking](../homelab/networking.md).
-
-Homelab profile: [`values-homelab.yaml`](https://github.com/virtforge-cloud/virtforge-chart/blob/main/charts/virtforge/values-homelab.yaml).
+    `public.gateway` must be an IP that exists on your L3 router for the configured CIDR. VMs receive this address via cloud-init when using the static IP pool.
 
 ## Profiles
 
 | File | Use case |
 |------|----------|
 | `values.yaml` | Generic / production defaults |
-| `values-homelab.yaml` | Gateway API, GHCR, VLAN50 public network |
+
+Additional value overlays can set Gateway API hostnames, image tags, and platform networking for your cluster.
 
 ## Local dev
 
@@ -50,7 +49,7 @@ Generate `virtforge/config/config.yaml` from Helm values:
 
 ```bash
 make render-local-config
-make render-local-config VALUES=./charts/virtforge/values-homelab.yaml
+make render-local-config VALUES=./charts/virtforge/values.yaml
 ```
 
 ## Secrets

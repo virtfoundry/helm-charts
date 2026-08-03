@@ -17,14 +17,14 @@ VirtForge Cloud follows [Semantic Versioning 2.0.0](https://semver.org/) while i
 | Change | Version bump | Example |
 |--------|--------------|---------|
 | Bug fix, doc fix | PATCH | `0.2.0` → `0.2.1` |
-| New feature, homelab profile change | MINOR | `0.1.0` → `0.2.0` |
+| New feature, chart profile change | MINOR | `0.1.0` → `0.2.0` |
 | Stable API commitment | MAJOR | `0.x` → `1.0.0` (future) |
 
 Breaking changes before 1.0 may appear in MINOR releases — always read [Changelog](changelog.md).
 
 ## Release process
 
-1. Finish feature branch → PR → homelab validation → merge `main`
+1. Finish feature branch → PR → integration testing → merge `main`
 2. Update `CHANGELOG.md` (both repos)
 3. Bump `Chart.yaml` + `values.yaml` image tags (chart repo)
 4. Commit: `chore(release): v0.2.0`

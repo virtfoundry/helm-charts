@@ -18,14 +18,6 @@ helm install virtforge virtforge/virtforge \
   --set secrets.jwtSecret='your-jwt-secret'
 ```
 
-Homelab profile (Gateway API + GHCR `latest` tags):
-
-```bash
-helm upgrade --install virtforge virtforge/virtforge \
-  -n virtforge-system --create-namespace \
-  -f https://raw.githubusercontent.com/virtforge-cloud/virtforge-chart/main/charts/virtforge/values-homelab.yaml
-```
-
 ### From a git clone (chart developers)
 
 ```bash
@@ -61,7 +53,7 @@ Ingress or **Gateway API HTTPRoute** exposes the UI and API on a single hostname
 | [KubeVirt](https://kubevirt.io/) | VM workloads |
 | [Multus](https://github.com/k8snetworkplumbingwg/multus-cni) | VPC / multi-network |
 | Ingress controller | `ingress.enabled=true` |
-| Gateway API + controller | `gateway.enabled=true` (homelab profile) |
+| Gateway API + controller | `gateway.enabled=true` |
 
 Platform bootstrap (KubeVirt, Multus, CDI) lives in [`scripts/`](scripts/) — outside the chart, by design.
 
@@ -78,36 +70,16 @@ Platform bootstrap (KubeVirt, Multus, CDI) lives in [`scripts/`](scripts/) — o
 
 Full reference: [charts/virtforge/values.yaml](charts/virtforge/values.yaml) · [docs/CONFIGURATION.md](docs/CONFIGURATION.md)
 
-Profiles:
-
-- **Production / generic:** `values.yaml`
-- **Homelab (Gateway API + GHCR):** [values-homelab.yaml](charts/virtforge/values-homelab.yaml)
-
-## Homelab (optional)
-
-For bare-metal clusters without a private registry, see [`scripts/deploy/homelab.sh`](scripts/deploy/homelab.sh).
-
-```bash
-export KUBECONFIG=/path/to/kubeconfig
-make deploy-homelab
-```
-
-Most users install from the Helm repo (see Quick start). Clone + local path is optional:
-
-```bash
-helm upgrade --install virtforge ./charts/virtforge \
-  -n virtforge-system --create-namespace \
-  -f ./charts/virtforge/values-homelab.yaml
-```
+Default profile: [values.yaml](charts/virtforge/values.yaml). Additional overlays can enable Gateway API, public VM networking, and custom image tags.
 
 ## Repository layout
 
 ```
 virtforge-chart/
 ├── charts/virtforge/          # Helm chart (templates, values, profiles)
-├── docs/                      # Configuration reference
-├── examples/homelab/          # Optional one-off demos (not core tooling)
-├── scripts/                   # Optional homelab deploy helpers
+├── docs/                      # Configuration reference + MkDocs site
+├── examples/                  # Optional demo workflows
+├── scripts/                   # Deploy and cluster bootstrap helpers
 │   ├── lib/common.sh          # Shared paths and kubeconfig resolution
 │   ├── dev/                   # Local dev helpers (render config from values)
 │   ├── deploy/                # End-to-end deploy helpers
@@ -124,15 +96,19 @@ See [scripts/README.md](scripts/README.md) for script details.
 
 ```bash
 make help       # list targets
-make lint       # helm template (default + homelab profile)
+make lint       # helm template (default values profile)
 make render-local-config   # write ../virtforge/config/config.yaml from values
 ```
 
-Optional homelab targets: `deploy-homelab`, `setup-kubevirt`, `setup-multus`, `setup-cdi` — see [scripts/README.md](scripts/README.md).
+Optional targets: `setup-kubevirt`, `setup-multus`, `setup-cdi` — see [scripts/README.md](scripts/README.md).
 
 ## Contributing
 
 English commits, [Conventional Commits](https://www.conventionalcommits.org/). See [CONTRIBUTING.md](CONTRIBUTING.md).
+
+## Sponsorship
+
+Financial support helps maintain VirtForge without transferring code ownership. See [Sponsorship](https://virtforge-cloud.github.io/virtforge-chart/docs/project/sponsorship/) and [SPONSORS.md](SPONSORS.md).
 
 ## License
 

@@ -19,13 +19,7 @@ helm install virtforge virtforge/virtforge --version 0.2.0 \
   --set secrets.jwtSecret='...'
 ```
 
-Homelab values overlay:
-
-```bash
-helm upgrade --install virtforge virtforge/virtforge \
-  -n virtforge-system --create-namespace \
-  -f https://raw.githubusercontent.com/virtforge-cloud/virtforge-chart/main/charts/virtforge/values-homelab.yaml
-```
+Optional values overlays (Gateway API, public networking, image tags) can be passed with `-f` on `helm upgrade --install`.
 
 ## GitHub Pages layout
 

@@ -8,10 +8,10 @@
 | Helm | 3.x | Chart install |
 | KubeVirt | 1.9+ | Virtual machines |
 | Multus CNI | latest stable | Multi-network VMs |
-| Gateway API + controller | — | Homelab HTTPRoute profile |
+| Gateway API + controller | — | HTTPRoute profile (`gateway.enabled=true`) |
 | MetalLB (or equivalent) | — | LoadBalancer Services on bare metal |
 
-Platform components (KubeVirt, Multus, CDI) can be installed via chart hooks or setup scripts — see [Homelab deploy](../homelab/deploy.md).
+Platform components (KubeVirt, Multus, CDI) can be installed via chart hooks or setup scripts in [`scripts/`](https://github.com/virtforge-cloud/virtforge-chart/tree/main/scripts).
 
 ## Install from Helm repository
 
@@ -65,5 +65,4 @@ API base path: `/api/v1` on the same hostname as the UI.
 ## Next steps
 
 - [Configuration](configuration.md) — Helm values and networking
-- [Homelab deploy](../homelab/deploy.md) — Gateway API + VLAN50 public network
 - [Helm repository](helm-repository.md) — publishing and consuming chart releases

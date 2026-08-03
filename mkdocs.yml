@@ -36,6 +36,7 @@ plugins:
 exclude_docs: |
   CONFIGURATION.md
   HELM-REPO.md
+  homelab/**
 
 markdown_extensions:
   - admonition
@@ -53,12 +54,11 @@ nav:
       - Installation: guide/installation.md
       - Configuration: guide/configuration.md
       - Helm repository: guide/helm-repository.md
-  - Homelab:
-      - Deploy: homelab/deploy.md
-      - Public networking: homelab/networking.md
   - Project:
       - Versioning: project/versioning.md
       - Changelog: project/changelog.md
+      - Governance: project/governance.md
+      - Sponsorship: project/sponsorship.md
 
 extra:
   social:

@@ -14,13 +14,7 @@ helm install virtforge virtforge/virtforge \
   --set secrets.jwtSecret='your-jwt-secret'
 ```
 
-Homelab profile:
-
-```bash
-helm upgrade --install virtforge virtforge/virtforge \
-  -n virtforge-system --create-namespace \
-  -f https://raw.githubusercontent.com/virtforge-cloud/virtforge-chart/main/charts/virtforge/values-homelab.yaml
-```
+Use `-f` with a values overlay for Gateway API, public networking, or custom image tags when needed.
 
 ## Maintainer: GitHub Pages setup
 

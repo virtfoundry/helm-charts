@@ -1,0 +1,40 @@
+---
+description: Sponsorship draft — deferred; revisit tiers and payment before publishing
+globs:
+  - docs/project/sponsorship.md
+  - SPONSORS.md
+  - docs/project/governance.md
+alwaysApply: false
+---
+
+# Sponsorship (deferred)
+
+**Status:** draft — maintainer will revisit tiers, benefits, and payment setup later.
+
+## Principles (agreed)
+
+- Apache 2.0: sponsorship does **not** transfer code ownership or merge rights
+- Separate written agreement only for custom SLA / consulting / corporate work
+- BDFL retains releases and official repo decisions
+
+## Draft tiers (not finalized)
+
+| Tier | From | Notes |
+|------|------|-------|
+| Supporter | $5/mo | Name in SPONSORS.md (opt-in) |
+| Sponsor | $50/mo | Logo, bug triage priority, RC visibility |
+| Bronze | $200/mo | Quarterly sync, optional docs footer logo |
+| Silver | $500/mo | Monthly sync / priority channel |
+| Custom | — | SLA, on-prem support, training — separate contract |
+
+## Before going live
+
+1. Confirm prices and tier benefits with maintainer
+2. Enable GitHub Sponsors or Open Collective; add payment links
+3. Remove "draft" / "Setup in progress" from `docs/project/sponsorship.md`
+4. Keep public docs free of homelab / VLAN50 specifics
+
+## Files
+
+- `docs/project/sponsorship.md`, `docs/project/governance.md`, `SPONSORS.md`
+- Linked from README and docs index; not yet merged/deployed until maintainer validates
