@@ -13,6 +13,7 @@ VirtForge runtime configuration is YAML rendered by Helm into a ConfigMap. **Hel
 | `platform.networking.public.*` | `networking.public.*` | Shared VM network |
 | `platform.networking.isolated.bridge.name` | `networking.isolated.bridge_name` | Tenant VPC bridge |
 | `platform.networking.vm.*` | `networking.vm.*` | Default VM networking |
+| `platform.storage.*` | `storage.*` | Default StorageClass for CDI/ISO disks |
 | `secrets.jwtSecret` | — | Env `JWT_SECRET` on API (not in ConfigMap) |
 | `secrets.rootPassword` | — | Env `ROOT_PASSWORD` on API |
 
@@ -34,6 +35,68 @@ Enable routable VM IPs on a host bridge + Multus NAD:
 
 !!! warning "Gateway must be reachable"
     `public.gateway` must be an IP that exists on your L3 router for the configured CIDR. VMs receive this address via cloud-init when using the static IP pool.
+
+## Storage
+
+VirtForge does **not** ship a storage backend. It uses **StorageClasses already present on your cluster** (Longhorn, Ceph RBD, NFS, OpenEBS, `local-path`, cloud provider disks, etc.).
+
+### Default StorageClass (`platform.storage`)
+
+| Key | Default | Description |
+|-----|---------|-------------|
+| `storage.defaultClass` | `local-path` | Default class for CDI `DataVolume`s (ISO import, blank boot disks) |
+| `storage.windowsBootSizeGi` | `32` | Boot disk size when deploying from an ISO template |
+| `storage.windowsISOSizeGi` | `8` | ISO import PVC size |
+
+The chart default (`local-path`) is a common homelab choice — **replace it with any StorageClass that exists in your cluster**:
+
+```bash
+kubectl get storageclass
+```
+
+```yaml
+platform:
+  storage:
+    defaultClass: longhorn   # or ceph-rbd, nfs-client, standard, etc.
+    windowsBootSizeGi: 32
+    windowsISOSizeGi: 8
+```
+
+Helm one-liner:
+
+```bash
+helm upgrade --install virtforge virtforge/virtforge \
+  --set platform.storage.defaultClass=longhorn \
+  ...
+```
+
+### What uses which StorageClass
+
+| Workload | Controlled by | Notes |
+|----------|---------------|-------|
+| ISO import / install-from-ISO (CDI) | `platform.storage.defaultClass` | Blank boot disk + HTTP ISO `DataVolume` |
+| VM template (API) | `storage_class` on template **or** default above | Per-template override in `POST /vm-templates` |
+| Container-disk templates | — | Image pulled as `containerDisk`; no PVC for the OS image |
+| Embedded MySQL (chart) | **Cluster default** StorageClass | Chart PVC has no `storageClassName` yet — set cluster default or patch chart |
+| Tenant volumes (`/volumes` UI) | Cluster / app default | Uses Kubernetes PVC creation; wire to `defaultClass` in a future release |
+
+!!! tip "Production clusters"
+    Prefer a replicated block storage class (Longhorn, Ceph, cloud disk) over node-local `local-path` when VMs and volumes must survive node loss.
+
+### Per-template override (API)
+
+When registering a template, set `storage_class` to use a different class for that image only:
+
+```json
+{
+  "name": "win2022-eval",
+  "source_type": "iso",
+  "image": "https://example.com/win.iso",
+  "storage_class": "ceph-rbd"
+}
+```
+
+If omitted, the API falls back to `platform.storage.defaultClass` from Helm.
 
 ## Profiles
 

@@ -109,7 +109,7 @@ platform:
     bridge:
       namespace: kube-system          # DaemonSet namespace for bridge setup
   storage:
-    defaultClass: local-path
+    defaultClass: local-path       # any cluster StorageClass: longhorn, ceph-rbd, nfs-client, …
     windowsBootSizeGi: 32
     windowsISOSizeGi: 8
   kubevirt:
