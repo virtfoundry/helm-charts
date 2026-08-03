@@ -12,7 +12,7 @@ VALUES="${VALUES:-$CHART_DIR/values.yaml}"
 OUTPUT="${OUTPUT:-${APP_CONFIG:-${APP_ROOT:+$APP_ROOT/config/config.yaml}}}"
 
 if [ -z "${OUTPUT:-}" ]; then
-  echo "ERROR: set APP_CONFIG or clone virtfoundry next to virtfoundry-chart (APP_ROOT)" >&2
+  echo "ERROR: set APP_CONFIG or clone core next to helm-charts (APP_ROOT)" >&2
   exit 1
 fi
 

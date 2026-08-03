@@ -34,7 +34,7 @@ CI runs the same checks on pull requests (`.github/workflows/chart-lint.yaml`).
 
 - Update [README.md](README.md) when layout or Makefile targets change
 - Update [scripts/README.md](scripts/README.md) when adding or moving scripts
-- Update the [docs site](https://virtfoundry.github.io/virtfoundry-chart/docs/) (`docs/` + `mkdocs.yml`) for user-facing guides
+- Update the [docs site](https://virtfoundry.github.io/helm-charts/docs/) (`docs/` + `mkdocs.yml`) for user-facing guides
 - Update the [Wiki](https://github.com/virtfoundry/helm-charts/wiki) for extended install guides
 
 ## Repositories
@@ -42,7 +42,7 @@ CI runs the same checks on pull requests (`.github/workflows/chart-lint.yaml`).
 | Repo | Scope |
 |------|-------|
 | [virtfoundry](https://github.com/virtfoundry/core) | API, worker, UI, Dockerfiles, CI images |
-| [virtfoundry-chart](https://github.com/virtfoundry/helm-charts) | Helm chart, deploy/setup scripts |
+| [helm-charts](https://github.com/virtfoundry/helm-charts) | Helm chart, deploy/setup scripts |
 | [virtfoundry-website](https://github.com/virtfoundry/core-website) | Docs site and marketing |
 
 ## Adding scripts

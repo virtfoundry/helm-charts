@@ -116,7 +116,7 @@ Or install from upstream docs and verify CRDs before proceeding.
 After platform prerequisites are healthy:
 
 ```bash
-helm repo add virtfoundry https://virtfoundry.github.io/virtfoundry-chart
+helm repo add virtfoundry https://virtfoundry.github.io/helm-charts
 helm repo update
 
 helm install virtfoundry virtfoundry/virtfoundry \
@@ -144,7 +144,7 @@ Images default to `ghcr.io/virtfoundry/core:0.2.0` and `ui:0.2.0`.
 
 ```bash
 git clone https://github.com/virtfoundry/helm-charts.git
-cd virtfoundry-chart
+cd helm-charts
 
 helm install virtfoundry ./charts/virtfoundry \
   --namespace virtfoundry-system \

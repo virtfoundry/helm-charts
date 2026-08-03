@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Shared paths and kubeconfig resolution for virtfoundry-chart scripts.
+# Shared paths and kubeconfig resolution for helm-charts scripts.
 
 virtfoundry_chart_root() {
   cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd
@@ -11,10 +11,7 @@ virtfoundry_source_common() {
   SCRIPTS_DIR="${SCRIPTS_DIR:-$CHART_ROOT/scripts}"
 
   if [ -z "${APP_ROOT:-}" ]; then
-    APP_ROOT="$(cd "$CHART_ROOT/../virtforge" 2>/dev/null && pwd \
-      || cd "$CHART_ROOT/../core" 2>/dev/null && pwd \
-      || cd "$CHART_ROOT/../virtfoundry" 2>/dev/null && pwd \
-      || true)"
+    APP_ROOT="$(cd "$CHART_ROOT/../core" 2>/dev/null && pwd || true)"
   fi
 
   export APP_ROOT

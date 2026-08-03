@@ -14,7 +14,7 @@ VirtFoundry is an open-source project under the [Apache License 2.0](https://www
 The official repositories are:
 
 - [virtfoundry](https://github.com/virtfoundry/core) — application (API, worker, UI)
-- [virtfoundry-chart](https://github.com/virtfoundry/helm-charts) — Helm chart, deploy tooling, documentation site
+- [helm-charts](https://github.com/virtfoundry/helm-charts) — Helm chart, deploy tooling, documentation site
 
 Forks and downstream distributions are independent; they are not the official project unless explicitly stated.
 

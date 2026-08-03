@@ -7,8 +7,8 @@ VirtFoundry follows [Semantic Versioning 2.0.0](https://semver.org/) while in **
 | Artifact | Version source | Tag | Registry / URL |
 |----------|----------------|-----|----------------|
 | Application | Git tag | `vX.Y.Z` | `ghcr.io/virtfoundry/core`, `ui` |
-| Helm chart | `Chart.yaml` `version` | `vX.Y.Z` (same) | `https://virtfoundry.github.io/virtfoundry-chart` |
-| Documentation | Built from chart repo `main` / tags | — | `.../virtfoundry-chart/docs/` |
+| Helm chart | `Chart.yaml` `version` | `vX.Y.Z` (same) | `https://virtfoundry.github.io/helm-charts` |
+| Documentation | Built from chart repo `main` / tags | — | `.../helm-charts/docs/` |
 
 `Chart.yaml` **`appVersion`** matches the application release the chart defaults target.
 
@@ -52,6 +52,6 @@ Tags `0.2`, `latest` (on `main` builds) may also exist — pin explicitly in pro
 
 ## Cross-repo features
 
-Use the **same branch name** in `virtfoundry` and `virtfoundry-chart`. Release with the **same version number** when both change.
+Use the **same branch name** in `virtfoundry` and `helm-charts`. Release with the **same version number** when both change.
 
 Cursor rules: `.cursor/rules/versioning.mdc` in each repository.

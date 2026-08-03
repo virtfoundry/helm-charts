@@ -5,7 +5,7 @@ The chart is published to **GitHub Pages** when a git tag `v*` is pushed.
 ## User install
 
 ```bash
-helm repo add virtfoundry https://virtfoundry.github.io/virtfoundry-chart
+helm repo add virtfoundry https://virtfoundry.github.io/helm-charts
 helm repo update
 helm search repo virtfoundry/virtfoundry --versions
 ```
@@ -25,15 +25,15 @@ Optional values overlays (Gateway API, public networking, image tags) can be pas
 
 | Path | Content |
 |------|---------|
-| `https://virtfoundry.github.io/virtfoundry-chart/` | Helm `index.yaml` + `.tgz` packages |
-| `https://virtfoundry.github.io/virtfoundry-chart/docs/` | MkDocs documentation (this site) |
+| `https://virtfoundry.github.io/helm-charts/` | Helm `index.yaml` + `.tgz` packages |
+| `https://virtfoundry.github.io/helm-charts/docs/` | MkDocs documentation (this site) |
 
 ## Maintainer: publish a release
 
 1. Bump `version` and `appVersion` in `charts/virtfoundry/Chart.yaml`
 2. Update `CHANGELOG.md` and default image tags in `values.yaml`
 3. Merge to `main`
-4. Tag both **virtfoundry** and **virtfoundry-chart**:
+4. Tag both **virtfoundry** and **helm-charts**:
 
    ```bash
    git tag v0.2.0
@@ -45,7 +45,7 @@ Optional values overlays (Gateway API, public networking, image tags) can be pas
 Verify:
 
 ```bash
-curl -sL https://virtfoundry.github.io/virtfoundry-chart/index.yaml | head
+curl -sL https://virtfoundry.github.io/helm-charts/index.yaml | head
 ```
 
 See [Versioning](../project/versioning.md) for SemVer policy.

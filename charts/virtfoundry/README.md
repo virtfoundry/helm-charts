@@ -10,12 +10,12 @@ Install **before** this chart:
 - **Multus** — multi-network / VPC / public NICs (required)
 - **CDI** — ISO and `DataVolume` imports (required for ISO templates; optional for container-disk-only)
 
-See [Installation guide](https://virtfoundry.github.io/virtfoundry-chart/docs/guide/installation/#why-each-platform-component-is-needed).
+See [Installation guide](https://virtfoundry.github.io/helm-charts/docs/guide/installation/#why-each-platform-component-is-needed).
 
 ## Install
 
 ```bash
-helm repo add virtfoundry https://virtfoundry.github.io/virtfoundry-chart
+helm repo add virtfoundry https://virtfoundry.github.io/helm-charts
 helm repo update
 helm install virtfoundry virtfoundry/virtfoundry \
   --namespace virtfoundry-system \

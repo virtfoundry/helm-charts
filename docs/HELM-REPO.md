@@ -5,7 +5,7 @@ The chart is published to GitHub Pages on every git tag `v*`.
 ## User install
 
 ```bash
-helm repo add virtfoundry https://virtfoundry.github.io/virtfoundry-chart
+helm repo add virtfoundry https://virtfoundry.github.io/helm-charts
 helm repo update
 helm install virtfoundry virtfoundry/virtfoundry \
   --namespace virtfoundry-system \
@@ -40,7 +40,7 @@ The `gh-pages` branch is created automatically by chart-releaser on first releas
 Verify:
 
 ```bash
-curl -sL https://virtfoundry.github.io/virtfoundry-chart/index.yaml | head
-helm repo add virtfoundry https://virtfoundry.github.io/virtfoundry-chart
+curl -sL https://virtfoundry.github.io/helm-charts/index.yaml | head
+helm repo add virtfoundry https://virtfoundry.github.io/helm-charts
 helm search repo virtfoundry/virtfoundry
 ```

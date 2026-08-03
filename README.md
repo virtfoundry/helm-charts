@@ -45,7 +45,3 @@ scripts/                 # Optional setup and sideload helpers
 ## License
 
 Apache License 2.0 — see [LICENSE](LICENSE) and [NOTICE](NOTICE).
-
-## Migration from virtforge-chart
-
-Formerly [virtforge-cloud/virtforge-chart](https://github.com/virtforge-cloud/virtforge-chart). The old repo remains as a mirror until deprecated.

@@ -41,14 +41,14 @@ VirtFoundry requires **KubeVirt**, **Multus**, and **CDI** (for ISO/import paths
 
 ## Current release
 
-**v1.0.0** — VirtFoundry rebrand, IAM (users, roles, API keys), multi-tenant IaaS on KubeVirt.
+**v1.0.0** — IAM (users, roles, API keys), multi-tenant IaaS on KubeVirt.
 
 See [Changelog](project/changelog.md) and [Versioning](project/versioning.md).
 
 ## Support
 
 - [GitHub Issues](https://github.com/virtfoundry/core/issues)
-- [Contributing](../CONTRIBUTING.md)
+- [Contributing](https://github.com/virtfoundry/helm-charts/blob/main/CONTRIBUTING.md)
 - [Governance](project/governance.md)
 - [Sponsorship](project/sponsorship.md)
 
