@@ -102,15 +102,26 @@
   background-color: var(--md-primary-fg-color--dark);
 }
 
-.md-tabs__link {
-  color: #ffffff;
-  opacity: 0.85;
+.md-tabs__item .md-tabs__link {
+  color: rgba(255, 255, 255, 0.78) !important;
+  opacity: 1 !important;
+  transition: color 0.15s ease, background-color 0.15s ease;
 }
 
-.md-tabs__link--active,
-.md-tabs__link:hover {
-  color: #ffffff;
-  opacity: 1;
+.md-tabs__item .md-tabs__link:hover {
+  color: #ffffff !important;
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.md-tabs__item--active .md-tabs__link {
+  color: #ffffff !important;
+  font-weight: 600;
+  background-color: rgba(255, 255, 255, 0.14);
+  border-bottom: 2px solid #ffffff;
+}
+
+.md-tabs__link--active {
+  color: #ffffff !important;
 }
 
 .md-header__title,
@@ -171,16 +182,73 @@
 }
 
 .md-footer {
-  background: var(--md-default-bg-color--light);
-  color: var(--md-default-fg-color--light);
+  background-color: var(--md-default-bg-color--light);
+  color: var(--md-default-fg-color);
 }
 
 .md-footer-meta {
-  background: var(--md-default-bg-color--lighter);
+  background-color: var(--md-default-bg-color--lighter);
+  border-top: 1px solid var(--vf-card-border);
+}
+
+.md-footer-meta__inner {
+  padding-top: 0.85rem;
+  padding-bottom: 0.85rem;
+  align-items: center;
 }
 
 .md-footer__link {
   color: var(--md-typeset-a-color);
+}
+
+/* ── Footer credit & social ───────────────────────────────────── */
+.md-footer-meta .md-copyright,
+.md-footer-meta .md-copyright__highlight,
+.vf-footer-credit {
+  color: var(--md-default-fg-color) !important;
+  font-size: 0.82rem;
+  line-height: 1.65;
+}
+
+.vf-footer-credit strong {
+  color: var(--md-typeset-heading-color) !important;
+  font-weight: 600;
+}
+
+.md-footer-meta .vf-footer-credit a {
+  color: var(--md-typeset-a-color) !important;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.md-footer-meta .vf-footer-credit a:hover {
+  text-decoration: underline;
+  color: var(--md-primary-fg-color--dark) !important;
+}
+
+[data-md-color-scheme="virtfoundry-dark"] .md-footer-meta .vf-footer-credit a:hover {
+  color: #ffffff !important;
+}
+
+.md-social__link {
+  color: var(--md-typeset-a-color) !important;
+  opacity: 1 !important;
+}
+
+.md-social__link svg {
+  fill: currentColor;
+}
+
+.md-social__link:hover {
+  color: var(--md-primary-fg-color) !important;
+}
+
+[data-md-color-scheme="virtfoundry-dark"] .md-social__link {
+  color: #93c5fd !important;
+}
+
+[data-md-color-scheme="virtfoundry-dark"] .md-social__link:hover {
+  color: #ffffff !important;
 }
 
 /* ── Homepage hero (solid) ────────────────────────────────────── */
