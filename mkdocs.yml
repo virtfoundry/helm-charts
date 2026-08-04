@@ -8,30 +8,44 @@ edit_uri: edit/main/docs/
 theme:
   name: material
   language: en
+  logo: assets/logo.svg
+  favicon: assets/favicon.svg
+  font:
+    text: Inter
+    code: JetBrains Mono
   palette:
-    - scheme: default
-      primary: indigo
-      accent: indigo
+    - scheme: virtfoundry-light
+      primary: custom
+      accent: custom
       toggle:
         icon: material/brightness-7
-        name: Dark mode
-    - scheme: slate
-      primary: indigo
-      accent: indigo
+        name: Switch to dark mode
+    - scheme: virtfoundry-dark
+      primary: custom
+      accent: custom
       toggle:
         icon: material/brightness-4
-        name: Light mode
+        name: Switch to light mode
   features:
     - navigation.tabs
+    - navigation.tabs.sticky
     - navigation.sections
     - navigation.expand
     - navigation.top
+    - navigation.footer
+    - navigation.indexes
     - search.suggest
+    - search.highlight
     - content.code.copy
-    - toc.integrate
+    - content.code.annotate
+    - content.action.edit
+    - toc.follow
 
 plugins:
   - search
+
+extra_css:
+  - stylesheets/extra.css
 
 exclude_docs: |
   CONFIGURATION.md
@@ -39,10 +53,15 @@ exclude_docs: |
 
 markdown_extensions:
   - admonition
+  - attr_list
+  - md_in_html
   - pymdownx.details
   - pymdownx.superfences
   - pymdownx.tabbed:
       alternate_style: true
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
   - tables
   - toc:
       permalink: true
@@ -60,6 +79,8 @@ nav:
       - Sponsorship: project/sponsorship.md
 
 extra:
+  generator: false
+  copyright: Copyright &copy; 2026 VirtFoundry
   social:
     - icon: fontawesome/brands/github
       link: https://github.com/virtfoundry

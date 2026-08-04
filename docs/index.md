@@ -1,6 +1,67 @@
+---
+hide:
+  - navigation
+  - toc
+title: Home
+---
+
+<div class="vf-hero" markdown="1">
+
+<span class="vf-badge">Release v1.1.0</span>
+
 # VirtFoundry
 
-**VirtFoundry** is a multi-tenant IaaS control plane for Kubernetes. It wraps [KubeVirt](https://kubevirt.io/) for virtual machines, [Multus](https://github.com/k8snetworkplumbingwg/multus-cni) for L2/L3 networks, and Kubernetes NetworkPolicy for security groups — exposed through a REST API and React dashboard.
+<p class="vf-lead">
+Kubernetes-native IaaS control plane — virtual machines with KubeVirt,
+multi-tenant networking with Multus, and security groups with NetworkPolicy.
+One REST API, one dashboard, one Helm chart.
+</p>
+
+[Get started :material-rocket-launch:](guide/installation.md){ .md-button .md-button--primary }
+[View on GitHub :material-github:](https://github.com/virtfoundry/core){ .md-button }
+[Changelog :material-history:](project/changelog.md){ .md-button }
+
+</div>
+
+<div class="vf-grid" markdown="1">
+
+<div class="vf-card" markdown="1">
+
+<span class="vf-icon">:material-server:</span>
+
+### Control plane
+Go API + async worker orchestrate tenants, compute, storage, and network resources.
+
+</div>
+
+<div class="vf-card" markdown="1">
+
+<span class="vf-icon">:material-monitor:</span>
+
+### KubeVirt VMs
+Deploy, start, stop, snapshot, and console into VirtualMachines from the UI or API.
+
+</div>
+
+<div class="vf-card" markdown="1">
+
+<span class="vf-icon">:material-lan:</span>
+
+### Multus networking
+VPCs, isolated L2 networks, public IP pools, and default VPC per tenant.
+
+</div>
+
+<div class="vf-card" markdown="1">
+
+<span class="vf-icon">:material-shield-lock:</span>
+
+### IAM & isolation
+JWT login, API keys, roles, tenant namespaces, and Kubernetes NetworkPolicy.
+
+</div>
+
+</div>
 
 ## Quick install
 
@@ -21,7 +82,7 @@ Gateway API or Ingress profiles are configured via Helm values — see [Configur
 
 VirtFoundry requires **KubeVirt**, **Multus**, and **CDI** (for ISO/import paths) on the cluster — the Helm chart deploys the control plane only. See [Installation → Prerequisites](guide/installation.md#why-each-platform-component-is-needed).
 
-## Architecture at a glance
+## Architecture
 
 | Layer | Technology |
 |-------|------------|
@@ -39,17 +100,17 @@ VirtFoundry requires **KubeVirt**, **Multus**, and **CDI** (for ISO/import paths
 | [core](https://github.com/virtfoundry/core) | Application source (API, worker, UI) |
 | [helm-charts](https://github.com/virtfoundry/helm-charts) | Helm chart, deploy scripts, this documentation |
 
-## Current release
+<div class="vf-links" markdown="1">
 
-**v1.1.0** — Default VPC per tenant, self-service API keys, UI navigation and dashboard polish.
+[Installation guide](guide/installation.md)
+[Helm repository](guide/helm-repository.md)
+[Versioning policy](project/versioning.md)
+[Contributing](https://github.com/virtfoundry/helm-charts/blob/main/CONTRIBUTING.md)
+[GitHub Issues](https://github.com/virtfoundry/core/issues)
 
-See [Changelog](project/changelog.md) and [Versioning](project/versioning.md).
+</div>
 
 ## Support
 
-- [GitHub Issues](https://github.com/virtfoundry/core/issues)
-- [Contributing](https://github.com/virtfoundry/helm-charts/blob/main/CONTRIBUTING.md)
 - [Governance](project/governance.md)
 - [Sponsorship](project/sponsorship.md)
-
-Documentation: **https://virtfoundry.github.io/helm-charts/docs/**
