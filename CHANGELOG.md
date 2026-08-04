@@ -2,6 +2,10 @@
 
 See [docs/project/changelog.md](docs/project/changelog.md) for the full release history (published on GitHub Pages).
 
+## [1.1.0] - 2026-08-04
+
+Default VPC per tenant, UI polish (accordion nav, header menus, Redux), self-service API keys, default images `1.1.0`.
+
 ## [0.2.0] - 2026-08-02
 
 Public network profile, bridge CNI NAD, MkDocs site, versioning rules, configurable gateway and IP pool.

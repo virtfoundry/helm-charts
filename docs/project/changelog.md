@@ -4,6 +4,26 @@ All notable changes to the **Helm chart and deploy tooling** are documented here
 
 Format based on [Keep a Changelog](https://keepachangelog.com/). Versioning: [SemVer](versioning.md).
 
+## [1.1.0] - 2026-08-04
+
+### Added
+
+- Default container images bumped to `1.1.0` (API, worker, UI)
+- Chart icon updated to application favicon
+
+### Changed
+
+- `appVersion` aligned with [core v1.1.0](https://github.com/virtfoundry/core/releases/tag/v1.1.0): default VPC (`10.0.0.0/16`) per tenant, self-service API keys, UI accordion navigation and header menus, Redux client state, dashboard and favicon updates
+
+No chart template or values schema changes — upgrade by bumping the chart version or overriding image tags.
+
+## [1.0.0] - 2026-08-03
+
+### Added
+
+- IAM release: users, roles, API keys, permission middleware
+- Default container images `1.0.0`
+
 ## [0.2.0] - 2026-08-02
 
 ### Added
@@ -33,5 +53,7 @@ Format based on [Keep a Changelog](https://keepachangelog.com/). Versioning: [Se
 - GitHub Pages Helm repository via chart-releaser
 - Deploy scripts and setup helpers (KubeVirt, Multus, CDI)
 
+[1.1.0]: https://github.com/virtfoundry/helm-charts/compare/v1.0.0...v1.1.0
+[1.0.0]: https://github.com/virtfoundry/helm-charts/compare/v0.2.0...v1.0.0
 [0.2.0]: https://github.com/virtfoundry/helm-charts/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/virtfoundry/helm-charts/releases/tag/v0.1.0

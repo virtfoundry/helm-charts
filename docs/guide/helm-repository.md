@@ -13,7 +13,7 @@ helm search repo virtfoundry/virtfoundry --versions
 Install a specific version:
 
 ```bash
-helm install virtfoundry virtfoundry/virtfoundry --version 0.2.0 \
+helm install virtfoundry virtfoundry/virtfoundry --version 1.1.0 \
   --namespace virtfoundry-system --create-namespace \
   --set secrets.rootPassword='...' \
   --set secrets.jwtSecret='...'
@@ -36,8 +36,8 @@ Optional values overlays (Gateway API, public networking, image tags) can be pas
 4. Tag both **virtfoundry** and **helm-charts**:
 
    ```bash
-   git tag v0.2.0
-   git push origin v0.2.0
+   git tag v1.1.0
+   git push origin v1.1.0
    ```
 
 5. Workflows publish Helm package + rebuild docs

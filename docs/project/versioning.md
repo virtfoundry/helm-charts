@@ -1,6 +1,6 @@
 # Versioning
 
-VirtFoundry follows [Semantic Versioning 2.0.0](https://semver.org/) while in **0.x** (pre-1.0).
+VirtFoundry follows [Semantic Versioning 2.0.0](https://semver.org/).
 
 ## Release units
 
@@ -12,27 +12,27 @@ VirtFoundry follows [Semantic Versioning 2.0.0](https://semver.org/) while in **
 
 `Chart.yaml` **`appVersion`** matches the application release the chart defaults target.
 
-## Bump rules (pre-1.0)
+## Bump rules
 
 | Change | Version bump | Example |
 |--------|--------------|---------|
-| Bug fix, doc fix | PATCH | `0.2.0` → `0.2.1` |
-| New feature, chart profile change | MINOR | `0.1.0` → `0.2.0` |
-| Stable API commitment | MAJOR | `0.x` → `1.0.0` (future) |
+| Bug fix, doc fix | PATCH | `1.1.0` → `1.1.1` |
+| New feature, chart profile change | MINOR | `1.0.0` → `1.1.0` |
+| Breaking API or chart contract | MAJOR | `1.x` → `2.0.0` |
 
-Breaking changes before 1.0 may appear in MINOR releases — always read [Changelog](changelog.md).
+Breaking changes in MINOR releases before 1.0 were allowed — from **1.0.0** onward, follow standard SemVer.
 
 ## Release process
 
 1. Finish feature branch → PR → integration testing → merge `main`
 2. Update `CHANGELOG.md` (both repos)
 3. Bump `Chart.yaml` + `values.yaml` image tags (chart repo)
-4. Commit: `chore(release): v0.2.0`
+4. Commit: `chore(release): v1.1.0`
 5. Tag **both** repositories:
 
    ```bash
-   git tag v0.2.0
-   git push origin v0.2.0
+   git tag v1.1.0
+   git push origin v1.1.0
    ```
 
 6. CI publishes container images and Helm package; docs site rebuilds
@@ -41,11 +41,11 @@ Breaking changes before 1.0 may appear in MINOR releases — always read [Change
 
 ```bash
 # Helm
-helm install virtfoundry virtfoundry/virtfoundry --version 0.2.0
+helm install virtfoundry virtfoundry/virtfoundry --version 1.1.0
 
 # Container images
-ghcr.io/virtfoundry/core:0.2.0
-ghcr.io/virtfoundry/ui:0.2.0
+ghcr.io/virtfoundry/core:1.1.0
+ghcr.io/virtfoundry/ui:1.1.0
 ```
 
 Tags `0.2`, `latest` (on `main` builds) may also exist — pin explicitly in production.

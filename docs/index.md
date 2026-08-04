@@ -8,7 +8,7 @@
 helm repo add virtfoundry https://virtfoundry.github.io/helm-charts
 helm repo update
 helm install virtfoundry virtfoundry/virtfoundry \
-  --version 1.0.0 \
+  --version 1.1.0 \
   --namespace virtfoundry-system \
   --create-namespace \
   --set secrets.rootPassword='your-root-password' \
@@ -29,7 +29,7 @@ VirtFoundry requires **KubeVirt**, **Multus**, and **CDI** (for ISO/import paths
 | Hypervisor | KubeVirt VirtualMachine |
 | Networking | Multus NADs, host bridges, optional MetalLB |
 | Security | IAM, JWT, API keys, tenant namespaces, NetworkPolicy |
-| UI | React + Vite + TanStack Query |
+| UI | React + Vite + Redux + TanStack Query |
 | Packaging | Helm chart (`helm-charts`) |
 
 ## Repositories
@@ -41,7 +41,7 @@ VirtFoundry requires **KubeVirt**, **Multus**, and **CDI** (for ISO/import paths
 
 ## Current release
 
-**v1.0.0** — IAM (users, roles, API keys), multi-tenant IaaS on KubeVirt.
+**v1.1.0** — Default VPC per tenant, self-service API keys, UI navigation and dashboard polish.
 
 See [Changelog](project/changelog.md) and [Versioning](project/versioning.md).
 
