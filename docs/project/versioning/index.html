@@ -634,10 +634,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#bump-rules-pre-10" class="md-nav__link">
+  <a href="#bump-rules" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Bump rules (pre-1.0)
+        Bump rules
       
     </span>
   </a>
@@ -798,7 +798,7 @@
 
 
 <h1 id="versioning">Versioning<a class="headerlink" href="#versioning" title="Permanent link">&para;</a></h1>
-<p>VirtFoundry follows <a href="https://semver.org/">Semantic Versioning 2.0.0</a> while in <strong>0.x</strong> (pre-1.0).</p>
+<p>VirtFoundry follows <a href="https://semver.org/">Semantic Versioning 2.0.0</a>.</p>
 <h2 id="release-units">Release units<a class="headerlink" href="#release-units" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
@@ -831,7 +831,7 @@
 </tbody>
 </table>
 <p><code>Chart.yaml</code> <strong><code>appVersion</code></strong> matches the application release the chart defaults target.</p>
-<h2 id="bump-rules-pre-10">Bump rules (pre-1.0)<a class="headerlink" href="#bump-rules-pre-10" title="Permanent link">&para;</a></h2>
+<h2 id="bump-rules">Bump rules<a class="headerlink" href="#bump-rules" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
 <tr>
@@ -844,42 +844,42 @@
 <tr>
 <td>Bug fix, doc fix</td>
 <td>PATCH</td>
-<td><code>0.2.0</code> → <code>0.2.1</code></td>
+<td><code>1.1.0</code> → <code>1.1.1</code></td>
 </tr>
 <tr>
 <td>New feature, chart profile change</td>
 <td>MINOR</td>
-<td><code>0.1.0</code> → <code>0.2.0</code></td>
+<td><code>1.0.0</code> → <code>1.1.0</code></td>
 </tr>
 <tr>
-<td>Stable API commitment</td>
+<td>Breaking API or chart contract</td>
 <td>MAJOR</td>
-<td><code>0.x</code> → <code>1.0.0</code> (future)</td>
+<td><code>1.x</code> → <code>2.0.0</code></td>
 </tr>
 </tbody>
 </table>
-<p>Breaking changes before 1.0 may appear in MINOR releases — always read <a href="../changelog/">Changelog</a>.</p>
+<p>Breaking changes in MINOR releases before 1.0 were allowed — from <strong>1.0.0</strong> onward, follow standard SemVer.</p>
 <h2 id="release-process">Release process<a class="headerlink" href="#release-process" title="Permanent link">&para;</a></h2>
 <ol>
 <li>Finish feature branch → PR → integration testing → merge <code>main</code></li>
 <li>Update <code>CHANGELOG.md</code> (both repos)</li>
 <li>Bump <code>Chart.yaml</code> + <code>values.yaml</code> image tags (chart repo)</li>
-<li>Commit: <code>chore(release): v0.2.0</code></li>
+<li>Commit: <code>chore(release): v1.1.0</code></li>
 <li>Tag <strong>both</strong> repositories:</li>
 </ol>
-<div class="highlight"><pre><span></span><code>git<span class="w"> </span>tag<span class="w"> </span>v0.2.0
-git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>v0.2.0
+<div class="highlight"><pre><span></span><code>git<span class="w"> </span>tag<span class="w"> </span>v1.1.0
+git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>v1.1.0
 </code></pre></div>
 <ol>
 <li>CI publishes container images and Helm package; docs site rebuilds</li>
 </ol>
 <h2 id="consuming-versions">Consuming versions<a class="headerlink" href="#consuming-versions" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><span class="c1"># Helm</span>
-helm<span class="w"> </span>install<span class="w"> </span>virtfoundry<span class="w"> </span>virtfoundry/virtfoundry<span class="w"> </span>--version<span class="w"> </span><span class="m">0</span>.2.0
+helm<span class="w"> </span>install<span class="w"> </span>virtfoundry<span class="w"> </span>virtfoundry/virtfoundry<span class="w"> </span>--version<span class="w"> </span><span class="m">1</span>.1.0
 
 <span class="c1"># Container images</span>
-ghcr.io/virtfoundry/core:0.2.0
-ghcr.io/virtfoundry/ui:0.2.0
+ghcr.io/virtfoundry/core:1.1.0
+ghcr.io/virtfoundry/ui:1.1.0
 </code></pre></div>
 <p>Tags <code>0.2</code>, <code>latest</code> (on <code>main</code> builds) may also exist — pin explicitly in production.</p>
 <h2 id="cross-repo-features">Cross-repo features<a class="headerlink" href="#cross-repo-features" title="Permanent link">&para;</a></h2>
