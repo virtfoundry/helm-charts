@@ -7,3 +7,6 @@ site/
 .vscode/
 *.swp
 *~
+
+# Local homelab overrides — not published
+charts/virtfoundry/values-homelab.yaml
