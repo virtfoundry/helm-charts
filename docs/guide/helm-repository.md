@@ -28,6 +28,26 @@ Optional values overlays (Gateway API, public networking, image tags) can be pas
 | `https://virtfoundry.github.io/helm-charts/` | Helm `index.yaml` + `.tgz` packages |
 | `https://virtfoundry.github.io/helm-charts/docs/` | MkDocs documentation (this site) |
 
+Both live on the **`gh-pages`** branch: chart-releaser writes packages at the root; the Docs workflow publishes MkDocs under `docs/`.
+
+!!! warning "One-time setup: enable Pages"
+    If `/docs/` returns **404** but CI succeeded, GitHub Pages is probably disabled. Enable it once in the repo:
+
+    **Settings → Pages → Build and deployment → Source:** Deploy from a branch → **`gh-pages`** / **`/ (root)`**
+
+    Or via CLI (repo admin):
+
+    ```bash
+    gh api repos/virtfoundry/helm-charts/pages -X POST --input - <<'EOF'
+    {
+      "build_type": "legacy",
+      "source": { "branch": "gh-pages", "path": "/" }
+    }
+    EOF
+    ```
+
+    First deploy can take 1–2 minutes after enabling.
+
 ## Maintainer: publish a release
 
 1. Bump `version` and `appVersion` in `charts/virtfoundry/Chart.yaml`

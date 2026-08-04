@@ -17,5 +17,7 @@ keywords:
   - multus
   - cloudstack
 maintainers:
+  - name: Matheus Thurler
+    url: https://github.com/Matheus-Thurler
   - name: virtfoundry
     url: https://github.com/virtfoundry
