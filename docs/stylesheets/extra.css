@@ -1,0 +1,313 @@
+/* VirtFoundry — Material for MkDocs brand theme */
+
+/* ── Light scheme ─────────────────────────────────────────────── */
+[data-md-color-scheme="virtfoundry-light"] {
+  color-scheme: light;
+
+  --md-primary-fg-color: #2563eb;
+  --md-primary-fg-color--light: #60a5fa;
+  --md-primary-fg-color--dark: #004ac6;
+  --md-primary-bg-color: #2563eb;
+  --md-primary-bg-color--light: #dbeafe;
+
+  --md-accent-fg-color: #007f36;
+  --md-accent-bg-color: #dcfce7;
+
+  --md-default-bg-color: #f8f9fa;
+  --md-default-bg-color--light: #ffffff;
+  --md-default-bg-color--lighter: #f3f4f5;
+  --md-default-bg-color--trans: rgba(248, 249, 250, 0.85);
+  --md-default-fg-color: #191c1d;
+  --md-default-fg-color--light: #434655;
+  --md-default-fg-color--lighter: #737686;
+  --md-default-fg-color--lightest: #8d90a0;
+
+  --md-code-bg-color: #edeeef;
+  --md-code-fg-color: #191c1d;
+
+  --md-typeset-a-color: #2563eb;
+
+  --vf-card-bg: #ffffff;
+  --vf-card-border: #c3c6d7;
+  --vf-hero-mid: #1d4ed8;
+  --vf-hero-end: #0f172a;
+  --vf-glow: rgba(37, 99, 235, 0.12);
+}
+
+/* ── Dark scheme ──────────────────────────────────────────────── */
+[data-md-color-scheme="virtfoundry-dark"] {
+  color-scheme: dark;
+
+  --md-hue: 225;
+
+  --md-primary-fg-color: #b4c5ff;
+  --md-primary-fg-color--light: #dbeafe;
+  --md-primary-fg-color--dark: #2563eb;
+  --md-primary-bg-color: #2563eb;
+
+  --md-accent-fg-color: #62df7d;
+  --md-accent-bg-color: rgba(16, 185, 129, 0.15);
+
+  --md-default-bg-color: #0b1326;
+  --md-default-bg-color--light: #131b2e;
+  --md-default-bg-color--lighter: #171f33;
+  --md-default-bg-color--trans: rgba(11, 19, 38, 0.9);
+  --md-default-fg-color: #dae2fd;
+  --md-default-fg-color--light: #c3c6d7;
+  --md-default-fg-color--lighter: #8d90a0;
+  --md-default-fg-color--lightest: #737686;
+
+  --md-code-bg-color: #171f33;
+  --md-code-fg-color: #e2e8f0;
+
+  --md-typeset-a-color: #93c5fd;
+
+  --vf-card-bg: #1e293b;
+  --vf-card-border: #334155;
+  --vf-hero-mid: #1e40af;
+  --vf-hero-end: #020617;
+  --vf-glow: rgba(37, 99, 235, 0.22);
+}
+
+/* ── Global polish ────────────────────────────────────────────── */
+.md-header {
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06);
+}
+
+[data-md-color-scheme="virtfoundry-dark"] .md-header {
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+.md-header__title .md-header__button.md-logo img,
+.md-nav__button.md-logo img {
+  height: 1.6rem;
+}
+
+.md-tabs {
+  background: var(--md-primary-fg-color--dark);
+}
+
+[data-md-color-scheme="virtfoundry-dark"] .md-tabs {
+  background: var(--md-default-bg-color--light);
+}
+
+.md-typeset h1 {
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.md-typeset h2 {
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  border-bottom: 1px solid var(--vf-card-border);
+  padding-bottom: 0.35rem;
+}
+
+.md-typeset code {
+  font-size: 0.85em;
+  border-radius: 0.25rem;
+  padding: 0.05em 0.35em;
+}
+
+.md-typeset pre > code {
+  border-radius: 0.5rem;
+}
+
+.md-typeset .md-button {
+  border-radius: 0.5rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+
+.md-typeset .md-button--primary {
+  background-color: var(--md-primary-fg-color);
+  border-color: var(--md-primary-fg-color);
+  color: #fff;
+}
+
+[data-md-color-scheme="virtfoundry-dark"] .md-typeset .md-button--primary {
+  color: #0b1326;
+}
+
+.md-typeset table:not([class]) {
+  border-radius: 0.5rem;
+  overflow: hidden;
+  font-size: 0.9rem;
+}
+
+.md-typeset table:not([class]) th {
+  background: var(--md-default-bg-color--lighter);
+  font-weight: 600;
+}
+
+.md-footer {
+  background: var(--md-default-bg-color--light);
+}
+
+.md-footer-meta {
+  background: var(--md-default-bg-color--lighter);
+}
+
+/* ── Homepage hero ────────────────────────────────────────────── */
+.vf-hero {
+  position: relative;
+  overflow: hidden;
+  margin: 0 0 2.5rem;
+  padding: 2.75rem 2.25rem 2.5rem;
+  border-radius: 1rem;
+  color: #ffffff;
+  background:
+    radial-gradient(ellipse 80% 60% at 100% 0%, rgba(96, 165, 250, 0.35), transparent 55%),
+    radial-gradient(ellipse 60% 50% at 0% 100%, rgba(16, 185, 129, 0.15), transparent 50%),
+    linear-gradient(135deg, #2563eb 0%, var(--vf-hero-mid) 45%, var(--vf-hero-end) 100%);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.12) inset,
+    0 24px 48px -12px rgba(0, 0, 0, 0.35);
+}
+
+.vf-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+  background-size: 32px 32px;
+  mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), transparent 80%);
+  pointer-events: none;
+}
+
+.vf-hero > * {
+  position: relative;
+}
+
+.vf-hero h1 {
+  margin: 0.75rem 0 0.5rem;
+  font-size: 2.35rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: #ffffff;
+  border: none;
+  padding: 0;
+}
+
+.vf-hero .vf-lead {
+  margin: 0 0 1.5rem;
+  max-width: 42rem;
+  font-size: 1.05rem;
+  line-height: 1.65;
+  color: rgba(255, 255, 255, 0.88);
+}
+
+.vf-hero .md-button {
+  margin: 0.25rem 0.5rem 0.25rem 0;
+}
+
+.vf-hero .md-button:not(.md-button--primary) {
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.45);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.vf-hero .md-button:not(.md-button--primary):hover {
+  background: rgba(255, 255, 255, 0.16);
+}
+
+.vf-badge {
+  display: inline-block;
+  padding: 0.2rem 0.65rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #dbeafe;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+}
+
+/* ── Feature grid ─────────────────────────────────────────────── */
+.vf-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+  margin: 1.5rem 0 2rem;
+}
+
+.vf-card {
+  padding: 1.25rem 1.35rem;
+  border-radius: 0.75rem;
+  background: var(--vf-card-bg);
+  border: 1px solid var(--vf-card-border);
+  box-shadow: 0 1px 2px var(--vf-glow);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.vf-card:hover {
+  border-color: var(--md-primary-fg-color);
+  box-shadow: 0 8px 24px -8px var(--vf-glow);
+}
+
+.vf-card h3 {
+  margin: 0 0 0.35rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--md-primary-fg-color);
+}
+
+.vf-card p {
+  margin: 0;
+  font-size: 0.875rem;
+  line-height: 1.55;
+  color: var(--md-default-fg-color--light);
+}
+
+.vf-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  margin-bottom: 0.65rem;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  background: var(--md-primary-bg-color--light, rgba(37, 99, 235, 0.12));
+  color: var(--md-primary-fg-color);
+}
+
+[data-md-color-scheme="virtfoundry-dark"] .vf-icon {
+  background: rgba(37, 99, 235, 0.2);
+}
+
+/* ── Quick links row ──────────────────────────────────────────── */
+.vf-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin: 1.5rem 0;
+}
+
+.vf-links a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.45rem 0.85rem;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-decoration: none;
+  color: var(--md-typeset-a-color);
+  background: var(--md-default-bg-color--lighter);
+  border: 1px solid var(--vf-card-border);
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.vf-links a:hover {
+  background: var(--md-default-bg-color--light);
+  border-color: var(--md-primary-fg-color);
+}
+
+/* ── Homepage: hide auto-generated title when hero is present ─── */
+.md-content__inner > article:has(.vf-hero) > h1:first-child {
+  display: none;
+}
