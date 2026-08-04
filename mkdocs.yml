@@ -7,6 +7,7 @@ edit_uri: edit/main/docs/
 
 theme:
   name: material
+  custom_dir: overrides
   language: en
   logo: assets/logo.svg
   favicon: assets/favicon.svg
@@ -80,9 +81,7 @@ nav:
 
 extra:
   generator: false
-  copyright: Copyright &copy; 2026 VirtFoundry
   social:
     - icon: fontawesome/brands/github
-      link: https://github.com/virtfoundry
-    - icon: fontawesome/brands/github
-      link: https://github.com/Matheus-Thurler
+      link: https://github.com/virtfoundry/core
+      name: VirtFoundry on GitHub
