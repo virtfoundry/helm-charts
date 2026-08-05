@@ -13,7 +13,7 @@ helm search repo virtfoundry/virtfoundry --versions
 Install a specific version:
 
 ```bash
-helm install virtfoundry virtfoundry/virtfoundry --version 1.1.0 \
+helm install virtfoundry virtfoundry/virtfoundry --version 1.1.1 \
   --namespace virtfoundry-system --create-namespace \
   --set secrets.rootPassword='...' \
   --set secrets.jwtSecret='...'

@@ -7,9 +7,9 @@ fullnamePrefix: virtfoundry
 namespace: virtfoundry-system
 
 images:
-  api: ghcr.io/virtfoundry/core:1.1.0
-  worker: ghcr.io/virtfoundry/core:1.1.0
-  ui: ghcr.io/virtfoundry/ui:1.1.0
+  api: ghcr.io/virtfoundry/core:1.1.1
+  worker: ghcr.io/virtfoundry/core:1.1.1
+  ui: ghcr.io/virtfoundry/ui:1.1.1
   pullPolicy: IfNotPresent
 
 mysql:
