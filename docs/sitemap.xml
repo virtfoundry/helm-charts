@@ -2,34 +2,34 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://virtfoundry.github.io/helm-charts/docs/</loc>
-         <lastmod>2026-08-04</lastmod>
+         <lastmod>2026-08-05</lastmod>
     </url>
     <url>
          <loc>https://virtfoundry.github.io/helm-charts/docs/guide/configuration/</loc>
-         <lastmod>2026-08-04</lastmod>
+         <lastmod>2026-08-05</lastmod>
     </url>
     <url>
          <loc>https://virtfoundry.github.io/helm-charts/docs/guide/helm-repository/</loc>
-         <lastmod>2026-08-04</lastmod>
+         <lastmod>2026-08-05</lastmod>
     </url>
     <url>
          <loc>https://virtfoundry.github.io/helm-charts/docs/guide/installation/</loc>
-         <lastmod>2026-08-04</lastmod>
+         <lastmod>2026-08-05</lastmod>
     </url>
     <url>
          <loc>https://virtfoundry.github.io/helm-charts/docs/project/changelog/</loc>
-         <lastmod>2026-08-04</lastmod>
+         <lastmod>2026-08-05</lastmod>
     </url>
     <url>
          <loc>https://virtfoundry.github.io/helm-charts/docs/project/governance/</loc>
-         <lastmod>2026-08-04</lastmod>
+         <lastmod>2026-08-05</lastmod>
     </url>
     <url>
          <loc>https://virtfoundry.github.io/helm-charts/docs/project/sponsorship/</loc>
-         <lastmod>2026-08-04</lastmod>
+         <lastmod>2026-08-05</lastmod>
     </url>
     <url>
          <loc>https://virtfoundry.github.io/helm-charts/docs/project/versioning/</loc>
-         <lastmod>2026-08-04</lastmod>
+         <lastmod>2026-08-05</lastmod>
     </url>
 </urlset>
