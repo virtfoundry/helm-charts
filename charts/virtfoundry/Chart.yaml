@@ -2,8 +2,8 @@ apiVersion: v2
 name: virtfoundry
 description: VirtFoundry control plane — API, worker, UI, and optional MySQL
 type: application
-version: 1.2.0
-appVersion: "1.2.0"
+version: 1.3.0
+appVersion: "1.3.0"
 kubeVersion: ">=1.28.0-0"
 home: https://github.com/virtfoundry/core
 icon: https://raw.githubusercontent.com/virtfoundry/core/main/ui/public/favicon.svg

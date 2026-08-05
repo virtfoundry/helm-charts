@@ -2,6 +2,10 @@
 
 See [docs/project/changelog.md](docs/project/changelog.md) for the full release history (published on GitHub Pages).
 
+## [1.3.0] - 2026-08-05
+
+Service offerings CRUD, admin UI, VM resize persist. Default images `1.3.0`.
+
 ## [1.2.0] - 2026-08-05
 
 Volume attach/detach, storage UI, defaultClass wiring. Default images `1.2.0`.

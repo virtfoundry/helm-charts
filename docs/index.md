@@ -7,7 +7,7 @@ title: Home
 
 <div class="vf-hero" markdown="1">
 
-<span class="vf-badge">Release v1.2.0</span>
+<span class="vf-badge">Release v1.3.0</span>
 
 # VirtFoundry
 
@@ -69,7 +69,7 @@ JWT login, API keys, roles, tenant namespaces, and Kubernetes NetworkPolicy.
 helm repo add virtfoundry https://virtfoundry.github.io/helm-charts
 helm repo update
 helm install virtfoundry virtfoundry/virtfoundry \
-  --version 1.2.0 \
+  --version 1.3.0 \
   --namespace virtfoundry-system \
   --create-namespace \
   --set secrets.rootPassword='your-root-password' \
