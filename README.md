@@ -10,7 +10,7 @@ Official Helm charts for [VirtFoundry](https://github.com/virtfoundry/core) — 
 helm repo add virtfoundry https://virtfoundry.github.io/helm-charts
 helm repo update
 helm install virtfoundry virtfoundry/virtfoundry \
-  --version 1.4.0 \
+  --version 1.4.1 \
   -n virtfoundry-system --create-namespace \
   --set secrets.rootPassword='change-me' \
   --set secrets.jwtSecret='change-me'

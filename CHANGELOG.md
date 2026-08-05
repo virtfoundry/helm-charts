@@ -2,6 +2,10 @@
 
 See [docs/project/changelog.md](docs/project/changelog.md) for the full release history (published on GitHub Pages).
 
+## [1.4.1] - 2026-08-05
+
+Volume delete 409 fix and UI version label. Default images `1.4.1`.
+
 ## [1.4.0] - 2026-08-05
 
 Template catalog dedup, ISO import polling, VM-TEMPLATES guide. Default images `1.4.0`.

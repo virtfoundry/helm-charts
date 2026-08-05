@@ -4,6 +4,18 @@ All notable changes to the **Helm chart and deploy tooling** are documented here
 
 Format based on [Keep a Changelog](https://keepachangelog.com/). Versioning: [SemVer](versioning.md).
 
+## [1.4.1] - 2026-08-05
+
+### Changed
+
+- Default container images bumped to `1.4.1` (API, worker, UI)
+
+### Fixed
+
+- `appVersion` aligned with [core v1.4.1](https://github.com/virtfoundry/core/releases/tag/v1.4.1): volume delete while attached returns 409 Conflict; UI version label synced with release
+
+No chart template or values schema changes — upgrade by bumping the chart version or overriding image tags.
+
 ## [1.4.0] - 2026-08-05
 
 ### Changed
@@ -101,6 +113,7 @@ No chart template or values schema changes — upgrade by bumping the chart vers
 - GitHub Pages Helm repository via chart-releaser
 - Deploy scripts and setup helpers (KubeVirt, Multus, CDI)
 
+[1.4.1]: https://github.com/virtfoundry/helm-charts/compare/v1.4.0...v1.4.1
 [1.4.0]: https://github.com/virtfoundry/helm-charts/compare/v1.3.0...v1.4.0
 [1.3.0]: https://github.com/virtfoundry/helm-charts/compare/v1.2.0...v1.3.0
 [1.2.0]: https://github.com/virtfoundry/helm-charts/compare/v1.1.1...v1.2.0
