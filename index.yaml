@@ -2,6 +2,33 @@ apiVersion: v1
 entries:
   virtfoundry:
   - apiVersion: v2
+    appVersion: 1.4.1
+    created: "2026-08-05T16:50:15.675499007Z"
+    description: VirtFoundry control plane — API, worker, UI, and optional MySQL
+    digest: d1bc19e2132f3c820cef2ec79897b02e33a808804ad10247cb489bfb62da509c
+    home: https://github.com/virtfoundry/core
+    icon: https://raw.githubusercontent.com/virtfoundry/core/main/ui/public/favicon.svg
+    keywords:
+    - iaas
+    - kubevirt
+    - kubernetes
+    - multus
+    - cloudstack
+    kubeVersion: '>=1.28.0-0'
+    maintainers:
+    - name: Matheus Thurler
+      url: https://github.com/Matheus-Thurler
+    - name: virtfoundry
+      url: https://github.com/virtfoundry
+    name: virtfoundry
+    sources:
+    - https://github.com/virtfoundry/core
+    - https://github.com/virtfoundry/helm-charts
+    type: application
+    urls:
+    - https://github.com/virtfoundry/helm-charts/releases/download/virtfoundry-1.4.1/virtfoundry-1.4.1.tgz
+    version: 1.4.1
+  - apiVersion: v2
     appVersion: 1.4.0
     created: "2026-08-05T14:48:53.856046353Z"
     description: VirtFoundry control plane — API, worker, UI, and optional MySQL
@@ -107,4 +134,4 @@ entries:
     urls:
     - https://github.com/virtfoundry/helm-charts/releases/download/virtfoundry-1.1.0/virtfoundry-1.1.0.tgz
     version: 1.1.0
-generated: "2026-08-05T14:48:53.856065682Z"
+generated: "2026-08-05T16:50:15.675518574Z"
