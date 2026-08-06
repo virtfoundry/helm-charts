@@ -54,4 +54,3 @@ Tags `0.2`, `latest` (on `main` builds) may also exist — pin explicitly in pro
 
 Use the **same branch name** in `virtfoundry` and `helm-charts`. Release with the **same version number** when both change.
 
-Cursor rules: `.cursor/rules/versioning.mdc` in each repository.

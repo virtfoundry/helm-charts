@@ -92,7 +92,6 @@ No chart template or values schema changes — upgrade by bumping the chart vers
 - `platform.networking.public.bridge.address` and `routePoolViaBridge` for host route steering when multiple bridges share a CIDR
 - `allowPodNetwork: true` default for VM pod + public dual-homed networking
 - MkDocs documentation site published to GitHub Pages `/docs/`
-- Cursor rules: `versioning.mdc`, networking guidance for maintainers
 
 ### Changed
 

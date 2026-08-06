@@ -5,6 +5,7 @@ site/
 *.tgz
 .idea/
 .vscode/
+.cursor/
 *.swp
 *~
 
