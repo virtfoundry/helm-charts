@@ -63,6 +63,46 @@ JWT login, API keys, roles, tenant namespaces, and Kubernetes NetworkPolicy.
 
 </div>
 
+## UI
+
+<div class="vf-carousel" data-vf-carousel tabindex="0" aria-roledescription="carousel" aria-label="VirtFoundry UI screenshots">
+  <div class="vf-carousel__viewport">
+    <div class="vf-carousel__slide is-active" data-caption="Sign-in">
+      <img src="assets/screenshots/01-login.png" alt="VirtFoundry login" width="1440" height="900" loading="eager">
+    </div>
+    <div class="vf-carousel__slide" data-caption="Dashboard — tenant overview and quick actions" aria-hidden="true">
+      <img src="assets/screenshots/02-dashboard.png" alt="VirtFoundry dashboard" width="1440" height="900" loading="lazy">
+    </div>
+    <div class="vf-carousel__slide" data-caption="Virtual Machines — list, state, console, and lifecycle actions" aria-hidden="true">
+      <img src="assets/screenshots/03-vms.png" alt="VirtFoundry virtual machines" width="1440" height="900" loading="lazy">
+    </div>
+    <div class="vf-carousel__slide" data-caption="Images &amp; Templates — container disks and ISO catalog" aria-hidden="true">
+      <img src="assets/screenshots/04-templates.png" alt="VirtFoundry images and templates" width="1440" height="900" loading="lazy">
+    </div>
+    <div class="vf-carousel__slide" data-caption="Volumes — attachable disks per tenant" aria-hidden="true">
+      <img src="assets/screenshots/05-volumes.png" alt="VirtFoundry volumes" width="1440" height="900" loading="lazy">
+    </div>
+    <div class="vf-carousel__slide" data-caption="Networks — VPCs and private subnets" aria-hidden="true">
+      <img src="assets/screenshots/07-networks.png" alt="VirtFoundry networks" width="1440" height="900" loading="lazy">
+    </div>
+  </div>
+
+  <div class="vf-carousel__controls">
+    <button type="button" class="vf-carousel__prev" aria-label="Previous screenshot">‹</button>
+    <p class="vf-carousel__caption">Sign-in</p>
+    <button type="button" class="vf-carousel__next" aria-label="Next screenshot">›</button>
+  </div>
+
+  <div class="vf-carousel__dots" role="tablist" aria-label="Screenshot slides">
+    <button type="button" class="vf-carousel__dot is-active" role="tab" aria-selected="true" aria-label="Sign-in"></button>
+    <button type="button" class="vf-carousel__dot" role="tab" aria-selected="false" aria-label="Dashboard"></button>
+    <button type="button" class="vf-carousel__dot" role="tab" aria-selected="false" aria-label="Virtual Machines"></button>
+    <button type="button" class="vf-carousel__dot" role="tab" aria-selected="false" aria-label="Images and Templates"></button>
+    <button type="button" class="vf-carousel__dot" role="tab" aria-selected="false" aria-label="Volumes"></button>
+    <button type="button" class="vf-carousel__dot" role="tab" aria-selected="false" aria-label="Networks"></button>
+  </div>
+</div>
+
 ## Quick install
 
 ```bash

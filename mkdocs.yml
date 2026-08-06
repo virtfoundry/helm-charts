@@ -48,6 +48,9 @@ plugins:
 extra_css:
   - stylesheets/extra.css
 
+extra_javascript:
+  - javascripts/carousel.js
+
 exclude_docs: |
   CONFIGURATION.md
   HELM-REPO.md

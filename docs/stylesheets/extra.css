@@ -415,6 +415,97 @@
   height: 1.6rem;
 }
 
+/* ── UI screenshots carousel ──────────────────────────────────── */
+.vf-carousel {
+  margin: 1.5rem 0 2rem;
+  outline: none;
+}
+
+.vf-carousel__viewport {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--vf-card-border);
+  border-radius: 0.85rem;
+  background: var(--vf-card-bg);
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
+}
+
+/* Beat Material `.md-typeset figure { display: flow-root }` */
+.md-typeset .vf-carousel__slide {
+  display: none !important;
+  margin: 0 !important;
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+.md-typeset .vf-carousel__slide.is-active {
+  display: block !important;
+}
+
+.vf-carousel__slide img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 0.85rem;
+}
+
+.vf-carousel__controls {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 0.85rem;
+}
+
+.vf-carousel__caption {
+  margin: 0;
+  text-align: center;
+  color: var(--md-default-fg-color--light);
+  font-size: 0.9rem;
+}
+
+.vf-carousel__prev,
+.vf-carousel__next {
+  width: 2.25rem;
+  height: 2.25rem;
+  border: 1px solid var(--vf-card-border);
+  border-radius: 999px;
+  background: var(--vf-card-bg);
+  color: var(--md-default-fg-color);
+  font-size: 1.35rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.vf-carousel__prev:hover,
+.vf-carousel__next:hover,
+.vf-carousel__dot:hover {
+  border-color: var(--md-primary-fg-color);
+  color: var(--md-primary-fg-color);
+}
+
+.vf-carousel__dots {
+  display: flex;
+  justify-content: center;
+  gap: 0.45rem;
+  margin-top: 0.75rem;
+}
+
+.vf-carousel__dot {
+  width: 0.55rem;
+  height: 0.55rem;
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  background: var(--md-default-fg-color--lightest);
+  cursor: pointer;
+}
+
+.vf-carousel__dot.is-active {
+  width: 1.25rem;
+  background: var(--md-primary-fg-color);
+}
+
 /* ── Homepage: hide duplicate title ───────────────────────────── */
 .md-content__inner > article:has(.vf-hero) > h1:first-child {
   display: none;
