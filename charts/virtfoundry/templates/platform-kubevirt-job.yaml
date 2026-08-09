@@ -1,8 +1,10 @@
-{{- if .Values.platform.kubevirt.featureGates.enabled }}
+{{- $ratio := int (.Values.platform.kubevirt.cpuAllocationRatio | default 0) }}
+{{- $gates := .Values.platform.kubevirt.featureGates.enabled }}
+{{- if or $gates (gt $ratio 0) }}
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: {{ .Values.fullnamePrefix }}-kubevirt-gates
+  name: {{ .Values.namespacePrefix }}-kubevirt-config
   namespace: {{ .Values.namespace }}
   labels:
     {{- include "virtfoundry.labels" . | nindent 4 }}
@@ -14,7 +16,7 @@ spec:
   ttlSecondsAfterFinished: 600
   template:
     spec:
-      serviceAccountName: {{ .Values.fullnamePrefix }}-platform
+      serviceAccountName: {{ .Values.namespacePrefix }}-platform
       restartPolicy: OnFailure
       containers:
         - name: patch
@@ -27,6 +29,13 @@ spec:
                 echo "WARN: KubeVirt CR not found — run: make setup-kubevirt"
                 exit 0
               fi
+              {{- if $gates }}
               kubectl patch kubevirt kubevirt -n kubevirt --type merge \
                 -p '{"spec":{"configuration":{"developerConfiguration":{"featureGates":{{ .Values.platform.kubevirt.featureGates.gates | toJson }}}}}}'
+              {{- end }}
+              {{- if gt $ratio 0 }}
+              kubectl patch kubevirt kubevirt -n kubevirt --type merge \
+                -p '{"spec":{"configuration":{"developerConfiguration":{"cpuAllocationRatio":{{ $ratio }}}}}}'
+              echo "KubeVirt cpuAllocationRatio={{ $ratio }}"
+              {{- end }}
 {{- end }}

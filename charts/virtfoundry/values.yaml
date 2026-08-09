@@ -113,6 +113,9 @@ platform:
     windowsBootSizeGi: 32
     windowsISOSizeGi: 8
   kubevirt:
+    # Guest vCPU overcommit for shared VMs (VirtFoundry omits CPU request).
+    # Pod request ≈ guest_vcpus / cpuAllocationRatio. 0 = do not patch CR.
+    cpuAllocationRatio: 10
     featureGates:
       enabled: false
       gates:
