@@ -83,6 +83,41 @@ helm upgrade --install virtfoundry virtfoundry/virtfoundry \
 !!! tip "Production clusters"
     Prefer a replicated block storage class (Longhorn, Ceph, cloud disk) over node-local `local-path` when VMs and volumes must survive node loss.
 
+### Snapshots: VM vs volume
+
+VirtFoundry exposes **two different** snapshot features. They use different Kubernetes APIs and have different cluster prerequisites.
+
+| Feature | UI / API | Kubernetes API | Requires |
+|---------|----------|----------------|----------|
+| **VM snapshot** | `/vm-snapshots`, VM detail → Snapshots | `VirtualMachineSnapshot` (`snapshot.kubevirt.io`) | KubeVirt (already required) |
+| **Volume snapshot** | `/snapshots` | `VolumeSnapshot` (`snapshot.storage.k8s.io`) | CSI snapshot stack + a StorageClass whose CSI driver supports snapshots |
+
+**Volume snapshots do not work with `local-path`.**  
+`rancher.io/local-path` is not a CSI driver with snapshot support. Creating a volume snapshot on a lab cluster that only has `local-path` fails with:
+
+```text
+create volumesnapshot: the server could not find the requested resource
+```
+
+That error means the cluster is missing the VolumeSnapshot CRDs (`snapshot.storage.k8s.io`), and even after installing them you still need a CSI backend that can actually take snapshots.
+
+**To enable volume snapshots**, install all of the following on the cluster (VirtFoundry does not bundle them):
+
+1. **CSI external-snapshotter** — CRDs + snapshot-controller  
+   ([kubernetes-csi/external-snapshotter](https://github.com/kubernetes-csi/external-snapshotter))
+2. **A CSI StorageClass with snapshot support** — for example [Longhorn](https://longhorn.io/) (CNCF, Apache 2.0), Rook/Ceph RBD, or a cloud-provider CSI
+3. **A default `VolumeSnapshotClass`** for that driver (VirtFoundry currently defaults the class name to `csi-snapclass` unless you pass another name in code/config)
+
+Verify before using the UI:
+
+```bash
+kubectl api-resources | grep volumesnapshot
+kubectl get volumesnapshotclass
+kubectl get storageclass
+```
+
+For point-in-time backup of a whole guest on a `local-path` / lab cluster, use **VM snapshots** instead of volume snapshots.
+
 ### Per-template override (API)
 
 When registering a template, set `storage_class` to use a different class for that image only:
