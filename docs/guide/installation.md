@@ -8,11 +8,12 @@ VirtFoundry installs the **control plane only** (API, worker, UI, optional MySQL
 |-----------|-----------|-------------------|
 | Kubernetes 1.28+ | **Yes** | Runs all workloads |
 | Helm 3.x | **Yes** | Installs the chart |
-| [KubeVirt](https://kubevirt.io/) | **Yes** | Hypervisor — VMs, start/stop, console, snapshots |
+| [KubeVirt](https://kubevirt.io/) | **Yes** | Hypervisor — VMs, start/stop, console, **VM** snapshots |
 | [Multus CNI](https://github.com/k8snetworkplumbingwg/multus-cni) | **Yes** | Secondary NICs — tenant VPCs, isolated L2, public VM network |
 | [CDI](https://github.com/kubevirt/containerized-data-importer) | **Yes** for ISO/import templates; optional for container-disk-only | Imports ISOs and blank boot disks via `DataVolume` |
 | Ingress **or** Gateway API + controller | One of them | Exposes UI and API on a hostname |
 | StorageClass (e.g. `local-path`) | **Yes** for disks | PVCs for MySQL, VM volumes, ISO storage |
+| CSI snapshotter + snapshot-capable CSI (e.g. [Longhorn](https://longhorn.io/)) | **Only** for **volume** snapshots UI | `VolumeSnapshot` CRDs + `VolumeSnapshotClass`; **not** provided by `local-path` |
 | MetalLB (or cloud LB) | Bare metal only | When Services need external IPs |
 
 !!! note "Not bundled in the Helm chart by default"
@@ -27,10 +28,13 @@ VirtFoundry installs the **control plane only** (API, worker, UI, optional MySQL
 VirtFoundry does **not** embed a hypervisor. The API and worker talk to KubeVirt CRDs:
 
 - `VirtualMachine` / `VirtualMachineInstance` — create, start, stop, delete VMs
-- `VirtualMachineSnapshot` — VM snapshots
+- `VirtualMachineSnapshot` — **VM** snapshots (point-in-time of the guest; not the same as CSI volume snapshots)
 - VNC subresource — web console in the UI
 
 Without KubeVirt, deploy and lifecycle operations fail immediately (`kubevirt.enabled` assumes the KubeVirt API is reachable).
+
+!!! warning "Volume snapshots ≠ VM snapshots"
+    The **Volume Snapshots** page creates Kubernetes `VolumeSnapshot` objects (`snapshot.storage.k8s.io`). That API is **not** installed by KubeVirt and is **not** available with only `local-path`. Without CSI external-snapshotter + a snapshot-capable StorageClass (Longhorn, Ceph RBD, cloud CSI, …), the UI returns `the server could not find the requested resource`. Use **VM Snapshots** on lab/`local-path` clusters, or install a CSI snapshot stack for volume snapshots. Details: [Configuration — Snapshots](configuration.md#snapshots-vm-vs-volume).
 
 **Verify:**
 

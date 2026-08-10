@@ -53,6 +53,8 @@ platform:
 
 MySQL PVC (embedded chart) uses the **cluster default** StorageClass unless the chart is extended. Per-template `storage_class` in the API overrides the global default for that template.
 
+**Volume snapshots** (`/snapshots` UI) need CSI `VolumeSnapshot` APIs + a snapshot-capable StorageClass. They do **not** work with `local-path`. **VM snapshots** use KubeVirt and work independently. See [Configuration guide — Snapshots](https://virtfoundry.github.io/helm-charts/docs/guide/configuration/#snapshots-vm-vs-volume).
+
 See [Configuration guide](https://virtfoundry.github.io/helm-charts/docs/guide/configuration/#storage) for full details.
 
 ## Profiles
