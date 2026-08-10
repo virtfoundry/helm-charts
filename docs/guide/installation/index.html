@@ -1052,7 +1052,7 @@
 <tr>
 <td><a href="https://kubevirt.io/">KubeVirt</a></td>
 <td><strong>Yes</strong></td>
-<td>Hypervisor — VMs, start/stop, console, snapshots</td>
+<td>Hypervisor — VMs, start/stop, console, <strong>VM</strong> snapshots</td>
 </tr>
 <tr>
 <td><a href="https://github.com/k8snetworkplumbingwg/multus-cni">Multus CNI</a></td>
@@ -1075,6 +1075,11 @@
 <td>PVCs for MySQL, VM volumes, ISO storage</td>
 </tr>
 <tr>
+<td>CSI snapshotter + snapshot-capable CSI (e.g. <a href="https://longhorn.io/">Longhorn</a>)</td>
+<td><strong>Only</strong> for <strong>volume</strong> snapshots UI</td>
+<td><code>VolumeSnapshot</code> CRDs + <code>VolumeSnapshotClass</code>; <strong>not</strong> provided by <code>local-path</code></td>
+</tr>
+<tr>
 <td>MetalLB (or cloud LB)</td>
 <td>Bare metal only</td>
 <td>When Services need external IPs</td>
@@ -1091,10 +1096,14 @@
 <p>VirtFoundry does <strong>not</strong> embed a hypervisor. The API and worker talk to KubeVirt CRDs:</p>
 <ul>
 <li><code>VirtualMachine</code> / <code>VirtualMachineInstance</code> — create, start, stop, delete VMs</li>
-<li><code>VirtualMachineSnapshot</code> — VM snapshots</li>
+<li><code>VirtualMachineSnapshot</code> — <strong>VM</strong> snapshots (point-in-time of the guest; not the same as CSI volume snapshots)</li>
 <li>VNC subresource — web console in the UI</li>
 </ul>
 <p>Without KubeVirt, deploy and lifecycle operations fail immediately (<code>kubevirt.enabled</code> assumes the KubeVirt API is reachable).</p>
+<div class="admonition warning">
+<p class="admonition-title">Volume snapshots ≠ VM snapshots</p>
+<p>The <strong>Volume Snapshots</strong> page creates Kubernetes <code>VolumeSnapshot</code> objects (<code>snapshot.storage.k8s.io</code>). That API is <strong>not</strong> installed by KubeVirt and is <strong>not</strong> available with only <code>local-path</code>. Without CSI external-snapshotter + a snapshot-capable StorageClass (Longhorn, Ceph RBD, cloud CSI, …), the UI returns <code>the server could not find the requested resource</code>. Use <strong>VM Snapshots</strong> on lab/<code>local-path</code> clusters, or install a CSI snapshot stack for volume snapshots. Details: <a href="../configuration/#snapshots-vm-vs-volume">Configuration — Snapshots</a>.</p>
+</div>
 <p><strong>Verify:</strong></p>
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span>-n<span class="w"> </span>kubevirt
 kubectl<span class="w"> </span>get<span class="w"> </span>crd<span class="w"> </span>virtualmachines.kubevirt.io

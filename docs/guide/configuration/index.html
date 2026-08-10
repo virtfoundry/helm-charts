@@ -574,6 +574,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#snapshots-vm-vs-volume" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Snapshots: VM vs volume
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#per-template-override-api" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -932,6 +943,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#snapshots-vm-vs-volume" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Snapshots: VM vs volume
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#per-template-override-api" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1215,6 +1237,50 @@
 <p class="admonition-title">Production clusters</p>
 <p>Prefer a replicated block storage class (Longhorn, Ceph, cloud disk) over node-local <code>local-path</code> when VMs and volumes must survive node loss.</p>
 </div>
+<h3 id="snapshots-vm-vs-volume">Snapshots: VM vs volume<a class="headerlink" href="#snapshots-vm-vs-volume" title="Permanent link">&para;</a></h3>
+<p>VirtFoundry exposes <strong>two different</strong> snapshot features. They use different Kubernetes APIs and have different cluster prerequisites.</p>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>UI / API</th>
+<th>Kubernetes API</th>
+<th>Requires</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>VM snapshot</strong></td>
+<td><code>/vm-snapshots</code>, VM detail → Snapshots</td>
+<td><code>VirtualMachineSnapshot</code> (<code>snapshot.kubevirt.io</code>)</td>
+<td>KubeVirt (already required)</td>
+</tr>
+<tr>
+<td><strong>Volume snapshot</strong></td>
+<td><code>/snapshots</code></td>
+<td><code>VolumeSnapshot</code> (<code>snapshot.storage.k8s.io</code>)</td>
+<td>CSI snapshot stack + a StorageClass whose CSI driver supports snapshots</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Volume snapshots do not work with <code>local-path</code>.</strong><br />
+<code>rancher.io/local-path</code> is not a CSI driver with snapshot support. Creating a volume snapshot on a lab cluster that only has <code>local-path</code> fails with:</p>
+<div class="highlight"><pre><span></span><code>create volumesnapshot: the server could not find the requested resource
+</code></pre></div>
+<p>That error means the cluster is missing the VolumeSnapshot CRDs (<code>snapshot.storage.k8s.io</code>), and even after installing them you still need a CSI backend that can actually take snapshots.</p>
+<p><strong>To enable volume snapshots</strong>, install all of the following on the cluster (VirtFoundry does not bundle them):</p>
+<ol>
+<li><strong>CSI external-snapshotter</strong> — CRDs + snapshot-controller<br />
+   (<a href="https://github.com/kubernetes-csi/external-snapshotter">kubernetes-csi/external-snapshotter</a>)</li>
+<li><strong>A CSI StorageClass with snapshot support</strong> — for example <a href="https://longhorn.io/">Longhorn</a> (CNCF, Apache 2.0), Rook/Ceph RBD, or a cloud-provider CSI</li>
+<li><strong>A default <code>VolumeSnapshotClass</code></strong> for that driver (VirtFoundry currently defaults the class name to <code>csi-snapclass</code> unless you pass another name in code/config)</li>
+</ol>
+<p>Verify before using the UI:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>api-resources<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>volumesnapshot
+kubectl<span class="w"> </span>get<span class="w"> </span>volumesnapshotclass
+kubectl<span class="w"> </span>get<span class="w"> </span>storageclass
+</code></pre></div>
+<p>For point-in-time backup of a whole guest on a <code>local-path</code> / lab cluster, use <strong>VM snapshots</strong> instead of volume snapshots.</p>
 <h3 id="per-template-override-api">Per-template override (API)<a class="headerlink" href="#per-template-override-api" title="Permanent link">&para;</a></h3>
 <p>When registering a template, set <code>storage_class</code> to use a different class for that image only:</p>
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
