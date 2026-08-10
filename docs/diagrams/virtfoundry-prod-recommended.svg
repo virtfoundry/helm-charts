@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2665.00" height="1810.58" viewBox="0 0 2665.00 1810.58">
+<defs>
+    <marker id="arr-495057" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0, 10 3.5, 0 7" fill="#495057"/></marker>
+  </defs>
+<rect width="2665.00" height="1810.58" fill="#ffffff"/>
+<rect x="1062.50" y="222.00" width="193.00" height="92.00" rx="8" fill="#f8f9fa" stroke="#495057" stroke-width="2" opacity="1.00"/>
+<rect x="888.75" y="698.00" width="229.00" height="86.00" rx="8" fill="#e5dbff" stroke="#6741d9" stroke-width="2" opacity="1.00"/>
+<rect x="988.65" y="704.00" width="29.20" height="21.00" rx="8" fill="#e9ecef" stroke="#6741d9" stroke-width="1" opacity="1.00"/>
+<rect x="331.00" y="225.00" width="157.00" height="86.00" rx="8" fill="#d0ebff" stroke="#1864ab" stroke-width="2" opacity="1.00"/>
+<rect x="391.60" y="231.00" width="35.80" height="21.00" rx="8" fill="#e9ecef" stroke="#1864ab" stroke-width="1" opacity="1.00"/>
+<rect x="606.50" y="1385.43" width="193.00" height="92.00" rx="8" fill="#f8f9fa" stroke="#495057" stroke-width="2" opacity="1.00"/>
+<rect x="186.50" y="1397.43" width="157.00" height="68.00" rx="8" fill="#f8f9fa" stroke="#495057" stroke-width="2" opacity="1.00"/>
+<rect x="40.00" y="1678.58" width="220.00" height="92.00" rx="8" fill="#f8f9fa" stroke="#495057" stroke-width="2" opacity="1.00"/>
+<rect x="728.50" y="1116.94" width="247.00" height="110.00" rx="8" fill="#d0ebff" stroke="#1864ab" stroke-width="2" opacity="1.00"/>
+<rect x="834.10" y="1122.94" width="35.80" height="21.00" rx="8" fill="#e9ecef" stroke="#1864ab" stroke-width="1" opacity="1.00"/>
+<rect x="708.50" y="882.00" width="1030.00" height="110.00" rx="8" fill="#d0ebff" stroke="#1864ab" stroke-width="2" opacity="1.00"/>
+<rect x="1205.60" y="888.00" width="35.80" height="21.00" rx="8" fill="#e9ecef" stroke="#1864ab" stroke-width="1" opacity="1.00"/>
+<rect x="1095.50" y="1125.94" width="238.00" height="92.00" rx="8" fill="#f8f9fa" stroke="#495057" stroke-width="2" opacity="1.00"/>
+<rect x="1453.50" y="1125.94" width="265.00" height="92.00" rx="8" fill="#f8f9fa" stroke="#495057" stroke-width="2" opacity="1.00"/>
+<rect x="320.00" y="1678.58" width="1145.00" height="92.00" rx="8" fill="#f8f9fa" stroke="#495057" stroke-width="2" opacity="1.00"/>
+<rect x="2090.00" y="412.00" width="535.00" height="188.00" rx="8" fill="#f8f9fa" stroke="#495057" stroke-width="2" opacity="1.00"/>
+<rect x="1026.50" y="40.00" width="265.00" height="68.00" rx="8" fill="#f8f9fa" stroke="#495057" stroke-width="2" opacity="1.00"/>
+<rect x="1100.00" y="682.00" width="247.00" height="86.00" rx="8" fill="#fff3bf" stroke="#f08c00" stroke-width="2" opacity="1.00"/>
+<rect x="1192.40" y="688.00" width="62.20" height="21.00" rx="8" fill="#e9ecef" stroke="#f08c00" stroke-width="1" opacity="1.00"/>
+<path d="M 1159.00,108.00 L 1159.00,222.00" fill="none" stroke="#495057" stroke-width="2" opacity="1.00" marker-end="url(#arr-495057)"/>
+<path d="M 1129.50,314.00 L 1060.00,543.60 L 1060.00,698.00 L 1109.75,698.00" fill="none" stroke="#495057" stroke-width="2" opacity="1.00" marker-end="url(#arr-495057)"/>
+<path d="M 1109.75,784.00 L 1054.50,882.00" fill="none" stroke="#495057" stroke-width="2" opacity="1.00" marker-end="url(#arr-495057)"/>
+<path d="M 433.00,311.00 L 673.50,1385.43" fill="none" stroke="#495057" stroke-width="2" opacity="1.00" stroke-dasharray="12,6" marker-end="url(#arr-495057)"/>
+<path d="M 386.00,311.00 L 241.50,1397.43" fill="none" stroke="#495057" stroke-width="2" opacity="1.00" stroke-dasharray="12,6" marker-end="url(#arr-495057)"/>
+<path d="M 970.00,992.00 L 967.50,1116.94" fill="none" stroke="#495057" stroke-width="2" opacity="1.00" marker-end="url(#arr-495057)"/>
+<path d="M 890.50,1226.94 L 732.50,1385.43" fill="none" stroke="#495057" stroke-width="2" opacity="1.00" marker-end="url(#arr-495057)"/>
+<path d="M 813.50,1226.94 L 288.50,1397.43" fill="none" stroke="#495057" stroke-width="2" opacity="1.00" marker-end="url(#arr-495057)"/>
+<path d="M 673.50,1477.43 L 355.32,1557.89 L 184.00,1678.58" fill="none" stroke="#495057" stroke-width="2" opacity="1.00" marker-end="url(#arr-495057)"/>
+<path d="M 241.50,1465.43 L 159.93,1550.69 L 116.00,1678.58" fill="none" stroke="#495057" stroke-width="2" opacity="1.00" marker-end="url(#arr-495057)"/>
+<path d="M 1223.50,992.00 L 1223.50,1125.94" fill="none" stroke="#495057" stroke-width="2" opacity="1.00" marker-end="url(#arr-495057)"/>
+<path d="M 1477.00,992.00 L 1544.50,1125.94" fill="none" stroke="#495057" stroke-width="2" opacity="1.00" marker-end="url(#arr-495057)"/>
+<path d="M 1103.50,1217.94 L 1005.40,1678.58" fill="none" stroke="#495057" stroke-width="2" opacity="1.00" stroke-dasharray="12,6" marker-end="url(#arr-495057)"/>
+<path d="M 1461.50,1217.94 L 1231.20,1678.58" fill="none" stroke="#495057" stroke-width="2" opacity="1.00" stroke-dasharray="12,6" marker-end="url(#arr-495057)"/>
+<path d="M 732.50,1477.43 L 779.60,1678.58" fill="none" stroke="#495057" stroke-width="2" opacity="1.00" marker-end="url(#arr-495057)"/>
+<path d="M 288.50,1465.43 L 460.94,1550.69 L 553.80,1678.58" fill="none" stroke="#495057" stroke-width="2" opacity="1.00" marker-end="url(#arr-495057)"/>
+<path d="M 1223.50,768.00 L 1392.50,882.00" fill="none" stroke="#495057" stroke-width="2" opacity="1.00" stroke-dasharray="2,6" marker-end="url(#arr-495057)"/>
+<path d="M 1188.50,314.00 L 1798.50,543.60 L 1798.50,1060.18 L 1627.50,1125.94" fill="none" stroke="#495057" stroke-width="2" opacity="1.00" stroke-dasharray="12,6" marker-end="url(#arr-495057)"/>
+<text x="1159.00" y="238.00" font-size="16" font-family="cursive" fill="#1e1e1e" text-anchor="middle" opacity="1.00"><tspan x="1159.00" dy="16.00">Edge</tspan><tspan x="1159.00" dy="20.00">firewall / router</tspan><tspan x="1159.00" dy="20.00">(+ optional VPN)</tspan></text>
+<text x="1003.25" y="729.00" font-size="16" font-family="cursive" fill="#1e1e1e" text-anchor="middle" opacity="1.00"><tspan x="1003.25" dy="16.00">Ingress / Gateway API</tspan><tspan x="1003.25" dy="20.00">+ MetalLB or cloud LB</tspan></text>
+<text x="1003.25" y="707.00" font-size="12" font-family="cursive" fill="#495057" text-anchor="middle" opacity="1.00"><tspan x="1003.25" dy="12.00">LB</tspan></text>
+<text x="409.50" y="256.00" font-size="16" font-family="cursive" fill="#1e1e1e" text-anchor="middle" opacity="1.00"><tspan x="409.50" dy="16.00">Control plane</tspan><tspan x="409.50" dy="20.00">1–3 masters</tspan></text>
+<text x="409.50" y="234.00" font-size="12" font-family="cursive" fill="#495057" text-anchor="middle" opacity="1.00"><tspan x="409.50" dy="12.00">K8s</tspan></text>
+<text x="703.00" y="1401.43" font-size="16" font-family="cursive" fill="#1e1e1e" text-anchor="middle" opacity="1.00"><tspan x="703.00" dy="16.00">Worker pool</tspan><tspan x="703.00" dy="20.00">KubeVirt + Multus</tspan><tspan x="703.00" dy="20.00">/dev/kvm</tspan></text>
+<text x="265.00" y="1411.43" font-size="16" font-family="cursive" fill="#1e1e1e" text-anchor="middle" opacity="1.00"><tspan x="265.00" dy="16.00">Worker pool</tspan><tspan x="265.00" dy="20.00">(extra nodes)</tspan></text>
+<text x="150.00" y="1694.58" font-size="16" font-family="cursive" fill="#1e1e1e" text-anchor="middle" opacity="1.00"><tspan x="150.00" dy="16.00">Block storage</tspan><tspan x="150.00" dy="20.00">Longhorn or Ceph RBD</tspan><tspan x="150.00" dy="20.00">+ CSI snapshotter</tspan></text>
+<text x="852.00" y="1149.94" font-size="16" font-family="cursive" fill="#1e1e1e" text-anchor="middle" opacity="1.00"><tspan x="852.00" dy="16.00">Platform ops</tspan><tspan x="852.00" dy="20.00">KubeVirt · Multus · CDI</tspan><tspan x="852.00" dy="20.00">snapshot-controller</tspan></text>
+<text x="852.00" y="1125.94" font-size="12" font-family="cursive" fill="#495057" text-anchor="middle" opacity="1.00"><tspan x="852.00" dy="12.00">K8s</tspan></text>
+<text x="1223.50" y="915.00" font-size="16" font-family="cursive" fill="#1e1e1e" text-anchor="middle" opacity="1.00"><tspan x="1223.50" dy="16.00">VirtFoundry</tspan><tspan x="1223.50" dy="20.00">API · worker · UI</tspan><tspan x="1223.50" dy="20.00">MySQL (or external DB)</tspan></text>
+<text x="1223.50" y="891.00" font-size="12" font-family="cursive" fill="#495057" text-anchor="middle" opacity="1.00"><tspan x="1223.50" dy="12.00">K8s</tspan></text>
+<text x="1214.50" y="1141.94" font-size="16" font-family="cursive" fill="#1e1e1e" text-anchor="middle" opacity="1.00"><tspan x="1214.50" dy="16.00">Tenant VPC</tspan><tspan x="1214.50" dy="20.00">isolated Multus bridge</tspan><tspan x="1214.50" dy="20.00">(or OVN later)</tspan></text>
+<text x="1586.00" y="1141.94" font-size="16" font-family="cursive" fill="#1e1e1e" text-anchor="middle" opacity="1.00"><tspan x="1586.00" dy="16.00">Public / shared net</tspan><tspan x="1586.00" dy="20.00">VLAN or LAN mode</tspan><tspan x="1586.00" dy="20.00">+ IP pool · MetalLB range</tspan></text>
+<text x="892.50" y="1694.58" font-size="16" font-family="cursive" fill="#1e1e1e" text-anchor="middle" opacity="1.00"><tspan x="892.50" dy="16.00">Tenant VMs</tspan><tspan x="892.50" dy="20.00">offerings · templates</tspan><tspan x="892.50" dy="20.00">VM snapshots</tspan></text>
+<text x="2357.50" y="436.00" font-size="16" font-family="cursive" fill="#1e1e1e" text-anchor="middle" opacity="1.00"><tspan x="2357.50" dy="16.00">Prod recommended</tspan><tspan x="2357.50" dy="20.00">- replicated storage (not local-path)</tspan><tspan x="2357.50" dy="20.00">- CSI VolumeSnapshotClass for volume snaps</tspan><tspan x="2357.50" dy="20.00">- Ingress/Gateway hostname</tspan><tspan x="2357.50" dy="20.00">- public net: VLAN if you have switch, else LAN/macvlan</tspan><tspan x="2357.50" dy="20.00">- multi-worker for capacity; CP HA when SLA needs it</tspan><tspan x="2357.50" dy="20.00">- OVN when multi-node VPC without underlay VLANs</tspan></text>
+<text x="1159.00" y="54.00" font-size="16" font-family="cursive" fill="#1e1e1e" text-anchor="middle" opacity="1.00"><tspan x="1159.00" dy="16.00">Admins / tenants</tspan><tspan x="1159.00" dy="20.00">browser + API / Terraform</tspan></text>
+<text x="1223.50" y="713.00" font-size="16" font-family="cursive" fill="#1e1e1e" text-anchor="middle" opacity="1.00"><tspan x="1223.50" dy="16.00">Optional</tspan><tspan x="1223.50" dy="20.00">metrics · logs · backup</tspan></text>
+<text x="1223.50" y="691.00" font-size="12" font-family="cursive" fill="#495057" text-anchor="middle" opacity="1.00"><tspan x="1223.50" dy="12.00">Monitor</tspan></text>
+<rect x="1135.75" y="154.25" width="46.50" height="21.50" rx="3" fill="#ffffff" opacity="1.00"/><text x="1159.00" y="156.25" font-size="14" font-family="cursive" fill="#495057" text-anchor="middle" opacity="1.00"><tspan x="1159.00" dy="14.00">HTTPS</tspan></text>
+<rect x="989.58" y="822.25" width="185.10" height="21.50" rx="3" fill="#ffffff" opacity="1.00"/><text x="1082.13" y="824.25" font-size="14" font-family="cursive" fill="#495057" text-anchor="middle" opacity="1.00"><tspan x="1082.13" dy="14.00">virtfoundry.example.com</tspan></text>
+<rect x="518.45" y="837.47" width="69.60" height="21.50" rx="3" fill="#ffffff" opacity="1.00"/><text x="553.25" y="839.47" font-size="14" font-family="cursive" fill="#495057" text-anchor="middle" opacity="1.00"><tspan x="553.25" dy="14.00">schedule</tspan></text>
+<rect x="278.95" y="843.47" width="69.60" height="21.50" rx="3" fill="#ffffff" opacity="1.00"/><text x="313.75" y="845.47" font-size="14" font-family="cursive" fill="#495057" text-anchor="middle" opacity="1.00"><tspan x="313.75" dy="14.00">schedule</tspan></text>
+<rect x="918.55" y="1043.72" width="100.40" height="21.50" rx="3" fill="#ffffff" opacity="1.00"/><text x="968.75" y="1045.72" font-size="14" font-family="cursive" fill="#495057" text-anchor="middle" opacity="1.00"><tspan x="968.75" dy="14.00">orchestrates</tspan></text>
+<rect x="378.03" y="1532.60" width="69.60" height="21.50" rx="3" fill="#ffffff" opacity="1.00"/><text x="412.83" y="1534.60" font-size="14" font-family="cursive" fill="#495057" text-anchor="middle" opacity="1.00"><tspan x="412.83" dy="14.00">PVC / DV</tspan></text>
+<rect x="122.33" y="1548.09" width="69.60" height="21.50" rx="3" fill="#ffffff" opacity="1.00"/><text x="157.13" y="1550.09" font-size="14" font-family="cursive" fill="#495057" text-anchor="middle" opacity="1.00"><tspan x="157.13" dy="14.00">PVC / DV</tspan></text>
+<rect x="1181.00" y="1048.22" width="85.00" height="21.50" rx="3" fill="#ffffff" opacity="1.00"/><text x="1223.50" y="1050.22" font-size="14" font-family="cursive" fill="#495057" text-anchor="middle" opacity="1.00"><tspan x="1223.50" dy="14.00">tenant NAD</tspan></text>
+<rect x="1468.25" y="1048.22" width="85.00" height="21.50" rx="3" fill="#ffffff" opacity="1.00"/><text x="1510.75" y="1050.22" font-size="14" font-family="cursive" fill="#495057" text-anchor="middle" opacity="1.00"><tspan x="1510.75" dy="14.00">shared NAD</tspan></text>
+<rect x="702.00" y="1567.26" width="108.10" height="21.50" rx="3" fill="#ffffff" opacity="1.00"/><text x="756.05" y="1569.26" font-size="14" font-family="cursive" fill="#495057" text-anchor="middle" opacity="1.00"><tspan x="756.05" dy="14.00">virt-launcher</tspan></text>
+<rect x="391.51" y="1532.33" width="108.10" height="21.50" rx="3" fill="#ffffff" opacity="1.00"/><text x="445.56" y="1534.33" font-size="14" font-family="cursive" fill="#495057" text-anchor="middle" opacity="1.00"><tspan x="445.56" dy="14.00">virt-launcher</tspan></text>
+<rect x="1280.90" y="814.25" width="54.20" height="21.50" rx="3" fill="#ffffff" opacity="1.00"/><text x="1308.00" y="816.25" font-size="14" font-family="cursive" fill="#495057" text-anchor="middle" opacity="1.00"><tspan x="1308.00" dy="14.00">scrape</tspan></text>
+<rect x="1729.05" y="548.10" width="138.90" height="39.00" rx="3" fill="#ffffff" opacity="1.00"/><text x="1798.50" y="550.10" font-size="14" font-family="cursive" fill="#495057" text-anchor="middle" opacity="1.00"><tspan x="1798.50" dy="14.00">L3 gateway</tspan><tspan x="1798.50" dy="17.50">for VM public IPs</tspan></text>
+</svg>
