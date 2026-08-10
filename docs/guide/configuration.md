@@ -27,7 +27,7 @@ Enable routable VM IPs on a host bridge + Multus NAD:
 | `public.cidr` | `10.0.50.0/24` | L3 CIDR — set to your environment |
 | `public.gateway` | `10.0.50.254` | VM default gateway in cloud-init — **must match a reachable router IP on that CIDR** |
 | `public.ipPool.start/end` | `.10`–`.99` | Allocatable addresses |
-| `public.bridge.name` | `virtfoundry-pub0` | Linux bridge |
+| `public.bridge.name` | `vf-pub0` | Linux bridge (≤15 chars / IFNAMSIZ) |
 | `public.bridge.uplink` | `""` | Physical or VLAN interface attached to the bridge |
 | `public.bridge.address` | `""` | Optional bridge IP for dnsmasq |
 | `public.nad.name` | `virtfoundry-public` | Multus NAD |

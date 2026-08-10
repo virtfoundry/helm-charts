@@ -88,7 +88,8 @@ platform:
           end: 10.0.50.150
           reason: metallb-loadbalancer
       bridge:
-        name: virtfoundry-pub0
+        # Linux IFNAMSIZ is 16 incl. NUL → max 15 chars. "virtfoundry-pub0" is 16 and fails.
+        name: vf-pub0
         uplink: ""                    # physical NIC or VLAN interface on the node
         address: ""                   # optional bridge IPv4 for dnsmasq (outside VM pool)
       macvlan:
@@ -108,6 +109,7 @@ platform:
       allowPodNetwork: true           # false = Multus-only when public network is used
     bridge:
       namespace: kube-system          # DaemonSet namespace for bridge setup
+      repairIntervalSeconds: 15       # bridge-keeper auto-repair loop
   storage:
     defaultClass: local-path       # any cluster StorageClass: longhorn, ceph-rbd, nfs-client, …
     windowsBootSizeGi: 32

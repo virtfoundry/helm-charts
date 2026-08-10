@@ -28,7 +28,7 @@ Configure public VM networking per site — no app code changes required.
 | `public.cidr` | `10.0.50.0/24` | L3 network CIDR — adjust for your environment |
 | `public.gateway` | `10.0.50.254` | VM default gateway — **must be reachable on your router for that CIDR** |
 | `public.ipPool.start/end` | `10.0.50.10`–`.99` | Allocatable IP range |
-| `public.bridge.name` | `virtfoundry-pub0` | Host bridge for Multus |
+| `public.bridge.name` | `vf-pub0` | Host bridge for Multus (≤15 chars / IFNAMSIZ) |
 | `public.bridge.uplink` | `""` | Physical or VLAN interface attached to the bridge |
 | `public.nad.name` | `virtfoundry-public` | Multus NAD name |
 | `isolated.bridge.name` | `virtfoundry-br0` | Internal bridge for tenant VPCs |
