@@ -1,4 +1,5 @@
 {{- if or .Values.platform.networking.public.enabled .Values.platform.networking.isolated.enabled }}
+{{- $interval := int (.Values.platform.networking.bridge.repairIntervalSeconds | default 15) }}
 apiVersion: apps/v1
 kind: DaemonSet
 metadata:
@@ -11,6 +12,8 @@ spec:
   selector:
     matchLabels:
       app.kubernetes.io/name: {{ .Values.fullnamePrefix }}-bridge-setup
+  updateStrategy:
+    type: RollingUpdate
   template:
     metadata:
       labels:
@@ -20,6 +23,7 @@ spec:
       hostPID: true
       tolerations:
         - operator: Exists
+      # One-shot fast path so Multus sees the bridge before workloads schedule on a fresh node.
       initContainers:
         - name: setup-bridges
           image: alpine:3.21
@@ -30,34 +34,64 @@ spec:
             - -c
             - |
               set -e
-              setup_bridge() {
-                local name="$1"
-                local uplink="$2"
-                local addr="$3"
-                ip link show "$name" >/dev/null 2>&1 || ip link add "$name" type bridge
-                ip link set "$name" up
-                if [ -n "$uplink" ] && ip link show "$uplink" >/dev/null 2>&1; then
-                  ip link set "$uplink" up || true
-                  ip link set "$uplink" master "$name" || true
-                fi
-                if [ -n "$addr" ]; then
-                  ip addr show "$name" | grep -q "${addr%%/*}" || ip addr add "$addr" dev "$name"
-                fi
-                echo "bridge $name ready on $(hostname) uplink=${uplink:-none} addr=${addr:-none}"
-              }
-              {{- if .Values.platform.networking.isolated.enabled }}
-              setup_bridge "{{ .Values.platform.networking.isolated.bridge.name }}" ""
-              {{- end }}
-              {{- if .Values.platform.networking.public.enabled }}
-              setup_bridge "{{ .Values.platform.networking.public.bridge.name }}" "{{ .Values.platform.networking.public.bridge.uplink }}" "{{ .Values.platform.networking.public.bridge.address }}"
-              {{- if .Values.platform.networking.public.bridge.routePoolViaBridge }}
-              # When cloudbr0 (or similar) also owns 10.0.50.0/24, steer the VM pool via virtfoundry-pub0.
-              for cidr in {{ .Values.platform.networking.public.bridge.routePoolViaBridge | join " " }}; do
-                ip route replace "$cidr" dev "{{ .Values.platform.networking.public.bridge.name }}" metric 50 2>/dev/null || true
-              done
-              {{- end }}
-              {{- end }}
+              . /scripts/bridge-lib.sh
+              ensure_all_bridges
+          volumeMounts:
+            - name: bridge-scripts
+              mountPath: /scripts
+              readOnly: true
       containers:
+        # Continuous auto-repair: host bridges can vanish after reboot quirks, NM, or manual ops.
+        - name: bridge-keeper
+          image: alpine:3.21
+          securityContext:
+            privileged: true
+          command:
+            - sh
+            - -c
+            - |
+              set -e
+              . /scripts/bridge-lib.sh
+              INTERVAL="{{ $interval }}"
+              echo "bridge-keeper interval=${INTERVAL}s on $(hostname)"
+              while true; do
+                if ensure_all_bridges; then
+                  :
+                else
+                  echo "WARN: bridge ensure failed on $(hostname)" >&2
+                fi
+                sleep "$INTERVAL"
+              done
+          volumeMounts:
+            - name: bridge-scripts
+              mountPath: /scripts
+              readOnly: true
+          readinessProbe:
+            exec:
+              command:
+                - sh
+                - -c
+                - |
+                  . /scripts/bridge-lib.sh
+                  bridges_ready
+            initialDelaySeconds: 2
+            periodSeconds: 10
+            failureThreshold: 3
+          livenessProbe:
+            exec:
+              command:
+                - sh
+                - -c
+                - |
+                  . /scripts/bridge-lib.sh
+                  bridges_ready
+            initialDelaySeconds: 30
+            periodSeconds: 30
+            failureThreshold: 5
+          resources:
+            requests:
+              cpu: 5m
+              memory: 16Mi
         {{- if .Values.platform.networking.public.enabled }}
         - name: dhcp
           image: alpine:3.21
@@ -69,10 +103,19 @@ spec:
             - |
               set -e
               apk add --no-cache dnsmasq
+              . /scripts/bridge-lib.sh
               BR="{{ .Values.platform.networking.public.bridge.name }}"
               GW="{{ .Values.platform.networking.public.gateway }}"
               START="{{ .Values.platform.networking.public.ipPool.start }}"
               END="{{ .Values.platform.networking.public.ipPool.end }}"
+              # Wait for bridge (keeper/init may still be applying).
+              for i in $(seq 1 60); do
+                if ip link show "$BR" >/dev/null 2>&1; then
+                  break
+                fi
+                sleep 1
+              done
+              ip link show "$BR" >/dev/null 2>&1 || { echo "ERROR: bridge $BR missing after wait"; exit 1; }
               mkdir -p /run/dnsmasq
               cat > /etc/dnsmasq.d/virtfoundry-public.conf <<EOF
               interface=${BR}
@@ -83,17 +126,115 @@ spec:
               dhcp-option=6,${GW}
               EOF
               echo "dnsmasq on ${BR} range ${START}-${END} gw ${GW}"
+              # Exit if bridge disappears so kubelet restarts dhcp after keeper recreates it.
+              (
+                while true; do
+                  sleep 10
+                  if ! ip link show "$BR" >/dev/null 2>&1; then
+                    echo "ERROR: bridge $BR gone — restarting dhcp container" >&2
+                    kill 1 2>/dev/null || kill -TERM $$
+                    exit 1
+                  fi
+                done
+              ) &
               exec dnsmasq --keep-in-foreground --log-dhcp
+          volumeMounts:
+            - name: bridge-scripts
+              mountPath: /scripts
+              readOnly: true
           resources:
             requests:
               cpu: 5m
               memory: 16Mi
-        {{- else }}
-        - name: pause
-          image: registry.k8s.io/pause:3.10
-          resources:
-            requests:
-              cpu: 1m
-              memory: 8Mi
         {{- end }}
+      volumes:
+        - name: bridge-scripts
+          configMap:
+            name: {{ .Values.fullnamePrefix }}-bridge-scripts
+            defaultMode: 0555
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Values.fullnamePrefix }}-bridge-scripts
+  namespace: {{ .Values.platform.networking.bridge.namespace }}
+  labels:
+    app.kubernetes.io/name: {{ .Values.fullnamePrefix }}-bridge-setup
+    {{- include "virtfoundry.labels" . | nindent 4 }}
+data:
+  bridge-lib.sh: |
+    #!/bin/sh
+    # Shared helpers for VirtFoundry host bridges (init + keeper + dhcp).
+    setup_bridge() {
+      name="$1"
+      uplink="$2"
+      addr="$3"
+      repaired=0
+      # Linux IFNAMSIZ is 16 including NUL — names longer than 15 chars fail with
+      # "invalid argument … to 'name'" / Multus "numerical result out of range".
+      if [ "${#name}" -gt 15 ]; then
+        echo "ERROR: bridge name '$name' exceeds Linux IFNAMSIZ (15 chars)" >&2
+        return 1
+      fi
+      if ! ip link show "$name" >/dev/null 2>&1; then
+        ip link add "$name" type bridge
+        repaired=1
+        echo "REPAIR: created bridge $name on $(hostname)"
+      fi
+      # Ensure up
+      state="$(ip -o link show "$name" 2>/dev/null | awk '{print $3}' || true)"
+      case "$state" in
+        *UP*|*UNKNOWN*) ;;
+        *)
+          ip link set "$name" up
+          repaired=1
+          echo "REPAIR: set $name up on $(hostname)"
+          ;;
+      esac
+      if [ -n "$uplink" ] && ip link show "$uplink" >/dev/null 2>&1; then
+        ip link set "$uplink" up || true
+        master="$(ip -o link show "$uplink" 2>/dev/null | sed -n 's/.*master \([^ ]*\).*/\1/p')"
+        if [ "$master" != "$name" ]; then
+          ip link set "$uplink" master "$name" || true
+          repaired=1
+          echo "REPAIR: enslaved $uplink -> $name on $(hostname)"
+        fi
+      elif [ -n "$uplink" ]; then
+        echo "WARN: uplink $uplink missing on $(hostname) — bridge $name without uplink" >&2
+      fi
+      if [ -n "$addr" ]; then
+        ip_only="${addr%%/*}"
+        if ! ip addr show "$name" 2>/dev/null | grep -q "$ip_only"; then
+          ip addr add "$addr" dev "$name" 2>/dev/null || true
+          repaired=1
+          echo "REPAIR: address $addr on $name ($(hostname))"
+        fi
+      fi
+      return 0
+    }
+
+    ensure_all_bridges() {
+      {{- if .Values.platform.networking.isolated.enabled }}
+      setup_bridge "{{ .Values.platform.networking.isolated.bridge.name }}" "" ""
+      {{- end }}
+      {{- if .Values.platform.networking.public.enabled }}
+      setup_bridge "{{ .Values.platform.networking.public.bridge.name }}" "{{ .Values.platform.networking.public.bridge.uplink }}" "{{ .Values.platform.networking.public.bridge.address }}"
+      {{- if .Values.platform.networking.public.bridge.routePoolViaBridge }}
+      for cidr in {{ .Values.platform.networking.public.bridge.routePoolViaBridge | join " " }}; do
+        ip route replace "$cidr" dev "{{ .Values.platform.networking.public.bridge.name }}" metric 50 2>/dev/null || true
+      done
+      {{- end }}
+      {{- end }}
+      return 0
+    }
+
+    bridges_ready() {
+      {{- if .Values.platform.networking.isolated.enabled }}
+      ip link show "{{ .Values.platform.networking.isolated.bridge.name }}" >/dev/null 2>&1 || exit 1
+      {{- end }}
+      {{- if .Values.platform.networking.public.enabled }}
+      ip link show "{{ .Values.platform.networking.public.bridge.name }}" >/dev/null 2>&1 || exit 1
+      {{- end }}
+      exit 0
+    }
 {{- end }}
