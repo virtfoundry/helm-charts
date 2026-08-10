@@ -10,13 +10,13 @@
       
       
       
-        <link rel="canonical" href="https://virtfoundry.github.io/helm-charts/docs/guide/installation/">
+        <link rel="canonical" href="https://virtfoundry.github.io/helm-charts/docs/guide/topologies/">
       
       
-        <link rel="prev" href="../..">
+        <link rel="prev" href="../installation/">
       
       
-        <link rel="next" href="../topologies/">
+        <link rel="next" href="../configuration/">
       
       
         
@@ -27,7 +27,7 @@
     
     
       
-        <title>Installation - VirtFoundry</title>
+        <title>Topologies - VirtFoundry</title>
       
     
     
@@ -80,7 +80,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#installation" class="md-skip">
+        <a href="#deployment-topologies" class="md-skip">
           Skip to content
         </a>
       
@@ -115,7 +115,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Installation
+              Topologies
             
           </span>
         </div>
@@ -245,7 +245,7 @@
     
     
       <li class="md-tabs__item md-tabs__item--active">
-        <a href="./" class="md-tabs__link">
+        <a href="../installation/" class="md-tabs__link">
           
   
   
@@ -429,6 +429,34 @@
                 
   
   
+  
+  
+    <li class="md-nav__item">
+      <a href="../installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Installation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
     
   
   
@@ -448,7 +476,7 @@
   <span class="md-ellipsis">
     
   
-    Installation
+    Topologies
   
 
     
@@ -466,7 +494,7 @@
   <span class="md-ellipsis">
     
   
-    Installation
+    Topologies
   
 
     
@@ -492,10 +520,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#prerequisites-overview" class="md-nav__link">
+  <a href="#minimum-home-lab" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Prerequisites overview
+        Minimum (home / lab)
       
     </span>
   </a>
@@ -503,104 +531,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#why-each-platform-component-is-needed" class="md-nav__link">
+  <a href="#production-recommended" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Why each platform component is needed
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Why each platform component is needed">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#kubevirt-required" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        KubeVirt — required
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#multus-cni-required" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Multus CNI — required
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#cdi-required-for-iso-and-import-workflows" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        CDI — required for ISO and import workflows
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#installing-platform-components" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Installing platform components
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#install-virtfoundry-from-helm-repository" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Install VirtFoundry from Helm repository
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#install-from-git-clone" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Install from git clone
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#first-login" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        First login
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#next-steps" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Next steps
+        Production recommended
       
     </span>
   </a>
@@ -611,34 +545,6 @@
   
 </nav>
       
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../topologies/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Topologies
-  
-
-    
-  </span>
-  
-  
-
-      </a>
     </li>
   
 
@@ -917,10 +823,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#prerequisites-overview" class="md-nav__link">
+  <a href="#minimum-home-lab" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Prerequisites overview
+        Minimum (home / lab)
       
     </span>
   </a>
@@ -928,104 +834,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#why-each-platform-component-is-needed" class="md-nav__link">
+  <a href="#production-recommended" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Why each platform component is needed
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Why each platform component is needed">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#kubevirt-required" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        KubeVirt — required
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#multus-cni-required" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Multus CNI — required
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#cdi-required-for-iso-and-import-workflows" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        CDI — required for ISO and import workflows
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#installing-platform-components" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Installing platform components
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#install-virtfoundry-from-helm-repository" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Install VirtFoundry from Helm repository
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#install-from-git-clone" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Install from git clone
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#first-login" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        First login
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#next-steps" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Next steps
+        Production recommended
       
     </span>
   </a>
@@ -1049,7 +861,7 @@
 
 
   
-    <a href="https://github.com/virtfoundry/helm-charts/edit/main/docs/guide/installation.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+    <a href="https://github.com/virtfoundry/helm-charts/edit/main/docs/guide/topologies.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
     </a>
@@ -1057,215 +869,82 @@
   
 
 
-<h1 id="installation">Installation<a class="headerlink" href="#installation" title="Permanent link">&para;</a></h1>
-<p>VirtFoundry installs the <strong>control plane only</strong> (API, worker, UI, optional MySQL). Virtual machines, extra networks, and disk imports rely on platform components that must already exist on the cluster — or be installed <strong>before</strong> <code>helm install</code>.</p>
-<p>For <strong>minimum vs production</strong> layouts (what works for VPC / public / snapshots on a home router), see <a href="../topologies/">Deployment topologies</a>.</p>
-<h2 id="prerequisites-overview">Prerequisites overview<a class="headerlink" href="#prerequisites-overview" title="Permanent link">&para;</a></h2>
+<h1 id="deployment-topologies">Deployment topologies<a class="headerlink" href="#deployment-topologies" title="Permanent link">&para;</a></h1>
+<p>Two reference layouts. Open the <code>.excalidraw</code> sources under <a href="../../diagrams/virtfoundry-minimum-setup.excalidraw"><code>diagrams/</code></a> to edit; SVGs below render in the docs site.</p>
+<h2 id="minimum-home-lab">Minimum (home / lab)<a class="headerlink" href="#minimum-home-lab" title="Permanent link">&para;</a></h2>
+<p>Single node, home router only (no managed switch), <code>local-path</code>, port-forward to the UI.</p>
+<p><img alt="VirtFoundry minimum setup" src="../../diagrams/virtfoundry-minimum-setup.svg" /></p>
 <table>
 <thead>
 <tr>
-<th>Component</th>
-<th>Required?</th>
-<th>Role in VirtFoundry</th>
+<th>Capability</th>
+<th>Works?</th>
+<th>Notes</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Kubernetes 1.28+</td>
-<td><strong>Yes</strong></td>
-<td>Runs all workloads</td>
+<td>Install VirtFoundry + deploy VMs</td>
+<td>Yes</td>
+<td>Needs KubeVirt + Multus (+ CDI for ISO)</td>
 </tr>
 <tr>
-<td>Helm 3.x</td>
-<td><strong>Yes</strong></td>
-<td>Installs the chart</td>
+<td>VPC / private subnet</td>
+<td>Yes</td>
+<td>Isolated host bridge (<code>virtfoundry-br0</code>) on that node</td>
 </tr>
 <tr>
-<td><a href="https://kubevirt.io/">KubeVirt</a></td>
-<td><strong>Yes</strong></td>
-<td>Hypervisor — VMs, start/stop, console, <strong>VM</strong> snapshots</td>
+<td>Public / shared routable IPs</td>
+<td>Only if configured</td>
+<td>Default VLAN-style public needs underlay VLAN; home LAN needs bridge/macvlan on the node NIC + IP pool on the router subnet</td>
 </tr>
 <tr>
-<td><a href="https://github.com/k8snetworkplumbingwg/multus-cni">Multus CNI</a></td>
-<td><strong>Yes</strong></td>
-<td>Secondary NICs — tenant VPCs, isolated L2, public VM network</td>
+<td>Volume snapshots</td>
+<td>No with <code>local-path</code></td>
+<td>Use <strong>VM snapshots</strong>; CSI (e.g. Longhorn) later</td>
 </tr>
 <tr>
-<td><a href="https://github.com/kubevirt/containerized-data-importer">CDI</a></td>
-<td><strong>Yes</strong> for ISO/import templates; optional for container-disk-only</td>
-<td>Imports ISOs and blank boot disks via <code>DataVolume</code></td>
-</tr>
-<tr>
-<td>Ingress <strong>or</strong> Gateway API + controller</td>
-<td>One of them</td>
-<td>Exposes UI and API on a hostname</td>
-</tr>
-<tr>
-<td>StorageClass (e.g. <code>local-path</code>)</td>
-<td><strong>Yes</strong> for disks</td>
-<td>PVCs for MySQL, VM volumes, ISO storage</td>
-</tr>
-<tr>
-<td>CSI snapshotter + snapshot-capable CSI (e.g. <a href="https://longhorn.io/">Longhorn</a>)</td>
-<td><strong>Only</strong> for <strong>volume</strong> snapshots UI</td>
-<td><code>VolumeSnapshot</code> CRDs + <code>VolumeSnapshotClass</code>; <strong>not</strong> provided by <code>local-path</code></td>
-</tr>
-<tr>
-<td>MetalLB (or cloud LB)</td>
-<td>Bare metal only</td>
-<td>When Services need external IPs</td>
-</tr>
-</tbody>
-</table>
-<div class="admonition note">
-<p class="admonition-title">Not bundled in the Helm chart by default</p>
-<p>KubeVirt, Multus, and CDI are <strong>cluster-scoped platform operators</strong>. They are installed separately so you can pin versions, align with your distro, and upgrade them independently of VirtFoundry releases.</p>
-</div>
-<hr />
-<h2 id="why-each-platform-component-is-needed">Why each platform component is needed<a class="headerlink" href="#why-each-platform-component-is-needed" title="Permanent link">&para;</a></h2>
-<h3 id="kubevirt-required">KubeVirt — required<a class="headerlink" href="#kubevirt-required" title="Permanent link">&para;</a></h3>
-<p>VirtFoundry does <strong>not</strong> embed a hypervisor. The API and worker talk to KubeVirt CRDs:</p>
-<ul>
-<li><code>VirtualMachine</code> / <code>VirtualMachineInstance</code> — create, start, stop, delete VMs</li>
-<li><code>VirtualMachineSnapshot</code> — <strong>VM</strong> snapshots (point-in-time of the guest; not the same as CSI volume snapshots)</li>
-<li>VNC subresource — web console in the UI</li>
-</ul>
-<p>Without KubeVirt, deploy and lifecycle operations fail immediately (<code>kubevirt.enabled</code> assumes the KubeVirt API is reachable).</p>
-<div class="admonition warning">
-<p class="admonition-title">Volume snapshots ≠ VM snapshots</p>
-<p>The <strong>Volume Snapshots</strong> page creates Kubernetes <code>VolumeSnapshot</code> objects (<code>snapshot.storage.k8s.io</code>). That API is <strong>not</strong> installed by KubeVirt and is <strong>not</strong> available with only <code>local-path</code>. Without CSI external-snapshotter + a snapshot-capable StorageClass (Longhorn, Ceph RBD, cloud CSI, …), the UI returns <code>the server could not find the requested resource</code>. Use <strong>VM Snapshots</strong> on lab/<code>local-path</code> clusters, or install a CSI snapshot stack for volume snapshots. Details: <a href="../configuration/#snapshots-vm-vs-volume">Configuration — Snapshots</a>.</p>
-</div>
-<p><strong>Verify:</strong></p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span>-n<span class="w"> </span>kubevirt
-kubectl<span class="w"> </span>get<span class="w"> </span>crd<span class="w"> </span>virtualmachines.kubevirt.io
-</code></pre></div>
-<hr />
-<h3 id="multus-cni-required">Multus CNI — required<a class="headerlink" href="#multus-cni-required" title="Permanent link">&para;</a></h3>
-<p>VirtFoundry models <strong>CloudStack-style networking</strong>: tenants, VPCs, security groups, and an optional shared public network. That requires <strong>more than the default pod CNI</strong>:</p>
-<table>
-<thead>
-<tr>
-<th>Feature</th>
-<th>How VirtFoundry uses Multus</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Tenant VPC / private networks</td>
-<td>Creates <code>NetworkAttachmentDefinition</code> (NAD) per network on an isolated bridge</td>
-</tr>
-<tr>
-<td>Public / routable VM IPs</td>
-<td>Secondary NIC on a bridge or macvlan NAD + cloud-init addressing</td>
-</tr>
-<tr>
-<td>Security groups</td>
-<td>Kubernetes <code>NetworkPolicy</code> on the pod network; extra NICs use Multus interfaces</td>
-</tr>
-</tbody>
-</table>
-<p>The hypervisor driver attaches Multus networks to VM launcher pods (<code>v1.multus-cni.io/default-network</code> and additional NADs). <strong>VPCs, custom networks, and public IP pools do not work without Multus.</strong></p>
-<p>Pod-only VMs (no <code>network_ids</code>, public network disabled) still use KubeVirt’s masquerade interface, but the product expects Multus for full IaaS functionality.</p>
-<p><strong>Verify:</strong></p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span>-n<span class="w"> </span>kube-system<span class="w"> </span>-l<span class="w"> </span><span class="nv">app</span><span class="o">=</span>multus
-kubectl<span class="w"> </span>get<span class="w"> </span>crd<span class="w"> </span>network-attachment-definitions.k8s.cni.cncf.io
-</code></pre></div>
-<hr />
-<h3 id="cdi-required-for-iso-and-import-workflows">CDI — required for ISO and import workflows<a class="headerlink" href="#cdi-required-for-iso-and-import-workflows" title="Permanent link">&para;</a></h3>
-<p><a href="https://github.com/kubevirt/containerized-data-importer">CDI</a> provides <code>DataVolume</code> resources. VirtFoundry uses CDI when:</p>
-<ul>
-<li>Registering an <strong>ISO template</strong> (HTTP import of an <code>.iso</code> into a PVC)</li>
-<li>Creating a <strong>blank boot disk</strong> for install-from-ISO (e.g. Windows eval)</li>
-<li>Waiting for import completion before a VM can boot from ISO</li>
-</ul>
-<p><strong>Container-disk templates</strong> (image URL pointing at a registry-hosted disk image) can work <strong>without CDI</strong> — KubeVirt pulls the image directly as a <code>containerDisk</code>.</p>
-<table>
-<thead>
-<tr>
-<th>Template / deploy path</th>
-<th>CDI needed?</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Linux cloud image (container disk)</td>
+<td>Survive node loss</td>
 <td>No</td>
-</tr>
-<tr>
-<td>ISO template or install-from-ISO</td>
-<td><strong>Yes</strong></td>
-</tr>
-<tr>
-<td>Attaching an existing imported volume</td>
-<td><strong>Yes</strong> (volume created via CDI)</td>
+<td>Disks are local</td>
 </tr>
 </tbody>
 </table>
-<p>If you only use container-disk templates, you can skip CDI initially; enable it before using ISO features.</p>
-<p><strong>Verify:</strong></p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span>-n<span class="w"> </span>cdi
-kubectl<span class="w"> </span>get<span class="w"> </span>crd<span class="w"> </span>datavolumes.cdi.kubevirt.io
-</code></pre></div>
-<hr />
-<h2 id="installing-platform-components">Installing platform components<a class="headerlink" href="#installing-platform-components" title="Permanent link">&para;</a></h2>
-<p>The chart can optionally trigger install <strong>hooks</strong> (<code>platform.multus.install</code>, <code>platform.cdi.install</code>, KubeVirt job). By default these are <strong>off</strong> — most clusters install platform software once, outside VirtFoundry upgrades.</p>
-<p><strong>Recommended:</strong> use the helper scripts (idempotent) from a chart clone:</p>
-<div class="highlight"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">KUBECONFIG</span><span class="o">=</span>/path/to/kubeconfig
-
-./scripts/setup/kubevirt.sh<span class="w">   </span><span class="c1"># KubeVirt operator + CRDs</span>
-./scripts/setup/multus.sh<span class="w">     </span><span class="c1"># Multus DaemonSet</span>
-./scripts/setup/cdi.sh<span class="w">        </span><span class="c1"># CDI operator</span>
-</code></pre></div>
-<p>Or install from upstream docs and verify CRDs before proceeding.</p>
-<p><strong>Order:</strong> Multus and storage class first → KubeVirt → CDI (CDI depends on KubeVirt CRDs).</p>
-<hr />
-<h2 id="install-virtfoundry-from-helm-repository">Install VirtFoundry from Helm repository<a class="headerlink" href="#install-virtfoundry-from-helm-repository" title="Permanent link">&para;</a></h2>
-<p>After platform prerequisites are healthy:</p>
-<div class="highlight"><pre><span></span><code>helm<span class="w"> </span>repo<span class="w"> </span>add<span class="w"> </span>virtfoundry<span class="w"> </span>https://virtfoundry.github.io/helm-charts
-helm<span class="w"> </span>repo<span class="w"> </span>update
-
-helm<span class="w"> </span>install<span class="w"> </span>virtfoundry<span class="w"> </span>virtfoundry/virtfoundry<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--namespace<span class="w"> </span>virtfoundry-system<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--create-namespace<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--set<span class="w"> </span>secrets.rootPassword<span class="o">=</span><span class="s1">&#39;change-me&#39;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--set<span class="w"> </span>secrets.jwtSecret<span class="o">=</span><span class="s1">&#39;change-me-long-random&#39;</span>
-</code></pre></div>
-<p>Pin a release:</p>
-<div class="highlight"><pre><span></span><code>helm<span class="w"> </span>install<span class="w"> </span>virtfoundry<span class="w"> </span>virtfoundry/virtfoundry<span class="w"> </span>--version<span class="w"> </span><span class="m">1</span>.4.1<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--namespace<span class="w"> </span>virtfoundry-system<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--create-namespace<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--set<span class="w"> </span>secrets.rootPassword<span class="o">=</span><span class="s1">&#39;change-me&#39;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--set<span class="w"> </span>secrets.jwtSecret<span class="o">=</span><span class="s1">&#39;change-me-long-random&#39;</span>
-</code></pre></div>
-<p>Images default to <code>ghcr.io/virtfoundry/core:1.4.1</code> and <code>ui:1.4.1</code>.</p>
-<hr />
-<h2 id="install-from-git-clone">Install from git clone<a class="headerlink" href="#install-from-git-clone" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/virtfoundry/helm-charts.git
-<span class="nb">cd</span><span class="w"> </span>helm-charts
-
-helm<span class="w"> </span>install<span class="w"> </span>virtfoundry<span class="w"> </span>./charts/virtfoundry<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--namespace<span class="w"> </span>virtfoundry-system<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--create-namespace<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--set<span class="w"> </span>secrets.rootPassword<span class="o">=</span><span class="s1">&#39;change-me&#39;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--set<span class="w"> </span>secrets.jwtSecret<span class="o">=</span><span class="s1">&#39;change-me&#39;</span>
-</code></pre></div>
-<p>Validate templates:</p>
-<div class="highlight"><pre><span></span><code>make<span class="w"> </span>lint
-</code></pre></div>
-<hr />
-<h2 id="first-login">First login<a class="headerlink" href="#first-login" title="Permanent link">&para;</a></h2>
-<p>Default bootstrap credentials (override with <code>secrets.rootPassword</code>):</p>
-<ul>
-<li><strong>User:</strong> <code>root</code></li>
-<li><strong>Password:</strong> value of <code>secrets.rootPassword</code> (default in chart values: <code>virtfoundry</code>)</li>
-</ul>
-<p>API base path: <code>/api/v1</code> on the same hostname as the UI.</p>
-<hr />
-<h2 id="next-steps">Next steps<a class="headerlink" href="#next-steps" title="Permanent link">&para;</a></h2>
-<ul>
-<li><a href="../configuration/">Configuration</a> — Helm values and networking</li>
-<li><a href="../helm-repository/">Helm repository</a> — publishing and consuming chart releases</li>
-</ul>
+<h2 id="production-recommended">Production recommended<a class="headerlink" href="#production-recommended" title="Permanent link">&para;</a></h2>
+<p>Multi-worker, replicated block storage, Ingress/Gateway + LB, tenant VPC + public/shared network, optional CSI snapshots and observability.</p>
+<p><img alt="VirtFoundry production recommended" src="../../diagrams/virtfoundry-prod-recommended.svg" /></p>
+<table>
+<thead>
+<tr>
+<th>Capability</th>
+<th>Works?</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>VPC / private subnet</td>
+<td>Yes</td>
+<td>Multus isolated; multi-node same-VPC L2 may need OVN/overlay later</td>
+</tr>
+<tr>
+<td>Public network</td>
+<td>Yes</td>
+<td>VLAN underlay <strong>or</strong> LAN/macvlan mode when there is no managed switch</td>
+</tr>
+<tr>
+<td>Volume snapshots</td>
+<td>Yes</td>
+<td>CSI snapshotter + snapshot-capable StorageClass + <code>VolumeSnapshotClass</code></td>
+</tr>
+<tr>
+<td>HA / capacity</td>
+<td>Yes</td>
+<td>Extra workers; CP HA when SLA requires it</td>
+</tr>
+</tbody>
+</table>
+<p>See also: <a href="../installation/">Installation</a>, <a href="../configuration/#snapshots-vm-vs-volume">Configuration — Snapshots</a>.</p>
 
 
 
@@ -1301,7 +980,7 @@ helm<span class="w"> </span>install<span class="w"> </span>virtfoundry<span clas
       <nav class="md-footer__inner md-grid" aria-label="Footer" >
         
           
-          <a href="../.." class="md-footer__link md-footer__link--prev" aria-label="Previous: Home">
+          <a href="../installation/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Installation">
             <div class="md-footer__button md-icon">
               
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
@@ -1311,20 +990,20 @@ helm<span class="w"> </span>install<span class="w"> </span>virtfoundry<span clas
                 Previous
               </span>
               <div class="md-ellipsis">
-                Home
+                Installation
               </div>
             </div>
           </a>
         
         
           
-          <a href="../topologies/" class="md-footer__link md-footer__link--next" aria-label="Next: Topologies">
+          <a href="../configuration/" class="md-footer__link md-footer__link--next" aria-label="Next: Configuration">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 Next
               </span>
               <div class="md-ellipsis">
-                Topologies
+                Configuration
               </div>
             </div>
             <div class="md-footer__button md-icon">
