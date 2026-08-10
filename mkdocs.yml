@@ -74,6 +74,7 @@ nav:
   - Home: index.md
   - Getting started:
       - Installation: guide/installation.md
+      - Topologies: guide/topologies.md
       - Configuration: guide/configuration.md
       - Helm repository: guide/helm-repository.md
   - Project:
