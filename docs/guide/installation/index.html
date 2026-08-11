@@ -1720,13 +1720,13 @@ helm<span class="w"> </span>install<span class="w"> </span>virtfoundry<span clas
 <span class="w">  </span>--set<span class="w"> </span>secrets.jwtSecret<span class="o">=</span><span class="s1">&#39;change-me-long-random&#39;</span>
 </code></pre></div>
 <p>Pin a release:</p>
-<div class="highlight"><pre><span></span><code>helm<span class="w"> </span>install<span class="w"> </span>virtfoundry<span class="w"> </span>virtfoundry/virtfoundry<span class="w"> </span>--version<span class="w"> </span><span class="m">1</span>.4.1<span class="w"> </span><span class="se">\</span>
+<div class="highlight"><pre><span></span><code>helm<span class="w"> </span>install<span class="w"> </span>virtfoundry<span class="w"> </span>virtfoundry/virtfoundry<span class="w"> </span>--version<span class="w"> </span><span class="m">1</span>.5.0<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--namespace<span class="w"> </span>virtfoundry-system<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--create-namespace<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--set<span class="w"> </span>secrets.rootPassword<span class="o">=</span><span class="s1">&#39;change-me&#39;</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--set<span class="w"> </span>secrets.jwtSecret<span class="o">=</span><span class="s1">&#39;change-me-long-random&#39;</span>
 </code></pre></div>
-<p>Images default to <code>ghcr.io/virtfoundry/core:1.4.1</code> and <code>ui:1.4.1</code>.</p>
+<p>Images default to <code>ghcr.io/virtfoundry/core:1.5.0</code> and <code>ui:1.5.0</code>.</p>
 <hr />
 <h2 id="install-from-git-clone">Install from git clone<a class="headerlink" href="#install-from-git-clone" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/virtfoundry/helm-charts.git
