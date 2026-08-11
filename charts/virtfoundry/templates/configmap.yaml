@@ -3,6 +3,7 @@ kind: ConfigMap
 metadata:
   name: {{ .Values.fullnamePrefix }}-config
   namespace: {{ .Values.namespace }}
+{{- include "virtfoundry.validateBridgeNames" . }}
 data:
   config.yaml: |
     server:

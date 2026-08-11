@@ -1,4 +1,5 @@
 {{- if or .Values.platform.networking.public.enabled .Values.platform.networking.isolated.enabled }}
+{{- include "virtfoundry.validateBridgeNames" . }}
 {{- $interval := int (.Values.platform.networking.bridge.repairIntervalSeconds | default 15) }}
 apiVersion: apps/v1
 kind: DaemonSet
