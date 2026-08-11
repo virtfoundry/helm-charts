@@ -40,7 +40,12 @@ scripts/                 # Optional setup and sideload helpers
 | Repository | Role |
 |------------|------|
 | [virtfoundry/core](https://github.com/virtfoundry/core) | Application source |
-| [virtfoundry/helm-charts](https://github.com/virtfoundry/helm-charts) | This repo |
+| [Why VirtFoundry](https://github.com/virtfoundry/core/blob/main/docs/WHY.md) | Positioning (Proxmox / KubeVirt) |
+| [Traction checklist](https://github.com/virtfoundry/core/blob/main/docs/CNCF-CHECKLIST.md) | CNCF / community phases |
+
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md). [GOVERNANCE.md](GOVERNANCE.md) · [SECURITY.md](SECURITY.md) · [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md)
 
 ## License
 
