@@ -29,6 +29,50 @@
          <lastmod>2026-08-11</lastmod>
     </url>
     <url>
+         <loc>https://virtfoundry.github.io/helm-charts/docs/guide/features/</loc>
+         <lastmod>2026-08-11</lastmod>
+    </url>
+    <url>
+         <loc>https://virtfoundry.github.io/helm-charts/docs/guide/features/access/</loc>
+         <lastmod>2026-08-11</lastmod>
+    </url>
+    <url>
+         <loc>https://virtfoundry.github.io/helm-charts/docs/guide/features/api/</loc>
+         <lastmod>2026-08-11</lastmod>
+    </url>
+    <url>
+         <loc>https://virtfoundry.github.io/helm-charts/docs/guide/features/concepts/</loc>
+         <lastmod>2026-08-11</lastmod>
+    </url>
+    <url>
+         <loc>https://virtfoundry.github.io/helm-charts/docs/guide/features/iam/</loc>
+         <lastmod>2026-08-11</lastmod>
+    </url>
+    <url>
+         <loc>https://virtfoundry.github.io/helm-charts/docs/guide/features/networking/</loc>
+         <lastmod>2026-08-11</lastmod>
+    </url>
+    <url>
+         <loc>https://virtfoundry.github.io/helm-charts/docs/guide/features/offerings/</loc>
+         <lastmod>2026-08-11</lastmod>
+    </url>
+    <url>
+         <loc>https://virtfoundry.github.io/helm-charts/docs/guide/features/security-groups/</loc>
+         <lastmod>2026-08-11</lastmod>
+    </url>
+    <url>
+         <loc>https://virtfoundry.github.io/helm-charts/docs/guide/features/storage/</loc>
+         <lastmod>2026-08-11</lastmod>
+    </url>
+    <url>
+         <loc>https://virtfoundry.github.io/helm-charts/docs/guide/features/templates/</loc>
+         <lastmod>2026-08-11</lastmod>
+    </url>
+    <url>
+         <loc>https://virtfoundry.github.io/helm-charts/docs/guide/features/vms/</loc>
+         <lastmod>2026-08-11</lastmod>
+    </url>
+    <url>
          <loc>https://virtfoundry.github.io/helm-charts/docs/project/changelog/</loc>
          <lastmod>2026-08-11</lastmod>
     </url>

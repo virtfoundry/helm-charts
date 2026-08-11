@@ -10,13 +10,13 @@
       
       
       
-        <link rel="canonical" href="https://virtfoundry.github.io/helm-charts/docs/guide/quickstart/">
+        <link rel="canonical" href="https://virtfoundry.github.io/helm-charts/docs/guide/features/">
       
       
-        <link rel="prev" href="../why/">
+        <link rel="prev" href="../helm-repository/">
       
       
-        <link rel="next" href="../installation/">
+        <link rel="next" href="concepts/">
       
       
         
@@ -27,7 +27,7 @@
     
     
       
-        <title>Quickstart - VirtFoundry</title>
+        <title>Overview - VirtFoundry</title>
       
     
     
@@ -80,7 +80,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#quickstart-under-30-minutes" class="md-skip">
+        <a href="#features-overview" class="md-skip">
           Skip to content
         </a>
       
@@ -115,7 +115,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Quickstart
+              Overview
             
           </span>
         </div>
@@ -239,12 +239,10 @@
   
   
   
-    
-  
   
     
     
-      <li class="md-tabs__item md-tabs__item--active">
+      <li class="md-tabs__item">
         <a href="../why/" class="md-tabs__link">
           
   
@@ -263,11 +261,13 @@
   
   
   
+    
+  
   
     
     
-      <li class="md-tabs__item">
-        <a href="../features/" class="md-tabs__link">
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="./" class="md-tabs__link">
           
   
   
@@ -384,10 +384,8 @@
       
   
   
-    
   
   
-  
     
     
       
@@ -407,22 +405,21 @@
     
     
       
-        
-        
-      
       
         
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
         
           
-          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
             
   
   
@@ -440,7 +437,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_2">
             <span class="md-nav__icon md-icon"></span>
             
@@ -483,37 +480,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Quickstart
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../quickstart/" class="md-nav__link">
         
   
   
@@ -529,131 +499,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#0-check-prerequisites-2-min" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        0. Check prerequisites (~2 min)
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#1-install-virtfoundry-5-min" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        1. Install VirtFoundry (~5 min)
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#2-expose-the-ui-510-min" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        2. Expose the UI (~5–10 min)
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="2. Expose the UI (~5–10 min)">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#a-port-forward-fastest" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        A. Port-forward (fastest)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#b-ingress-gateway-api" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        B. Ingress / Gateway API
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#3-first-login-1-min" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        3. First login (~1 min)
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#4-deploy-a-first-vm-10-min" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        4. Deploy a first VM (~10 min)
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#5-sanity-checks" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        5. Sanity checks
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#next" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Next
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -782,6 +627,8 @@
       
   
   
+    
+  
   
   
     
@@ -815,22 +662,23 @@
     
     
       
+        
+        
+      
       
         
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
         
-          
-        
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../features/" class="md-nav__link ">
+            <a href="./" class="md-nav__link md-nav__link--active">
               
   
   
@@ -848,13 +696,13 @@
             </a>
             
               
-              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="0">
+              <label class="md-nav__link md-nav__link--active" for="__nav_3" id="__nav_3_label" tabindex="">
                 <span class="md-nav__icon md-icon"></span>
               </label>
             
           </div>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_3">
             <span class="md-nav__icon md-icon"></span>
             
@@ -874,7 +722,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../features/concepts/" class="md-nav__link">
+      <a href="concepts/" class="md-nav__link">
         
   
   
@@ -902,7 +750,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../features/iam/" class="md-nav__link">
+      <a href="iam/" class="md-nav__link">
         
   
   
@@ -930,7 +778,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../features/offerings/" class="md-nav__link">
+      <a href="offerings/" class="md-nav__link">
         
   
   
@@ -958,7 +806,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../features/templates/" class="md-nav__link">
+      <a href="templates/" class="md-nav__link">
         
   
   
@@ -986,7 +834,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../features/vms/" class="md-nav__link">
+      <a href="vms/" class="md-nav__link">
         
   
   
@@ -1014,7 +862,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../features/access/" class="md-nav__link">
+      <a href="access/" class="md-nav__link">
         
   
   
@@ -1042,7 +890,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../features/storage/" class="md-nav__link">
+      <a href="storage/" class="md-nav__link">
         
   
   
@@ -1070,7 +918,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../features/networking/" class="md-nav__link">
+      <a href="networking/" class="md-nav__link">
         
   
   
@@ -1098,7 +946,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../features/security-groups/" class="md-nav__link">
+      <a href="security-groups/" class="md-nav__link">
         
   
   
@@ -1126,7 +974,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../features/api/" class="md-nav__link">
+      <a href="api/" class="md-nav__link">
         
   
   
@@ -1394,10 +1242,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#0-check-prerequisites-2-min" class="md-nav__link">
+  <a href="#capability-map" class="md-nav__link">
     <span class="md-ellipsis">
       
-        0. Check prerequisites (~2 min)
+        Capability map
       
     </span>
   </a>
@@ -1405,10 +1253,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#1-install-virtfoundry-5-min" class="md-nav__link">
+  <a href="#domain-model" class="md-nav__link">
     <span class="md-ellipsis">
       
-        1. Install VirtFoundry (~5 min)
+        Domain model
       
     </span>
   </a>
@@ -1416,71 +1264,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#2-expose-the-ui-510-min" class="md-nav__link">
+  <a href="#ui-map" class="md-nav__link">
     <span class="md-ellipsis">
       
-        2. Expose the UI (~5–10 min)
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="2. Expose the UI (~5–10 min)">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#a-port-forward-fastest" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        A. Port-forward (fastest)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#b-ingress-gateway-api" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        B. Ingress / Gateway API
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#3-first-login-1-min" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        3. First login (~1 min)
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#4-deploy-a-first-vm-10-min" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        4. Deploy a first VM (~10 min)
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#5-sanity-checks" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        5. Sanity checks
+        UI map
       
     </span>
   </a>
@@ -1515,7 +1302,7 @@
 
 
   
-    <a href="https://github.com/virtfoundry/helm-charts/edit/main/docs/guide/quickstart.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+    <a href="https://github.com/virtfoundry/helm-charts/edit/main/docs/guide/features/index.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
     </a>
@@ -1523,119 +1310,119 @@
   
 
 
-<h1 id="quickstart-under-30-minutes">Quickstart (under 30 minutes)<a class="headerlink" href="#quickstart-under-30-minutes" title="Permanent link">&para;</a></h1>
-<p>Goal: <strong>UI login + first VM</strong> on a cluster that already has Kubernetes, KubeVirt, Multus, and CDI.</p>
-<p>If you still need to install those platform components, budget extra time and follow the full <a href="../installation/">Installation</a> guide (or run <code>./scripts/setup/{kubevirt,multus,cdi}.sh</code> from a <a href="https://github.com/virtfoundry/helm-charts">helm-charts</a> clone).</p>
-<div class="admonition tip">
-<p class="admonition-title">Homelab with Argo / Longhorn</p>
-<p>Production-shaped layouts (Gateway API, Longhorn, snapshots): <a href="../topologies/">Deployment topologies</a>.</p>
-</div>
-<hr />
-<h2 id="0-check-prerequisites-2-min">0. Check prerequisites (~2 min)<a class="headerlink" href="#0-check-prerequisites-2-min" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>crd<span class="w"> </span>virtualmachines.kubevirt.io
-kubectl<span class="w"> </span>get<span class="w"> </span>ds<span class="w"> </span>-A<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-i<span class="w"> </span>multus<span class="w"> </span><span class="o">||</span><span class="w"> </span>kubectl<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span>-A<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-i<span class="w"> </span>multus
-kubectl<span class="w"> </span>get<span class="w"> </span>crd<span class="w"> </span>datavolumes.cdi.kubevirt.io
-kubectl<span class="w"> </span>get<span class="w"> </span>storageclass
-</code></pre></div>
-<p>You need at least one <strong>default</strong> or known StorageClass. Prefer <a href="https://longhorn.io/">Longhorn</a> (or any CSI with snapshots) for real disks.</p>
-<div class="admonition warning">
-<p class="admonition-title"><code>local-path</code> labs</p>
-<p>Fine for a first UI click. <strong>Volume snapshots will not work</strong> without CSI external-snapshotter + a <code>VolumeSnapshotClass</code>. Use <strong>VM snapshots</strong> on lab StorageClasses, or install Longhorn (etc.) for volume snapshots.</p>
-</div>
-<hr />
-<h2 id="1-install-virtfoundry-5-min">1. Install VirtFoundry (~5 min)<a class="headerlink" href="#1-install-virtfoundry-5-min" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code>helm<span class="w"> </span>repo<span class="w"> </span>add<span class="w"> </span>virtfoundry<span class="w"> </span>https://virtfoundry.github.io/helm-charts
-helm<span class="w"> </span>repo<span class="w"> </span>update
-
-helm<span class="w"> </span>install<span class="w"> </span>virtfoundry<span class="w"> </span>virtfoundry/virtfoundry<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--version<span class="w"> </span><span class="m">1</span>.4.1<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--namespace<span class="w"> </span>virtfoundry-system<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--create-namespace<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--set<span class="w"> </span>secrets.rootPassword<span class="o">=</span><span class="s1">&#39;change-me&#39;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--set<span class="w"> </span>secrets.jwtSecret<span class="o">=</span><span class="s1">&#39;change-me-long-random&#39;</span>
-</code></pre></div>
-<p>Wait until pods are ready:</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>-n<span class="w"> </span>virtfoundry-system<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span>-w
-</code></pre></div>
-<p>Optional — set the CSI snapshot class used by the Volume Snapshots UI (Longhorn example):</p>
-<div class="highlight"><pre><span></span><code>helm<span class="w"> </span>upgrade<span class="w"> </span>virtfoundry<span class="w"> </span>virtfoundry/virtfoundry<span class="w"> </span>-n<span class="w"> </span>virtfoundry-system<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--reuse-values<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--set<span class="w"> </span>platform.storage.snapshotClass<span class="o">=</span>longhorn
-</code></pre></div>
-<p>Empty <code>snapshotClass</code> uses the cluster default <code>VolumeSnapshotClass</code> when one is marked default.</p>
-<hr />
-<h2 id="2-expose-the-ui-510-min">2. Expose the UI (~5–10 min)<a class="headerlink" href="#2-expose-the-ui-510-min" title="Permanent link">&para;</a></h2>
-<p>Pick <strong>one</strong> path.</p>
-<h3 id="a-port-forward-fastest">A. Port-forward (fastest)<a class="headerlink" href="#a-port-forward-fastest" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>-n<span class="w"> </span>virtfoundry-system<span class="w"> </span>port-forward<span class="w"> </span>svc/virtfoundry-ui<span class="w"> </span><span class="m">8080</span>:80
-</code></pre></div>
-<p>Open http://127.0.0.1:8080</p>
-<h3 id="b-ingress-gateway-api">B. Ingress / Gateway API<a class="headerlink" href="#b-ingress-gateway-api" title="Permanent link">&para;</a></h3>
-<p>Use your cluster’s IngressClass or Gateway + HTTPRoute. Example values and Gateway notes: <a href="../configuration/">Configuration</a>, <a href="../topologies/">Topologies</a>.</p>
-<hr />
-<h2 id="3-first-login-1-min">3. First login (~1 min)<a class="headerlink" href="#3-first-login-1-min" title="Permanent link">&para;</a></h2>
-<ul>
-<li><strong>User:</strong> <code>root</code></li>
-<li><strong>Password:</strong> the <code>secrets.rootPassword</code> you set (<code>change-me</code> above)</li>
-</ul>
-<hr />
-<h2 id="4-deploy-a-first-vm-10-min">4. Deploy a first VM (~10 min)<a class="headerlink" href="#4-deploy-a-first-vm-10-min" title="Permanent link">&para;</a></h2>
-<p>In the UI (or API):</p>
-<ol>
-<li>Open <strong>Templates</strong> — use a <strong>container disk</strong> template (no ISO download).</li>
-<li>Open <strong>Service offerings</strong> — pick a small offering (or create one).</li>
-<li>Create a <strong>VM</strong> from that template + offering.</li>
-<li>Wait until the VM is <strong>Running</strong>, then open <strong>Console</strong> (noVNC).</li>
-</ol>
-<div class="admonition note">
-<p class="admonition-title">Networking</p>
-<p>Full tenant VPC / Multus bridge demos need host bridges and often a public pool — see <a href="../topologies/">Topologies</a>. Container-disk VMs can still prove the control plane without a full L2 lab.</p>
-</div>
-<hr />
-<h2 id="5-sanity-checks">5. Sanity checks<a class="headerlink" href="#5-sanity-checks" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>-n<span class="w"> </span>virtfoundry-system<span class="w"> </span>get<span class="w"> </span>deploy,sts
-kubectl<span class="w"> </span>get<span class="w"> </span>vm<span class="w"> </span>-A
-</code></pre></div>
-<p>API health (with port-forward or your hostname):</p>
-<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-sS<span class="w"> </span>http://127.0.0.1:8080/api/v1/healthz<span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="nb">true</span>
-</code></pre></div>
-<hr />
-<h2 id="next">Next<a class="headerlink" href="#next" title="Permanent link">&para;</a></h2>
+<h1 id="features-overview">Features overview<a class="headerlink" href="#features-overview" title="Permanent link">&para;</a></h1>
+<p>What you can do in VirtFoundry after <a href="../installation/">install</a> and <a href="../quickstart/">first login</a>.</p>
+<p>VirtFoundry is a <strong>multi-tenant IaaS control plane</strong> on Kubernetes: tenants get isolated namespaces, VMs (KubeVirt), disks, VPCs/networks (Multus), security groups, IAM, and a CloudStack-like UI/API.</p>
+<h2 id="capability-map">Capability map<a class="headerlink" href="#capability-map" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
 <tr>
-<th>Topic</th>
-<th>Doc</th>
+<th>Area</th>
+<th>What you get</th>
+<th>Guide</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>What you can do after login</td>
-<td><a href="../features/">Features overview</a></td>
+<td>Tenancy</td>
+<td>Isolated tenants, root impersonation, delete (non-default)</td>
+<td><a href="concepts/">Concepts</a></td>
 </tr>
 <tr>
-<td>Full install + why each dependency</td>
-<td><a href="../installation/">Installation</a></td>
+<td>IAM</td>
+<td>Users, roles, permissions, API keys (<code>vfd_live_...</code>)</td>
+<td><a href="iam/">Auth &amp; IAM</a></td>
 </tr>
 <tr>
-<td>Min vs production layouts</td>
-<td><a href="../topologies/">Topologies</a></td>
+<td>Offerings</td>
+<td>CPU/memory catalog; shared vs dedicated CPU</td>
+<td><a href="offerings/">Service offerings</a></td>
 </tr>
 <tr>
-<td>Helm values (public net, snapshots)</td>
-<td><a href="../configuration/">Configuration</a></td>
+<td>Templates</td>
+<td>Container disks + ISO (CDI) images</td>
+<td><a href="templates/">Images &amp; templates</a></td>
 </tr>
 <tr>
-<td>Why VirtFoundry vs Proxmox</td>
-<td><a href="../why/">Why VirtFoundry</a></td>
+<td>Compute</td>
+<td>Deploy, start/stop, attach volumes, logs, snapshots</td>
+<td><a href="vms/">Virtual machines</a></td>
 </tr>
 <tr>
-<td>Traction / CNCF checklist</td>
-<td><a href="https://github.com/virtfoundry/core/blob/main/docs/CNCF-CHECKLIST.md">CNCF checklist</a></td>
+<td>Access</td>
+<td>noVNC console, SSH keys, expose SSH</td>
+<td><a href="access/">Console &amp; SSH</a></td>
+</tr>
+<tr>
+<td>Storage</td>
+<td>Volumes; VM snapshots vs CSI volume snapshots</td>
+<td><a href="storage/">Volumes &amp; snapshots</a></td>
+</tr>
+<tr>
+<td>Network</td>
+<td>VPCs, private nets, CIDR planners, public profile</td>
+<td><a href="networking/">VPCs &amp; networks</a></td>
+</tr>
+<tr>
+<td>Security</td>
+<td>Security groups → NetworkPolicy</td>
+<td><a href="security-groups/">Security groups</a></td>
+</tr>
+<tr>
+<td>API</td>
+<td>JWT / API keys, <code>X-Tenant-ID</code>, route map</td>
+<td><a href="api/">API quick reference</a></td>
 </tr>
 </tbody>
 </table>
-<p>Questions: <a href="https://github.com/virtfoundry/core/discussions">GitHub Discussions</a>.</p>
+<h2 id="domain-model">Domain model<a class="headerlink" href="#domain-model" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>Tenant
+  ├── VPC ── Network (Multus NAD)
+  │         └── Security group (NetworkPolicy)
+  ├── Volume ── Volume snapshot (CSI)
+  └── VM ── NICs ── Network
+       ├── Service offering (CPU/mem)
+       ├── VM template (image)
+       └── VM snapshot (KubeVirt)
+</code></pre></div>
+<p><strong>Rule:</strong> the tenant is the isolation unit. VMs and volumes live in the tenant namespace; each VPC has its own namespace; NICs attach via Multus.</p>
+<h2 id="ui-map">UI map<a class="headerlink" href="#ui-map" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Sidebar</th>
+<th>Paths</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Dashboard</td>
+<td><code>/dashboard</code></td>
+</tr>
+<tr>
+<td>Compute</td>
+<td><code>/vms</code>, <code>/templates</code>, <code>/ssh-keys</code>, <code>/vm-snapshots</code>, <code>/console</code></td>
+</tr>
+<tr>
+<td>Storage</td>
+<td><code>/volumes</code>, <code>/snapshots</code></td>
+</tr>
+<tr>
+<td>Network</td>
+<td><code>/vpcs</code>, <code>/networks</code>, <code>/networks/public</code>, <code>/security-groups</code></td>
+</tr>
+<tr>
+<td>Platform</td>
+<td><code>/iam</code>, <code>/offerings</code> (root), <code>/tenants</code> (root)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="next">Next<a class="headerlink" href="#next" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Day-2 ops values: <a href="../configuration/">Configuration</a></li>
+<li>Cluster layouts: <a href="../topologies/">Topologies</a></li>
+<li>Positioning: <a href="../why/">Why VirtFoundry</a></li>
+</ul>
 
 
 
@@ -1671,7 +1458,7 @@ kubectl<span class="w"> </span>get<span class="w"> </span>vm<span class="w"> </s
       <nav class="md-footer__inner md-grid" aria-label="Footer" >
         
           
-          <a href="../why/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Why VirtFoundry">
+          <a href="../helm-repository/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Helm repository">
             <div class="md-footer__button md-icon">
               
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
@@ -1681,20 +1468,20 @@ kubectl<span class="w"> </span>get<span class="w"> </span>vm<span class="w"> </s
                 Previous
               </span>
               <div class="md-ellipsis">
-                Why VirtFoundry
+                Helm repository
               </div>
             </div>
           </a>
         
         
           
-          <a href="../installation/" class="md-footer__link md-footer__link--next" aria-label="Next: Installation">
+          <a href="concepts/" class="md-footer__link md-footer__link--next" aria-label="Next: Concepts and tenancy">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 Next
               </span>
               <div class="md-ellipsis">
-                Installation
+                Concepts and tenancy
               </div>
             </div>
             <div class="md-footer__button md-icon">
