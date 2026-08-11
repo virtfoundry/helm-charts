@@ -40,4 +40,8 @@
          <loc>https://virtfoundry.github.io/helm-charts/docs/project/versioning/</loc>
          <lastmod>2026-08-11</lastmod>
     </url>
+    <url>
+         <loc>https://virtfoundry.github.io/helm-charts/docs/project/website/</loc>
+         <lastmod>2026-08-11</lastmod>
+    </url>
 </urlset>
