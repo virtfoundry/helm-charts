@@ -79,6 +79,18 @@ nav:
       - Topologies: guide/topologies.md
       - Configuration: guide/configuration.md
       - Helm repository: guide/helm-repository.md
+  - Features:
+      - Overview: guide/features/index.md
+      - Concepts and tenancy: guide/features/concepts.md
+      - Auth and IAM: guide/features/iam.md
+      - Service offerings: guide/features/offerings.md
+      - Images and templates: guide/features/templates.md
+      - Virtual machines: guide/features/vms.md
+      - Console and SSH: guide/features/access.md
+      - Volumes and snapshots: guide/features/storage.md
+      - VPCs and networks: guide/features/networking.md
+      - Security groups: guide/features/security-groups.md
+      - API quick reference: guide/features/api.md
   - Project:
       - Website / front door: project/website.md
       - Versioning: project/versioning.md

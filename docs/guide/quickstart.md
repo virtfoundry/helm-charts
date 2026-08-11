@@ -115,6 +115,7 @@ curl -sS http://127.0.0.1:8080/api/v1/healthz || true
 
 | Topic | Doc |
 |-------|-----|
+| What you can do after login | [Features overview](features/index.md) |
 | Full install + why each dependency | [Installation](installation.md) |
 | Min vs production layouts | [Topologies](topologies.md) |
 | Helm values (public net, snapshots) | [Configuration](configuration.md) |
