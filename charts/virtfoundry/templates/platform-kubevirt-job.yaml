@@ -19,11 +19,11 @@ spec:
       serviceAccountName: {{ .Values.namePrefix }}-platform
       restartPolicy: OnFailure
       containers:
-        # registry.k8s.io/kubectl is distroless (no /bin/sh) — invoke kubectl directly.
+        # registry.k8s.io/kubectl is distroless: no shell, binary at /bin/kubectl.
         - name: patch
           image: registry.k8s.io/kubectl:v1.35.4
           command:
-            - kubectl
+            - /bin/kubectl
             - patch
             - kubevirt
             - kubevirt
