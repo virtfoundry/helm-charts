@@ -49,7 +49,7 @@ kubectl get crd virtualmachines.kubevirt.io
 
 ### Multus CNI — required
 
-VirtFoundry models **CloudStack-style networking**: tenants, VPCs, security groups, and an optional shared public network. That requires **more than the default pod CNI**:
+VirtFoundry models **multi-tenant networking**: tenants, VPCs, security groups, and an optional shared public network. That requires **more than the default pod CNI**:
 
 | Feature | How VirtFoundry uses Multus |
 |---------|---------------------------|

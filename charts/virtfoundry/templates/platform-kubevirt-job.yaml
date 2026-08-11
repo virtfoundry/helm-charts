@@ -4,7 +4,7 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: {{ .Values.namespacePrefix }}-kubevirt-config
+  name: {{ .Values.namePrefix }}-kubevirt-config
   namespace: {{ .Values.namespace }}
   labels:
     {{- include "virtfoundry.labels" . | nindent 4 }}
@@ -16,7 +16,7 @@ spec:
   ttlSecondsAfterFinished: 600
   template:
     spec:
-      serviceAccountName: {{ .Values.namespacePrefix }}-platform
+      serviceAccountName: {{ .Values.namePrefix }}-platform
       restartPolicy: OnFailure
       containers:
         - name: patch
