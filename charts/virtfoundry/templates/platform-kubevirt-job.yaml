@@ -19,23 +19,26 @@ spec:
       serviceAccountName: {{ .Values.namePrefix }}-platform
       restartPolicy: OnFailure
       containers:
+        # registry.k8s.io/kubectl is distroless (no /bin/sh) — invoke kubectl directly.
         - name: patch
           image: registry.k8s.io/kubectl:v1.35.4
           command:
-            - /bin/sh
-            - -ec
-            - |
-              if ! kubectl get kubevirt kubevirt -n kubevirt >/dev/null 2>&1; then
-                echo "WARN: KubeVirt CR not found — run: make setup-kubevirt"
-                exit 0
-              fi
-              {{- if $gates }}
-              kubectl patch kubevirt kubevirt -n kubevirt --type merge \
-                -p '{"spec":{"configuration":{"developerConfiguration":{"featureGates":{{ .Values.platform.kubevirt.featureGates.gates | toJson }}}}}}'
-              {{- end }}
-              {{- if gt $ratio 0 }}
-              kubectl patch kubevirt kubevirt -n kubevirt --type merge \
-                -p '{"spec":{"configuration":{"developerConfiguration":{"cpuAllocationRatio":{{ $ratio }}}}}}'
-              echo "KubeVirt cpuAllocationRatio={{ $ratio }}"
-              {{- end }}
+            - kubectl
+            - patch
+            - kubevirt
+            - kubevirt
+            - -n
+            - kubevirt
+            - --type=merge
+            - -p
+            - >-
+              {"spec":{"configuration":{"developerConfiguration":{
+              {{- if $gates -}}
+              "featureGates":{{ .Values.platform.kubevirt.featureGates.gates | toJson }}
+              {{- if gt $ratio 0 -}},{{- end -}}
+              {{- end -}}
+              {{- if gt $ratio 0 -}}
+              "cpuAllocationRatio":{{ $ratio }}
+              {{- end -}}
+              }}}}
 {{- end }}
