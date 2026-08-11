@@ -2,6 +2,8 @@
 
 VirtFoundry installs the **control plane only** (API, worker, UI, optional MySQL). Virtual machines, extra networks, and disk imports rely on platform components that must already exist on the cluster — or be installed **before** `helm install`.
 
+**Want UI + first VM in under 30 minutes?** Start with the [Quickstart](quickstart.md).
+
 For **minimum vs production** layouts (what works for VPC / public / snapshots on a home router), see [Deployment topologies](topologies.md).
 
 ## Prerequisites overview
@@ -180,5 +182,6 @@ API base path: `/api/v1` on the same hostname as the UI.
 
 ## Next steps
 
-- [Configuration](configuration.md) — Helm values and networking
+- [Quickstart](quickstart.md) — under-30-minute UI + first VM path
+- [Configuration](configuration.md) — Helm values and networking (includes `platform.storage.snapshotClass`)
 - [Helm repository](helm-repository.md) — publishing and consuming chart releases

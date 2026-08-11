@@ -73,6 +73,7 @@ markdown_extensions:
 nav:
   - Home: index.md
   - Getting started:
+      - Quickstart: guide/quickstart.md
       - Installation: guide/installation.md
       - Topologies: guide/topologies.md
       - Configuration: guide/configuration.md

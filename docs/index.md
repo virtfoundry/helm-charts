@@ -17,7 +17,8 @@ multi-tenant networking with Multus, and security groups with NetworkPolicy.
 One REST API, one dashboard, one Helm chart.
 </p>
 
-[Get started :material-rocket-launch:](guide/installation.md){ .md-button .md-button--primary }
+[Quickstart :material-rocket-launch:](guide/quickstart.md){ .md-button .md-button--primary }
+[Installation :material-download:](guide/installation.md){ .md-button }
 [View on GitHub :material-github:](https://github.com/virtfoundry/core){ .md-button }
 [Changelog :material-history:](project/changelog.md){ .md-button }
 
