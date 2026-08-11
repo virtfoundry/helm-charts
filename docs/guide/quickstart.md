@@ -118,7 +118,7 @@ curl -sS http://127.0.0.1:8080/api/v1/healthz || true
 | Full install + why each dependency | [Installation](installation.md) |
 | Min vs production layouts | [Topologies](topologies.md) |
 | Helm values (public net, snapshots) | [Configuration](configuration.md) |
-| Why VirtFoundry vs Proxmox | [Why VirtFoundry](https://github.com/virtfoundry/core/blob/main/docs/WHY.md) |
+| Why VirtFoundry vs Proxmox | [Why VirtFoundry](why.md) |
 | Traction / CNCF checklist | [CNCF checklist](https://github.com/virtfoundry/core/blob/main/docs/CNCF-CHECKLIST.md) |
 
 Questions: [GitHub Discussions](https://github.com/virtfoundry/core/discussions).

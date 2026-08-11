@@ -27,4 +27,4 @@ The docs home page leads with:
 2. **Why VirtFoundry** — vs Proxmox / KubeVirt  
 3. Installation / topologies for deeper setup  
 
-See [index.md](../index.md), [quickstart.md](../guide/quickstart.md), and [Why VirtFoundry](https://github.com/virtfoundry/core/blob/main/docs/WHY.md).
+See [index.md](../index.md), [quickstart.md](../guide/quickstart.md), and [Why VirtFoundry](../guide/why.md).

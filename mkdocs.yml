@@ -73,6 +73,7 @@ markdown_extensions:
 nav:
   - Home: index.md
   - Getting started:
+      - Why VirtFoundry: guide/why.md
       - Quickstart: guide/quickstart.md
       - Installation: guide/installation.md
       - Topologies: guide/topologies.md
