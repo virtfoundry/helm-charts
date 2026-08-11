@@ -1205,6 +1205,11 @@
 <td>Chart default for easy labs; <strong>prefer <code>longhorn</code> in real clusters</strong></td>
 </tr>
 <tr>
+<td><code>storage.snapshotClass</code></td>
+<td><code>""</code></td>
+<td>CSI <code>VolumeSnapshotClass</code> for volume snapshots; empty uses cluster default</td>
+</tr>
+<tr>
 <td><code>storage.windowsBootSizeGi</code></td>
 <td><code>32</code></td>
 <td>Boot disk size when deploying from an ISO template</td>
@@ -1218,16 +1223,19 @@
 </table>
 <p>List classes on the cluster, then point VirtFoundry at Longhorn (or another replicated CSI):</p>
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>storageclass
+kubectl<span class="w"> </span>get<span class="w"> </span>volumesnapshotclass
 </code></pre></div>
 <div class="highlight"><pre><span></span><code><span class="nt">platform</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">storage</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">defaultClass</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">longhorn</span><span class="w">   </span><span class="c1"># preferred; or ceph-rbd, nfs-client, standard, …</span>
+<span class="w">    </span><span class="nt">snapshotClass</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">longhorn</span><span class="w">  </span><span class="c1"># or leave empty to use the default VolumeSnapshotClass</span>
 <span class="w">    </span><span class="nt">windowsBootSizeGi</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">32</span>
 <span class="w">    </span><span class="nt">windowsISOSizeGi</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">8</span>
 </code></pre></div>
 <p>Helm one-liner:</p>
 <div class="highlight"><pre><span></span><code>helm<span class="w"> </span>upgrade<span class="w"> </span>--install<span class="w"> </span>virtfoundry<span class="w"> </span>virtfoundry/virtfoundry<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--set<span class="w"> </span>platform.storage.defaultClass<span class="o">=</span>longhorn<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--set<span class="w"> </span>platform.storage.snapshotClass<span class="o">=</span>longhorn<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>...
 </code></pre></div>
 <h3 id="what-uses-which-storageclass">What uses which StorageClass<a class="headerlink" href="#what-uses-which-storageclass" title="Permanent link">&para;</a></h3>
@@ -1303,7 +1311,7 @@
 <li><strong>CSI external-snapshotter</strong> — CRDs + snapshot-controller<br />
    (<a href="https://github.com/kubernetes-csi/external-snapshotter">kubernetes-csi/external-snapshotter</a>)</li>
 <li><strong>A CSI StorageClass with snapshot support</strong> — for example <a href="https://longhorn.io/">Longhorn</a> (CNCF, Apache 2.0), Rook/Ceph RBD, or a cloud-provider CSI</li>
-<li><strong>A default <code>VolumeSnapshotClass</code></strong> for that driver (VirtFoundry currently defaults the class name to <code>csi-snapclass</code> unless you pass another name in code/config)</li>
+<li><strong>A <code>VolumeSnapshotClass</code></strong> for that driver — either a cluster default (<code>snapshot.storage.kubernetes.io/is-default-class: "true"</code>) or set <code>platform.storage.snapshotClass</code> (e.g. <code>longhorn</code>). Empty config omits <code>volumeSnapshotClassName</code> so Kubernetes uses the default class.</li>
 </ol>
 <p>Verify before using the UI:</p>
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>api-resources<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>volumesnapshot
