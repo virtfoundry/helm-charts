@@ -42,6 +42,7 @@ VirtFoundry uses **existing cluster StorageClasses** — not bundled storage. Ch
 | Key | Default | Description |
 |-----|---------|-------------|
 | `storage.defaultClass` | `local-path` | CDI `DataVolume`s; set to `longhorn` when available |
+| `storage.snapshotClass` | `""` (cluster default) | CSI `VolumeSnapshotClass` for `/snapshots`; empty omits the field |
 | `storage.windowsBootSizeGi` | `32` | Boot disk for ISO-based deploys |
 | `storage.windowsISOSizeGi` | `8` | ISO import PVC size |
 
@@ -49,6 +50,7 @@ VirtFoundry uses **existing cluster StorageClasses** — not bundled storage. Ch
 platform:
   storage:
     defaultClass: longhorn   # preferred
+    snapshotClass: longhorn  # VolumeSnapshotClass name (or leave empty for cluster default)
 ```
 
 MySQL PVC (embedded chart) uses the **cluster default** StorageClass unless the chart is extended. Per-template `storage_class` in the API overrides the global default for that template.

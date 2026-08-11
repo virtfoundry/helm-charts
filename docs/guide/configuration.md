@@ -48,6 +48,7 @@ VirtFoundry does **not** ship a storage backend. It uses **StorageClasses alread
 | Key | Default | Description |
 |-----|---------|-------------|
 | `storage.defaultClass` | `local-path` | Chart default for easy labs; **prefer `longhorn` in real clusters** |
+| `storage.snapshotClass` | `""` | CSI `VolumeSnapshotClass` for volume snapshots; empty uses cluster default |
 | `storage.windowsBootSizeGi` | `32` | Boot disk size when deploying from an ISO template |
 | `storage.windowsISOSizeGi` | `8` | ISO import PVC size |
 
@@ -55,12 +56,14 @@ List classes on the cluster, then point VirtFoundry at Longhorn (or another repl
 
 ```bash
 kubectl get storageclass
+kubectl get volumesnapshotclass
 ```
 
 ```yaml
 platform:
   storage:
     defaultClass: longhorn   # preferred; or ceph-rbd, nfs-client, standard, …
+    snapshotClass: longhorn  # or leave empty to use the default VolumeSnapshotClass
     windowsBootSizeGi: 32
     windowsISOSizeGi: 8
 ```
@@ -70,6 +73,7 @@ Helm one-liner:
 ```bash
 helm upgrade --install virtfoundry virtfoundry/virtfoundry \
   --set platform.storage.defaultClass=longhorn \
+  --set platform.storage.snapshotClass=longhorn \
   ...
 ```
 
@@ -106,7 +110,7 @@ That error means the cluster is missing the VolumeSnapshot CRDs (`snapshot.stora
 1. **CSI external-snapshotter** — CRDs + snapshot-controller  
    ([kubernetes-csi/external-snapshotter](https://github.com/kubernetes-csi/external-snapshotter))
 2. **A CSI StorageClass with snapshot support** — for example [Longhorn](https://longhorn.io/) (CNCF, Apache 2.0), Rook/Ceph RBD, or a cloud-provider CSI
-3. **A default `VolumeSnapshotClass`** for that driver (VirtFoundry currently defaults the class name to `csi-snapclass` unless you pass another name in code/config)
+3. **A `VolumeSnapshotClass`** for that driver — either a cluster default (`snapshot.storage.kubernetes.io/is-default-class: "true"`) or set `platform.storage.snapshotClass` (e.g. `longhorn`). Empty config omits `volumeSnapshotClassName` so Kubernetes uses the default class.
 
 Verify before using the UI:
 

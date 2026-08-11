@@ -113,6 +113,8 @@ platform:
   storage:
     # Chart default is local-path for easy labs; prefer longhorn in real clusters.
     defaultClass: local-path       # preferred: longhorn (or ceph-rbd, nfs-client, …)
+    # VolumeSnapshotClass for CSI volume snapshots. Empty = use cluster default class.
+    snapshotClass: ""              # e.g. longhorn
     windowsBootSizeGi: 32
     windowsISOSizeGi: 8
   kubevirt:
