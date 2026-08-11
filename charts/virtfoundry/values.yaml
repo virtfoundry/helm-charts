@@ -7,11 +7,11 @@ fullnamePrefix: virtfoundry
 namespace: virtfoundry-system
 
 images:
-  api: ghcr.io/virtfoundry/core:1.4.1
-  worker: ghcr.io/virtfoundry/core:1.4.1
-  ui: ghcr.io/virtfoundry/ui:1.4.1
+  api: ghcr.io/virtfoundry/core:1.5.0
+  worker: ghcr.io/virtfoundry/core:1.5.0
+  ui: ghcr.io/virtfoundry/ui:1.5.0
   pullPolicy: IfNotPresent
-  # Optional: [{ name: ghcr-pull }] for private GHCR packages
+  # Optional: ["ghcr-pull"] for private GHCR packages
   pullSecrets: []
 
 mysql:
