@@ -37,23 +37,23 @@ Configure public VM networking per site — no app code changes required.
 
 ## Storage (`platform.storage`)
 
-VirtFoundry uses **existing cluster StorageClasses** — not bundled storage. Default in chart: `local-path`; override with any class your cluster provides (Longhorn, Ceph RBD, NFS, cloud disks, etc.).
+VirtFoundry uses **existing cluster StorageClasses** — not bundled storage. Chart default is `local-path` for easy labs; **prefer [Longhorn](https://longhorn.io/)** (or another replicated CSI) for anything beyond a throwaway single-node demo.
 
 | Key | Default | Description |
 |-----|---------|-------------|
-| `storage.defaultClass` | `local-path` | CDI `DataVolume`s (ISO import, blank boot disks) |
+| `storage.defaultClass` | `local-path` | CDI `DataVolume`s; set to `longhorn` when available |
 | `storage.windowsBootSizeGi` | `32` | Boot disk for ISO-based deploys |
 | `storage.windowsISOSizeGi` | `8` | ISO import PVC size |
 
 ```yaml
 platform:
   storage:
-    defaultClass: longhorn
+    defaultClass: longhorn   # preferred
 ```
 
 MySQL PVC (embedded chart) uses the **cluster default** StorageClass unless the chart is extended. Per-template `storage_class` in the API overrides the global default for that template.
 
-**Volume snapshots** (`/snapshots` UI) need CSI `VolumeSnapshot` APIs + a snapshot-capable StorageClass. They do **not** work with `local-path`. **VM snapshots** use KubeVirt and work independently. See [Configuration guide — Snapshots](https://virtfoundry.github.io/helm-charts/docs/guide/configuration/#snapshots-vm-vs-volume).
+**Volume snapshots** (`/snapshots` UI) need CSI `VolumeSnapshot` APIs + a snapshot-capable StorageClass (Longhorn provides this). They do **not** work with `local-path`. **VM snapshots** use KubeVirt and work independently. See [Configuration guide — Snapshots](https://virtfoundry.github.io/helm-charts/docs/guide/configuration/#snapshots-vm-vs-volume).
 
 See [Configuration guide](https://virtfoundry.github.io/helm-charts/docs/guide/configuration/#storage) for full details.
 

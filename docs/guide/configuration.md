@@ -40,15 +40,18 @@ Enable routable VM IPs on a host bridge + Multus NAD:
 
 VirtFoundry does **not** ship a storage backend. It uses **StorageClasses already present on your cluster** (Longhorn, Ceph RBD, NFS, OpenEBS, `local-path`, cloud provider disks, etc.).
 
+!!! tip "Preferred: Longhorn"
+    **[Longhorn](https://longhorn.io/)** is the recommended StorageClass for VirtFoundry beyond a single-node throwaway lab: replicated block volumes, CSI volume snapshots, and disks that survive a worker loss. Keep `local-path` only for quick demos; set `platform.storage.defaultClass=longhorn` (and make `longhorn` the cluster default) as soon as you have two or more workers.
+
 ### Default StorageClass (`platform.storage`)
 
 | Key | Default | Description |
 |-----|---------|-------------|
-| `storage.defaultClass` | `local-path` | Default class for CDI `DataVolume`s (ISO import, blank boot disks) |
+| `storage.defaultClass` | `local-path` | Chart default for easy labs; **prefer `longhorn` in real clusters** |
 | `storage.windowsBootSizeGi` | `32` | Boot disk size when deploying from an ISO template |
 | `storage.windowsISOSizeGi` | `8` | ISO import PVC size |
 
-The chart default (`local-path`) is a common lab choice — **replace it with any StorageClass that exists in your cluster**:
+List classes on the cluster, then point VirtFoundry at Longhorn (or another replicated CSI):
 
 ```bash
 kubectl get storageclass
@@ -57,7 +60,7 @@ kubectl get storageclass
 ```yaml
 platform:
   storage:
-    defaultClass: longhorn   # or ceph-rbd, nfs-client, standard, etc.
+    defaultClass: longhorn   # preferred; or ceph-rbd, nfs-client, standard, …
     windowsBootSizeGi: 32
     windowsISOSizeGi: 8
 ```
@@ -79,9 +82,6 @@ helm upgrade --install virtfoundry virtfoundry/virtfoundry \
 | Container-disk templates | — | Image pulled as `containerDisk`; no PVC for the OS image |
 | Embedded MySQL (chart) | **Cluster default** StorageClass | Chart PVC has no `storageClassName` yet — set cluster default or patch chart |
 | Tenant volumes (`/volumes` UI) | Cluster / app default | Uses Kubernetes PVC creation; wire to `defaultClass` in a future release |
-
-!!! tip "Production clusters"
-    Prefer a replicated block storage class (Longhorn, Ceph, cloud disk) over node-local `local-path` when VMs and volumes must survive node loss.
 
 ### Snapshots: VM vs volume
 

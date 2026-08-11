@@ -18,7 +18,9 @@ Single node, home router only (no managed switch), `local-path`, port-forward to
 
 ## Production recommended
 
-Multi-worker, replicated block storage, Ingress/Gateway + LB, tenant VPC + public/shared network, optional CSI snapshots and observability.
+Multi-worker, **Longhorn** (preferred) or other replicated block storage, Ingress/Gateway + LB, tenant VPC + public/shared network, CSI volume snapshots and optional observability.
+
+Set `platform.storage.defaultClass=longhorn` and make Longhorn the cluster default StorageClass.
 
 ![VirtFoundry production recommended](../diagrams/virtfoundry-prod-recommended.svg)
 
@@ -26,7 +28,7 @@ Multi-worker, replicated block storage, Ingress/Gateway + LB, tenant VPC + publi
 |------------|--------|-------|
 | VPC / private subnet | Yes | Multus isolated; multi-node same-VPC L2 may need OVN/overlay later |
 | Public network | Yes | VLAN underlay **or** LAN/macvlan mode when there is no managed switch |
-| Volume snapshots | Yes | CSI snapshotter + snapshot-capable StorageClass + `VolumeSnapshotClass` |
+| Volume snapshots | Yes | Longhorn + CSI snapshotter + `VolumeSnapshotClass` |
 | HA / capacity | Yes | Extra workers; CP HA when SLA requires it |
 
 See also: [Installation](installation.md), [Configuration — Snapshots](configuration.md#snapshots-vm-vs-volume).

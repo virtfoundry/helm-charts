@@ -14,8 +14,8 @@ For **minimum vs production** layouts (what works for VPC / public / snapshots o
 | [Multus CNI](https://github.com/k8snetworkplumbingwg/multus-cni) | **Yes** | Secondary NICs — tenant VPCs, isolated L2, public VM network |
 | [CDI](https://github.com/kubevirt/containerized-data-importer) | **Yes** for ISO/import templates; optional for container-disk-only | Imports ISOs and blank boot disks via `DataVolume` |
 | Ingress **or** Gateway API + controller | One of them | Exposes UI and API on a hostname |
-| StorageClass (e.g. `local-path`) | **Yes** for disks | PVCs for MySQL, VM volumes, ISO storage |
-| CSI snapshotter + snapshot-capable CSI (e.g. [Longhorn](https://longhorn.io/)) | **Only** for **volume** snapshots UI | `VolumeSnapshot` CRDs + `VolumeSnapshotClass`; **not** provided by `local-path` |
+| StorageClass — **prefer [Longhorn](https://longhorn.io/)** | **Yes** for disks | PVCs for MySQL, VM volumes, ISO storage; `local-path` only for quick labs |
+| CSI snapshotter + snapshot-capable CSI (Longhorn includes this) | **Recommended**; required for **volume** snapshots UI | `VolumeSnapshot` CRDs + `VolumeSnapshotClass`; **not** provided by `local-path` |
 | MetalLB (or cloud LB) | Bare metal only | When Services need external IPs |
 
 !!! note "Not bundled in the Helm chart by default"
