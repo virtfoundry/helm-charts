@@ -18,7 +18,7 @@ Proxmox (or avoiding raw KubeVirt YAML) who already run Kubernetes.
 </p>
 
 [Quickstart :material-rocket-launch:](guide/quickstart.md){ .md-button .md-button--primary }
-[Why VirtFoundry :material-compass:](https://github.com/virtfoundry/core/blob/main/docs/WHY.md){ .md-button }
+[Why VirtFoundry :material-compass:](guide/why.md){ .md-button }
 [Installation :material-download:](guide/installation.md){ .md-button }
 [GitHub :material-github:](https://github.com/virtfoundry/core){ .md-button }
 
@@ -144,7 +144,7 @@ VirtFoundry requires **KubeVirt**, **Multus**, and **CDI** (for ISO/import paths
 <div class="vf-links" markdown="1">
 
 [Quickstart](guide/quickstart.md)
-[Why VirtFoundry](https://github.com/virtfoundry/core/blob/main/docs/WHY.md)
+[Why VirtFoundry](guide/why.md)
 [Installation guide](guide/installation.md)
 [Website / front door](project/website.md)
 [Helm repository](guide/helm-repository.md)
