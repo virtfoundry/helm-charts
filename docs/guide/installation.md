@@ -137,14 +137,14 @@ helm install virtfoundry virtfoundry/virtfoundry \
 Pin a release:
 
 ```bash
-helm install virtfoundry virtfoundry/virtfoundry --version 1.4.1 \
+helm install virtfoundry virtfoundry/virtfoundry --version 1.5.0 \
   --namespace virtfoundry-system \
   --create-namespace \
   --set secrets.rootPassword='change-me' \
   --set secrets.jwtSecret='change-me-long-random'
 ```
 
-Images default to `ghcr.io/virtfoundry/core:1.4.1` and `ui:1.4.1`.
+Images default to `ghcr.io/virtfoundry/core:1.5.0` and `ui:1.5.0`.
 
 ---
 
