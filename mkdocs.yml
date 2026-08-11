@@ -79,6 +79,7 @@ nav:
       - Configuration: guide/configuration.md
       - Helm repository: guide/helm-repository.md
   - Project:
+      - Website / front door: project/website.md
       - Versioning: project/versioning.md
       - Changelog: project/changelog.md
       - Governance: project/governance.md

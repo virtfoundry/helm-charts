@@ -12,15 +12,15 @@ title: Home
 # VirtFoundry
 
 <p class="vf-lead">
-Kubernetes-native IaaS control plane — virtual machines with KubeVirt,
-multi-tenant networking with Multus, and security groups with NetworkPolicy.
-One REST API, one dashboard, one Helm chart.
+Kubernetes-native private cloud control plane — multi-tenant VMs on KubeVirt,
+networking with Multus, and a CloudStack-like API/UI. Built for people leaving
+Proxmox (or avoiding raw KubeVirt YAML) who already run Kubernetes.
 </p>
 
 [Quickstart :material-rocket-launch:](guide/quickstart.md){ .md-button .md-button--primary }
+[Why VirtFoundry :material-compass:](https://github.com/virtfoundry/core/blob/main/docs/WHY.md){ .md-button }
 [Installation :material-download:](guide/installation.md){ .md-button }
-[View on GitHub :material-github:](https://github.com/virtfoundry/core){ .md-button }
-[Changelog :material-history:](project/changelog.md){ .md-button }
+[GitHub :material-github:](https://github.com/virtfoundry/core){ .md-button }
 
 </div>
 
@@ -143,7 +143,10 @@ VirtFoundry requires **KubeVirt**, **Multus**, and **CDI** (for ISO/import paths
 
 <div class="vf-links" markdown="1">
 
+[Quickstart](guide/quickstart.md)
+[Why VirtFoundry](https://github.com/virtfoundry/core/blob/main/docs/WHY.md)
 [Installation guide](guide/installation.md)
+[Website / front door](project/website.md)
 [Helm repository](guide/helm-repository.md)
 [Versioning policy](project/versioning.md)
 [Contributing](https://github.com/virtfoundry/helm-charts/blob/main/CONTRIBUTING.md)
