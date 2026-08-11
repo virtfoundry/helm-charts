@@ -1185,6 +1185,10 @@
 </div>
 <h2 id="storage">Storage<a class="headerlink" href="#storage" title="Permanent link">&para;</a></h2>
 <p>VirtFoundry does <strong>not</strong> ship a storage backend. It uses <strong>StorageClasses already present on your cluster</strong> (Longhorn, Ceph RBD, NFS, OpenEBS, <code>local-path</code>, cloud provider disks, etc.).</p>
+<div class="admonition tip">
+<p class="admonition-title">Preferred: Longhorn</p>
+<p><strong><a href="https://longhorn.io/">Longhorn</a></strong> is the recommended StorageClass for VirtFoundry beyond a single-node throwaway lab: replicated block volumes, CSI volume snapshots, and disks that survive a worker loss. Keep <code>local-path</code> only for quick demos; set <code>platform.storage.defaultClass=longhorn</code> (and make <code>longhorn</code> the cluster default) as soon as you have two or more workers.</p>
+</div>
 <h3 id="default-storageclass-platformstorage">Default StorageClass (<code>platform.storage</code>)<a class="headerlink" href="#default-storageclass-platformstorage" title="Permanent link">&para;</a></h3>
 <table>
 <thead>
@@ -1198,7 +1202,7 @@
 <tr>
 <td><code>storage.defaultClass</code></td>
 <td><code>local-path</code></td>
-<td>Default class for CDI <code>DataVolume</code>s (ISO import, blank boot disks)</td>
+<td>Chart default for easy labs; <strong>prefer <code>longhorn</code> in real clusters</strong></td>
 </tr>
 <tr>
 <td><code>storage.windowsBootSizeGi</code></td>
@@ -1212,12 +1216,12 @@
 </tr>
 </tbody>
 </table>
-<p>The chart default (<code>local-path</code>) is a common lab choice — <strong>replace it with any StorageClass that exists in your cluster</strong>:</p>
+<p>List classes on the cluster, then point VirtFoundry at Longhorn (or another replicated CSI):</p>
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>storageclass
 </code></pre></div>
 <div class="highlight"><pre><span></span><code><span class="nt">platform</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">storage</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">defaultClass</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">longhorn</span><span class="w">   </span><span class="c1"># or ceph-rbd, nfs-client, standard, etc.</span>
+<span class="w">    </span><span class="nt">defaultClass</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">longhorn</span><span class="w">   </span><span class="c1"># preferred; or ceph-rbd, nfs-client, standard, …</span>
 <span class="w">    </span><span class="nt">windowsBootSizeGi</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">32</span>
 <span class="w">    </span><span class="nt">windowsISOSizeGi</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">8</span>
 </code></pre></div>
@@ -1263,10 +1267,6 @@
 </tr>
 </tbody>
 </table>
-<div class="admonition tip">
-<p class="admonition-title">Production clusters</p>
-<p>Prefer a replicated block storage class (Longhorn, Ceph, cloud disk) over node-local <code>local-path</code> when VMs and volumes must survive node loss.</p>
-</div>
 <h3 id="snapshots-vm-vs-volume">Snapshots: VM vs volume<a class="headerlink" href="#snapshots-vm-vs-volume" title="Permanent link">&para;</a></h3>
 <p>VirtFoundry exposes <strong>two different</strong> snapshot features. They use different Kubernetes APIs and have different cluster prerequisites.</p>
 <table>
