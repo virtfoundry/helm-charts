@@ -23,3 +23,14 @@ jobs:
 
       - name: Render gateway profile
         run: helm template virtfoundry ./charts/virtfoundry -f ./charts/virtfoundry/values-gateway.yaml
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install MkDocs
+        run: pip install -r requirements-docs.txt
+
+      - name: MkDocs build (strict)
+        run: mkdocs build --strict
