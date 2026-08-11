@@ -11,6 +11,8 @@ images:
   worker: ghcr.io/virtfoundry/core:1.4.1
   ui: ghcr.io/virtfoundry/ui:1.4.1
   pullPolicy: IfNotPresent
+  # Optional: [{ name: ghcr-pull }] for private GHCR packages
+  pullSecrets: []
 
 mysql:
   enabled: true
