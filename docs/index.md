@@ -18,6 +18,7 @@ Proxmox (or avoiding raw KubeVirt YAML) who already run Kubernetes.
 </p>
 
 [Quickstart :material-rocket-launch:](guide/quickstart.md){ .md-button .md-button--primary }
+[Features :material-view-grid:](guide/features/index.md){ .md-button }
 [Why VirtFoundry :material-compass:](guide/why.md){ .md-button }
 [Installation :material-download:](guide/installation.md){ .md-button }
 [GitHub :material-github:](https://github.com/virtfoundry/core){ .md-button }
