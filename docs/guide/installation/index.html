@@ -13,7 +13,7 @@
         <link rel="canonical" href="https://virtfoundry.github.io/helm-charts/docs/guide/installation/">
       
       
-        <link rel="prev" href="../..">
+        <link rel="prev" href="../quickstart/">
       
       
         <link rel="next" href="../topologies/">
@@ -245,7 +245,7 @@
     
     
       <li class="md-tabs__item md-tabs__item--active">
-        <a href="./" class="md-tabs__link">
+        <a href="../quickstart/" class="md-tabs__link">
           
   
   
@@ -377,6 +377,8 @@
       
         
       
+        
+      
     
     
     
@@ -424,6 +426,34 @@
 
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../quickstart/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quickstart
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
             
               
                 
@@ -1059,6 +1089,7 @@
 
 <h1 id="installation">Installation<a class="headerlink" href="#installation" title="Permanent link">&para;</a></h1>
 <p>VirtFoundry installs the <strong>control plane only</strong> (API, worker, UI, optional MySQL). Virtual machines, extra networks, and disk imports rely on platform components that must already exist on the cluster — or be installed <strong>before</strong> <code>helm install</code>.</p>
+<p><strong>Want UI + first VM in under 30 minutes?</strong> Start with the <a href="../quickstart/">Quickstart</a>.</p>
 <p>For <strong>minimum vs production</strong> layouts (what works for VPC / public / snapshots on a home router), see <a href="../topologies/">Deployment topologies</a>.</p>
 <h2 id="prerequisites-overview">Prerequisites overview<a class="headerlink" href="#prerequisites-overview" title="Permanent link">&para;</a></h2>
 <table>
@@ -1263,7 +1294,8 @@ helm<span class="w"> </span>install<span class="w"> </span>virtfoundry<span clas
 <hr />
 <h2 id="next-steps">Next steps<a class="headerlink" href="#next-steps" title="Permanent link">&para;</a></h2>
 <ul>
-<li><a href="../configuration/">Configuration</a> — Helm values and networking</li>
+<li><a href="../quickstart/">Quickstart</a> — under-30-minute UI + first VM path</li>
+<li><a href="../configuration/">Configuration</a> — Helm values and networking (includes <code>platform.storage.snapshotClass</code>)</li>
 <li><a href="../helm-repository/">Helm repository</a> — publishing and consuming chart releases</li>
 </ul>
 
@@ -1301,7 +1333,7 @@ helm<span class="w"> </span>install<span class="w"> </span>virtfoundry<span clas
       <nav class="md-footer__inner md-grid" aria-label="Footer" >
         
           
-          <a href="../.." class="md-footer__link md-footer__link--prev" aria-label="Previous: Home">
+          <a href="../quickstart/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Quickstart">
             <div class="md-footer__button md-icon">
               
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
@@ -1311,7 +1343,7 @@ helm<span class="w"> </span>install<span class="w"> </span>virtfoundry<span clas
                 Previous
               </span>
               <div class="md-ellipsis">
-                Home
+                Quickstart
               </div>
             </div>
           </a>
