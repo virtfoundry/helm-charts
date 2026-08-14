@@ -403,6 +403,8 @@
       
         
       
+        
+      
     
     
     
@@ -494,6 +496,34 @@
     
   
     Quickstart
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../kind/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Kind (laptop)
   
 
     
@@ -620,6 +650,56 @@
       
     </span>
   </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#public-network-underlay" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Public network underlay
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Public network underlay">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#kind-laptop-start-here" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Kind (laptop — start here)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#a-dedicated-vlan-homelab-production" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        A — Dedicated VLAN (homelab / production)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#b-no-vlan-public-on-the-house-lan" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        B — No VLAN, public on the house LAN
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -1332,6 +1412,56 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#public-network-underlay" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Public network underlay
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Public network underlay">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#kind-laptop-start-here" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Kind (laptop — start here)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#a-dedicated-vlan-homelab-production" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        A — Dedicated VLAN (homelab / production)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#b-no-vlan-public-on-the-house-lan" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        B — No VLAN, public on the house LAN
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -1383,8 +1513,8 @@
 </tr>
 <tr>
 <td>Public / shared routable IPs</td>
-<td>Only if configured</td>
-<td>Default VLAN-style public needs underlay VLAN; home LAN needs bridge/macvlan on the node NIC + IP pool on the router subnet</td>
+<td>Optional</td>
+<td>See <a href="#public-network-underlay">Public network underlay</a> — VLAN is <strong>not</strong> required</td>
 </tr>
 <tr>
 <td>Volume snapshots</td>
@@ -1419,7 +1549,7 @@
 <tr>
 <td>Public network</td>
 <td>Yes</td>
-<td>VLAN underlay <strong>or</strong> LAN/macvlan mode when there is no managed switch</td>
+<td>Dedicated VLAN <strong>or</strong> same LAN as the house (second NIC / existing host bridge)</td>
 </tr>
 <tr>
 <td>Volume snapshots</td>
@@ -1433,6 +1563,25 @@
 </tr>
 </tbody>
 </table>
+<h2 id="public-network-underlay">Public network underlay<a class="headerlink" href="#public-network-underlay" title="Permanent link">&para;</a></h2>
+<p><code>platform.networking.public</code> gives VMs a <strong>second NIC</strong> on a Linux bridge (<code>vf-pub0</code> by default) plus a static IP from <code>ipPool</code> (cloud-init). Kubernetes node IPs, SSH, and the CNI stay on whatever network they already use.</p>
+<p>You do <strong>not</strong> need a VLAN. On a laptop the worked example is <strong><a href="../kind/">Kind</a></strong> (public off, or a second Docker network). On metal, use a VLAN <strong>or</strong> the house LAN.</p>
+<p>The shared NAD is always CNI type <strong><code>bridge</code></strong>. Helm <code>public.mode: macvlan</code> is not a working NAD yet — do not use it to avoid bridging.</p>
+<p><strong>Never</strong> set <code>public.bridge.uplink</code> to the interface that holds the Kubernetes node IP, unless that NIC is already a port of a Linux bridge that <em>owns</em> the node address. Bridge-keeper runs <code>ip link set &lt;uplink&gt; master vf-pub0</code> and will drop SSH/kubelet. On kind that interface is <strong><code>eth0</code></strong>.</p>
+<h3 id="kind-laptop-start-here">Kind (laptop — start here)<a class="headerlink" href="#kind-laptop-start-here" title="Permanent link">&para;</a></h3>
+<p>No switch. <a href="../kind/">Kind guide</a>: <code>public.enabled: false</code> and reach the guest via the UI console; or attach Docker network <code>10.0.50.0/24</code> to the kind node as <strong><code>eth1</code></strong> and use that as <code>uplink</code>.</p>
+<h3 id="a-dedicated-vlan-homelab-production">A — Dedicated VLAN (homelab / production)<a class="headerlink" href="#a-dedicated-vlan-homelab-production" title="Permanent link">&para;</a></h3>
+<p>Tagged underlay (e.g. VLAN 50). Parent NIC keeps the node IP (untagged mgmt). Create a <strong>stable</strong> VLAN iface with the <strong>same name on every node</strong> (<code>vlan50</code>) and set <code>uplink: vlan50</code>. Guest pool and MetalLB live on that CIDR; do not put those addresses on the host.</p>
+<p>Site example (Kubespray): <code>vlan50</code> → <code>vf-pub0</code> <code>10.0.50.2/24</code>, VMs <code>.10–.99</code>, MetalLB <code>.100–.150</code>, gateway <code>.1</code> on the router.</p>
+<h3 id="b-no-vlan-public-on-the-house-lan">B — No VLAN, public on the house LAN<a class="headerlink" href="#b-no-vlan-public-on-the-house-lan" title="Permanent link">&para;</a></h3>
+<p>You can still have “public” IPs next to laptops/Wi-Fi:</p>
+<ol>
+<li><strong>Skip public</strong> — <code>public.enabled: false</code>. VMs on the pod network; expose the UI with NodePort or MetalLB on the node subnet.</li>
+<li><strong>Second NIC</strong> — untagged on the same LAN as the router. <code>uplink</code> = that NIC (same name on all nodes). <code>cidr</code> / <code>gateway</code> = the house subnet. Reserve <code>ipPool</code> (and MetalLB if used) in the router DHCP so nothing else takes those IPs. Put a single unused address on <code>vf-pub0</code> (<code>bridge.address</code>), not a node IP.</li>
+<li><strong>Single NIC, already bridged</strong> — if NetworkManager already has <code>br0</code> (NIC enslaved, node IP on <code>br0</code>), set <code>public.bridge.name: br0</code>, <code>uplink: ""</code>, <code>address: ""</code>, and <code>cidr</code> = that LAN. Do <strong>not</strong> also create <code>vf-pub0</code> and enslave the same NIC.</li>
+</ol>
+<p>Carve pools so they never overlap: router, DHCP dynamic range, node IPs, <code>bridge.address</code>, VM pool, MetalLB.</p>
+<p>See <a href="../configuration/#public-networking">Configuration</a> and <a href="../features/networking/">VPCs and networks</a>.</p>
 <p>See also: <a href="../installation/">Installation</a>, <a href="../configuration/#snapshots-vm-vs-volume">Configuration — Snapshots</a>.</p>
 
 

@@ -403,6 +403,8 @@
       
         
       
+        
+      
     
     
     
@@ -494,6 +496,34 @@
     
   
     Quickstart
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../kind/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Kind (laptop)
   
 
     
@@ -1610,7 +1640,7 @@
 </tbody>
 </table>
 <h2 id="public-networking">Public networking<a class="headerlink" href="#public-networking" title="Permanent link">&para;</a></h2>
-<p>Enable routable VM IPs on a host bridge + Multus NAD:</p>
+<p>Enable routable VM IPs on a host bridge + Multus NAD. VLAN tagging is optional — laptop walkthrough: <a href="../kind/">Kind</a>; real nodes: <a href="../topologies/#public-network-underlay">Topologies — public underlay</a>.</p>
 <table>
 <thead>
 <tr>
@@ -1628,7 +1658,7 @@
 <tr>
 <td><code>public.cidr</code></td>
 <td><code>10.0.50.0/24</code></td>
-<td>L3 CIDR — set to your environment</td>
+<td>L3 CIDR — VLAN subnet <strong>or</strong> the house LAN</td>
 </tr>
 <tr>
 <td><code>public.gateway</code></td>
@@ -1638,27 +1668,32 @@
 <tr>
 <td><code>public.ipPool.start/end</code></td>
 <td><code>.10</code>–<code>.99</code></td>
-<td>Allocatable addresses</td>
+<td>Allocatable guest addresses; exclude DHCP, nodes, MetalLB</td>
+</tr>
+<tr>
+<td><code>public.reservedRanges</code></td>
+<td>MetalLB example</td>
+<td>IPs the VM pool must not use</td>
 </tr>
 <tr>
 <td><code>public.bridge.name</code></td>
 <td><code>vf-pub0</code></td>
-<td>Linux bridge (≤15 chars / IFNAMSIZ)</td>
+<td>Linux bridge (≤15 chars / IFNAMSIZ), or an existing host <code>br0</code></td>
 </tr>
 <tr>
 <td><code>public.bridge.uplink</code></td>
 <td><code>""</code></td>
-<td>Physical or VLAN interface attached to the bridge</td>
+<td>VLAN iface or <strong>second</strong> NIC enslaved into the bridge. Same name on every node.</td>
 </tr>
 <tr>
 <td><code>public.bridge.address</code></td>
 <td><code>""</code></td>
-<td>Optional bridge IP for dnsmasq</td>
+<td>Optional host IP on the public L2 (outside VM/LB pools)</td>
 </tr>
 <tr>
 <td><code>public.nad.name</code></td>
 <td><code>virtfoundry-public</code></td>
-<td>Multus NAD</td>
+<td>Multus NAD (always CNI <code>bridge</code>)</td>
 </tr>
 <tr>
 <td><code>vm.allowPodNetwork</code></td>
@@ -1670,6 +1705,10 @@
 <div class="admonition warning">
 <p class="admonition-title">Gateway must be reachable</p>
 <p><code>public.gateway</code> must be an IP that exists on your L3 router for the configured CIDR. VMs receive this address via cloud-init when using the static IP pool.</p>
+</div>
+<div class="admonition danger">
+<p class="admonition-title">Do not enslave the Kubernetes NIC</p>
+<p><code>uplink</code> must not be the interface that holds the node IP (SSH/kubelet). Bridge-keeper runs <code>ip link set &lt;uplink&gt; master &lt;bridge&gt;</code>. Use a VLAN subinterface, a second NIC, or point <code>bridge.name</code> at an existing mgmt bridge with <code>uplink</code> empty.</p>
 </div>
 <h2 id="storage">Storage<a class="headerlink" href="#storage" title="Permanent link">&para;</a></h2>
 <p>VirtFoundry does <strong>not</strong> ship a storage backend. It uses <strong>StorageClasses already present on your cluster</strong> (Longhorn, Ceph RBD, NFS, OpenEBS, <code>local-path</code>, cloud provider disks, etc.).</p>

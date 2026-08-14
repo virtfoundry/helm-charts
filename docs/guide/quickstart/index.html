@@ -16,7 +16,7 @@
         <link rel="prev" href="../why/">
       
       
-        <link rel="next" href="../installation/">
+        <link rel="next" href="../kind/">
       
       
         
@@ -403,6 +403,8 @@
       
         
       
+        
+      
     
     
     
@@ -654,6 +656,34 @@
   
 </nav>
       
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../kind/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Kind (laptop)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
     </li>
   
 
@@ -1524,11 +1554,11 @@
 
 
 <h1 id="quickstart-under-30-minutes">Quickstart (under 30 minutes)<a class="headerlink" href="#quickstart-under-30-minutes" title="Permanent link">&para;</a></h1>
-<p>Goal: <strong>UI login + first VM</strong> on a cluster that already has Kubernetes, KubeVirt, Multus, and CDI.</p>
+<p>Goal: <strong>UI login + first VM</strong>. On a laptop, start with <strong><a href="../kind/">Kind</a></strong> (Docker, no VLAN). On a cluster that already has Kubernetes, KubeVirt, Multus, and CDI, continue below.</p>
 <p>If you still need to install those platform components, budget extra time and follow the full <a href="../installation/">Installation</a> guide (or run <code>./scripts/setup/{kubevirt,multus,cdi}.sh</code> from a <a href="https://github.com/virtfoundry/helm-charts">helm-charts</a> clone).</p>
 <div class="admonition tip">
 <p class="admonition-title">Homelab with Argo / Longhorn</p>
-<p>Production-shaped layouts (Gateway API, Longhorn, snapshots): <a href="../topologies/">Deployment topologies</a>.</p>
+<p>Production-shaped layouts (Gateway API, Longhorn, snapshots): <a href="../topologies/">Deployment topologies</a>. Public IPs without a VLAN: <a href="../kind/">Kind</a> or <a href="../topologies/#public-network-underlay">Topologies — public underlay</a>.</p>
 </div>
 <hr />
 <h2 id="0-check-prerequisites-2-min">0. Check prerequisites (~2 min)<a class="headerlink" href="#0-check-prerequisites-2-min" title="Permanent link">&para;</a></h2>
@@ -1589,7 +1619,7 @@ helm<span class="w"> </span>install<span class="w"> </span>virtfoundry<span clas
 </ol>
 <div class="admonition note">
 <p class="admonition-title">Networking</p>
-<p>Full tenant VPC / Multus bridge demos need host bridges and often a public pool — see <a href="../topologies/">Topologies</a>. Container-disk VMs can still prove the control plane without a full L2 lab.</p>
+<p>Full tenant VPC / Multus bridge demos need host bridges and often a public pool — <a href="../kind/">Kind</a> for a laptop, <a href="../topologies/">Topologies</a> on real nodes. Container-disk VMs can still prove the control plane without a full L2 lab.</p>
 </div>
 <hr />
 <h2 id="5-sanity-checks">5. Sanity checks<a class="headerlink" href="#5-sanity-checks" title="Permanent link">&para;</a></h2>
@@ -1620,6 +1650,10 @@ kubectl<span class="w"> </span>get<span class="w"> </span>vm<span class="w"> </s
 <tr>
 <td>Min vs production layouts</td>
 <td><a href="../topologies/">Topologies</a></td>
+</tr>
+<tr>
+<td>Laptop (kind, no VLAN)</td>
+<td><a href="../kind/">Kind</a></td>
 </tr>
 <tr>
 <td>Helm values (public net, snapshots)</td>
@@ -1688,13 +1722,13 @@ kubectl<span class="w"> </span>get<span class="w"> </span>vm<span class="w"> </s
         
         
           
-          <a href="../installation/" class="md-footer__link md-footer__link--next" aria-label="Next: Installation">
+          <a href="../kind/" class="md-footer__link md-footer__link--next" aria-label="Next: Kind (laptop)">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 Next
               </span>
               <div class="md-ellipsis">
-                Installation
+                Kind (laptop)
               </div>
             </div>
             <div class="md-footer__button md-icon">

@@ -10,31 +10,31 @@
       
       
       
-        <link rel="canonical" href="https://virtfoundry.github.io/helm-charts/docs/guide/features/networking/">
+        <link rel="canonical" href="https://virtfoundry.github.io/helm-charts/docs/guide/kind/">
       
       
-        <link rel="prev" href="../storage/">
+        <link rel="prev" href="../quickstart/">
       
       
-        <link rel="next" href="../security-groups/">
+        <link rel="next" href="../installation/">
       
       
         
       
       
-      <link rel="icon" href="../../../assets/favicon.svg">
+      <link rel="icon" href="../../assets/favicon.svg">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
-        <title>VPCs and networks - VirtFoundry</title>
+        <title>Kind (laptop) - VirtFoundry</title>
       
     
     
-      <link rel="stylesheet" href="../../../assets/stylesheets/main.ec1eaa64.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
-        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
       
       
 
@@ -53,9 +53,9 @@
       
     
     
-      <link rel="stylesheet" href="../../../stylesheets/extra.css">
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
     
-    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -80,7 +80,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#vpcs-and-networks" class="md-skip">
+        <a href="#kind-laptop-lab" class="md-skip">
           Skip to content
         </a>
       
@@ -96,9 +96,9 @@
 
 <header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="../../.." title="VirtFoundry" class="md-header__button md-logo" aria-label="VirtFoundry" data-md-component="logo">
+    <a href="../.." title="VirtFoundry" class="md-header__button md-logo" aria-label="VirtFoundry" data-md-component="logo">
       
-  <img src="../../../assets/logo.svg" alt="logo">
+  <img src="../../assets/logo.svg" alt="logo">
 
     </a>
     <label class="md-header__button md-icon" for="__drawer">
@@ -115,7 +115,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              VPCs and networks
+              Kind (laptop)
             
           </span>
         </div>
@@ -222,7 +222,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../../.." class="md-tabs__link">
+      <a href="../.." class="md-tabs__link">
         
   
   
@@ -239,11 +239,13 @@
   
   
   
+    
+  
   
     
     
-      <li class="md-tabs__item">
-        <a href="../../why/" class="md-tabs__link">
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../why/" class="md-tabs__link">
           
   
   
@@ -261,13 +263,11 @@
   
   
   
-    
-  
   
     
     
-      <li class="md-tabs__item md-tabs__item--active">
-        <a href="../" class="md-tabs__link">
+      <li class="md-tabs__item">
+        <a href="../features/" class="md-tabs__link">
           
   
   
@@ -289,7 +289,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../../project/website/" class="md-tabs__link">
+        <a href="../../project/website/" class="md-tabs__link">
           
   
   
@@ -331,9 +331,9 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../../.." title="VirtFoundry" class="md-nav__button md-logo" aria-label="VirtFoundry" data-md-component="logo">
+    <a href="../.." title="VirtFoundry" class="md-nav__button md-logo" aria-label="VirtFoundry" data-md-component="logo">
       
-  <img src="../../../assets/logo.svg" alt="logo">
+  <img src="../../assets/logo.svg" alt="logo">
 
     </a>
     VirtFoundry
@@ -360,7 +360,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../.." class="md-nav__link">
+      <a href="../.." class="md-nav__link">
         
   
   
@@ -384,295 +384,12 @@
       
   
   
-  
-  
-    
-    
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-    
-    
-    
-      
-      
-        
-      
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-          
-        
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
-        
-          
-          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
-            
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Getting started
-  
-
-    
-  </span>
-  
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_2">
-            <span class="md-nav__icon md-icon"></span>
-            
-  
-    Getting started
-  
-
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../why/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Why VirtFoundry
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../quickstart/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Quickstart
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../kind/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Kind (laptop)
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../installation/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Installation
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../topologies/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Topologies
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../configuration/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Configuration
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../helm-repository/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Helm repository
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-    
-      
-      
-  
-  
     
   
   
   
     
     
-      
-        
-          
-        
-      
-        
-      
-        
-      
-        
       
         
       
@@ -704,18 +421,17 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
         
           
-          <div class="md-nav__link md-nav__container">
-            <a href="../" class="md-nav__link ">
-              
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
   
   
   <span class="md-ellipsis">
     
   
-    Features
+    Getting started
   
 
     
@@ -723,43 +439,35 @@
   
   
 
-            </a>
-            
-              
-              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="">
-                <span class="md-nav__icon md-icon"></span>
-              </label>
-            
-          </div>
+            <span class="md-nav__icon md-icon"></span>
+          </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
-          <label class="md-nav__title" for="__nav_3">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
             <span class="md-nav__icon md-icon"></span>
             
   
-    Features
+    Getting started
   
 
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
               
-            
-              
                 
   
   
   
   
     <li class="md-nav__item">
-      <a href="../concepts/" class="md-nav__link">
+      <a href="../why/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Concepts and tenancy
+    Why VirtFoundry
   
 
     
@@ -780,154 +488,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../iam/" class="md-nav__link">
+      <a href="../quickstart/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Auth and IAM
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../offerings/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Service offerings
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../templates/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Images and templates
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../vms/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Virtual machines
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../access/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Console and SSH
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../storage/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Volumes and snapshots
+    Quickstart
   
 
     
@@ -964,7 +532,7 @@
   <span class="md-ellipsis">
     
   
-    VPCs and networks
+    Kind (laptop)
   
 
     
@@ -982,7 +550,7 @@
   <span class="md-ellipsis">
     
   
-    VPCs and networks
+    Kind (laptop)
   
 
     
@@ -1008,10 +576,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#default-vpc" class="md-nav__link">
+  <a href="#what-you-need" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Default VPC
+        What you need
       
     </span>
   </a>
@@ -1019,10 +587,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#private-networks" class="md-nav__link">
+  <a href="#1-create-the-cluster" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Private networks
+        1. Create the cluster
       
     </span>
   </a>
@@ -1030,10 +598,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#public-network-profile" class="md-nav__link">
+  <a href="#2-platform-components" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Public network profile
+        2. Platform components
       
     </span>
   </a>
@@ -1041,10 +609,43 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#related" class="md-nav__link">
+  <a href="#3-install-virtfoundry-public-off" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Related
+        3. Install VirtFoundry (public off)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-optional-local-public-ips-still-no-vlan" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Optional — local “public” IPs (still no VLAN)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cleanup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cleanup
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Next
       
     </span>
   </a>
@@ -1067,7 +668,439 @@
   
   
     <li class="md-nav__item">
-      <a href="../security-groups/" class="md-nav__link">
+      <a href="../installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Installation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../topologies/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Topologies
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../configuration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configuration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../helm-repository/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Helm repository
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../features/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Features
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Features
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../features/concepts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Concepts and tenancy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../features/iam/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Auth and IAM
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../features/offerings/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Service offerings
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../features/templates/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Images and templates
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../features/vms/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Virtual machines
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../features/access/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Console and SSH
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../features/storage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Volumes and snapshots
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../features/networking/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    VPCs and networks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../features/security-groups/" class="md-nav__link">
         
   
   
@@ -1095,7 +1128,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../api/" class="md-nav__link">
+      <a href="../features/api/" class="md-nav__link">
         
   
   
@@ -1196,7 +1229,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../project/website/" class="md-nav__link">
+      <a href="../../project/website/" class="md-nav__link">
         
   
   
@@ -1224,7 +1257,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../project/versioning/" class="md-nav__link">
+      <a href="../../project/versioning/" class="md-nav__link">
         
   
   
@@ -1252,7 +1285,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../project/changelog/" class="md-nav__link">
+      <a href="../../project/changelog/" class="md-nav__link">
         
   
   
@@ -1280,7 +1313,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../project/governance/" class="md-nav__link">
+      <a href="../../project/governance/" class="md-nav__link">
         
   
   
@@ -1308,7 +1341,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../project/sponsorship/" class="md-nav__link">
+      <a href="../../project/sponsorship/" class="md-nav__link">
         
   
   
@@ -1363,10 +1396,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#default-vpc" class="md-nav__link">
+  <a href="#what-you-need" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Default VPC
+        What you need
       
     </span>
   </a>
@@ -1374,10 +1407,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#private-networks" class="md-nav__link">
+  <a href="#1-create-the-cluster" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Private networks
+        1. Create the cluster
       
     </span>
   </a>
@@ -1385,10 +1418,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#public-network-profile" class="md-nav__link">
+  <a href="#2-platform-components" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Public network profile
+        2. Platform components
       
     </span>
   </a>
@@ -1396,10 +1429,43 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#related" class="md-nav__link">
+  <a href="#3-install-virtfoundry-public-off" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Related
+        3. Install VirtFoundry (public off)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-optional-local-public-ips-still-no-vlan" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Optional — local “public” IPs (still no VLAN)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cleanup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cleanup
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Next
       
     </span>
   </a>
@@ -1423,7 +1489,7 @@
 
 
   
-    <a href="https://github.com/virtfoundry/helm-charts/edit/main/docs/guide/features/networking.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+    <a href="https://github.com/virtfoundry/helm-charts/edit/main/docs/guide/kind.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
     </a>
@@ -1431,110 +1497,176 @@
   
 
 
-<h1 id="vpcs-and-networks">VPCs and networks<a class="headerlink" href="#vpcs-and-networks" title="Permanent link">&para;</a></h1>
-<p>Networking is Multus-based: each tenant gets a <strong>default VPC</strong>, optional extra VPCs, and <strong>private networks</strong> (NADs) plus an optional <strong>public network</strong> profile from Helm.</p>
-<h2 id="default-vpc">Default VPC<a class="headerlink" href="#default-vpc" title="Permanent link">&para;</a></h2>
-<p>On tenant create, VirtFoundry bootstraps a default VPC (typically <code>10.0.0.0/16</code>) with its own Kubernetes namespace for Multus resources.</p>
-<p><strong>UI:</strong> Network → <strong>VPCs</strong> (<code>/vpcs</code>)</p>
-<table>
-<thead>
-<tr>
-<th>Action</th>
-<th>API</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>List / create</td>
-<td><code>GET</code>/<code>POST /api/v1/vpcs</code></td>
-</tr>
-<tr>
-<td>Update / delete</td>
-<td><code>PATCH</code>/<code>DELETE /api/v1/vpcs/{id}</code></td>
-</tr>
-<tr>
-<td>Suggest CIDR</td>
-<td><code>GET /api/v1/vpcs/cidr-plan</code></td>
-</tr>
-</tbody>
-</table>
-<p>The CIDR planner helps pick a non-overlapping VPC CIDR.</p>
-<h2 id="private-networks">Private networks<a class="headerlink" href="#private-networks" title="Permanent link">&para;</a></h2>
-<p>Isolated L2 networks attached to a VPC; VMs join via Multus NICs.</p>
-<p><strong>UI:</strong> Network → <strong>Networks</strong> (<code>/networks</code>)</p>
-<table>
-<thead>
-<tr>
-<th>Action</th>
-<th>API</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>List / create</td>
-<td><code>GET</code>/<code>POST /api/v1/networks</code></td>
-</tr>
-<tr>
-<td>Update / delete</td>
-<td><code>PATCH</code>/<code>DELETE /api/v1/networks/{id}</code></td>
-</tr>
-<tr>
-<td>Subnet CIDR plan</td>
-<td><code>GET /api/v1/networks/cidr-plan?vpc_id=…&amp;prefix=24</code></td>
-</tr>
-</tbody>
-</table>
-<h2 id="public-network-profile">Public network profile<a class="headerlink" href="#public-network-profile" title="Permanent link">&para;</a></h2>
-<p>When Helm enables <code>platform.networking.public</code>, the cluster exposes a shared public pool (bridge, IP range, DNS). The UI <strong>Public</strong> page (<code>/networks/public</code>) is largely <strong>read-only</strong> — operators configure the pool in values.</p>
-<p>“Public” is <strong>not</strong> “must be a VLAN”. It is a second NIC on an L2 your users (or the house router) can already reach. <strong>Laptop:</strong> follow <strong><a href="../../kind/">Kind</a></strong> first.</p>
-<table>
-<thead>
-<tr>
-<th>Underlay</th>
-<th>Typical <code>uplink</code></th>
-<th><code>cidr</code></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>Kind (laptop)</strong></td>
-<td>omit, or <code>eth1</code> (extra Docker net) — never <code>eth0</code></td>
-<td>off, or <code>10.0.50.0/24</code> on Docker</td>
-</tr>
-<tr>
-<td>Dedicated VLAN (tagged)</td>
-<td>Stable VLAN iface, same name on every node (<code>vlan50</code>)</td>
-<td>A subnet <strong>beside</strong> Kubernetes (e.g. <code>10.0.50.0/24</code>)</td>
-</tr>
-<tr>
-<td>No VLAN — second NIC on the LAN</td>
-<td>That NIC</td>
-<td>The house LAN; reserve <code>ipPool</code> in DHCP</td>
-</tr>
-<tr>
-<td>No VLAN — node IP already on <code>br0</code></td>
-<td><code>""</code> and <code>bridge.name: br0</code></td>
-<td>Same LAN as the nodes</td>
-</tr>
-<tr>
-<td>Lab only</td>
-<td>—</td>
-<td><code>public.enabled: false</code> — VMs on the pod network</td>
-</tr>
-</tbody>
-</table>
-<p>The NAD is CNI <strong>bridge</strong> onto <code>public.bridge.name</code>. Do not set <code>uplink</code> to the Kubernetes mgmt NIC (bridge-keeper will enslave it and drop the node IP). <code>public.mode: macvlan</code> does not change the NAD yet.</p>
-<p>See <a href="../../configuration/#public-networking">Configuration</a> and <a href="../../topologies/#public-network-underlay">Topologies — public underlay</a> for values and MetalLB reserved ranges.</p>
-<div class="admonition note">
-<p class="admonition-title">Lab without Multus bridges</p>
-<p>You can still deploy container-disk VMs on the pod network to validate the control plane. Full L2 demos need host bridges as described in topologies.</p>
+<h1 id="kind-laptop-lab">Kind (laptop lab)<a class="headerlink" href="#kind-laptop-lab" title="Permanent link">&para;</a></h1>
+<p>Run VirtFoundry on your machine with <a href="https://kind.sigs.k8s.io/">kind</a> (Kubernetes in Docker). <strong>You do not need a VLAN, a managed switch, or MetalLB.</strong></p>
+<p>This is the path for trying the UI and a first VM. Public guest IPs on your Wi-Fi are optional and come later on this page.</p>
+<div class="admonition tip">
+<p class="admonition-title">What “public” means here</p>
+<p>On a homelab with a switch, public is often a dedicated VLAN. On kind it is either <strong>off</strong> (VMs on the pod network + noVNC in the UI) or a <strong>second Docker network</strong> that only your laptop can reach. Same Helm keys either way — see <a href="../topologies/#public-network-underlay">Topologies — public underlay</a>.</p>
 </div>
-<h2 id="related">Related<a class="headerlink" href="#related" title="Permanent link">&para;</a></h2>
-<ul>
-<li><a href="../security-groups/">Security groups</a></li>
-<li><a href="../vms/">Virtual machines</a> — attach <code>network_ids</code> at deploy</li>
-<li><a href="../concepts/">Concepts</a> — tenant namespaces</li>
-</ul>
+<h2 id="what-you-need">What you need<a class="headerlink" href="#what-you-need" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Tool</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://docs.docker.com/get-docker/">Docker</a></td>
+<td>Running</td>
+</tr>
+<tr>
+<td><a href="https://kind.sigs.k8s.io/docs/user/quick-start/#installation">kind</a></td>
+<td><code>kind version</code></td>
+</tr>
+<tr>
+<td><a href="https://kubernetes.io/docs/tasks/tools/">kubectl</a> + <a href="https://helm.sh/docs/intro/install/">Helm 3</a></td>
+<td></td>
+</tr>
+<tr>
+<td><code>/dev/kvm</code></td>
+<td><strong>Linux</strong> — nested VMs are fast. <strong>Docker Desktop (macOS/Windows)</strong> usually has no KVM; use software emulation (slower).</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight"><pre><span></span><code><span class="c1"># Linux</span>
+<span class="nb">test</span><span class="w"> </span>-e<span class="w"> </span>/dev/kvm<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;KVM ok&quot;</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;No KVM — you will use emulation&quot;</span>
+</code></pre></div>
+<hr />
+<h2 id="1-create-the-cluster">1. Create the cluster<a class="headerlink" href="#1-create-the-cluster" title="Permanent link">&para;</a></h2>
+<p>Save as <code>kind-cluster.yaml</code> (or copy <a href="https://github.com/virtfoundry/helm-charts/blob/main/charts/virtfoundry/examples/kind-cluster.yaml"><code>examples/kind-cluster.yaml</code></a> from the chart repo).</p>
+<div class="highlight"><pre><span></span><code><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Cluster</span>
+<span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">kind.x-k8s.io/v1alpha4</span>
+<span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">virtfoundry</span>
+<span class="nt">nodes</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">role</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">control-plane</span>
+<span class="w">    </span><span class="nt">extraMounts</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">hostPath</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/dev/kvm</span>
+<span class="w">        </span><span class="nt">containerPath</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/dev/kvm</span>
+<span class="w">    </span><span class="nt">extraPortMappings</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">containerPort</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">30880</span>
+<span class="w">        </span><span class="nt">hostPort</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">8080</span>
+<span class="w">        </span><span class="nt">protocol</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">TCP</span>
+</code></pre></div>
+<p>No <code>/dev/kvm</code>? Delete the <code>extraMounts</code> block.</p>
+<div class="highlight"><pre><span></span><code>kind<span class="w"> </span>create<span class="w"> </span>cluster<span class="w"> </span>--config<span class="w"> </span>kind-cluster.yaml
+kubectl<span class="w"> </span>cluster-info<span class="w"> </span>--context<span class="w"> </span>kind-virtfoundry
+</code></pre></div>
+<p>Kind ships a <code>standard</code> StorageClass (<code>local-path</code>). Volume snapshots will <strong>not</strong> work; use <strong>VM snapshots</strong> in the UI.</p>
+<hr />
+<h2 id="2-platform-components">2. Platform components<a class="headerlink" href="#2-platform-components" title="Permanent link">&para;</a></h2>
+<p>The Helm chart does <strong>not</strong> install KubeVirt, Multus, or CDI. From a <a href="https://github.com/virtfoundry/helm-charts">helm-charts</a> clone:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">KUBECONFIG</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">KUBECONFIG</span><span class="k">:-</span><span class="nv">$HOME</span><span class="p">/.kube/config</span><span class="si">}</span><span class="s2">&quot;</span>
+./scripts/setup/multus.sh
+./scripts/setup/kubevirt.sh
+./scripts/setup/cdi.sh
+</code></pre></div>
+<p>Without KVM, turn on emulation <strong>after</strong> KubeVirt is Available:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>-n<span class="w"> </span>kubevirt<span class="w"> </span>patch<span class="w"> </span>kubevirt<span class="w"> </span>kubevirt<span class="w"> </span>--type<span class="w"> </span>merge<span class="w"> </span>-p<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="s1">&#39;{&quot;spec&quot;:{&quot;configuration&quot;:{&quot;developerConfiguration&quot;:{&quot;useEmulation&quot;:true}}}}&#39;</span>
+</code></pre></div>
+<p>Wait until <code>kubectl get kubevirt -n kubevirt</code> shows <code>Available</code>.</p>
+<hr />
+<h2 id="3-install-virtfoundry-public-off">3. Install VirtFoundry (public off)<a class="headerlink" href="#3-install-virtfoundry-public-off" title="Permanent link">&para;</a></h2>
+<p>Overlay <a href="https://github.com/virtfoundry/helm-charts/blob/main/charts/virtfoundry/values-kind.yaml"><code>values-kind.yaml</code></a>: NodePort <strong>30880</strong> (mapped to host <strong>8080</strong>), <code>public.enabled: false</code>.</p>
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-fsSL<span class="w"> </span>https://raw.githubusercontent.com/virtfoundry/helm-charts/main/charts/virtfoundry/values-kind.yaml<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-o<span class="w"> </span>values-kind.yaml
+
+helm<span class="w"> </span>repo<span class="w"> </span>add<span class="w"> </span>virtfoundry<span class="w"> </span>https://virtfoundry.github.io/helm-charts
+helm<span class="w"> </span>repo<span class="w"> </span>update
+
+helm<span class="w"> </span>install<span class="w"> </span>virtfoundry<span class="w"> </span>virtfoundry/virtfoundry<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--version<span class="w"> </span><span class="m">1</span>.5.0<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--namespace<span class="w"> </span>virtfoundry-system<span class="w"> </span>--create-namespace<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-f<span class="w"> </span>values-kind.yaml<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--set<span class="w"> </span>secrets.rootPassword<span class="o">=</span><span class="s1">&#39;change-me&#39;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--set<span class="w"> </span>secrets.jwtSecret<span class="o">=</span><span class="s1">&#39;change-me-long-random&#39;</span>
+</code></pre></div>
+<p>Open <strong>http://127.0.0.1:8080</strong> — user <code>root</code>, password <code>change-me</code>.</p>
+<p>Deploy a <strong>container-disk</strong> VM (Templates → small offering → Console). The guest has a pod IP only; you reach it through <strong>noVNC</strong>, not from your LAN.</p>
+<p>Isolated VPCs still work: bridge-keeper creates <code>virtfoundry-br0</code> <strong>inside</strong> the kind node. That L2 never leaves Docker.</p>
+<hr />
+<h2 id="4-optional-local-public-ips-still-no-vlan">4. Optional — local “public” IPs (still no VLAN)<a class="headerlink" href="#4-optional-local-public-ips-still-no-vlan" title="Permanent link">&para;</a></h2>
+<p>Use this when you want a guest address you can <code>ping</code> from the <strong>same laptop</strong>, without a switch.</p>
+<p>Kubernetes inside kind uses <strong><code>eth0</code></strong> on the kind Docker network. <strong>Never</strong> set that as <code>public.bridge.uplink</code> — bridge-keeper would steal the node IP and the cluster dies.</p>
+<p>Add a <strong>second</strong> Docker network (this is the kind equivalent of a second NIC on a house LAN):</p>
+<div class="highlight"><pre><span></span><code>docker<span class="w"> </span>network<span class="w"> </span>create<span class="w"> </span>--driver<span class="w"> </span>bridge<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--subnet<span class="w"> </span><span class="m">10</span>.0.50.0/24<span class="w"> </span>--gateway<span class="w"> </span><span class="m">10</span>.0.50.1<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>virtfoundry-pub
+
+docker<span class="w"> </span>network<span class="w"> </span>connect<span class="w"> </span>virtfoundry-pub<span class="w"> </span>virtfoundry-control-plane
+
+docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>virtfoundry-control-plane<span class="w"> </span>ip<span class="w"> </span>-br<span class="w"> </span>addr
+<span class="c1"># eth0 = kind (kubelet)     ← do not touch</span>
+<span class="c1"># eth1 = 10.0.50.x          ← public uplink</span>
+</code></pre></div>
+<p>If the extra NIC is not <code>eth1</code>, use the name you see.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># values-kind-public.yaml — merge with values-kind.yaml</span>
+<span class="nt">platform</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">networking</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">public</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">      </span><span class="nt">cidr</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.0.50.0/24</span>
+<span class="w">      </span><span class="nt">gateway</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.0.50.1</span><span class="w">          </span><span class="c1"># Docker bridge on your laptop</span>
+<span class="w">      </span><span class="nt">dns</span><span class="p">:</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.0.50.1</span>
+<span class="w">      </span><span class="nt">ipPool</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">start</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.0.50.10</span>
+<span class="w">        </span><span class="nt">end</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.0.50.99</span>
+<span class="w">      </span><span class="nt">bridge</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">vf-pub0</span>
+<span class="w">        </span><span class="nt">uplink</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">eth1</span><span class="w">              </span><span class="c1"># extra NIC, not eth0</span>
+<span class="w">        </span><span class="nt">address</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.0.50.2/24</span><span class="w">     </span><span class="c1"># host side of vf-pub0; not in the VM pool</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>helm<span class="w"> </span>upgrade<span class="w"> </span>virtfoundry<span class="w"> </span>virtfoundry/virtfoundry<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--version<span class="w"> </span><span class="m">1</span>.5.0<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-n<span class="w"> </span>virtfoundry-system<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-f<span class="w"> </span>values-kind.yaml<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-f<span class="w"> </span>values-kind-public.yaml<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--reuse-values
+</code></pre></div>
+<p>Attach the <strong>public</strong> network on the VM (UI → Public / deploy with public IP). From the laptop:</p>
+<div class="highlight"><pre><span></span><code>ping<span class="w"> </span>-c<span class="w"> </span><span class="m">2</span><span class="w"> </span><span class="m">10</span>.0.50.10<span class="w">    </span><span class="c1"># first address in the pool, if allocated</span>
+</code></pre></div>
+<p>Your phone on Wi-Fi will <strong>not</strong> see <code>10.0.50.0/24</code> unless you add a route. That is expected: kind public is local to Docker, like a lab VLAN that only exists on this machine.</p>
+<div class="admonition danger">
+<p class="admonition-title">Do not enslave eth0</p>
+<p><code>uplink: eth0</code> takes down kubelet inside the kind node. Recover with <code>kind delete cluster --name virtfoundry</code> and recreate.</p>
+</div>
+<hr />
+<h2 id="cleanup">Cleanup<a class="headerlink" href="#cleanup" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>kind<span class="w"> </span>delete<span class="w"> </span>cluster<span class="w"> </span>--name<span class="w"> </span>virtfoundry
+docker<span class="w"> </span>network<span class="w"> </span>rm<span class="w"> </span>virtfoundry-pub<span class="w">   </span><span class="c1"># if you created it</span>
+</code></pre></div>
+<h2 id="next">Next<a class="headerlink" href="#next" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Goal</th>
+<th>Doc</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>First VM clicks</td>
+<td><a href="../quickstart/">Quickstart</a></td>
+</tr>
+<tr>
+<td>Helm keys</td>
+<td><a href="../configuration/#public-networking">Configuration — public networking</a></td>
+</tr>
+<tr>
+<td>VLAN vs house LAN on real nodes</td>
+<td><a href="../topologies/#public-network-underlay">Topologies</a></td>
+</tr>
+<tr>
+<td>Why KubeVirt / Multus / CDI</td>
+<td><a href="../installation/">Installation</a></td>
+</tr>
+</tbody>
+</table>
 
 
 
@@ -1570,7 +1702,7 @@
       <nav class="md-footer__inner md-grid" aria-label="Footer" >
         
           
-          <a href="../storage/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Volumes and snapshots">
+          <a href="../quickstart/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Quickstart">
             <div class="md-footer__button md-icon">
               
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
@@ -1580,20 +1712,20 @@
                 Previous
               </span>
               <div class="md-ellipsis">
-                Volumes and snapshots
+                Quickstart
               </div>
             </div>
           </a>
         
         
           
-          <a href="../security-groups/" class="md-footer__link md-footer__link--next" aria-label="Next: Security groups">
+          <a href="../installation/" class="md-footer__link md-footer__link--next" aria-label="Next: Installation">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 Next
               </span>
               <div class="md-ellipsis">
-                Security groups
+                Installation
               </div>
             </div>
             <div class="md-footer__button md-icon">
@@ -1642,12 +1774,12 @@
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.expand", "navigation.top", "navigation.footer", "navigation.indexes", "search.suggest", "search.highlight", "content.code.copy", "content.code.annotate", "content.action.edit", "toc.follow"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.expand", "navigation.top", "navigation.footer", "navigation.indexes", "search.suggest", "search.highlight", "content.code.copy", "content.code.annotate", "content.action.edit", "toc.follow"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
-        <script src="../../../javascripts/carousel.js"></script>
+        <script src="../../javascripts/carousel.js"></script>
       
     
   </body>
