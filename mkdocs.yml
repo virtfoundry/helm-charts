@@ -75,6 +75,7 @@ nav:
   - Getting started:
       - Why VirtFoundry: guide/why.md
       - Quickstart: guide/quickstart.md
+      - Kind (laptop): guide/kind.md
       - Installation: guide/installation.md
       - Topologies: guide/topologies.md
       - Configuration: guide/configuration.md

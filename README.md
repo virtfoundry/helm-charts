@@ -6,6 +6,8 @@ Official Helm charts for [VirtFoundry](https://github.com/virtfoundry/core) — 
 
 ## Quick install
 
+Laptop (kind, no VLAN): **[Kind guide](docs/guide/kind.md)**. Any cluster:
+
 ```bash
 helm repo add virtfoundry https://virtfoundry.github.io/helm-charts
 helm repo update

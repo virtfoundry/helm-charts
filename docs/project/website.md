@@ -23,8 +23,9 @@ This MkDocs site on GitHub Pages is the **official public front door** for VirtF
 
 The docs home page leads with:
 
-1. **Quickstart** — under-30-minute path  
-2. **Why VirtFoundry** — vs Proxmox / KubeVirt  
-3. Installation / topologies for deeper setup  
+1. **Quickstart** — under-30-minute path
+2. **Kind** — laptop lab, no VLAN / no switch
+3. **Why VirtFoundry** — vs Proxmox / KubeVirt
+4. Installation / topologies for deeper setup
 
-See [index.md](../index.md), [quickstart.md](../guide/quickstart.md), and [Why VirtFoundry](../guide/why.md).
+See [index.md](../index.md), [quickstart.md](../guide/quickstart.md), [Kind](../guide/kind.md), and [Why VirtFoundry](../guide/why.md).
