@@ -1,0 +1,17 @@
+# kind cluster for VirtFoundry (single control-plane)
+# Docs: https://virtfoundry.github.io/helm-charts/docs/guide/kind/
+#
+# Linux with KVM: keep extraMounts. Docker Desktop / no /dev/kvm: delete extraMounts
+# and enable KubeVirt software emulation (see the Kind guide).
+kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+name: virtfoundry
+nodes:
+  - role: control-plane
+    extraMounts:
+      - hostPath: /dev/kvm
+        containerPath: /dev/kvm
+    extraPortMappings:
+      - containerPort: 30880
+        hostPort: 8080
+        protocol: TCP

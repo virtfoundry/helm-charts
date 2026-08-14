@@ -1,0 +1,31 @@
+# Example overlay — kind (laptop, no VLAN)
+# Default public network is off. VMs use the pod network; UI NodePort 30880
+# maps to host 8080. Walkthrough: docs/guide/kind.md
+# Do not set public.bridge.uplink to eth0 (Kubernetes node NIC in the container).
+
+ingress:
+  enabled: false
+
+gateway:
+  enabled: false
+
+ui:
+  service:
+    type: NodePort
+    port: 80
+    nodePort: 30880
+
+platform:
+  networking:
+    public:
+      enabled: false
+    isolated:
+      enabled: true
+      bridge:
+        name: virtfoundry-br0
+    vm:
+      defaultNetwork: pod
+      allowPodNetwork: true
+  storage:
+    defaultClass: standard
+    snapshotClass: ""

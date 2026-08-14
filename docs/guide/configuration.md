@@ -19,22 +19,26 @@ VirtFoundry runtime configuration is YAML rendered by Helm into a ConfigMap. **H
 
 ## Public networking
 
-Enable routable VM IPs on a host bridge + Multus NAD:
+Enable routable VM IPs on a host bridge + Multus NAD. VLAN tagging is optional — laptop walkthrough: [Kind](kind.md); real nodes: [Topologies — public underlay](topologies.md#public-network-underlay).
 
 | Key | Default | Description |
 |-----|---------|-------------|
 | `public.enabled` | `false` | Shared public network |
-| `public.cidr` | `10.0.50.0/24` | L3 CIDR — set to your environment |
+| `public.cidr` | `10.0.50.0/24` | L3 CIDR — VLAN subnet **or** the house LAN |
 | `public.gateway` | `10.0.50.254` | VM default gateway in cloud-init — **must match a reachable router IP on that CIDR** |
-| `public.ipPool.start/end` | `.10`–`.99` | Allocatable addresses |
-| `public.bridge.name` | `vf-pub0` | Linux bridge (≤15 chars / IFNAMSIZ) |
-| `public.bridge.uplink` | `""` | Physical or VLAN interface attached to the bridge |
-| `public.bridge.address` | `""` | Optional bridge IP for dnsmasq |
-| `public.nad.name` | `virtfoundry-public` | Multus NAD |
+| `public.ipPool.start/end` | `.10`–`.99` | Allocatable guest addresses; exclude DHCP, nodes, MetalLB |
+| `public.reservedRanges` | MetalLB example | IPs the VM pool must not use |
+| `public.bridge.name` | `vf-pub0` | Linux bridge (≤15 chars / IFNAMSIZ), or an existing host `br0` |
+| `public.bridge.uplink` | `""` | VLAN iface or **second** NIC enslaved into the bridge. Same name on every node. |
+| `public.bridge.address` | `""` | Optional host IP on the public L2 (outside VM/LB pools) |
+| `public.nad.name` | `virtfoundry-public` | Multus NAD (always CNI `bridge`) |
 | `vm.allowPodNetwork` | `true` | Pod masquerade + public secondary NIC |
 
 !!! warning "Gateway must be reachable"
     `public.gateway` must be an IP that exists on your L3 router for the configured CIDR. VMs receive this address via cloud-init when using the static IP pool.
+
+!!! danger "Do not enslave the Kubernetes NIC"
+    `uplink` must not be the interface that holds the node IP (SSH/kubelet). Bridge-keeper runs `ip link set <uplink> master <bridge>`. Use a VLAN subinterface, a second NIC, or point `bridge.name` at an existing mgmt bridge with `uplink` empty.
 
 ## Storage
 

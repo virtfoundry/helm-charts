@@ -18,6 +18,7 @@ Proxmox (or avoiding raw KubeVirt YAML) who already run Kubernetes.
 </p>
 
 [Quickstart :material-rocket-launch:](guide/quickstart.md){ .md-button .md-button--primary }
+[Kind (laptop) :material-laptop:](guide/kind.md){ .md-button }
 [Features :material-view-grid:](guide/features/index.md){ .md-button }
 [Why VirtFoundry :material-compass:](guide/why.md){ .md-button }
 [Installation :material-download:](guide/installation.md){ .md-button }
@@ -118,7 +119,7 @@ helm install virtfoundry virtfoundry/virtfoundry \
   --set secrets.jwtSecret='your-jwt-secret'
 ```
 
-Gateway API or Ingress profiles are configured via Helm values — see [Configuration](guide/configuration.md).
+Gateway API or Ingress profiles are configured via Helm values — see [Configuration](guide/configuration.md). Laptop lab with no VLAN: [Kind](guide/kind.md).
 
 ## Before you install
 
@@ -145,6 +146,7 @@ VirtFoundry requires **KubeVirt**, **Multus**, and **CDI** (for ISO/import paths
 <div class="vf-links" markdown="1">
 
 [Quickstart](guide/quickstart.md)
+[Kind (laptop)](guide/kind.md)
 [Why VirtFoundry](guide/why.md)
 [Installation guide](guide/installation.md)
 [Website / front door](project/website.md)

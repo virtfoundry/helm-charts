@@ -25,12 +25,12 @@ Configure public VM networking per site — no app code changes required.
 | Key | Default | Description |
 |-----|---------|-------------|
 | `public.enabled` | `false` | Enable shared public network for VMs |
-| `public.cidr` | `10.0.50.0/24` | L3 network CIDR — adjust for your environment |
+| `public.cidr` | `10.0.50.0/24` | L3 CIDR — VLAN subnet or the house LAN |
 | `public.gateway` | `10.0.50.254` | VM default gateway — **must be reachable on your router for that CIDR** |
-| `public.ipPool.start/end` | `10.0.50.10`–`.99` | Allocatable IP range |
-| `public.bridge.name` | `vf-pub0` | Host bridge for Multus (≤15 chars / IFNAMSIZ) |
-| `public.bridge.uplink` | `""` | Physical or VLAN interface attached to the bridge |
-| `public.nad.name` | `virtfoundry-public` | Multus NAD name |
+| `public.ipPool.start/end` | `10.0.50.10`–`.99` | Guest pool; exclude DHCP, nodes, MetalLB |
+| `public.bridge.name` | `vf-pub0` | Host bridge (≤15 chars) or existing `br0` |
+| `public.bridge.uplink` | `""` | VLAN iface or **second** NIC — never the kubelet/SSH NIC |
+| `public.nad.name` | `virtfoundry-public` | Multus NAD (CNI `bridge`) |
 | `isolated.bridge.name` | `virtfoundry-br0` | Internal bridge for tenant VPCs |
 | `vm.defaultNetwork` | `pod` | `pod` or `public` when no network selected |
 | `vm.allowPodNetwork` | `true` | `false` = Multus-only for VM workloads |

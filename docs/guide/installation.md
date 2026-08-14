@@ -2,7 +2,7 @@
 
 VirtFoundry installs the **control plane only** (API, worker, UI, optional MySQL). Virtual machines, extra networks, and disk imports rely on platform components that must already exist on the cluster — or be installed **before** `helm install`.
 
-**Want UI + first VM in under 30 minutes?** Start with the [Quickstart](quickstart.md).
+**Want UI + first VM in under 30 minutes?** Start with the [Quickstart](quickstart.md). On a laptop (Docker, no switch/VLAN), use **[Kind](kind.md)**.
 
 For **minimum vs production** layouts (what works for VPC / public / snapshots on a home router), see [Deployment topologies](topologies.md).
 

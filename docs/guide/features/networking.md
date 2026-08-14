@@ -32,7 +32,19 @@ Isolated L2 networks attached to a VPC; VMs join via Multus NICs.
 
 When Helm enables `platform.networking.public`, the cluster exposes a shared public pool (bridge, IP range, DNS). The UI **Public** page (`/networks/public`) is largely **read-only** — operators configure the pool in values.
 
-See [Configuration](../configuration.md) and [Topologies](../topologies.md) for bridge/uplink and MetalLB reserved ranges.
+“Public” is **not** “must be a VLAN”. It is a second NIC on an L2 your users (or the house router) can already reach. **Laptop:** follow **[Kind](../kind.md)** first.
+
+| Underlay | Typical `uplink` | `cidr` |
+|----------|------------------|--------|
+| **Kind (laptop)** | omit, or `eth1` (extra Docker net) — never `eth0` | off, or `10.0.50.0/24` on Docker |
+| Dedicated VLAN (tagged) | Stable VLAN iface, same name on every node (`vlan50`) | A subnet **beside** Kubernetes (e.g. `10.0.50.0/24`) |
+| No VLAN — second NIC on the LAN | That NIC | The house LAN; reserve `ipPool` in DHCP |
+| No VLAN — node IP already on `br0` | `""` and `bridge.name: br0` | Same LAN as the nodes |
+| Lab only | — | `public.enabled: false` — VMs on the pod network |
+
+The NAD is CNI **bridge** onto `public.bridge.name`. Do not set `uplink` to the Kubernetes mgmt NIC (bridge-keeper will enslave it and drop the node IP). `public.mode: macvlan` does not change the NAD yet.
+
+See [Configuration](../configuration.md#public-networking) and [Topologies — public underlay](../topologies.md#public-network-underlay) for values and MetalLB reserved ranges.
 
 !!! note "Lab without Multus bridges"
     You can still deploy container-disk VMs on the pod network to validate the control plane. Full L2 demos need host bridges as described in topologies.

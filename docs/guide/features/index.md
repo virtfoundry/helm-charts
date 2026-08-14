@@ -47,5 +47,6 @@ Tenant
 ## Next
 
 - Day-2 ops values: [Configuration](../configuration.md)
+- Laptop lab: [Kind](../kind.md)
 - Cluster layouts: [Topologies](../topologies.md)
 - Positioning: [Why VirtFoundry](../why.md)

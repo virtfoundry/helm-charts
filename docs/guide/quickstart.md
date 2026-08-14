@@ -1,11 +1,11 @@
 # Quickstart (under 30 minutes)
 
-Goal: **UI login + first VM** on a cluster that already has Kubernetes, KubeVirt, Multus, and CDI.
+Goal: **UI login + first VM**. On a laptop, start with **[Kind](kind.md)** (Docker, no VLAN). On a cluster that already has Kubernetes, KubeVirt, Multus, and CDI, continue below.
 
 If you still need to install those platform components, budget extra time and follow the full [Installation](installation.md) guide (or run `./scripts/setup/{kubevirt,multus,cdi}.sh` from a [helm-charts](https://github.com/virtfoundry/helm-charts) clone).
 
 !!! tip "Homelab with Argo / Longhorn"
-    Production-shaped layouts (Gateway API, Longhorn, snapshots): [Deployment topologies](topologies.md).
+    Production-shaped layouts (Gateway API, Longhorn, snapshots): [Deployment topologies](topologies.md). Public IPs without a VLAN: [Kind](kind.md) or [Topologies — public underlay](topologies.md#public-network-underlay).
 
 ---
 
@@ -92,7 +92,7 @@ In the UI (or API):
 4. Wait until the VM is **Running**, then open **Console** (noVNC).
 
 !!! note "Networking"
-    Full tenant VPC / Multus bridge demos need host bridges and often a public pool — see [Topologies](topologies.md). Container-disk VMs can still prove the control plane without a full L2 lab.
+    Full tenant VPC / Multus bridge demos need host bridges and often a public pool — [Kind](kind.md) for a laptop, [Topologies](topologies.md) on real nodes. Container-disk VMs can still prove the control plane without a full L2 lab.
 
 ---
 
@@ -118,6 +118,7 @@ curl -sS http://127.0.0.1:8080/api/v1/healthz || true
 | What you can do after login | [Features overview](features/index.md) |
 | Full install + why each dependency | [Installation](installation.md) |
 | Min vs production layouts | [Topologies](topologies.md) |
+| Laptop (kind, no VLAN) | [Kind](kind.md) |
 | Helm values (public net, snapshots) | [Configuration](configuration.md) |
 | Why VirtFoundry vs Proxmox | [Why VirtFoundry](why.md) |
 | Traction / CNCF checklist | [CNCF checklist](https://github.com/virtfoundry/core/blob/main/docs/CNCF-CHECKLIST.md) |
