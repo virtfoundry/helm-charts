@@ -13,7 +13,7 @@ helm search repo virtfoundry/virtfoundry --versions
 Install a specific version:
 
 ```bash
-helm install virtfoundry virtfoundry/virtfoundry --version 1.5.0 \
+helm install virtfoundry virtfoundry/virtfoundry --version 0.5.0 \
   --namespace virtfoundry-system --create-namespace \
   --set secrets.rootPassword='...' \
   --set secrets.jwtSecret='...'
@@ -56,8 +56,8 @@ Both live on the **`gh-pages`** branch: chart-releaser writes packages at the ro
 4. Tag both **virtfoundry** and **helm-charts**:
 
    ```bash
-   git tag v1.1.0
-   git push origin v1.1.0
+   git tag v0.5.0
+   git push origin v0.5.0
    ```
 
 5. Workflows publish Helm package + rebuild docs

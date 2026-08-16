@@ -4,6 +4,19 @@ All notable changes to the **Helm chart and deploy tooling** are documented here
 
 Format based on [Keep a Changelog](https://keepachangelog.com/). Versioning: [SemVer](versioning.md).
 
+## [0.5.0] - 2026-08-16
+
+Pre-1.0 release line. VirtFoundry is **not 1.0** yet; `v1.0.0`–`v1.5.0` tags were premature and are not a stability contract.
+
+### Changed
+
+- Chart `version` / `appVersion` and default images set to `0.5.0`
+- Docs and install snippets pin `--version 0.5.0`
+
+### Docs
+
+- Kind laptop guide (no VLAN); public-network underlay without a switch
+
 ## [1.5.0] - 2026-08-11
 
 ### Changed
@@ -126,6 +139,7 @@ No chart template or values schema changes — upgrade by bumping the chart vers
 - GitHub Pages Helm repository via chart-releaser
 - Deploy scripts and setup helpers (KubeVirt, Multus, CDI)
 
+[0.5.0]: https://github.com/virtfoundry/helm-charts/compare/v1.5.0...v0.5.0
 [1.5.0]: https://github.com/virtfoundry/helm-charts/compare/v1.4.1...v1.5.0
 [1.4.1]: https://github.com/virtfoundry/helm-charts/compare/v1.4.0...v1.4.1
 [1.4.0]: https://github.com/virtfoundry/helm-charts/compare/v1.3.0...v1.4.0
