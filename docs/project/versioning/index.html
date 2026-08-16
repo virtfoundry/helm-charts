@@ -1193,6 +1193,17 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#pre-10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pre-1.0
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#release-units" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1374,6 +1385,17 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#pre-10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pre-1.0
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#release-units" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1455,6 +1477,13 @@
 
 <h1 id="versioning">Versioning<a class="headerlink" href="#versioning" title="Permanent link">&para;</a></h1>
 <p>VirtFoundry follows <a href="https://semver.org/">Semantic Versioning 2.0.0</a>.</p>
+<h2 id="pre-10">Pre-1.0<a class="headerlink" href="#pre-10" title="Permanent link">&para;</a></h2>
+<p>The project is <strong>not 1.0 yet</strong>. The current release line is <strong>0.5.0</strong>.</p>
+<p>Git tags <code>v1.0.0</code>–<code>v1.5.0</code> were cut too early. They remain in git/GHCR for history; they are <strong>not</strong> a SemVer 1.0 stability promise. Breaking changes may still land in <strong>0.x MINOR</strong> bumps until 1.0 is declared.</p>
+<p>Helm sorts <code>1.5.0</code> <strong>newer</strong> than <code>0.5.0</code>. Always pin:</p>
+<div class="highlight"><pre><span></span><code>helm<span class="w"> </span>install<span class="w"> </span>virtfoundry<span class="w"> </span>virtfoundry/virtfoundry<span class="w"> </span>--version<span class="w"> </span><span class="m">0</span>.5.0
+</code></pre></div>
+<p>Until <code>1.x</code> chart packages are removed from the Helm index, a bare <code>helm install</code> without <code>--version</code> still picks <code>1.5.0</code>.</p>
 <h2 id="release-units">Release units<a class="headerlink" href="#release-units" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
@@ -1500,44 +1529,48 @@
 <tr>
 <td>Bug fix, doc fix</td>
 <td>PATCH</td>
-<td><code>1.1.0</code> → <code>1.1.1</code></td>
+<td><code>0.5.0</code> → <code>0.5.1</code></td>
 </tr>
 <tr>
 <td>New feature, chart profile change</td>
 <td>MINOR</td>
-<td><code>1.0.0</code> → <code>1.1.0</code></td>
+<td><code>0.5.0</code> → <code>0.6.0</code></td>
 </tr>
 <tr>
 <td>Breaking API or chart contract</td>
+<td>MINOR while on 0.x</td>
+<td><code>0.5.0</code> → <code>0.6.0</code> (document in CHANGELOG)</td>
+</tr>
+<tr>
+<td>First stable contract</td>
 <td>MAJOR</td>
-<td><code>1.x</code> → <code>2.0.0</code></td>
+<td><code>0.x</code> → <code>1.0.0</code> (explicit declaration)</td>
 </tr>
 </tbody>
 </table>
-<p>Breaking changes in MINOR releases before 1.0 were allowed — from <strong>1.0.0</strong> onward, follow standard SemVer.</p>
 <h2 id="release-process">Release process<a class="headerlink" href="#release-process" title="Permanent link">&para;</a></h2>
 <ol>
 <li>Finish feature branch → PR → integration testing → merge <code>main</code></li>
 <li>Update <code>CHANGELOG.md</code> (both repos)</li>
-<li>Bump <code>Chart.yaml</code> + <code>values.yaml</code> image tags (chart repo)</li>
-<li>Commit: <code>chore(release): v1.1.0</code></li>
+<li>Bump <code>Chart.yaml</code> + <code>values.yaml</code> image tags (chart repo) and <code>ui/package.json</code> (core)</li>
+<li>Commit: <code>chore(release): v0.5.0</code></li>
 <li>Tag <strong>both</strong> repositories:</li>
 </ol>
-<div class="highlight"><pre><span></span><code>git<span class="w"> </span>tag<span class="w"> </span>v1.1.0
-git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>v1.1.0
+<div class="highlight"><pre><span></span><code>git<span class="w"> </span>tag<span class="w"> </span>v0.5.0
+git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>v0.5.0
 </code></pre></div>
 <ol>
 <li>CI publishes container images and Helm package; docs site rebuilds</li>
 </ol>
 <h2 id="consuming-versions">Consuming versions<a class="headerlink" href="#consuming-versions" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><span class="c1"># Helm</span>
-helm<span class="w"> </span>install<span class="w"> </span>virtfoundry<span class="w"> </span>virtfoundry/virtfoundry<span class="w"> </span>--version<span class="w"> </span><span class="m">1</span>.1.0
+<div class="highlight"><pre><span></span><code><span class="c1"># Helm — pin 0.5.0 until 1.0 is declared</span>
+helm<span class="w"> </span>install<span class="w"> </span>virtfoundry<span class="w"> </span>virtfoundry/virtfoundry<span class="w"> </span>--version<span class="w"> </span><span class="m">0</span>.5.0
 
 <span class="c1"># Container images</span>
-ghcr.io/virtfoundry/core:1.1.0
-ghcr.io/virtfoundry/ui:1.1.0
+ghcr.io/virtfoundry/core:0.5.0
+ghcr.io/virtfoundry/ui:0.5.0
 </code></pre></div>
-<p>Tags <code>0.2</code>, <code>latest</code> (on <code>main</code> builds) may also exist — pin explicitly in production.</p>
+<p>Tags <code>latest</code> (on <code>main</code> builds) may also exist — pin explicitly in production.</p>
 <h2 id="cross-repo-features">Cross-repo features<a class="headerlink" href="#cross-repo-features" title="Permanent link">&para;</a></h2>
 <p>Use the <strong>same branch name</strong> in <code>virtfoundry</code> and <code>helm-charts</code>. Release with the <strong>same version number</strong> when both change.</p>
 
