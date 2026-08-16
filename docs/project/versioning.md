@@ -2,6 +2,20 @@
 
 VirtFoundry follows [Semantic Versioning 2.0.0](https://semver.org/).
 
+## Pre-1.0
+
+The project is **not 1.0 yet**. The current release line is **0.5.0**.
+
+Git tags `v1.0.0`–`v1.5.0` were cut too early. They remain in git/GHCR for history; they are **not** a SemVer 1.0 stability promise. Breaking changes may still land in **0.x MINOR** bumps until 1.0 is declared.
+
+Helm sorts `1.5.0` **newer** than `0.5.0`. Always pin:
+
+```bash
+helm install virtfoundry virtfoundry/virtfoundry --version 0.5.0
+```
+
+Until `1.x` chart packages are removed from the Helm index, a bare `helm install` without `--version` still picks `1.5.0`.
+
 ## Release units
 
 | Artifact | Version source | Tag | Registry / URL |
@@ -16,23 +30,22 @@ VirtFoundry follows [Semantic Versioning 2.0.0](https://semver.org/).
 
 | Change | Version bump | Example |
 |--------|--------------|---------|
-| Bug fix, doc fix | PATCH | `1.1.0` → `1.1.1` |
-| New feature, chart profile change | MINOR | `1.0.0` → `1.1.0` |
-| Breaking API or chart contract | MAJOR | `1.x` → `2.0.0` |
-
-Breaking changes in MINOR releases before 1.0 were allowed — from **1.0.0** onward, follow standard SemVer.
+| Bug fix, doc fix | PATCH | `0.5.0` → `0.5.1` |
+| New feature, chart profile change | MINOR | `0.5.0` → `0.6.0` |
+| Breaking API or chart contract | MINOR while on 0.x | `0.5.0` → `0.6.0` (document in CHANGELOG) |
+| First stable contract | MAJOR | `0.x` → `1.0.0` (explicit declaration) |
 
 ## Release process
 
 1. Finish feature branch → PR → integration testing → merge `main`
 2. Update `CHANGELOG.md` (both repos)
-3. Bump `Chart.yaml` + `values.yaml` image tags (chart repo)
-4. Commit: `chore(release): v1.1.0`
+3. Bump `Chart.yaml` + `values.yaml` image tags (chart repo) and `ui/package.json` (core)
+4. Commit: `chore(release): v0.5.0`
 5. Tag **both** repositories:
 
    ```bash
-   git tag v1.1.0
-   git push origin v1.1.0
+   git tag v0.5.0
+   git push origin v0.5.0
    ```
 
 6. CI publishes container images and Helm package; docs site rebuilds
@@ -40,17 +53,16 @@ Breaking changes in MINOR releases before 1.0 were allowed — from **1.0.0** on
 ## Consuming versions
 
 ```bash
-# Helm
-helm install virtfoundry virtfoundry/virtfoundry --version 1.1.0
+# Helm — pin 0.5.0 until 1.0 is declared
+helm install virtfoundry virtfoundry/virtfoundry --version 0.5.0
 
 # Container images
-ghcr.io/virtfoundry/core:1.1.0
-ghcr.io/virtfoundry/ui:1.1.0
+ghcr.io/virtfoundry/core:0.5.0
+ghcr.io/virtfoundry/ui:0.5.0
 ```
 
-Tags `0.2`, `latest` (on `main` builds) may also exist — pin explicitly in production.
+Tags `latest` (on `main` builds) may also exist — pin explicitly in production.
 
 ## Cross-repo features
 
 Use the **same branch name** in `virtfoundry` and `helm-charts`. Release with the **same version number** when both change.
-

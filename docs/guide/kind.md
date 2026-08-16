@@ -87,7 +87,7 @@ helm repo add virtfoundry https://virtfoundry.github.io/helm-charts
 helm repo update
 
 helm install virtfoundry virtfoundry/virtfoundry \
-  --version 1.5.0 \
+  --version 0.5.0 \
   --namespace virtfoundry-system --create-namespace \
   -f values-kind.yaml \
   --set secrets.rootPassword='change-me' \
@@ -145,7 +145,7 @@ platform:
 
 ```bash
 helm upgrade virtfoundry virtfoundry/virtfoundry \
-  --version 1.5.0 \
+  --version 0.5.0 \
   -n virtfoundry-system \
   -f values-kind.yaml \
   -f values-kind-public.yaml \
