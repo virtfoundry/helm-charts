@@ -32,6 +32,12 @@ data:
         dns: {{ .Values.platform.networking.public.dns | toJson }}
         ip_pool_start: {{ .Values.platform.networking.public.ipPool.start | quote }}
         ip_pool_end: {{ .Values.platform.networking.public.ipPool.end | quote }}
+        reserved_ranges:
+{{- range .Values.platform.networking.public.reservedRanges }}
+          - start: {{ .start | quote }}
+            end: {{ .end | quote }}
+            reason: {{ .reason | default "" | quote }}
+{{- end }}
         bridge_name: {{ .Values.platform.networking.public.bridge.name | quote }}
         nad_name: {{ .Values.platform.networking.public.nad.name | quote }}
         nad_namespace: {{ .Values.platform.networking.public.nad.namespace | quote }}
