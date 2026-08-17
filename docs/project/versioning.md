@@ -8,13 +8,11 @@ The project is **not 1.0 yet**. The current release line is **0.5.0**.
 
 Git tags `v1.0.0`–`v1.5.0` were cut too early. They remain in git/GHCR for history; they are **not** a SemVer 1.0 stability promise. Breaking changes may still land in **0.x MINOR** bumps until 1.0 is declared.
 
-Helm sorts `1.5.0` **newer** than `0.5.0`. Always pin:
+Helm chart packages `1.x` were **yanked** from the repository index so a bare `helm install` resolves **0.5.0**. Pin anyway:
 
 ```bash
 helm install virtfoundry virtfoundry/virtfoundry --version 0.5.0
 ```
-
-Until `1.x` chart packages are removed from the Helm index, a bare `helm install` without `--version` still picks `1.5.0`.
 
 ## Release units
 

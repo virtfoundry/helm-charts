@@ -25,10 +25,10 @@ Optional values overlays (Gateway API, public networking, image tags) can be pas
 
 | Path | Content |
 |------|---------|
-| `https://virtfoundry.github.io/helm-charts/` | Helm `index.yaml` + `.tgz` packages |
+| `https://virtfoundry.github.io/helm-charts/` | Helm `index.yaml` (`.tgz` packages are GitHub Release assets) |
 | `https://virtfoundry.github.io/helm-charts/docs/` | MkDocs documentation (this site) |
 
-Both live on the **`gh-pages`** branch: chart-releaser writes packages at the root; the Docs workflow publishes MkDocs under `docs/`.
+Both live on the **`gh-pages`** branch: chart-releaser writes `index.yaml` at the root; the Docs workflow publishes MkDocs under `docs/`. Chart packages `1.x` were yanked from the index (git tags `v1.x` remain).
 
 !!! warning "One-time setup: enable Pages"
     If `/docs/` returns **404** but CI succeeded, GitHub Pages is probably disabled. Enable it once in the repo:
