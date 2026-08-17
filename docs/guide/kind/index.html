@@ -1532,7 +1532,7 @@
 </tbody>
 </table>
 <div class="highlight"><pre><span></span><code><span class="c1"># Linux</span>
-<span class="nb">test</span><span class="w"> </span>-e<span class="w"> </span>/dev/kvm<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;KVM ok&quot;</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;No KVM — you will use emulation&quot;</span>
+<span class="nb">test</span><span class="w"> </span>-e<span class="w"> </span>/dev/kvm<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">"KVM ok"</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">"No KVM — you will use emulation"</span>
 </code></pre></div>
 <hr />
 <h2 id="1-create-the-cluster">1. Create the cluster<a class="headerlink" href="#1-create-the-cluster" title="Permanent link">&para;</a></h2>
@@ -1558,14 +1558,14 @@ kubectl<span class="w"> </span>cluster-info<span class="w"> </span>--context<spa
 <hr />
 <h2 id="2-platform-components">2. Platform components<a class="headerlink" href="#2-platform-components" title="Permanent link">&para;</a></h2>
 <p>The Helm chart does <strong>not</strong> install KubeVirt, Multus, or CDI. From a <a href="https://github.com/virtfoundry/helm-charts">helm-charts</a> clone:</p>
-<div class="highlight"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">KUBECONFIG</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">KUBECONFIG</span><span class="k">:-</span><span class="nv">$HOME</span><span class="p">/.kube/config</span><span class="si">}</span><span class="s2">&quot;</span>
+<div class="highlight"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">KUBECONFIG</span><span class="o">=</span><span class="s2">"</span><span class="si">${</span><span class="nv">KUBECONFIG</span><span class="k">:-</span><span class="nv">$HOME</span><span class="p">/.kube/config</span><span class="si">}</span><span class="s2">"</span>
 ./scripts/setup/multus.sh
 ./scripts/setup/kubevirt.sh
 ./scripts/setup/cdi.sh
 </code></pre></div>
 <p>Without KVM, turn on emulation <strong>after</strong> KubeVirt is Available:</p>
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>-n<span class="w"> </span>kubevirt<span class="w"> </span>patch<span class="w"> </span>kubevirt<span class="w"> </span>kubevirt<span class="w"> </span>--type<span class="w"> </span>merge<span class="w"> </span>-p<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span><span class="s1">&#39;{&quot;spec&quot;:{&quot;configuration&quot;:{&quot;developerConfiguration&quot;:{&quot;useEmulation&quot;:true}}}}&#39;</span>
+<span class="w">  </span><span class="s1">'{"spec":{"configuration":{"developerConfiguration":{"useEmulation":true}}}}'</span>
 </code></pre></div>
 <p>Wait until <code>kubectl get kubevirt -n kubevirt</code> shows <code>Available</code>.</p>
 <hr />
@@ -1581,8 +1581,8 @@ helm<span class="w"> </span>install<span class="w"> </span>virtfoundry<span clas
 <span class="w">  </span>--version<span class="w"> </span><span class="m">0</span>.5.0<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--namespace<span class="w"> </span>virtfoundry-system<span class="w"> </span>--create-namespace<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>-f<span class="w"> </span>values-kind.yaml<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--set<span class="w"> </span>secrets.rootPassword<span class="o">=</span><span class="s1">&#39;change-me&#39;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--set<span class="w"> </span>secrets.jwtSecret<span class="o">=</span><span class="s1">&#39;change-me-long-random&#39;</span>
+<span class="w">  </span>--set<span class="w"> </span>secrets.rootPassword<span class="o">=</span><span class="s1">'change-me'</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--set<span class="w"> </span>secrets.jwtSecret<span class="o">=</span><span class="s1">'change-me-long-random'</span>
 </code></pre></div>
 <p>Open <strong>http://127.0.0.1:8080</strong> — user <code>root</code>, password <code>change-me</code>.</p>
 <p>Deploy a <strong>container-disk</strong> VM (Templates → small offering → Console). The guest has a pod IP only; you reach it through <strong>noVNC</strong>, not from your LAN.</p>

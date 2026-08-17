@@ -1419,8 +1419,8 @@ helm<span class="w"> </span>search<span class="w"> </span>repo<span class="w"> <
 <p>Install a specific version:</p>
 <div class="highlight"><pre><span></span><code>helm<span class="w"> </span>install<span class="w"> </span>virtfoundry<span class="w"> </span>virtfoundry/virtfoundry<span class="w"> </span>--version<span class="w"> </span><span class="m">0</span>.5.0<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--namespace<span class="w"> </span>virtfoundry-system<span class="w"> </span>--create-namespace<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--set<span class="w"> </span>secrets.rootPassword<span class="o">=</span><span class="s1">&#39;...&#39;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--set<span class="w"> </span>secrets.jwtSecret<span class="o">=</span><span class="s1">&#39;...&#39;</span>
+<span class="w">  </span>--set<span class="w"> </span>secrets.rootPassword<span class="o">=</span><span class="s1">'...'</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--set<span class="w"> </span>secrets.jwtSecret<span class="o">=</span><span class="s1">'...'</span>
 </code></pre></div>
 <p>Optional values overlays (Gateway API, public networking, image tags) can be passed with <code>-f</code> on <code>helm upgrade --install</code>.</p>
 <h2 id="github-pages-layout">GitHub Pages layout<a class="headerlink" href="#github-pages-layout" title="Permanent link">&para;</a></h2>
@@ -1434,7 +1434,7 @@ helm<span class="w"> </span>search<span class="w"> </span>repo<span class="w"> <
 <tbody>
 <tr>
 <td><code>https://virtfoundry.github.io/helm-charts/</code></td>
-<td>Helm <code>index.yaml</code> + <code>.tgz</code> packages</td>
+<td>Helm <code>index.yaml</code> (<code>.tgz</code> packages are GitHub Release assets)</td>
 </tr>
 <tr>
 <td><code>https://virtfoundry.github.io/helm-charts/docs/</code></td>
@@ -1442,16 +1442,16 @@ helm<span class="w"> </span>search<span class="w"> </span>repo<span class="w"> <
 </tr>
 </tbody>
 </table>
-<p>Both live on the <strong><code>gh-pages</code></strong> branch: chart-releaser writes packages at the root; the Docs workflow publishes MkDocs under <code>docs/</code>.</p>
+<p>Both live on the <strong><code>gh-pages</code></strong> branch: chart-releaser writes <code>index.yaml</code> at the root; the Docs workflow publishes MkDocs under <code>docs/</code>. Chart packages <code>1.x</code> were yanked from the index (git tags <code>v1.x</code> remain).</p>
 <div class="admonition warning">
 <p class="admonition-title">One-time setup: enable Pages</p>
 <p>If <code>/docs/</code> returns <strong>404</strong> but CI succeeded, GitHub Pages is probably disabled. Enable it once in the repo:</p>
 <p><strong>Settings → Pages → Build and deployment → Source:</strong> Deploy from a branch → <strong><code>gh-pages</code></strong> / <strong><code>/ (root)</code></strong></p>
 <p>Or via CLI (repo admin):</p>
-<div class="highlight"><pre><span></span><code>gh<span class="w"> </span>api<span class="w"> </span>repos/virtfoundry/helm-charts/pages<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>--input<span class="w"> </span>-<span class="w"> </span><span class="s">&lt;&lt;&#39;EOF&#39;</span>
+<div class="highlight"><pre><span></span><code>gh<span class="w"> </span>api<span class="w"> </span>repos/virtfoundry/helm-charts/pages<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>--input<span class="w"> </span>-<span class="w"> </span><span class="s">&lt;&lt;'EOF'</span>
 <span class="s">{</span>
-<span class="s">  &quot;build_type&quot;: &quot;legacy&quot;,</span>
-<span class="s">  &quot;source&quot;: { &quot;branch&quot;: &quot;gh-pages&quot;, &quot;path&quot;: &quot;/&quot; }</span>
+<span class="s">  "build_type": "legacy",</span>
+<span class="s">  "source": { "branch": "gh-pages", "path": "/" }</span>
 <span class="s">}</span>
 <span class="s">EOF</span>
 </code></pre></div>

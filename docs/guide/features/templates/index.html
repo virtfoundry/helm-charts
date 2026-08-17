@@ -1541,20 +1541,20 @@
 </ol>
 <p>Platform templates show a <strong>platform</strong> badge and cannot be edited or deleted.</p>
 <h2 id="register-via-api">Register via API<a class="headerlink" href="#register-via-api" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer </span><span class="nv">$TOKEN</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-H<span class="w"> </span><span class="s2">&quot;X-Tenant-ID: </span><span class="nv">$TENANT_ID</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-H<span class="w"> </span><span class="s2">"Authorization: Bearer </span><span class="nv">$TOKEN</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">"X-Tenant-ID: </span><span class="nv">$TENANT_ID</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>https://iaas.example/api/v1/vm-templates
 
-curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer </span><span class="nv">$TOKEN</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-H<span class="w"> </span><span class="s2">&quot;X-Tenant-ID: </span><span class="nv">$TENANT_ID</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-d<span class="w"> </span><span class="s1">&#39;{</span>
-<span class="s1">    &quot;name&quot;: &quot;ubuntu-2404&quot;,</span>
-<span class="s1">    &quot;display_name&quot;: &quot;Ubuntu 24.04&quot;,</span>
-<span class="s1">    &quot;image&quot;: &quot;quay.io/containerdisks/ubuntu:24.04&quot;,</span>
-<span class="s1">    &quot;source_type&quot;: &quot;container&quot;,</span>
-<span class="s1">    &quot;os_type&quot;: &quot;linux&quot;</span>
-<span class="s1">  }&#39;</span><span class="w"> </span><span class="se">\</span>
+curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>-H<span class="w"> </span><span class="s2">"Authorization: Bearer </span><span class="nv">$TOKEN</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">"X-Tenant-ID: </span><span class="nv">$TENANT_ID</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">"Content-Type: application/json"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-d<span class="w"> </span><span class="s1">'{</span>
+<span class="s1">    "name": "ubuntu-2404",</span>
+<span class="s1">    "display_name": "Ubuntu 24.04",</span>
+<span class="s1">    "image": "quay.io/containerdisks/ubuntu:24.04",</span>
+<span class="s1">    "source_type": "container",</span>
+<span class="s1">    "os_type": "linux"</span>
+<span class="s1">  }'</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>https://iaas.example/api/v1/vm-templates
 </code></pre></div>
 <table>
@@ -1626,17 +1626,17 @@ curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </spa
 </tbody>
 </table>
 <p>The UI polls every 5s while any template is importing.</p>
-<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer </span><span class="nv">$TOKEN</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-H<span class="w"> </span><span class="s2">&quot;X-Tenant-ID: </span><span class="nv">$TENANT_ID</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-d<span class="w"> </span><span class="s1">&#39;{</span>
-<span class="s1">    &quot;name&quot;: &quot;windows-server-2022&quot;,</span>
-<span class="s1">    &quot;display_name&quot;: &quot;Windows Server 2022 Eval&quot;,</span>
-<span class="s1">    &quot;image&quot;: &quot;https://go.microsoft.com/fwlink/?linkid=2195280&quot;,</span>
-<span class="s1">    &quot;source_type&quot;: &quot;iso&quot;,</span>
-<span class="s1">    &quot;iso_size_gi&quot;: 8,</span>
-<span class="s1">    &quot;boot_disk_size_gi&quot;: 32</span>
-<span class="s1">  }&#39;</span><span class="w"> </span><span class="se">\</span>
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>-H<span class="w"> </span><span class="s2">"Authorization: Bearer </span><span class="nv">$TOKEN</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">"X-Tenant-ID: </span><span class="nv">$TENANT_ID</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">"Content-Type: application/json"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-d<span class="w"> </span><span class="s1">'{</span>
+<span class="s1">    "name": "windows-server-2022",</span>
+<span class="s1">    "display_name": "Windows Server 2022 Eval",</span>
+<span class="s1">    "image": "https://go.microsoft.com/fwlink/?linkid=2195280",</span>
+<span class="s1">    "source_type": "iso",</span>
+<span class="s1">    "iso_size_gi": 8,</span>
+<span class="s1">    "boot_disk_size_gi": 32</span>
+<span class="s1">  }'</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>https://iaas.example/api/v1/vm-templates
 </code></pre></div>
 <div class="admonition warning">

@@ -1849,10 +1849,10 @@ kubectl<span class="w"> </span>get<span class="w"> </span>storageclass
 <h3 id="per-template-override-api">Per-template override (API)<a class="headerlink" href="#per-template-override-api" title="Permanent link">&para;</a></h3>
 <p>When registering a template, set <code>storage_class</code> to use a different class for that image only:</p>
 <div class="highlight"><pre><span></span><code><span class="p">{</span>
-<span class="w">  </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;win2022-eval&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;source_type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;iso&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;image&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;https://example.com/win.iso&quot;</span><span class="p">,</span>
-<span class="w">  </span><span class="nt">&quot;storage_class&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ceph-rbd&quot;</span>
+<span class="w">  </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"win2022-eval"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"source_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"iso"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"image"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://example.com/win.iso"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"storage_class"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ceph-rbd"</span>
 <span class="p">}</span>
 </code></pre></div>
 <p>If omitted, the API falls back to <code>platform.storage.defaultClass</code> from Helm.</p>
@@ -1880,8 +1880,8 @@ make<span class="w"> </span>render-local-config<span class="w"> </span><span cla
 <h2 id="secrets">Secrets<a class="headerlink" href="#secrets" title="Permanent link">&para;</a></h2>
 <p>Never commit production secrets. Prefer:</p>
 <div class="highlight"><pre><span></span><code>helm<span class="w"> </span>upgrade<span class="w"> </span>--install<span class="w"> </span>virtfoundry<span class="w"> </span>./charts/virtfoundry<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--set<span class="w"> </span>secrets.jwtSecret<span class="o">=</span><span class="s1">&#39;...&#39;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--set<span class="w"> </span>secrets.rootPassword<span class="o">=</span><span class="s1">&#39;...&#39;</span>
+<span class="w">  </span>--set<span class="w"> </span>secrets.jwtSecret<span class="o">=</span><span class="s1">'...'</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--set<span class="w"> </span>secrets.rootPassword<span class="o">=</span><span class="s1">'...'</span>
 </code></pre></div>
 
 

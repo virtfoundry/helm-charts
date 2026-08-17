@@ -1512,11 +1512,11 @@
 <h2 id="expose-ssh-nodeport">Expose SSH (NodePort)<a class="headerlink" href="#expose-ssh-nodeport" title="Permanent link">&para;</a></h2>
 <p>For lab access without a public Multus IP:</p>
 <div class="highlight"><pre><span></span><code><span class="c1"># Status</span>
-curl<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer </span><span class="nv">$TOKEN</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
+curl<span class="w"> </span>-H<span class="w"> </span><span class="s2">"Authorization: Bearer </span><span class="nv">$TOKEN</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>https://iaas.example/api/v1/vms/web-1/ssh
 
 <span class="c1"># Expose</span>
-curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer </span><span class="nv">$TOKEN</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
+curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>-H<span class="w"> </span><span class="s2">"Authorization: Bearer </span><span class="nv">$TOKEN</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>https://iaas.example/api/v1/vms/web-1/ssh
 </code></pre></div>
 <p>Response includes how to reach SSH (NodePort / service details). Use with a registered key or the password set via cloud-init.</p>

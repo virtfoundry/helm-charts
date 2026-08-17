@@ -1480,10 +1480,9 @@
 <h2 id="pre-10">Pre-1.0<a class="headerlink" href="#pre-10" title="Permanent link">&para;</a></h2>
 <p>The project is <strong>not 1.0 yet</strong>. The current release line is <strong>0.5.0</strong>.</p>
 <p>Git tags <code>v1.0.0</code>–<code>v1.5.0</code> were cut too early. They remain in git/GHCR for history; they are <strong>not</strong> a SemVer 1.0 stability promise. Breaking changes may still land in <strong>0.x MINOR</strong> bumps until 1.0 is declared.</p>
-<p>Helm sorts <code>1.5.0</code> <strong>newer</strong> than <code>0.5.0</code>. Always pin:</p>
+<p>Helm chart packages <code>1.x</code> were <strong>yanked</strong> from the repository index so a bare <code>helm install</code> resolves <strong>0.5.0</strong>. Pin anyway:</p>
 <div class="highlight"><pre><span></span><code>helm<span class="w"> </span>install<span class="w"> </span>virtfoundry<span class="w"> </span>virtfoundry/virtfoundry<span class="w"> </span>--version<span class="w"> </span><span class="m">0</span>.5.0
 </code></pre></div>
-<p>Until <code>1.x</code> chart packages are removed from the Helm index, a bare <code>helm install</code> without <code>--version</code> still picks <code>1.5.0</code>.</p>
 <h2 id="release-units">Release units<a class="headerlink" href="#release-units" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
