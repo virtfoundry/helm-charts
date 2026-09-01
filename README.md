@@ -6,12 +6,23 @@ Official Helm charts for [VirtFoundry](https://github.com/virtfoundry/core) — 
 
 ## Quick install
 
-Laptop (kind, no VLAN): **[Kind guide](docs/guide/kind.md)**. Any cluster:
+**Install order:** **KubeVirt** + **Multus** + **CDI** on the cluster → **virtfoundry-operator** (CRDs) → **virtfoundry** (API + UI).
+
+| Prerequisite | Required |
+|--------------|----------|
+| [KubeVirt](https://kubevirt.io/) | **Yes** — VMs, console, VM snapshots |
+| [Multus CNI](https://github.com/k8snetworkplumbingwg/multus-cni) | **Yes** — VPCs, tenant networks, public IPs |
+| [CDI](https://github.com/kubevirt/containerized-data-importer) | **Yes** for ISO/import; optional for container-disk templates |
+| StorageClass | **Yes** for disks |
+| Ingress or Gateway API | One of them — expose UI/API |
+
+Laptop (kind, no VLAN): **[Kind guide](docs/guide/kind.md)** installs the platform stack. Full details: [installation guide](docs/guide/installation.md).
 
 ```bash
 helm repo add virtfoundry https://virtfoundry.github.io/helm-charts
 helm repo update
 
+# After KubeVirt, Multus, CDI
 helm install virtfoundry-operator virtfoundry/virtfoundry-operator \
   -n virtfoundry-system --create-namespace
 
@@ -21,10 +32,6 @@ helm install virtfoundry virtfoundry/virtfoundry \
   --set secrets.rootPassword='change-me' \
   --set secrets.jwtSecret='change-me'
 ```
-
-## Prerequisites
-
-KubeVirt, Multus, and CDI must be present on the cluster. The chart installs the **control plane only**. See the [installation guide](docs/guide/installation.md).
 
 ## Local validation
 

@@ -13,10 +13,13 @@ See [Installation guide](https://virtfoundry.github.io/helm-charts/docs/guide/in
 
 ## Install
 
+**Order:** KubeVirt + Multus + CDI on the cluster → **virtfoundry-operator** → this chart (API + UI).
+
 ```bash
 helm repo add virtfoundry https://virtfoundry.github.io/helm-charts
 helm repo update
 
+# After platform prerequisites (see Installation guide)
 helm install virtfoundry-operator virtfoundry/virtfoundry-operator \
   --namespace virtfoundry-system --create-namespace
 
