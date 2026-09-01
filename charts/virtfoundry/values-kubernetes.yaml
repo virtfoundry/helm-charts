@@ -1,0 +1,14 @@
+# Recommended profile: platform state in virtfoundry.io CRDs (no MySQL, no worker).
+# Install charts/virtfoundry-operator first, then merge this file with virtfoundry.
+#
+#   helm install virtfoundry-operator ./charts/virtfoundry-operator -n virtfoundry-system --create-namespace
+#   helm install virtfoundry ./charts/virtfoundry -n virtfoundry-system -f charts/virtfoundry/values-kubernetes.yaml ...
+
+store:
+  driver: kubernetes
+
+mysql:
+  enabled: false
+
+worker:
+  enabled: false

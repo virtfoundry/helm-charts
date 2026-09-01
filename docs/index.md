@@ -33,7 +33,7 @@ Proxmox (or avoiding raw KubeVirt YAML) who already run Kubernetes.
 <span class="vf-icon">:material-server:</span>
 
 ### Control plane
-Go API + async worker orchestrate tenants, compute, storage, and network resources.
+Go API over **`virtfoundry.io` CRDs** (via [operator](https://github.com/virtfoundry/operator)); REST `/api/v1` for UI, Terraform, and GitOps.
 
 </div>
 
@@ -88,6 +88,9 @@ JWT login, API keys, roles, tenant namespaces, and Kubernetes NetworkPolicy.
     <div class="vf-carousel__slide" data-caption="Networks — VPCs and private subnets" aria-hidden="true">
       <img src="assets/screenshots/07-networks.png" alt="VirtFoundry networks" width="1440" height="900" loading="lazy">
     </div>
+    <div class="vf-carousel__slide" data-caption="CRD store — virtfoundry.io tenants, instances, operator" aria-hidden="true">
+      <img src="assets/screenshots/06-crds.png" alt="VirtFoundry CRDs kubectl" width="1440" height="900" loading="lazy">
+    </div>
   </div>
 
   <div class="vf-carousel__controls">
@@ -103,6 +106,7 @@ JWT login, API keys, roles, tenant namespaces, and Kubernetes NetworkPolicy.
     <button type="button" class="vf-carousel__dot" role="tab" aria-selected="false" aria-label="Images and Templates"></button>
     <button type="button" class="vf-carousel__dot" role="tab" aria-selected="false" aria-label="Volumes"></button>
     <button type="button" class="vf-carousel__dot" role="tab" aria-selected="false" aria-label="Networks"></button>
+    <button type="button" class="vf-carousel__dot" role="tab" aria-selected="false" aria-label="CRD store"></button>
   </div>
 </div>
 
@@ -111,25 +115,34 @@ JWT login, API keys, roles, tenant namespaces, and Kubernetes NetworkPolicy.
 ```bash
 helm repo add virtfoundry https://virtfoundry.github.io/helm-charts
 helm repo update
+
+# 1. CRDs + operator
+helm install virtfoundry-operator virtfoundry/virtfoundry-operator \
+  --namespace virtfoundry-system --create-namespace
+
+# 2. API + UI (CRD store)
 helm install virtfoundry virtfoundry/virtfoundry \
   --version 0.5.0 \
   --namespace virtfoundry-system \
-  --create-namespace \
   --set secrets.rootPassword='your-root-password' \
-  --set secrets.jwtSecret='your-jwt-secret'
+  --set secrets.jwtSecret='your-jwt-secret' \
+  --set store.driver=kubernetes \
+  --set mysql.enabled=false \
+  --set worker.enabled=false
 ```
 
 Gateway API or Ingress profiles are configured via Helm values — see [Configuration](guide/configuration.md). Laptop lab with no VLAN: [Kind](guide/kind.md).
 
 ## Before you install
 
-VirtFoundry requires **KubeVirt**, **Multus**, and **CDI** (for ISO/import paths) on the cluster — the Helm chart deploys the control plane only. See [Installation → Prerequisites](guide/installation.md#why-each-platform-component-is-needed).
+VirtFoundry requires **KubeVirt**, **Multus**, and **CDI** (for ISO/import paths) on the cluster, plus **`virtfoundry-operator`** for the CRD store. The `virtfoundry` chart deploys API + UI only. See [Installation → Prerequisites](guide/installation.md#why-each-platform-component-is-needed).
 
 ## Architecture
 
 | Layer | Technology |
 |-------|------------|
-| Control plane | Go API + async worker |
+| Control plane | Go API + [virtfoundry-operator](https://github.com/virtfoundry/operator) (`virtfoundry.io` CRDs) |
+| Persistence | Kubernetes CRDs (+ Secrets for credential hashes); legacy MySQL optional |
 | Hypervisor | KubeVirt VirtualMachine |
 | Networking | Multus NADs, host bridges, optional MetalLB |
 | Security | IAM, JWT, API keys, tenant namespaces, NetworkPolicy |
@@ -140,8 +153,9 @@ VirtFoundry requires **KubeVirt**, **Multus**, and **CDI** (for ISO/import paths
 
 | Repository | Role |
 |------------|------|
-| [core](https://github.com/virtfoundry/core) | Application source (API, worker, UI) |
-| [helm-charts](https://github.com/virtfoundry/helm-charts) | Helm chart, deploy scripts, this documentation |
+| [core](https://github.com/virtfoundry/core) | Application source (API, UI, kubernetes store) |
+| [operator](https://github.com/virtfoundry/operator) | CRDs and Kubernetes operator |
+| [helm-charts](https://github.com/virtfoundry/helm-charts) | Helm charts, deploy scripts, this documentation |
 
 <div class="vf-links" markdown="1">
 

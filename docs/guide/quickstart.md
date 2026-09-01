@@ -31,18 +31,26 @@ You need at least one **default** or known StorageClass. Prefer [Longhorn](https
 helm repo add virtfoundry https://virtfoundry.github.io/helm-charts
 helm repo update
 
+# CRDs + operator (required)
+helm install virtfoundry-operator virtfoundry/virtfoundry-operator \
+  --namespace virtfoundry-system --create-namespace
+
+# API + UI — CRD store (no MySQL/worker)
 helm install virtfoundry virtfoundry/virtfoundry \
   --version 0.5.0 \
   --namespace virtfoundry-system \
-  --create-namespace \
   --set secrets.rootPassword='change-me' \
-  --set secrets.jwtSecret='change-me-long-random'
+  --set secrets.jwtSecret='change-me-long-random' \
+  --set store.driver=kubernetes \
+  --set mysql.enabled=false \
+  --set worker.enabled=false
 ```
 
 Wait until pods are ready:
 
 ```bash
 kubectl -n virtfoundry-system get pods -w
+kubectl get crd | grep virtfoundry.io
 ```
 
 Optional — set the CSI snapshot class used by the Volume Snapshots UI (Longhorn example):
@@ -99,7 +107,8 @@ In the UI (or API):
 ## 5. Sanity checks
 
 ```bash
-kubectl -n virtfoundry-system get deploy,sts
+kubectl -n virtfoundry-system get deploy
+kubectl get vf-instance -A
 kubectl get vm -A
 ```
 

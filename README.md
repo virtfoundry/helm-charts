@@ -11,11 +11,18 @@ Laptop (kind, no VLAN): **[Kind guide](docs/guide/kind.md)**. Any cluster:
 ```bash
 helm repo add virtfoundry https://virtfoundry.github.io/helm-charts
 helm repo update
+
+helm install virtfoundry-operator virtfoundry/virtfoundry-operator \
+  -n virtfoundry-system --create-namespace
+
 helm install virtfoundry virtfoundry/virtfoundry \
   --version 0.5.0 \
   -n virtfoundry-system --create-namespace \
   --set secrets.rootPassword='change-me' \
-  --set secrets.jwtSecret='change-me'
+  --set secrets.jwtSecret='change-me' \
+  --set store.driver=kubernetes \
+  --set mysql.enabled=false \
+  --set worker.enabled=false
 ```
 
 ## Prerequisites
