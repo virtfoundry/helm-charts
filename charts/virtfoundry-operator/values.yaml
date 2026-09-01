@@ -1,0 +1,24 @@
+nameOverride: ""
+fullnamePrefix: virtfoundry-operator
+
+namespace: virtfoundry-system
+
+image:
+  repository: docker.io/virtfoundry/operator
+  tag: "0.1.0-dev"
+  digest: ""
+  pullPolicy: IfNotPresent
+
+replicas: 1
+
+leaderElection: true
+
+resources:
+  requests:
+    cpu: 50m
+    memory: 128Mi
+  limits:
+    cpu: 500m
+    memory: 256Mi
+
+# Homelab sideload: set pullPolicy IfNotPresent after ctr import.
