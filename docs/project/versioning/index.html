@@ -1480,13 +1480,13 @@
 <h2 id="pre-10">Pre-1.0<a class="headerlink" href="#pre-10" title="Permanent link">&para;</a></h2>
 <p>The project is <strong>not 1.0 yet</strong>. The current release line is <strong>0.5.0</strong>.</p>
 <p>Git tags <code>v1.0.0</code>–<code>v1.5.0</code> were cut too early. They remain in git/GHCR for history; they are <strong>not</strong> a SemVer 1.0 stability promise. Breaking changes may still land in <strong>0.x MINOR</strong> bumps until 1.0 is declared.</p>
-<p>Helm chart packages <code>1.x</code> were <strong>yanked</strong> from the repository index so a bare <code>helm install</code> resolves <strong>0.5.0</strong>. Pin anyway and install <strong>operator + CRD store</strong>:</p>
+<p>Helm chart packages <code>1.x</code> were <strong>yanked</strong> from the repository index so a bare <code>helm install</code> resolves <strong>0.5.0</strong>. Pin anyway and install <strong>operator first</strong>:</p>
 <div class="highlight"><pre><span></span><code>helm<span class="w"> </span>install<span class="w"> </span>virtfoundry-operator<span class="w"> </span>virtfoundry/virtfoundry-operator<span class="w"> </span>--version<span class="w"> </span><span class="m">0</span>.5.0<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>-n<span class="w"> </span>virtfoundry-system<span class="w"> </span>--create-namespace
 helm<span class="w"> </span>install<span class="w"> </span>virtfoundry<span class="w"> </span>virtfoundry/virtfoundry<span class="w"> </span>--version<span class="w"> </span><span class="m">0</span>.5.0<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>-n<span class="w"> </span>virtfoundry-system<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--set<span class="w"> </span>store.driver<span class="o">=</span>kubernetes<span class="w"> </span>--set<span class="w"> </span>mysql.enabled<span class="o">=</span><span class="nb">false</span><span class="w"> </span>--set<span class="w"> </span>worker.enabled<span class="o">=</span><span class="nb">false</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>...
+<span class="w">  </span>--set<span class="w"> </span>secrets.rootPassword<span class="o">=</span><span class="s1">'...'</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--set<span class="w"> </span>secrets.jwtSecret<span class="o">=</span><span class="s1">'...'</span>
 </code></pre></div>
 <h2 id="release-units">Release units<a class="headerlink" href="#release-units" title="Permanent link">&para;</a></h2>
 <table>
@@ -1567,10 +1567,10 @@ git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </
 <li>CI publishes container images and Helm package; docs site rebuilds</li>
 </ol>
 <h2 id="consuming-versions">Consuming versions<a class="headerlink" href="#consuming-versions" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><span class="c1"># Helm — pin 0.5.0; operator + kubernetes store (see Installation guide)</span>
+<div class="highlight"><pre><span></span><code><span class="c1"># Helm — pin 0.5.0; install operator first (see Installation guide)</span>
 helm<span class="w"> </span>install<span class="w"> </span>virtfoundry-operator<span class="w"> </span>virtfoundry/virtfoundry-operator<span class="w"> </span>--version<span class="w"> </span><span class="m">0</span>.5.0<span class="w"> </span>...
 helm<span class="w"> </span>install<span class="w"> </span>virtfoundry<span class="w"> </span>virtfoundry/virtfoundry<span class="w"> </span>--version<span class="w"> </span><span class="m">0</span>.5.0<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--set<span class="w"> </span>store.driver<span class="o">=</span>kubernetes<span class="w"> </span>--set<span class="w"> </span>mysql.enabled<span class="o">=</span><span class="nb">false</span><span class="w"> </span>--set<span class="w"> </span>worker.enabled<span class="o">=</span><span class="nb">false</span><span class="w"> </span>...
+<span class="w">  </span>--set<span class="w"> </span>secrets.rootPassword<span class="o">=</span><span class="s1">'...'</span><span class="w"> </span>--set<span class="w"> </span>secrets.jwtSecret<span class="o">=</span><span class="s1">'...'</span><span class="w"> </span>...
 
 <span class="c1"># Container images</span>
 ghcr.io/virtfoundry/core:0.5.0

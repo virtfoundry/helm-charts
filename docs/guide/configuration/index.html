@@ -671,10 +671,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#platform-store-storedriver" class="md-nav__link">
+  <a href="#platform-store" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Platform store (store.driver)
+        Platform store
       
     </span>
   </a>
@@ -1457,10 +1457,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#platform-store-storedriver" class="md-nav__link">
+  <a href="#platform-store" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Platform store (store.driver)
+        Platform store
       
     </span>
   </a>
@@ -1612,17 +1612,7 @@
 <tr>
 <td><code>store.driver</code></td>
 <td><code>database.driver</code></td>
-<td><code>kubernetes</code> (CRDs) or <code>mysql</code> (legacy)</td>
-</tr>
-<tr>
-<td><code>mysql.enabled</code></td>
-<td>—</td>
-<td>Embedded MySQL StatefulSet; off when <code>store.driver=kubernetes</code></td>
-</tr>
-<tr>
-<td><code>worker.enabled</code></td>
-<td>—</td>
-<td>Legacy async worker; off for CRD store</td>
+<td>Default <code>kubernetes</code> (<code>virtfoundry.io</code> CRDs)</td>
 </tr>
 <tr>
 <td><code>config.logLevel</code></td>
@@ -1638,11 +1628,6 @@
 <td><code>config.kubevirtEnabled</code></td>
 <td><code>kubevirt.enabled</code></td>
 <td></td>
-</tr>
-<tr>
-<td><code>mysql.auth.*</code></td>
-<td><code>database.dsn</code></td>
-<td>When <code>store.driver=mysql</code> and MySQL enabled</td>
 </tr>
 <tr>
 <td><code>platform.networking.public.*</code></td>
@@ -1676,35 +1661,10 @@
 </tr>
 </tbody>
 </table>
-<h2 id="platform-store-storedriver">Platform store (<code>store.driver</code>)<a class="headerlink" href="#platform-store-storedriver" title="Permanent link">&para;</a></h2>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Deployed workloads</th>
-<th>Platform state</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>kubernetes</code> (recommended)</td>
-<td>API + UI + operator</td>
-<td><code>virtfoundry.io</code> CRDs</td>
-</tr>
-<tr>
-<td><code>mysql</code> (legacy)</td>
-<td>API + UI + MySQL + worker</td>
-<td>MySQL tables</td>
-</tr>
-</tbody>
-</table>
-<p>Install <strong><code>virtfoundry-operator</code></strong> before the API when using <code>kubernetes</code>. Use overlay <code>charts/virtfoundry/values-kubernetes.yaml</code> or:</p>
+<h2 id="platform-store">Platform store<a class="headerlink" href="#platform-store" title="Permanent link">&para;</a></h2>
+<p>Platform state lives in <strong><code>virtfoundry.io</code> CRDs</strong>. Install <strong><code>virtfoundry-operator</code></strong> before the API chart.</p>
 <div class="highlight"><pre><span></span><code><span class="nt">store</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">driver</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">kubernetes</span>
-<span class="nt">mysql</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
-<span class="nt">worker</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+<span class="w">  </span><span class="nt">driver</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">kubernetes</span><span class="w">   </span><span class="c1"># default in values.yaml</span>
 </code></pre></div>
 <p>Verify:</p>
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>crd<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>virtfoundry.io

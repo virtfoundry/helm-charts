@@ -1656,15 +1656,12 @@ helm<span class="w"> </span>repo<span class="w"> </span>update
 helm<span class="w"> </span>install<span class="w"> </span>virtfoundry-operator<span class="w"> </span>virtfoundry/virtfoundry-operator<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--namespace<span class="w"> </span>virtfoundry-system<span class="w"> </span>--create-namespace
 
-<span class="c1"># 2. API + UI (CRD store)</span>
+<span class="c1"># 2. API + UI</span>
 helm<span class="w"> </span>install<span class="w"> </span>virtfoundry<span class="w"> </span>virtfoundry/virtfoundry<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--version<span class="w"> </span><span class="m">0</span>.5.0<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--namespace<span class="w"> </span>virtfoundry-system<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--set<span class="w"> </span>secrets.rootPassword<span class="o">=</span><span class="s1">'your-root-password'</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--set<span class="w"> </span>secrets.jwtSecret<span class="o">=</span><span class="s1">'your-jwt-secret'</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--set<span class="w"> </span>store.driver<span class="o">=</span>kubernetes<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--set<span class="w"> </span>mysql.enabled<span class="o">=</span><span class="nb">false</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--set<span class="w"> </span>worker.enabled<span class="o">=</span><span class="nb">false</span>
+<span class="w">  </span>--set<span class="w"> </span>secrets.jwtSecret<span class="o">=</span><span class="s1">'your-jwt-secret'</span>
 </code></pre></div>
 <p>Gateway API or Ingress profiles are configured via Helm values — see <a href="guide/configuration/">Configuration</a>. Laptop lab with no VLAN: <a href="guide/kind/">Kind</a>.</p>
 <h2 id="before-you-install">Before you install<a class="headerlink" href="#before-you-install" title="Permanent link">&para;</a></h2>
@@ -1684,7 +1681,7 @@ helm<span class="w"> </span>install<span class="w"> </span>virtfoundry<span clas
 </tr>
 <tr>
 <td>Persistence</td>
-<td>Kubernetes CRDs (+ Secrets for credential hashes); legacy MySQL optional</td>
+<td>Kubernetes CRDs (+ Secrets for credential hashes)</td>
 </tr>
 <tr>
 <td>Hypervisor</td>

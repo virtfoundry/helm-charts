@@ -1423,12 +1423,8 @@ helm<span class="w"> </span>search<span class="w"> </span>repo<span class="w"> <
 helm<span class="w"> </span>install<span class="w"> </span>virtfoundry<span class="w"> </span>virtfoundry/virtfoundry<span class="w"> </span>--version<span class="w"> </span><span class="m">0</span>.5.0<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--namespace<span class="w"> </span>virtfoundry-system<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--set<span class="w"> </span>secrets.rootPassword<span class="o">=</span><span class="s1">'...'</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--set<span class="w"> </span>secrets.jwtSecret<span class="o">=</span><span class="s1">'...'</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--set<span class="w"> </span>store.driver<span class="o">=</span>kubernetes<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--set<span class="w"> </span>mysql.enabled<span class="o">=</span><span class="nb">false</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--set<span class="w"> </span>worker.enabled<span class="o">=</span><span class="nb">false</span>
+<span class="w">  </span>--set<span class="w"> </span>secrets.jwtSecret<span class="o">=</span><span class="s1">'...'</span>
 </code></pre></div>
-<p>Or pass <code>-f charts/virtfoundry/values-kubernetes.yaml</code> from a git clone.</p>
 <p>Optional values overlays (Gateway API, public networking, image tags) can be passed with <code>-f</code> on <code>helm upgrade --install</code>.</p>
 <h2 id="github-pages-layout">GitHub Pages layout<a class="headerlink" href="#github-pages-layout" title="Permanent link">&para;</a></h2>
 <table>
