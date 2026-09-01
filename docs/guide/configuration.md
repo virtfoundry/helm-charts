@@ -6,13 +6,10 @@ VirtFoundry runtime configuration is YAML rendered by Helm into a ConfigMap. **H
 
 | Helm value | Config field | Notes |
 |------------|--------------|-------|
-| `store.driver` | `database.driver` | `kubernetes` (CRDs) or `mysql` (legacy) |
-| `mysql.enabled` | — | Embedded MySQL StatefulSet; off when `store.driver=kubernetes` |
-| `worker.enabled` | — | Legacy async worker; off for CRD store |
+| `store.driver` | `database.driver` | Default `kubernetes` (`virtfoundry.io` CRDs) |
 | `config.logLevel` | `logger.level` | |
 | `config.jwtExpire` | `security.jwt_expire` | |
 | `config.kubevirtEnabled` | `kubevirt.enabled` | |
-| `mysql.auth.*` | `database.dsn` | When `store.driver=mysql` and MySQL enabled |
 | `platform.networking.public.*` | `networking.public.*` | Shared VM network |
 | `platform.networking.isolated.bridge.name` | `networking.isolated.bridge_name` | Tenant VPC bridge |
 | `platform.networking.vm.*` | `networking.vm.*` | Default VM networking |
@@ -20,22 +17,13 @@ VirtFoundry runtime configuration is YAML rendered by Helm into a ConfigMap. **H
 | `secrets.jwtSecret` | — | Env `JWT_SECRET` on API (not in ConfigMap) |
 | `secrets.rootPassword` | — | Env `ROOT_PASSWORD` on API |
 
-## Platform store (`store.driver`)
+## Platform store
 
-| Value | Deployed workloads | Platform state |
-|-------|-------------------|----------------|
-| `kubernetes` (recommended) | API + UI + operator | `virtfoundry.io` CRDs |
-| `mysql` (legacy) | API + UI + MySQL + worker | MySQL tables |
-
-Install **`virtfoundry-operator`** before the API when using `kubernetes`. Use overlay `charts/virtfoundry/values-kubernetes.yaml` or:
+Platform state lives in **`virtfoundry.io` CRDs**. Install **`virtfoundry-operator`** before the API chart.
 
 ```yaml
 store:
-  driver: kubernetes
-mysql:
-  enabled: false
-worker:
-  enabled: false
+  driver: kubernetes   # default in values.yaml
 ```
 
 Verify:

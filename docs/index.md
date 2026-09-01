@@ -124,15 +124,12 @@ helm repo update
 helm install virtfoundry-operator virtfoundry/virtfoundry-operator \
   --namespace virtfoundry-system --create-namespace
 
-# 2. API + UI (CRD store)
+# 2. API + UI
 helm install virtfoundry virtfoundry/virtfoundry \
   --version 0.5.0 \
   --namespace virtfoundry-system \
   --set secrets.rootPassword='your-root-password' \
-  --set secrets.jwtSecret='your-jwt-secret' \
-  --set store.driver=kubernetes \
-  --set mysql.enabled=false \
-  --set worker.enabled=false
+  --set secrets.jwtSecret='your-jwt-secret'
 ```
 
 Gateway API or Ingress profiles are configured via Helm values — see [Configuration](guide/configuration.md). Laptop lab with no VLAN: [Kind](guide/kind.md).
@@ -146,7 +143,7 @@ VirtFoundry requires **KubeVirt**, **Multus**, and **CDI** (for ISO/import paths
 | Layer | Technology |
 |-------|------------|
 | Control plane | Go API + [virtfoundry-operator](https://github.com/virtfoundry/operator) (`virtfoundry.io` CRDs) |
-| Persistence | Kubernetes CRDs (+ Secrets for credential hashes); legacy MySQL optional |
+| Persistence | Kubernetes CRDs (+ Secrets for credential hashes) |
 | Hypervisor | KubeVirt VirtualMachine |
 | Networking | Multus NADs, host bridges, optional MetalLB |
 | Security | IAM, JWT, API keys, tenant namespaces, NetworkPolicy |

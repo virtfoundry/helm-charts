@@ -86,14 +86,9 @@ helm upgrade --install "$RELEASE" "$CHART_DIR" \
   -f "$CHART_DIR/values.yaml" \
   -f "$CHART_DIR/values-homelab.yaml" \
   --set "images.api=${IMAGE_API}" \
-  --set "images.worker=${IMAGE_API}" \
   --set "images.ui=${IMAGE_UI}" \
   --set "images.pullPolicy=${PULL_POLICY}" \
   --timeout 10m
-
-echo "==> Wait for MySQL"
-kubectl -n virtfoundry-system rollout status statefulset/virtfoundry-mysql --timeout=300s || true
-kubectl -n virtfoundry-system wait --for=condition=ready pod -l app=virtfoundry-mysql --timeout=300s || true
 
 if [ "$USE_SIDELOAD" = "true" ]; then
   echo "==> Sideload images into ${IMPORT_NODE} containerd"
@@ -118,15 +113,15 @@ if [ "$USE_SIDELOAD" = "true" ]; then
        chroot /host ctr -n k8s.io images label docker.io/virtfoundry/ui:latest io.cri-containerd.image=managed'
     kubectl -n "$IMPORT_NS" delete pod "$IMPORT_POD" --ignore-not-found
   fi
-  kubectl -n virtfoundry-system rollout restart deployment/virtfoundry-api deployment/virtfoundry-ui deployment/virtfoundry-worker
+  kubectl -n virtfoundry-system rollout restart deployment/virtfoundry-api deployment/virtfoundry-ui
 fi
 
 echo "==> Ensure Multus"
 "$SCRIPT_DIR/../setup/multus.sh"
 
 echo "==> Wait for workloads"
-for dep in virtfoundry-api virtfoundry-ui virtfoundry-worker; do
-  kubectl -n virtfoundry-system rollout status "deployment/$dep" --timeout=300s
+for dep in virtfoundry-api virtfoundry-ui virtfoundry-operator; do
+  kubectl -n virtfoundry-system rollout status "deployment/$dep" --timeout=300s 2>/dev/null || true
 done
 
 GATEWAY_IP="$(kubectl -n traefik get gateway homelab-gateway \

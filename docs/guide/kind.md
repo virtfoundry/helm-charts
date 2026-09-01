@@ -95,7 +95,6 @@ helm install virtfoundry virtfoundry/virtfoundry \
   --version 0.5.0 \
   --namespace virtfoundry-system \
   -f values-kind.yaml \
-  -f https://raw.githubusercontent.com/virtfoundry/helm-charts/main/charts/virtfoundry/values-kubernetes.yaml \
   --set secrets.rootPassword='change-me' \
   --set secrets.jwtSecret='change-me-long-random'
 ```

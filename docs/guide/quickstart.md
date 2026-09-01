@@ -35,15 +35,12 @@ helm repo update
 helm install virtfoundry-operator virtfoundry/virtfoundry-operator \
   --namespace virtfoundry-system --create-namespace
 
-# API + UI — CRD store (no MySQL/worker)
+# API + UI
 helm install virtfoundry virtfoundry/virtfoundry \
   --version 0.5.0 \
   --namespace virtfoundry-system \
   --set secrets.rootPassword='change-me' \
-  --set secrets.jwtSecret='change-me-long-random' \
-  --set store.driver=kubernetes \
-  --set mysql.enabled=false \
-  --set worker.enabled=false
+  --set secrets.jwtSecret='change-me-long-random'
 ```
 
 Wait until pods are ready:

@@ -20,9 +20,6 @@ data:
       namespace: "default"
     database:
       driver: {{ .Values.store.driver | quote }}
-      {{- if eq .Values.store.driver "mysql" }}
-      dsn: "{{ .Values.mysql.auth.user }}:{{ .Values.mysql.auth.password }}@tcp({{ .Values.fullnamePrefix }}-mysql.{{ .Values.namespace }}.svc:3306)/{{ .Values.mysql.auth.database }}?charset=utf8mb4"
-      {{- end }}
     observability:
       velas_explore_url: ""
     networking:
