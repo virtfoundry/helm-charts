@@ -37,6 +37,8 @@ spec:
                 secretKeyRef:
                   name: {{ .Values.fullnamePrefix }}-secrets
                   key: JWT_SECRET
+            - name: VIRTFOUNDRY_STORE
+              value: {{ .Values.store.driver | quote }}
           volumeMounts:
             - name: config
               mountPath: /etc/virtfoundry

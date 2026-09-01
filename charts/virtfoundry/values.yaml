@@ -1,10 +1,14 @@
 # Default values for VirtFoundry.
-# Installs API, worker, UI, and optional embedded MySQL.
+# Installs API + UI. Optional embedded MySQL (legacy) or CRD store (kubernetes).
 
 nameOverride: ""
 fullnamePrefix: virtfoundry
 
 namespace: virtfoundry-system
+
+# Platform state: kubernetes (virtfoundry.io CRDs) or mysql (legacy).
+store:
+  driver: mysql
 
 images:
   api: ghcr.io/virtfoundry/core:0.5.0
@@ -64,6 +68,7 @@ api:
   replicas: 1
 
 worker:
+  enabled: true
   replicas: 1
 
 # Optional cluster/platform bootstrap (bare-metal / air-gapped without a registry).

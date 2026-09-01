@@ -32,9 +32,10 @@ make lint
 ## Repository layout
 
 ```
-charts/virtfoundry/     # Main application chart
-docs/                    # MkDocs site (GitHub Pages)
-scripts/                 # Optional setup and sideload helpers
+charts/virtfoundry/           # Control plane (API, UI)
+charts/virtfoundry-operator/  # CRDs + operator
+docs/                         # MkDocs site (GitHub Pages)
+scripts/                      # Optional setup and sideload helpers
 ```
 
 ## Related
@@ -42,12 +43,13 @@ scripts/                 # Optional setup and sideload helpers
 | Repository | Role |
 |------------|------|
 | [virtfoundry/core](https://github.com/virtfoundry/core) | Application source |
+| [virtfoundry/operator](https://github.com/virtfoundry/operator) | CRDs and Kubernetes operator |
 | [Why VirtFoundry](https://github.com/virtfoundry/core/blob/main/docs/WHY.md) | Positioning (Proxmox / KubeVirt) |
-| [Traction checklist](https://github.com/virtfoundry/core/blob/main/docs/CNCF-CHECKLIST.md) | CNCF / community phases |
+| [CNCF checklist](https://github.com/virtfoundry/core/blob/main/docs/CNCF-CHECKLIST.md) | CNCF / community phases |
 
 ## Contributing
 
-See [CONTRIBUTING.md](CONTRIBUTING.md). [GOVERNANCE.md](GOVERNANCE.md) · [SECURITY.md](SECURITY.md) · [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md)
+See [CONTRIBUTING.md](CONTRIBUTING.md). [GOVERNANCE.md](GOVERNANCE.md) · [MAINTAINERS.md](MAINTAINERS.md) · [SECURITY.md](SECURITY.md) · [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md)
 
 ## License
 

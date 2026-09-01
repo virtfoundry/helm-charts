@@ -1,6 +1,8 @@
 # Installation
 
-VirtFoundry installs the **control plane only** (API, worker, UI, optional MySQL). Virtual machines, extra networks, and disk imports rely on platform components that must already exist on the cluster — or be installed **before** `helm install`.
+VirtFoundry installs the **control plane** (API, UI). Platform state is stored in **`virtfoundry.io` CRDs** (recommended) or legacy MySQL. Virtual machines and networking rely on KubeVirt, Multus, and CDI on the cluster.
+
+**Recommended order:** platform operators (KubeVirt, Multus, CDI) → **virtfoundry-operator** (CRDs + controller) → **virtfoundry** (API + UI).
 
 **Want UI + first VM in under 30 minutes?** Start with the [Quickstart](quickstart.md). On a laptop (Docker, no switch/VLAN), use **[Kind](kind.md)**.
 
@@ -11,12 +13,13 @@ For **minimum vs production** layouts (what works for VPC / public / snapshots o
 | Component | Required? | Role in VirtFoundry |
 |-----------|-----------|-------------------|
 | Kubernetes 1.28+ | **Yes** | Runs all workloads |
-| Helm 3.x | **Yes** | Installs the chart |
+| Helm 3.x | **Yes** | Installs the charts |
+| **virtfoundry-operator** | **Yes** (CRD store) | Installs `virtfoundry.io` CRDs and reconciles Tenant/Instance status |
 | [KubeVirt](https://kubevirt.io/) | **Yes** | Hypervisor — VMs, start/stop, console, **VM** snapshots |
 | [Multus CNI](https://github.com/k8snetworkplumbingwg/multus-cni) | **Yes** | Secondary NICs — tenant VPCs, isolated L2, public VM network |
 | [CDI](https://github.com/kubevirt/containerized-data-importer) | **Yes** for ISO/import templates; optional for container-disk-only | Imports ISOs and blank boot disks via `DataVolume` |
 | Ingress **or** Gateway API + controller | One of them | Exposes UI and API on a hostname |
-| StorageClass — **prefer [Longhorn](https://longhorn.io/)** | **Yes** for disks | PVCs for MySQL, VM volumes, ISO storage; `local-path` only for quick labs |
+| StorageClass — **prefer [Longhorn](https://longhorn.io/)** | **Yes** for disks | PVCs for VM volumes, ISO storage; `local-path` only for quick labs |
 | CSI snapshotter + snapshot-capable CSI (Longhorn includes this) | **Recommended**; required for **volume** snapshots UI | `VolumeSnapshot` CRDs + `VolumeSnapshotClass`; **not** provided by `local-path` |
 | MetalLB (or cloud LB) | Bare metal only | When Services need external IPs |
 
@@ -127,11 +130,19 @@ After platform prerequisites are healthy:
 helm repo add virtfoundry https://virtfoundry.github.io/helm-charts
 helm repo update
 
+# 1. CRDs + operator (required for store.driver=kubernetes)
+helm install virtfoundry-operator virtfoundry/virtfoundry-operator \
+  --namespace virtfoundry-system \
+  --create-namespace
+
+# 2. API + UI
 helm install virtfoundry virtfoundry/virtfoundry \
   --namespace virtfoundry-system \
-  --create-namespace \
   --set secrets.rootPassword='change-me' \
-  --set secrets.jwtSecret='change-me-long-random'
+  --set secrets.jwtSecret='change-me-long-random' \
+  --set store.driver=kubernetes \
+  --set mysql.enabled=false \
+  --set worker.enabled=false
 ```
 
 Pin a release:
