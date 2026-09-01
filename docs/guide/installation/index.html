@@ -1576,7 +1576,8 @@
 
 
 <h1 id="installation">Installation<a class="headerlink" href="#installation" title="Permanent link">&para;</a></h1>
-<p>VirtFoundry installs the <strong>control plane only</strong> (API, worker, UI, optional MySQL). Virtual machines, extra networks, and disk imports rely on platform components that must already exist on the cluster — or be installed <strong>before</strong> <code>helm install</code>.</p>
+<p>VirtFoundry installs the <strong>control plane</strong> (API, UI). Platform state is stored in <strong><code>virtfoundry.io</code> CRDs</strong> (recommended) or legacy MySQL. Virtual machines and networking rely on KubeVirt, Multus, and CDI on the cluster.</p>
+<p><strong>Recommended order:</strong> platform operators (KubeVirt, Multus, CDI) → <strong>virtfoundry-operator</strong> (CRDs + controller) → <strong>virtfoundry</strong> (API + UI).</p>
 <p><strong>Want UI + first VM in under 30 minutes?</strong> Start with the <a href="../quickstart/">Quickstart</a>. On a laptop (Docker, no switch/VLAN), use <strong><a href="../kind/">Kind</a></strong>.</p>
 <p>For <strong>minimum vs production</strong> layouts (what works for VPC / public / snapshots on a home router), see <a href="../topologies/">Deployment topologies</a>.</p>
 <h2 id="prerequisites-overview">Prerequisites overview<a class="headerlink" href="#prerequisites-overview" title="Permanent link">&para;</a></h2>
@@ -1597,7 +1598,12 @@
 <tr>
 <td>Helm 3.x</td>
 <td><strong>Yes</strong></td>
-<td>Installs the chart</td>
+<td>Installs the charts</td>
+</tr>
+<tr>
+<td><strong>virtfoundry-operator</strong></td>
+<td><strong>Yes</strong> (CRD store)</td>
+<td>Installs <code>virtfoundry.io</code> CRDs and reconciles Tenant/Instance status</td>
 </tr>
 <tr>
 <td><a href="https://kubevirt.io/">KubeVirt</a></td>
@@ -1622,7 +1628,7 @@
 <tr>
 <td>StorageClass — <strong>prefer <a href="https://longhorn.io/">Longhorn</a></strong></td>
 <td><strong>Yes</strong> for disks</td>
-<td>PVCs for MySQL, VM volumes, ISO storage; <code>local-path</code> only for quick labs</td>
+<td>PVCs for VM volumes, ISO storage; <code>local-path</code> only for quick labs</td>
 </tr>
 <tr>
 <td>CSI snapshotter + snapshot-capable CSI (Longhorn includes this)</td>
@@ -1743,11 +1749,19 @@ kubectl<span class="w"> </span>get<span class="w"> </span>crd<span class="w"> </
 <div class="highlight"><pre><span></span><code>helm<span class="w"> </span>repo<span class="w"> </span>add<span class="w"> </span>virtfoundry<span class="w"> </span>https://virtfoundry.github.io/helm-charts
 helm<span class="w"> </span>repo<span class="w"> </span>update
 
+<span class="c1"># 1. CRDs + operator (required for store.driver=kubernetes)</span>
+helm<span class="w"> </span>install<span class="w"> </span>virtfoundry-operator<span class="w"> </span>virtfoundry/virtfoundry-operator<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--namespace<span class="w"> </span>virtfoundry-system<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--create-namespace
+
+<span class="c1"># 2. API + UI</span>
 helm<span class="w"> </span>install<span class="w"> </span>virtfoundry<span class="w"> </span>virtfoundry/virtfoundry<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--namespace<span class="w"> </span>virtfoundry-system<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--create-namespace<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--set<span class="w"> </span>secrets.rootPassword<span class="o">=</span><span class="s1">'change-me'</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--set<span class="w"> </span>secrets.jwtSecret<span class="o">=</span><span class="s1">'change-me-long-random'</span>
+<span class="w">  </span>--set<span class="w"> </span>secrets.jwtSecret<span class="o">=</span><span class="s1">'change-me-long-random'</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--set<span class="w"> </span>store.driver<span class="o">=</span>kubernetes<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--set<span class="w"> </span>mysql.enabled<span class="o">=</span><span class="nb">false</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--set<span class="w"> </span>worker.enabled<span class="o">=</span><span class="nb">false</span>
 </code></pre></div>
 <p>Pin a release:</p>
 <div class="highlight"><pre><span></span><code>helm<span class="w"> </span>install<span class="w"> </span>virtfoundry<span class="w"> </span>virtfoundry/virtfoundry<span class="w"> </span>--version<span class="w"> </span><span class="m">0</span>.5.0<span class="w"> </span><span class="se">\</span>

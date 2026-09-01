@@ -1249,10 +1249,21 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#maintainer" class="md-nav__link">
+  <a href="#maintainers" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Maintainer
+        Maintainers
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#official-repositories" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Official repositories
       
     </span>
   </a>
@@ -1282,32 +1293,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#contributions-and-copyright" class="md-nav__link">
+  <a href="#trademarks-and-sponsorship" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Contributions and copyright
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#trademarks-and-branding" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Trademarks and branding
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#sponsorship-vs-control" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Sponsorship vs. control
+        Trademarks and sponsorship
       
     </span>
   </a>
@@ -1396,10 +1385,21 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#maintainer" class="md-nav__link">
+  <a href="#maintainers" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Maintainer
+        Maintainers
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#official-repositories" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Official repositories
       
     </span>
   </a>
@@ -1429,32 +1429,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#contributions-and-copyright" class="md-nav__link">
+  <a href="#trademarks-and-sponsorship" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Contributions and copyright
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#trademarks-and-branding" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Trademarks and branding
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#sponsorship-vs-control" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Sponsorship vs. control
+        Trademarks and sponsorship
       
     </span>
   </a>
@@ -1498,61 +1476,76 @@
 
 
 <h1 id="governance">Governance<a class="headerlink" href="#governance" title="Permanent link">&para;</a></h1>
-<p>VirtFoundry is an open-source project under the <a href="https://www.apache.org/licenses/LICENSE-2.0">Apache License 2.0</a>. This page describes who leads the project and how decisions are made.</p>
-<h2 id="maintainer">Maintainer<a class="headerlink" href="#maintainer" title="Permanent link">&para;</a></h2>
-<p><strong>VirtFoundry</strong> is maintained by the <a href="https://github.com/virtfoundry">virtfoundry</a> GitHub organization.</p>
+<p>VirtFoundry is an open-source project under the <a href="https://www.apache.org/licenses/LICENSE-2.0">Apache License 2.0</a>, aligned with <a href="https://www.cncf.io/">CNCF</a> open-source project practices.</p>
+<h2 id="maintainers">Maintainers<a class="headerlink" href="#maintainers" title="Permanent link">&para;</a></h2>
+<p>See <a href="https://github.com/virtfoundry/core/blob/main/MAINTAINERS.md">MAINTAINERS.md (core)</a>.</p>
 <table>
 <thead>
 <tr>
+<th>Name</th>
+<th>GitHub</th>
 <th>Role</th>
-<th>Responsibility</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><strong>Maintainer / BDFL</strong></td>
-<td>Final say on merges, releases, roadmap, and org settings</td>
+<td>Matheus Thurler</td>
+<td><a href="https://github.com/Matheus-Thurler">@Matheus-Thurler</a></td>
+<td>Lead maintainer</td>
 </tr>
 <tr>
-<td><strong>Contributors</strong></td>
-<td>Propose changes via pull requests; no automatic governance rights</td>
+<td>Rodrigo Gonçalves</td>
+<td><a href="https://github.com/RodrigoGoncalves-dev">@RodrigoGoncalves-dev</a></td>
+<td>Maintainer</td>
 </tr>
 </tbody>
 </table>
-<p>The official repositories are:</p>
-<ul>
-<li><a href="https://github.com/virtfoundry/core">virtfoundry</a> — application (API, worker, UI)</li>
-<li><a href="https://github.com/virtfoundry/helm-charts">helm-charts</a> — Helm chart, deploy tooling, documentation site</li>
-</ul>
-<p>Forks and downstream distributions are independent; they are not the official project unless explicitly stated.</p>
+<p>Matheus retains final merge authority and is the primary security contact. Rodrigo supports review, homelab validation, and operator/infra work.</p>
+<h2 id="official-repositories">Official repositories<a class="headerlink" href="#official-repositories" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Repository</th>
+<th>Role</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://github.com/virtfoundry/core">core</a></td>
+<td>REST API, UI</td>
+</tr>
+<tr>
+<td><a href="https://github.com/virtfoundry/operator">operator</a></td>
+<td><code>virtfoundry.io</code> CRDs and operator</td>
+</tr>
+<tr>
+<td><a href="https://github.com/virtfoundry/helm-charts">helm-charts</a></td>
+<td>Helm charts and documentation site</td>
+</tr>
+<tr>
+<td><a href="https://github.com/virtfoundry/terraform-provider-virtfoundry">terraform-provider-virtfoundry</a></td>
+<td>Terraform provider</td>
+</tr>
+</tbody>
+</table>
+<p>Forks and downstream distributions are independent unless explicitly stated.</p>
 <h2 id="what-the-license-does-not-change">What the license does <em>not</em> change<a class="headerlink" href="#what-the-license-does-not-change" title="Permanent link">&para;</a></h2>
-<p>Apache 2.0 allows anyone to use, modify, and redistribute the code, including commercially. It does <strong>not</strong>:</p>
-<ul>
-<li>transfer maintainership of the official GitHub organization</li>
-<li>grant sponsors or users a veto over technical decisions</li>
-<li>prevent the maintainer from choosing what merges into <code>main</code></li>
-</ul>
+<p>Apache 2.0 allows use, modification, and redistribution, including commercially. It does <strong>not</strong> transfer maintainership of the official GitHub organization or grant sponsors veto rights over technical decisions.</p>
 <h2 id="decision-process">Decision process<a class="headerlink" href="#decision-process" title="Permanent link">&para;</a></h2>
 <ol>
-<li><strong>Day-to-day changes</strong> — pull requests to <code>main</code>, reviewed by the maintainer; integration testing for infra-sensitive work.</li>
-<li><strong>Releases</strong> — SemVer tags (<code>vX.Y.Z</code>) on aligned app + chart versions; see <a href="../versioning/">Versioning</a>.</li>
-<li><strong>Breaking or large changes</strong> — discussed in GitHub Issues or Discussions before implementation when impact is broad.</li>
-<li><strong>Contributions</strong> — welcome under <a href="https://github.com/virtfoundry/helm-charts/blob/main/CONTRIBUTING.md">CONTRIBUTING.md</a>; merged at maintainer discretion.</li>
+<li><strong>Day-to-day</strong> — PRs to <code>main</code>, maintainer review; cluster validation for infra-sensitive work.</li>
+<li><strong>Releases</strong> — SemVer tags; see <a href="../versioning/">Versioning</a>.</li>
+<li><strong>Breaking or large changes</strong> — GitHub Issues or Discussions when impact is broad.</li>
+<li><strong>Contributions</strong> — <a href="https://github.com/virtfoundry/helm-charts/blob/main/CONTRIBUTING.md">CONTRIBUTING.md</a>; no CLA today.</li>
 </ol>
-<h2 id="contributions-and-copyright">Contributions and copyright<a class="headerlink" href="#contributions-and-copyright" title="Permanent link">&para;</a></h2>
-<p>Contributions are licensed under the same Apache 2.0 license as the project. Contributors retain their copyright; they grant the project (and users) the rights defined in Apache 2.0.</p>
-<p>There is <strong>no CLA</strong> today. If dual-licensing or enterprise offerings are introduced later, contribution terms may be updated with notice.</p>
-<h2 id="trademarks-and-branding">Trademarks and branding<a class="headerlink" href="#trademarks-and-branding" title="Permanent link">&para;</a></h2>
-<p>The name <strong>VirtFoundry</strong>, logos, and official documentation URLs represent the project brand. Use of the brand for commercial products or implied endorsement should be coordinated with the maintainer.</p>
-<p>Code license (Apache 2.0) and trademark use are separate topics.</p>
-<h2 id="sponsorship-vs-control">Sponsorship vs. control<a class="headerlink" href="#sponsorship-vs-control" title="Permanent link">&para;</a></h2>
-<p>Financial sponsors support development; they do <strong>not</strong> acquire ownership of the codebase or merge rights unless covered by a <strong>separate written agreement</strong>. See <a href="../sponsorship/">Sponsorship</a>.</p>
+<h2 id="trademarks-and-sponsorship">Trademarks and sponsorship<a class="headerlink" href="#trademarks-and-sponsorship" title="Permanent link">&para;</a></h2>
+<p>See <a href="../sponsorship/">Sponsorship</a>. Code license and trademark use are separate.</p>
 <h2 id="contact">Contact<a class="headerlink" href="#contact" title="Permanent link">&para;</a></h2>
 <ul>
-<li><a href="https://github.com/virtfoundry/core/issues">GitHub Issues</a> — bugs and features</li>
-<li><a href="https://github.com/virtfoundry/core/discussions">GitHub Discussions</a> — questions and ideas (when enabled)</li>
+<li><a href="https://github.com/virtfoundry/core/issues">GitHub Issues</a></li>
+<li><a href="https://github.com/virtfoundry/core/discussions">GitHub Discussions</a></li>
+<li>Security: <a href="https://github.com/virtfoundry/core/blob/main/SECURITY.md">SECURITY.md</a></li>
 </ul>
-<p>For security reports, follow <a href="https://github.com/virtfoundry/core/blob/main/SECURITY.md">SECURITY.md</a>.</p>
 
 
 
