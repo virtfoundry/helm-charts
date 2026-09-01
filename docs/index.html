@@ -486,17 +486,6 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#before-you-install" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Before you install
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#architecture" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1494,17 +1483,6 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#before-you-install" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Before you install
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#architecture" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1649,10 +1627,58 @@ Proxmox (or avoiding raw KubeVirt YAML) who already run Kubernetes.
 </div>
 
 <h2 id="quick-install">Quick install<a class="headerlink" href="#quick-install" title="Permanent link">&para;</a></h2>
+<p><strong>Install order:</strong> platform on the cluster → <strong>virtfoundry-operator</strong> → <strong>virtfoundry</strong> (API + UI).</p>
+<table>
+<thead>
+<tr>
+<th>Prerequisite</th>
+<th>Required</th>
+<th>Role</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="https://kubevirt.io/">KubeVirt</a></td>
+<td><strong>Yes</strong></td>
+<td>Hypervisor — VMs, console, VM snapshots</td>
+</tr>
+<tr>
+<td><a href="https://github.com/k8snetworkplumbingwg/multus-cni">Multus CNI</a></td>
+<td><strong>Yes</strong></td>
+<td>Tenant VPCs, isolated L2, public VM network</td>
+</tr>
+<tr>
+<td><a href="https://github.com/kubevirt/containerized-data-importer">CDI</a></td>
+<td><strong>Yes</strong> for ISO/import templates</td>
+<td><code>DataVolume</code> imports; optional for container-disk-only</td>
+</tr>
+<tr>
+<td>StorageClass</td>
+<td><strong>Yes</strong> for disks</td>
+<td>PVCs for VM volumes (<a href="https://longhorn.io/">Longhorn</a> recommended)</td>
+</tr>
+<tr>
+<td>Ingress or Gateway API</td>
+<td>One of them</td>
+<td>Hostname for UI + API</td>
+</tr>
+<tr>
+<td><strong>virtfoundry-operator</strong> chart</td>
+<td><strong>Yes</strong></td>
+<td><code>virtfoundry.io</code> CRDs + controller</td>
+</tr>
+<tr>
+<td><strong>virtfoundry</strong> chart</td>
+<td><strong>Yes</strong></td>
+<td>Control plane (API + UI only)</td>
+</tr>
+</tbody>
+</table>
+<p>KubeVirt, Multus, and CDI are <strong>not</strong> bundled — install them separately (or use <a href="guide/kind/">Kind</a> on a laptop). Details: <a href="guide/installation/#prerequisites-overview">Installation → Prerequisites</a>.</p>
 <div class="highlight"><pre><span></span><code>helm<span class="w"> </span>repo<span class="w"> </span>add<span class="w"> </span>virtfoundry<span class="w"> </span>https://virtfoundry.github.io/helm-charts
 helm<span class="w"> </span>repo<span class="w"> </span>update
 
-<span class="c1"># 1. CRDs + operator</span>
+<span class="c1"># 1. CRDs + operator (after KubeVirt, Multus, CDI)</span>
 helm<span class="w"> </span>install<span class="w"> </span>virtfoundry-operator<span class="w"> </span>virtfoundry/virtfoundry-operator<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--namespace<span class="w"> </span>virtfoundry-system<span class="w"> </span>--create-namespace
 
@@ -1663,9 +1689,7 @@ helm<span class="w"> </span>install<span class="w"> </span>virtfoundry<span clas
 <span class="w">  </span>--set<span class="w"> </span>secrets.rootPassword<span class="o">=</span><span class="s1">'your-root-password'</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--set<span class="w"> </span>secrets.jwtSecret<span class="o">=</span><span class="s1">'your-jwt-secret'</span>
 </code></pre></div>
-<p>Gateway API or Ingress profiles are configured via Helm values — see <a href="guide/configuration/">Configuration</a>. Laptop lab with no VLAN: <a href="guide/kind/">Kind</a>.</p>
-<h2 id="before-you-install">Before you install<a class="headerlink" href="#before-you-install" title="Permanent link">&para;</a></h2>
-<p>VirtFoundry requires <strong>KubeVirt</strong>, <strong>Multus</strong>, and <strong>CDI</strong> (for ISO/import paths) on the cluster, plus <strong><code>virtfoundry-operator</code></strong> for the CRD store. The <code>virtfoundry</code> chart deploys API + UI only. See <a href="guide/installation/#why-each-platform-component-is-needed">Installation → Prerequisites</a>.</p>
+<p>Gateway API or Ingress profiles are configured via Helm values — see <a href="guide/configuration/">Configuration</a>. Under-30-minute walkthrough: <a href="guide/quickstart/">Quickstart</a>.</p>
 <h2 id="architecture">Architecture<a class="headerlink" href="#architecture" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
