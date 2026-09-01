@@ -109,6 +109,7 @@ In the UI (or API):
 ```bash
 kubectl -n virtfoundry-system get deploy
 kubectl get vf-instance -A
+kubectl get vmsnapshot -A
 kubectl get vm -A
 ```
 

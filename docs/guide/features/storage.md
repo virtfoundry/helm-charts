@@ -28,7 +28,17 @@ Attach volumes to a running or stopped VM from the VM detail page — see [Virtu
 
 ### VM snapshots
 
-Point-in-time snapshot of a whole guest (KubeVirt).
+Point-in-time snapshot of a whole guest (KubeVirt). Works on any cluster with KubeVirt — no CSI snapshot stack required.
+
+**UI:** Compute → **VM Snapshots** (`/vm-snapshots`).
+
+Example after creating snapshots for VMs `fedora-primary` and `fedora-standby`:
+
+```bash
+kubectl get vmsnapshot -n virtfoundry-tenant-default
+# NAME                      SOURCEKIND       SOURCENAME       PHASE       READYTOUSE
+# fedora-primary-baseline   VirtualMachine   fedora-primary   Succeeded   true
+```
 
 | Action | API |
 |--------|-----|

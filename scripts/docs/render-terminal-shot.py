@@ -122,6 +122,22 @@ def main() -> None:
         if len(parts) >= 4:
             inst_lines.append(f"{parts[0]:<28} {parts[1]:<8} {parts[2]:<9} {parts[3]}")
 
+    snaps = k(
+        "get",
+        "vmsnapshot",
+        "-A",
+        "-o",
+        "custom-columns=NAMESPACE:.metadata.namespace,NAME:.metadata.name,SOURCE:.spec.source.name,PHASE:.status.phase,READY:.status.readyToUse",
+        "--no-headers",
+    )
+    snap_lines = ["$ kubectl get vmsnapshot -A", "NAMESPACE                    NAME                      SOURCE           PHASE       READY"]
+    for row in snaps.splitlines():
+        parts = row.split()
+        if len(parts) >= 5:
+            snap_lines.append(
+                f"{parts[0]:<28} {parts[1]:<25} {parts[2]:<16} {parts[3]:<11} {parts[4]}"
+            )
+
     pods = k(
         "get",
         "pods",
@@ -141,7 +157,7 @@ def main() -> None:
             pod_lines.append(f"{parts[0]:<33} {ready:<7} {parts[2]}")
 
     out = Path(args.out)
-    all_lines = crd_lines + [""] + tenant_lines + [""] + inst_lines + [""] + pod_lines
+    all_lines = crd_lines + [""] + tenant_lines + [""] + inst_lines + [""] + snap_lines + [""] + pod_lines
     render("virtfoundry.io CRD store — homelab", all_lines, out)
 
 

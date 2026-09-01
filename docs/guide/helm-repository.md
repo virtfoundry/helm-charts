@@ -10,14 +10,22 @@ helm repo update
 helm search repo virtfoundry/virtfoundry --versions
 ```
 
-Install a specific version:
+Install a specific version (operator first, CRD store):
 
 ```bash
+helm install virtfoundry-operator virtfoundry/virtfoundry-operator --version 0.5.0 \
+  --namespace virtfoundry-system --create-namespace
+
 helm install virtfoundry virtfoundry/virtfoundry --version 0.5.0 \
-  --namespace virtfoundry-system --create-namespace \
+  --namespace virtfoundry-system \
   --set secrets.rootPassword='...' \
-  --set secrets.jwtSecret='...'
+  --set secrets.jwtSecret='...' \
+  --set store.driver=kubernetes \
+  --set mysql.enabled=false \
+  --set worker.enabled=false
 ```
+
+Or pass `-f charts/virtfoundry/values-kubernetes.yaml` from a git clone.
 
 Optional values overlays (Gateway API, public networking, image tags) can be passed with `-f` on `helm upgrade --install`.
 
@@ -60,7 +68,7 @@ Both live on the **`gh-pages`** branch: chart-releaser writes `index.yaml` at th
    git push origin v0.5.0
    ```
 
-5. Workflows publish Helm package + rebuild docs
+5. Workflows publish Helm packages (`virtfoundry`, `virtfoundry-operator`) + rebuild docs
 
 Verify:
 
