@@ -28,7 +28,7 @@ curl -X POST -H "Authorization: Bearer $TOKEN" \
   https://iaas.example/api/v1/vms
 ```
 
-Deploy may run synchronously or via the async worker (`deploy_vm` job). State is reconciled from KubeVirt phase into the control-plane DB.
+Deploy runs synchronously in the API. With the CRD store, platform state lives in `virtfoundry.io` **Instance** CRs; the operator syncs KubeVirt phase and IP into `status`.
 
 ## Lifecycle
 

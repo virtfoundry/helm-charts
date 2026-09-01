@@ -32,7 +32,7 @@ For **minimum vs production** layouts (what works for VPC / public / snapshots o
 
 ### KubeVirt — required
 
-VirtFoundry does **not** embed a hypervisor. The API and worker talk to KubeVirt CRDs:
+VirtFoundry does **not** embed a hypervisor. The API talks to KubeVirt CRDs (and the operator syncs Instance status back to `virtfoundry.io` CRs):
 
 - `VirtualMachine` / `VirtualMachineInstance` — create, start, stop, delete VMs
 - `VirtualMachineSnapshot` — **VM** snapshots (point-in-time of the guest; not the same as CSI volume snapshots)
@@ -165,11 +165,14 @@ Images default to `ghcr.io/virtfoundry/core:0.5.0` and `ui:0.5.0`.
 git clone https://github.com/virtfoundry/helm-charts.git
 cd helm-charts
 
+helm install virtfoundry-operator ./charts/virtfoundry-operator \
+  --namespace virtfoundry-system --create-namespace
+
 helm install virtfoundry ./charts/virtfoundry \
   --namespace virtfoundry-system \
-  --create-namespace \
   --set secrets.rootPassword='change-me' \
-  --set secrets.jwtSecret='change-me'
+  --set secrets.jwtSecret='change-me-long-random' \
+  -f ./charts/virtfoundry/values-kubernetes.yaml
 ```
 
 Validate templates:
@@ -188,6 +191,19 @@ Default bootstrap credentials (override with `secrets.rootPassword`):
 - **Password:** value of `secrets.rootPassword` (default in chart values: `virtfoundry`)
 
 API base path: `/api/v1` on the same hostname as the UI.
+
+## Verify CRD store
+
+After install with `store.driver=kubernetes`:
+
+```bash
+kubectl get crd | grep virtfoundry.io
+kubectl get vf-tenant
+kubectl get vf-instance -A
+kubectl get pods -n virtfoundry-system
+```
+
+You should see `virtfoundry-operator` and `virtfoundry-api` Running, MySQL/worker absent, and tenant/instance CRs populated as you use the UI.
 
 ---
 

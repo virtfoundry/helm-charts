@@ -11,7 +11,8 @@ VirtFoundry runtime config is YAML with sections: `server`, `logger`, `security`
 | `config.logLevel` | `logger.level` | |
 | `config.jwtExpire` | `security.jwt_expire` | |
 | `config.kubevirtEnabled` | `kubevirt.enabled` | |
-| `mysql.auth.*` | `database.dsn` | Built in template when MySQL enabled |
+| `store.driver` | `database.driver` | `kubernetes` or `mysql` |
+| `mysql.auth.*` | `database.dsn` | When `store.driver=mysql` |
 | `platform.networking.public.*` | `networking.public.*` | Shared/routable VM network |
 | `platform.networking.isolated.bridge.name` | `networking.isolated.bridge_name` | Private tenant VPC bridge |
 | `platform.networking.vm.*` | `networking.vm.*` | Default VM network behavior |
@@ -63,7 +64,8 @@ See [Configuration guide](https://virtfoundry.github.io/helm-charts/docs/guide/c
 
 | File | Use case |
 |------|----------|
-| [`values.yaml`](../charts/virtfoundry/values.yaml) | Generic / production defaults |
+| [`values.yaml`](../charts/virtfoundry/values.yaml) | Generic defaults (legacy MySQL store) |
+| [`values-kubernetes.yaml`](../charts/virtfoundry/values-kubernetes.yaml) | **Recommended** — CRD store |
 
 Use `-f` overlays for Gateway API hostnames, public networking, and image tags specific to your cluster.
 
