@@ -116,11 +116,25 @@ JWT login, API keys, roles, tenant namespaces, and Kubernetes NetworkPolicy.
 
 ## Quick install
 
+**Install order:** platform on the cluster → **virtfoundry-operator** → **virtfoundry** (API + UI).
+
+| Prerequisite | Required | Role |
+|--------------|----------|------|
+| [KubeVirt](https://kubevirt.io/) | **Yes** | Hypervisor — VMs, console, VM snapshots |
+| [Multus CNI](https://github.com/k8snetworkplumbingwg/multus-cni) | **Yes** | Tenant VPCs, isolated L2, public VM network |
+| [CDI](https://github.com/kubevirt/containerized-data-importer) | **Yes** for ISO/import templates | `DataVolume` imports; optional for container-disk-only |
+| StorageClass | **Yes** for disks | PVCs for VM volumes ([Longhorn](https://longhorn.io/) recommended) |
+| Ingress or Gateway API | One of them | Hostname for UI + API |
+| **virtfoundry-operator** chart | **Yes** | `virtfoundry.io` CRDs + controller |
+| **virtfoundry** chart | **Yes** | Control plane (API + UI only) |
+
+KubeVirt, Multus, and CDI are **not** bundled — install them separately (or use [Kind](guide/kind.md) on a laptop). Details: [Installation → Prerequisites](guide/installation.md#prerequisites-overview).
+
 ```bash
 helm repo add virtfoundry https://virtfoundry.github.io/helm-charts
 helm repo update
 
-# 1. CRDs + operator
+# 1. CRDs + operator (after KubeVirt, Multus, CDI)
 helm install virtfoundry-operator virtfoundry/virtfoundry-operator \
   --namespace virtfoundry-system --create-namespace
 
@@ -132,11 +146,7 @@ helm install virtfoundry virtfoundry/virtfoundry \
   --set secrets.jwtSecret='your-jwt-secret'
 ```
 
-Gateway API or Ingress profiles are configured via Helm values — see [Configuration](guide/configuration.md). Laptop lab with no VLAN: [Kind](guide/kind.md).
-
-## Before you install
-
-VirtFoundry requires **KubeVirt**, **Multus**, and **CDI** (for ISO/import paths) on the cluster, plus **`virtfoundry-operator`** for the CRD store. The `virtfoundry` chart deploys API + UI only. See [Installation → Prerequisites](guide/installation.md#why-each-platform-component-is-needed).
+Gateway API or Ingress profiles are configured via Helm values — see [Configuration](guide/configuration.md). Under-30-minute walkthrough: [Quickstart](guide/quickstart.md).
 
 ## Architecture
 

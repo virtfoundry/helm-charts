@@ -10,7 +10,7 @@ helm repo update
 helm search repo virtfoundry/virtfoundry --versions
 ```
 
-Install a specific version (operator first, CRD store):
+**Prerequisites on the cluster:** KubeVirt, Multus, CDI (ISO/import), StorageClass, Ingress or Gateway API — see [Installation](installation.md#prerequisites-overview). Then install a specific chart version (operator first):
 
 ```bash
 helm install virtfoundry-operator virtfoundry/virtfoundry-operator --version 0.5.0 \

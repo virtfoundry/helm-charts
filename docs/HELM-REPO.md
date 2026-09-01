@@ -4,13 +4,17 @@ The chart is published to GitHub Pages on every git tag `v*`.
 
 ## User install
 
+**On the cluster first:** [KubeVirt](https://kubevirt.io/), [Multus CNI](https://github.com/k8snetworkplumbingwg/multus-cni), [CDI](https://github.com/kubevirt/containerized-data-importer) (for ISO/import), plus a StorageClass and Ingress or Gateway API. Then Helm:
+
 ```bash
 helm repo add virtfoundry https://virtfoundry.github.io/helm-charts
 helm repo update
 
+# 1. CRDs + operator
 helm install virtfoundry-operator virtfoundry/virtfoundry-operator \
   --namespace virtfoundry-system --create-namespace
 
+# 2. API + UI
 helm install virtfoundry virtfoundry/virtfoundry \
   --namespace virtfoundry-system \
   --set secrets.rootPassword='your-root-password' \
@@ -19,7 +23,7 @@ helm install virtfoundry virtfoundry/virtfoundry \
 
 Use `-f` with a values overlay for Gateway API, public networking, or custom image tags when needed.
 
-See [Installation guide](guide/installation.md) for platform prerequisites (KubeVirt, Multus, CDI).
+See [Installation guide](guide/installation.md) for why each component is needed.
 
 ## Maintainer: GitHub Pages setup
 
