@@ -145,14 +145,29 @@ helm install virtfoundry virtfoundry/virtfoundry \
   --set worker.enabled=false
 ```
 
-Pin a release:
+Pin a release (same CRD store flags):
+
+```bash
+helm install virtfoundry-operator virtfoundry/virtfoundry-operator \
+  --version 0.5.0 \
+  --namespace virtfoundry-system \
+  --create-namespace
+
+helm install virtfoundry virtfoundry/virtfoundry --version 0.5.0 \
+  --namespace virtfoundry-system \
+  --set secrets.rootPassword='change-me' \
+  --set secrets.jwtSecret='change-me-long-random' \
+  --set store.driver=kubernetes \
+  --set mysql.enabled=false \
+  --set worker.enabled=false
+```
+
+Or merge the overlay after cloning:
 
 ```bash
 helm install virtfoundry virtfoundry/virtfoundry --version 0.5.0 \
-  --namespace virtfoundry-system \
-  --create-namespace \
-  --set secrets.rootPassword='change-me' \
-  --set secrets.jwtSecret='change-me-long-random'
+  -f https://raw.githubusercontent.com/virtfoundry/helm-charts/main/charts/virtfoundry/values-kubernetes.yaml \
+  ...
 ```
 
 Images default to `ghcr.io/virtfoundry/core:0.5.0` and `ui:0.5.0`.
@@ -200,10 +215,11 @@ After install with `store.driver=kubernetes`:
 kubectl get crd | grep virtfoundry.io
 kubectl get vf-tenant
 kubectl get vf-instance -A
+kubectl get vmsnapshot -A
 kubectl get pods -n virtfoundry-system
 ```
 
-You should see `virtfoundry-operator` and `virtfoundry-api` Running, MySQL/worker absent, and tenant/instance CRs populated as you use the UI.
+You should see `virtfoundry-operator` and `virtfoundry-api` Running, MySQL/worker absent, Instance CRs for your VMs, and KubeVirt `VirtualMachineSnapshot` objects when you use **VM Snapshots** in the UI.
 
 ---
 

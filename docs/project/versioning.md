@@ -8,10 +8,15 @@ The project is **not 1.0 yet**. The current release line is **0.5.0**.
 
 Git tags `v1.0.0`–`v1.5.0` were cut too early. They remain in git/GHCR for history; they are **not** a SemVer 1.0 stability promise. Breaking changes may still land in **0.x MINOR** bumps until 1.0 is declared.
 
-Helm chart packages `1.x` were **yanked** from the repository index so a bare `helm install` resolves **0.5.0**. Pin anyway:
+Helm chart packages `1.x` were **yanked** from the repository index so a bare `helm install` resolves **0.5.0**. Pin anyway and install **operator + CRD store**:
 
 ```bash
-helm install virtfoundry virtfoundry/virtfoundry --version 0.5.0
+helm install virtfoundry-operator virtfoundry/virtfoundry-operator --version 0.5.0 \
+  -n virtfoundry-system --create-namespace
+helm install virtfoundry virtfoundry/virtfoundry --version 0.5.0 \
+  -n virtfoundry-system \
+  --set store.driver=kubernetes --set mysql.enabled=false --set worker.enabled=false \
+  ...
 ```
 
 ## Release units
@@ -51,12 +56,15 @@ helm install virtfoundry virtfoundry/virtfoundry --version 0.5.0
 ## Consuming versions
 
 ```bash
-# Helm — pin 0.5.0 until 1.0 is declared
-helm install virtfoundry virtfoundry/virtfoundry --version 0.5.0
+# Helm — pin 0.5.0; operator + kubernetes store (see Installation guide)
+helm install virtfoundry-operator virtfoundry/virtfoundry-operator --version 0.5.0 ...
+helm install virtfoundry virtfoundry/virtfoundry --version 0.5.0 \
+  --set store.driver=kubernetes --set mysql.enabled=false --set worker.enabled=false ...
 
 # Container images
 ghcr.io/virtfoundry/core:0.5.0
 ghcr.io/virtfoundry/ui:0.5.0
+ghcr.io/virtfoundry/operator:0.5.0
 ```
 
 Tags `latest` (on `main` builds) may also exist — pin explicitly in production.
