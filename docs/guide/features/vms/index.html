@@ -1476,7 +1476,7 @@
 <span class="s1">  }'</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>https://iaas.example/api/v1/vms
 </code></pre></div>
-<p>Deploy may run synchronously or via the async worker (<code>deploy_vm</code> job). State is reconciled from KubeVirt phase into the control-plane DB.</p>
+<p>Deploy runs synchronously in the API. With the CRD store, platform state lives in <code>virtfoundry.io</code> <strong>Instance</strong> CRs; the operator syncs KubeVirt phase and IP into <code>status</code>.</p>
 <h2 id="lifecycle">Lifecycle<a class="headerlink" href="#lifecycle" title="Permanent link">&para;</a></h2>
 <table>
 <thead>

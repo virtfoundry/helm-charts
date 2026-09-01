@@ -671,6 +671,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#platform-store-storedriver" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Platform store (store.driver)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#public-networking" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1446,6 +1457,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#platform-store-storedriver" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Platform store (store.driver)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#public-networking" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1588,6 +1610,21 @@
 </thead>
 <tbody>
 <tr>
+<td><code>store.driver</code></td>
+<td><code>database.driver</code></td>
+<td><code>kubernetes</code> (CRDs) or <code>mysql</code> (legacy)</td>
+</tr>
+<tr>
+<td><code>mysql.enabled</code></td>
+<td>—</td>
+<td>Embedded MySQL StatefulSet; off when <code>store.driver=kubernetes</code></td>
+</tr>
+<tr>
+<td><code>worker.enabled</code></td>
+<td>—</td>
+<td>Legacy async worker; off for CRD store</td>
+</tr>
+<tr>
 <td><code>config.logLevel</code></td>
 <td><code>logger.level</code></td>
 <td></td>
@@ -1605,7 +1642,7 @@
 <tr>
 <td><code>mysql.auth.*</code></td>
 <td><code>database.dsn</code></td>
-<td>When MySQL enabled</td>
+<td>When <code>store.driver=mysql</code> and MySQL enabled</td>
 </tr>
 <tr>
 <td><code>platform.networking.public.*</code></td>
@@ -1639,6 +1676,41 @@
 </tr>
 </tbody>
 </table>
+<h2 id="platform-store-storedriver">Platform store (<code>store.driver</code>)<a class="headerlink" href="#platform-store-storedriver" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Deployed workloads</th>
+<th>Platform state</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>kubernetes</code> (recommended)</td>
+<td>API + UI + operator</td>
+<td><code>virtfoundry.io</code> CRDs</td>
+</tr>
+<tr>
+<td><code>mysql</code> (legacy)</td>
+<td>API + UI + MySQL + worker</td>
+<td>MySQL tables</td>
+</tr>
+</tbody>
+</table>
+<p>Install <strong><code>virtfoundry-operator</code></strong> before the API when using <code>kubernetes</code>. Use overlay <code>charts/virtfoundry/values-kubernetes.yaml</code> or:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">store</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">driver</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">kubernetes</span>
+<span class="nt">mysql</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+<span class="nt">worker</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+</code></pre></div>
+<p>Verify:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>crd<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>virtfoundry.io
+kubectl<span class="w"> </span>get<span class="w"> </span>vf-tenant
+kubectl<span class="w"> </span>get<span class="w"> </span>vf-instance<span class="w"> </span>-A
+</code></pre></div>
 <h2 id="public-networking">Public networking<a class="headerlink" href="#public-networking" title="Permanent link">&para;</a></h2>
 <p>Enable routable VM IPs on a host bridge + Multus NAD. VLAN tagging is optional — laptop walkthrough: <a href="../kind/">Kind</a>; real nodes: <a href="../topologies/#public-network-underlay">Topologies — public underlay</a>.</p>
 <table>

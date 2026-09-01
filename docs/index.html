@@ -1583,7 +1583,7 @@ Proxmox (or avoiding raw KubeVirt YAML) who already run Kubernetes.
 <div class="vf-card">
 <p><span class="vf-icon"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 1h16a1 1 0 0 1 1 1v4a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1m0 8h16a1 1 0 0 1 1 1v4a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-4a1 1 0 0 1 1-1m0 8h16a1 1 0 0 1 1 1v4a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-4a1 1 0 0 1 1-1M9 5h1V3H9zm0 8h1v-2H9zm0 8h1v-2H9zM5 3v2h2V3zm0 8v2h2v-2zm0 8v2h2v-2z"/></svg></span></span></p>
 <h3 id="control-plane">Control plane<a class="headerlink" href="#control-plane" title="Permanent link">&para;</a></h3>
-<p>Go API + async worker orchestrate tenants, compute, storage, and network resources.</p>
+<p>Go API over <strong><code>virtfoundry.io</code> CRDs</strong> (via <a href="https://github.com/virtfoundry/operator">operator</a>); REST <code>/api/v1</code> for UI, Terraform, and GitOps.</p>
 </div>
 <div class="vf-card">
 <p><span class="vf-icon"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 16H3V4h18m0-2H3c-1.11 0-2 .89-2 2v12a2 2 0 0 0 2 2h7v2H8v2h8v-2h-2v-2h7a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2"/></svg></span></span></p>
@@ -1622,6 +1622,9 @@ Proxmox (or avoiding raw KubeVirt YAML) who already run Kubernetes.
     <div class="vf-carousel__slide" data-caption="Networks — VPCs and private subnets" aria-hidden="true">
       <img src="assets/screenshots/07-networks.png" alt="VirtFoundry networks" width="1440" height="900" loading="lazy">
     </div>
+    <div class="vf-carousel__slide" data-caption="CRD store — virtfoundry.io tenants, instances, operator" aria-hidden="true">
+      <img src="assets/screenshots/06-crds.png" alt="VirtFoundry CRDs kubectl" width="1440" height="900" loading="lazy">
+    </div>
   </div>
 
   <div class="vf-carousel__controls">
@@ -1637,22 +1640,31 @@ Proxmox (or avoiding raw KubeVirt YAML) who already run Kubernetes.
     <button type="button" class="vf-carousel__dot" role="tab" aria-selected="false" aria-label="Images and Templates"></button>
     <button type="button" class="vf-carousel__dot" role="tab" aria-selected="false" aria-label="Volumes"></button>
     <button type="button" class="vf-carousel__dot" role="tab" aria-selected="false" aria-label="Networks"></button>
+    <button type="button" class="vf-carousel__dot" role="tab" aria-selected="false" aria-label="CRD store"></button>
   </div>
 </div>
 
 <h2 id="quick-install">Quick install<a class="headerlink" href="#quick-install" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code>helm<span class="w"> </span>repo<span class="w"> </span>add<span class="w"> </span>virtfoundry<span class="w"> </span>https://virtfoundry.github.io/helm-charts
 helm<span class="w"> </span>repo<span class="w"> </span>update
+
+<span class="c1"># 1. CRDs + operator</span>
+helm<span class="w"> </span>install<span class="w"> </span>virtfoundry-operator<span class="w"> </span>virtfoundry/virtfoundry-operator<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--namespace<span class="w"> </span>virtfoundry-system<span class="w"> </span>--create-namespace
+
+<span class="c1"># 2. API + UI (CRD store)</span>
 helm<span class="w"> </span>install<span class="w"> </span>virtfoundry<span class="w"> </span>virtfoundry/virtfoundry<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--version<span class="w"> </span><span class="m">0</span>.5.0<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--namespace<span class="w"> </span>virtfoundry-system<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--create-namespace<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--set<span class="w"> </span>secrets.rootPassword<span class="o">=</span><span class="s1">'your-root-password'</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--set<span class="w"> </span>secrets.jwtSecret<span class="o">=</span><span class="s1">'your-jwt-secret'</span>
+<span class="w">  </span>--set<span class="w"> </span>secrets.jwtSecret<span class="o">=</span><span class="s1">'your-jwt-secret'</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--set<span class="w"> </span>store.driver<span class="o">=</span>kubernetes<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--set<span class="w"> </span>mysql.enabled<span class="o">=</span><span class="nb">false</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--set<span class="w"> </span>worker.enabled<span class="o">=</span><span class="nb">false</span>
 </code></pre></div>
 <p>Gateway API or Ingress profiles are configured via Helm values — see <a href="guide/configuration/">Configuration</a>. Laptop lab with no VLAN: <a href="guide/kind/">Kind</a>.</p>
 <h2 id="before-you-install">Before you install<a class="headerlink" href="#before-you-install" title="Permanent link">&para;</a></h2>
-<p>VirtFoundry requires <strong>KubeVirt</strong>, <strong>Multus</strong>, and <strong>CDI</strong> (for ISO/import paths) on the cluster — the Helm chart deploys the control plane only. See <a href="guide/installation/#why-each-platform-component-is-needed">Installation → Prerequisites</a>.</p>
+<p>VirtFoundry requires <strong>KubeVirt</strong>, <strong>Multus</strong>, and <strong>CDI</strong> (for ISO/import paths) on the cluster, plus <strong><code>virtfoundry-operator</code></strong> for the CRD store. The <code>virtfoundry</code> chart deploys API + UI only. See <a href="guide/installation/#why-each-platform-component-is-needed">Installation → Prerequisites</a>.</p>
 <h2 id="architecture">Architecture<a class="headerlink" href="#architecture" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
@@ -1664,7 +1676,11 @@ helm<span class="w"> </span>install<span class="w"> </span>virtfoundry<span clas
 <tbody>
 <tr>
 <td>Control plane</td>
-<td>Go API + async worker</td>
+<td>Go API + <a href="https://github.com/virtfoundry/operator">virtfoundry-operator</a> (<code>virtfoundry.io</code> CRDs)</td>
+</tr>
+<tr>
+<td>Persistence</td>
+<td>Kubernetes CRDs (+ Secrets for credential hashes); legacy MySQL optional</td>
 </tr>
 <tr>
 <td>Hypervisor</td>
@@ -1699,11 +1715,15 @@ helm<span class="w"> </span>install<span class="w"> </span>virtfoundry<span clas
 <tbody>
 <tr>
 <td><a href="https://github.com/virtfoundry/core">core</a></td>
-<td>Application source (API, worker, UI)</td>
+<td>Application source (API, UI, kubernetes store)</td>
+</tr>
+<tr>
+<td><a href="https://github.com/virtfoundry/operator">operator</a></td>
+<td>CRDs and Kubernetes operator</td>
 </tr>
 <tr>
 <td><a href="https://github.com/virtfoundry/helm-charts">helm-charts</a></td>
-<td>Helm chart, deploy scripts, this documentation</td>
+<td>Helm charts, deploy scripts, this documentation</td>
 </tr>
 </tbody>
 </table>

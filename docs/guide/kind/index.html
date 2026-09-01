@@ -1570,6 +1570,7 @@ kubectl<span class="w"> </span>cluster-info<span class="w"> </span>--context<spa
 <p>Wait until <code>kubectl get kubevirt -n kubevirt</code> shows <code>Available</code>.</p>
 <hr />
 <h2 id="3-install-virtfoundry-public-off">3. Install VirtFoundry (public off)<a class="headerlink" href="#3-install-virtfoundry-public-off" title="Permanent link">&para;</a></h2>
+<p>Install the <strong>operator</strong> first, then the control plane with the CRD store profile.</p>
 <p>Overlay <a href="https://github.com/virtfoundry/helm-charts/blob/main/charts/virtfoundry/values-kind.yaml"><code>values-kind.yaml</code></a>: NodePort <strong>30880</strong> (mapped to host <strong>8080</strong>), <code>public.enabled: false</code>.</p>
 <div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-fsSL<span class="w"> </span>https://raw.githubusercontent.com/virtfoundry/helm-charts/main/charts/virtfoundry/values-kind.yaml<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>-o<span class="w"> </span>values-kind.yaml
@@ -1577,10 +1578,14 @@ kubectl<span class="w"> </span>cluster-info<span class="w"> </span>--context<spa
 helm<span class="w"> </span>repo<span class="w"> </span>add<span class="w"> </span>virtfoundry<span class="w"> </span>https://virtfoundry.github.io/helm-charts
 helm<span class="w"> </span>repo<span class="w"> </span>update
 
+helm<span class="w"> </span>install<span class="w"> </span>virtfoundry-operator<span class="w"> </span>virtfoundry/virtfoundry-operator<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--namespace<span class="w"> </span>virtfoundry-system<span class="w"> </span>--create-namespace
+
 helm<span class="w"> </span>install<span class="w"> </span>virtfoundry<span class="w"> </span>virtfoundry/virtfoundry<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--version<span class="w"> </span><span class="m">0</span>.5.0<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--namespace<span class="w"> </span>virtfoundry-system<span class="w"> </span>--create-namespace<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--namespace<span class="w"> </span>virtfoundry-system<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>-f<span class="w"> </span>values-kind.yaml<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-f<span class="w"> </span>https://raw.githubusercontent.com/virtfoundry/helm-charts/main/charts/virtfoundry/values-kubernetes.yaml<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--set<span class="w"> </span>secrets.rootPassword<span class="o">=</span><span class="s1">'change-me'</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--set<span class="w"> </span>secrets.jwtSecret<span class="o">=</span><span class="s1">'change-me-long-random'</span>
 </code></pre></div>
