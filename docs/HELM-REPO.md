@@ -14,10 +14,7 @@ helm install virtfoundry-operator virtfoundry/virtfoundry-operator \
 helm install virtfoundry virtfoundry/virtfoundry \
   --namespace virtfoundry-system \
   --set secrets.rootPassword='your-root-password' \
-  --set secrets.jwtSecret='your-jwt-secret' \
-  --set store.driver=kubernetes \
-  --set mysql.enabled=false \
-  --set worker.enabled=false
+  --set secrets.jwtSecret='your-jwt-secret'
 ```
 
 Use `-f` with a values overlay for Gateway API, public networking, or custom image tags when needed.

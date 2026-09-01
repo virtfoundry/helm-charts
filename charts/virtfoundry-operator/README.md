@@ -2,7 +2,7 @@
 
 Helm chart for the [VirtFoundry operator](https://github.com/virtfoundry/operator) — installs `virtfoundry.io/v1alpha1` CRDs and the controller Deployment.
 
-Install **before** the `virtfoundry` chart when using `store.driver=kubernetes`.
+Install **before** the `virtfoundry` chart.
 
 ## Prerequisites
 
@@ -28,7 +28,7 @@ helm install virtfoundry-operator ./charts/virtfoundry-operator \
   --create-namespace
 ```
 
-Then install the API/UI chart with the [kubernetes store profile](../virtfoundry/values-kubernetes.yaml).
+Then install the API/UI chart (`virtfoundry`).
 
 ## Verify
 

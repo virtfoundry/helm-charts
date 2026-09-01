@@ -1,32 +1,20 @@
 # Default values for VirtFoundry.
-# Installs API + UI. Optional embedded MySQL (legacy) or CRD store (kubernetes).
+# Installs API + UI. Platform state in virtfoundry.io CRDs (requires virtfoundry-operator).
 
 nameOverride: ""
 fullnamePrefix: virtfoundry
 
 namespace: virtfoundry-system
 
-# Platform state: kubernetes (virtfoundry.io CRDs) or mysql (legacy).
 store:
-  driver: mysql
+  driver: kubernetes
 
 images:
   api: ghcr.io/virtfoundry/core:0.5.0
-  worker: ghcr.io/virtfoundry/core:0.5.0
   ui: ghcr.io/virtfoundry/ui:0.5.0
   pullPolicy: IfNotPresent
   # Optional: ["ghcr-pull"] for private GHCR packages
   pullSecrets: []
-
-mysql:
-  enabled: true
-  image: mysql:8.0
-  storage: 5Gi
-  auth:
-    rootPassword: virtfoundry-root
-    database: virtfoundry
-    user: virtfoundry
-    password: virtfoundry
 
 secrets:
   rootPassword: virtfoundry
@@ -65,10 +53,6 @@ api:
   service:
     type: ClusterIP
     port: 8080
-  replicas: 1
-
-worker:
-  enabled: true
   replicas: 1
 
 # Optional cluster/platform bootstrap (bare-metal / air-gapped without a registry).

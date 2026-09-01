@@ -19,13 +19,8 @@ helm install virtfoundry-operator virtfoundry/virtfoundry-operator --version 0.5
 helm install virtfoundry virtfoundry/virtfoundry --version 0.5.0 \
   --namespace virtfoundry-system \
   --set secrets.rootPassword='...' \
-  --set secrets.jwtSecret='...' \
-  --set store.driver=kubernetes \
-  --set mysql.enabled=false \
-  --set worker.enabled=false
+  --set secrets.jwtSecret='...'
 ```
-
-Or pass `-f charts/virtfoundry/values-kubernetes.yaml` from a git clone.
 
 Optional values overlays (Gateway API, public networking, image tags) can be passed with `-f` on `helm upgrade --install`.
 

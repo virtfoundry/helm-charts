@@ -19,10 +19,7 @@ helm install virtfoundry virtfoundry/virtfoundry \
   --version 0.5.0 \
   -n virtfoundry-system --create-namespace \
   --set secrets.rootPassword='change-me' \
-  --set secrets.jwtSecret='change-me' \
-  --set store.driver=kubernetes \
-  --set mysql.enabled=false \
-  --set worker.enabled=false
+  --set secrets.jwtSecret='change-me'
 ```
 
 ## Prerequisites

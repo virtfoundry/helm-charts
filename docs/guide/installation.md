@@ -1,6 +1,6 @@
 # Installation
 
-VirtFoundry installs the **control plane** (API, UI). Platform state is stored in **`virtfoundry.io` CRDs** (recommended) or legacy MySQL. Virtual machines and networking rely on KubeVirt, Multus, and CDI on the cluster.
+VirtFoundry installs the **control plane** (API, UI). Platform state is stored in **`virtfoundry.io` CRDs**. Virtual machines and networking rely on KubeVirt, Multus, and CDI on the cluster.
 
 **Recommended order:** platform operators (KubeVirt, Multus, CDI) → **virtfoundry-operator** (CRDs + controller) → **virtfoundry** (API + UI).
 
@@ -130,7 +130,7 @@ After platform prerequisites are healthy:
 helm repo add virtfoundry https://virtfoundry.github.io/helm-charts
 helm repo update
 
-# 1. CRDs + operator (required for store.driver=kubernetes)
+# 1. CRDs + operator (required)
 helm install virtfoundry-operator virtfoundry/virtfoundry-operator \
   --namespace virtfoundry-system \
   --create-namespace
@@ -139,10 +139,7 @@ helm install virtfoundry-operator virtfoundry/virtfoundry-operator \
 helm install virtfoundry virtfoundry/virtfoundry \
   --namespace virtfoundry-system \
   --set secrets.rootPassword='change-me' \
-  --set secrets.jwtSecret='change-me-long-random' \
-  --set store.driver=kubernetes \
-  --set mysql.enabled=false \
-  --set worker.enabled=false
+  --set secrets.jwtSecret='change-me-long-random'
 ```
 
 Pin a release (same CRD store flags):
@@ -156,18 +153,7 @@ helm install virtfoundry-operator virtfoundry/virtfoundry-operator \
 helm install virtfoundry virtfoundry/virtfoundry --version 0.5.0 \
   --namespace virtfoundry-system \
   --set secrets.rootPassword='change-me' \
-  --set secrets.jwtSecret='change-me-long-random' \
-  --set store.driver=kubernetes \
-  --set mysql.enabled=false \
-  --set worker.enabled=false
-```
-
-Or merge the overlay after cloning:
-
-```bash
-helm install virtfoundry virtfoundry/virtfoundry --version 0.5.0 \
-  -f https://raw.githubusercontent.com/virtfoundry/helm-charts/main/charts/virtfoundry/values-kubernetes.yaml \
-  ...
+  --set secrets.jwtSecret='change-me-long-random'
 ```
 
 Images default to `ghcr.io/virtfoundry/core:0.5.0` and `ui:0.5.0`.
@@ -186,8 +172,7 @@ helm install virtfoundry-operator ./charts/virtfoundry-operator \
 helm install virtfoundry ./charts/virtfoundry \
   --namespace virtfoundry-system \
   --set secrets.rootPassword='change-me' \
-  --set secrets.jwtSecret='change-me-long-random' \
-  -f ./charts/virtfoundry/values-kubernetes.yaml
+  --set secrets.jwtSecret='change-me-long-random'
 ```
 
 Validate templates:
@@ -209,7 +194,7 @@ API base path: `/api/v1` on the same hostname as the UI.
 
 ## Verify CRD store
 
-After install with `store.driver=kubernetes`:
+After install:
 
 ```bash
 kubectl get crd | grep virtfoundry.io
@@ -219,7 +204,7 @@ kubectl get vmsnapshot -A
 kubectl get pods -n virtfoundry-system
 ```
 
-You should see `virtfoundry-operator` and `virtfoundry-api` Running, MySQL/worker absent, Instance CRs for your VMs, and KubeVirt `VirtualMachineSnapshot` objects when you use **VM Snapshots** in the UI.
+You should see `virtfoundry-operator` and `virtfoundry-api` Running, Instance CRs for your VMs, and KubeVirt `VirtualMachineSnapshot` objects when you use **VM Snapshots** in the UI.
 
 ---
 
