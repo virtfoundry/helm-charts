@@ -1523,7 +1523,13 @@
 </tbody>
 </table>
 <h3 id="vm-snapshots">VM snapshots<a class="headerlink" href="#vm-snapshots" title="Permanent link">&para;</a></h3>
-<p>Point-in-time snapshot of a whole guest (KubeVirt).</p>
+<p>Point-in-time snapshot of a whole guest (KubeVirt). Works on any cluster with KubeVirt — no CSI snapshot stack required.</p>
+<p><strong>UI:</strong> Compute → <strong>VM Snapshots</strong> (<code>/vm-snapshots</code>).</p>
+<p>Example after creating snapshots for VMs <code>fedora-primary</code> and <code>fedora-standby</code>:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>vmsnapshot<span class="w"> </span>-n<span class="w"> </span>virtfoundry-tenant-default
+<span class="c1"># NAME                      SOURCEKIND       SOURCENAME       PHASE       READYTOUSE</span>
+<span class="c1"># fedora-primary-baseline   VirtualMachine   fedora-primary   Succeeded   true</span>
+</code></pre></div>
 <table>
 <thead>
 <tr>

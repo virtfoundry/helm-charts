@@ -1785,12 +1785,24 @@ helm<span class="w"> </span>install<span class="w"> </span>virtfoundry<span clas
 <span class="w">  </span>--set<span class="w"> </span>mysql.enabled<span class="o">=</span><span class="nb">false</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--set<span class="w"> </span>worker.enabled<span class="o">=</span><span class="nb">false</span>
 </code></pre></div>
-<p>Pin a release:</p>
-<div class="highlight"><pre><span></span><code>helm<span class="w"> </span>install<span class="w"> </span>virtfoundry<span class="w"> </span>virtfoundry/virtfoundry<span class="w"> </span>--version<span class="w"> </span><span class="m">0</span>.5.0<span class="w"> </span><span class="se">\</span>
+<p>Pin a release (same CRD store flags):</p>
+<div class="highlight"><pre><span></span><code>helm<span class="w"> </span>install<span class="w"> </span>virtfoundry-operator<span class="w"> </span>virtfoundry/virtfoundry-operator<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--version<span class="w"> </span><span class="m">0</span>.5.0<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--namespace<span class="w"> </span>virtfoundry-system<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--create-namespace<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--create-namespace
+
+helm<span class="w"> </span>install<span class="w"> </span>virtfoundry<span class="w"> </span>virtfoundry/virtfoundry<span class="w"> </span>--version<span class="w"> </span><span class="m">0</span>.5.0<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--namespace<span class="w"> </span>virtfoundry-system<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--set<span class="w"> </span>secrets.rootPassword<span class="o">=</span><span class="s1">'change-me'</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--set<span class="w"> </span>secrets.jwtSecret<span class="o">=</span><span class="s1">'change-me-long-random'</span>
+<span class="w">  </span>--set<span class="w"> </span>secrets.jwtSecret<span class="o">=</span><span class="s1">'change-me-long-random'</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--set<span class="w"> </span>store.driver<span class="o">=</span>kubernetes<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--set<span class="w"> </span>mysql.enabled<span class="o">=</span><span class="nb">false</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--set<span class="w"> </span>worker.enabled<span class="o">=</span><span class="nb">false</span>
+</code></pre></div>
+<p>Or merge the overlay after cloning:</p>
+<div class="highlight"><pre><span></span><code>helm<span class="w"> </span>install<span class="w"> </span>virtfoundry<span class="w"> </span>virtfoundry/virtfoundry<span class="w"> </span>--version<span class="w"> </span><span class="m">0</span>.5.0<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-f<span class="w"> </span>https://raw.githubusercontent.com/virtfoundry/helm-charts/main/charts/virtfoundry/values-kubernetes.yaml<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>...
 </code></pre></div>
 <p>Images default to <code>ghcr.io/virtfoundry/core:0.5.0</code> and <code>ui:0.5.0</code>.</p>
 <hr />
@@ -1823,9 +1835,10 @@ helm<span class="w"> </span>install<span class="w"> </span>virtfoundry<span clas
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>crd<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>virtfoundry.io
 kubectl<span class="w"> </span>get<span class="w"> </span>vf-tenant
 kubectl<span class="w"> </span>get<span class="w"> </span>vf-instance<span class="w"> </span>-A
+kubectl<span class="w"> </span>get<span class="w"> </span>vmsnapshot<span class="w"> </span>-A
 kubectl<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span>-n<span class="w"> </span>virtfoundry-system
 </code></pre></div>
-<p>You should see <code>virtfoundry-operator</code> and <code>virtfoundry-api</code> Running, MySQL/worker absent, and tenant/instance CRs populated as you use the UI.</p>
+<p>You should see <code>virtfoundry-operator</code> and <code>virtfoundry-api</code> Running, MySQL/worker absent, Instance CRs for your VMs, and KubeVirt <code>VirtualMachineSnapshot</code> objects when you use <strong>VM Snapshots</strong> in the UI.</p>
 <hr />
 <h2 id="next-steps">Next steps<a class="headerlink" href="#next-steps" title="Permanent link">&para;</a></h2>
 <ul>
