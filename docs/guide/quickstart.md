@@ -33,6 +33,7 @@ helm repo update
 
 # CRDs + operator (required)
 helm install virtfoundry-operator virtfoundry/virtfoundry-operator \
+  --version 0.7.0 \
   --namespace virtfoundry-system --create-namespace
 
 # API + UI

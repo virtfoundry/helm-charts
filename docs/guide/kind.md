@@ -89,6 +89,7 @@ helm repo add virtfoundry https://virtfoundry.github.io/helm-charts
 helm repo update
 
 helm install virtfoundry-operator virtfoundry/virtfoundry-operator \
+  --version 0.7.0 \
   --namespace virtfoundry-system --create-namespace
 
 helm install virtfoundry virtfoundry/virtfoundry \

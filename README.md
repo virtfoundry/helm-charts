@@ -24,6 +24,7 @@ helm repo update
 
 # After KubeVirt, Multus, CDI
 helm install virtfoundry-operator virtfoundry/virtfoundry-operator \
+  --version 0.7.0 \
   -n virtfoundry-system --create-namespace
 
 helm install virtfoundry virtfoundry/virtfoundry \

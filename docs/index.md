@@ -136,6 +136,7 @@ helm repo update
 
 # 1. CRDs + operator (after KubeVirt, Multus, CDI)
 helm install virtfoundry-operator virtfoundry/virtfoundry-operator \
+  --version 0.7.0 \
   --namespace virtfoundry-system --create-namespace
 
 # 2. API + UI

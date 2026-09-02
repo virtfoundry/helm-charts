@@ -159,7 +159,7 @@ helm install virtfoundry virtfoundry/virtfoundry --version 0.7.0 \
   --set secrets.jwtSecret='change-me-long-random'
 ```
 
-Images default to `ghcr.io/virtfoundry/core:0.7.0` and `ui:0.7.0`.
+Images default to `ghcr.io/virtfoundry/core:0.7.0`, `ui:0.7.0`, and `operator:0.7.0`.
 
 ---
 
