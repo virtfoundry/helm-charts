@@ -5,7 +5,7 @@
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: {{ .Values.namePrefix }}-platform
+  name: {{ .Values.fullnamePrefix }}-platform
   namespace: {{ .Values.namespace }}
   labels:
     {{- include "virtfoundry.labels" . | nindent 4 }}
@@ -16,7 +16,7 @@ metadata:
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
-  name: {{ .Values.namePrefix }}-platform
+  name: {{ .Values.fullnamePrefix }}-platform
   labels:
     {{- include "virtfoundry.labels" . | nindent 4 }}
   annotations:
@@ -45,7 +45,7 @@ rules:
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
-  name: {{ .Values.namePrefix }}-platform
+  name: {{ .Values.fullnamePrefix }}-platform
   labels:
     {{- include "virtfoundry.labels" . | nindent 4 }}
   annotations:
@@ -54,9 +54,9 @@ metadata:
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
-  name: {{ .Values.namePrefix }}-platform
+  name: {{ .Values.fullnamePrefix }}-platform
 subjects:
   - kind: ServiceAccount
-    name: {{ .Values.namePrefix }}-platform
+    name: {{ .Values.fullnamePrefix }}-platform
     namespace: {{ .Values.namespace }}
 {{- end }}

@@ -4,7 +4,7 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: {{ .Values.namePrefix }}-kubevirt-config
+  name: {{ .Values.fullnamePrefix }}-kubevirt-config
   namespace: {{ .Values.namespace }}
   labels:
     {{- include "virtfoundry.labels" . | nindent 4 }}
@@ -16,7 +16,7 @@ spec:
   ttlSecondsAfterFinished: 600
   template:
     spec:
-      serviceAccountName: {{ .Values.namePrefix }}-platform
+      serviceAccountName: {{ .Values.fullnamePrefix }}-platform
       restartPolicy: OnFailure
       containers:
         # registry.k8s.io/kubectl is distroless: no shell, binary at /bin/kubectl.
