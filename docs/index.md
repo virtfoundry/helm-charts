@@ -7,7 +7,7 @@ title: Home
 
 <div class="vf-hero" markdown="1">
 
-<span class="vf-badge">Release v0.5.0</span>
+<span class="vf-badge">Release v0.6.0</span>
 
 # VirtFoundry
 
@@ -140,7 +140,7 @@ helm install virtfoundry-operator virtfoundry/virtfoundry-operator \
 
 # 2. API + UI
 helm install virtfoundry virtfoundry/virtfoundry \
-  --version 0.5.0 \
+  --version 0.6.0 \
   --namespace virtfoundry-system \
   --set secrets.rootPassword='your-root-password' \
   --set secrets.jwtSecret='your-jwt-secret'

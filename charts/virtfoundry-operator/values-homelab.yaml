@@ -1,7 +1,7 @@
 namespace: virtfoundry-system
 image:
-  repository: docker.io/virtfoundry/operator
-  tag: "0.1.0-dev"
+  repository: ghcr.io/virtfoundry/operator
+  tag: "0.6.0"
   pullPolicy: IfNotPresent
 replicas: 1
 leaderElection: true

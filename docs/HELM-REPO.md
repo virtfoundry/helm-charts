@@ -37,11 +37,11 @@ The `gh-pages` branch is created automatically by chart-releaser on first releas
 
 1. Bump `version` in [`charts/virtfoundry/Chart.yaml`](../charts/virtfoundry/Chart.yaml) and `charts/virtfoundry-operator/Chart.yaml`
 2. Commit and push to `main`
-3. Create and push a matching tag (`0.5.0` → `v0.5.0`):
+3. Create and push a matching tag (`0.6.0` → `v0.6.0`):
 
    ```bash
-   git tag v0.5.0
-   git push origin v0.5.0
+   git tag v0.6.0
+   git push origin v0.6.0
    ```
 
 4. Workflow [`.github/workflows/release.yaml`](../.github/workflows/release.yaml) packages the chart and updates `gh-pages`
