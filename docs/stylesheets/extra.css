@@ -24,6 +24,7 @@
 
   --md-code-bg-color: #edeeef;
   --md-code-fg-color: #191c1d;
+  --md-code-hl-comment-color: #5b6478;
 
   --md-typeset-a-color: #004ac6;
   --md-typeset-color: #191c1d;
@@ -63,6 +64,10 @@
 
   --md-code-bg-color: #171f33;
   --md-code-fg-color: #e2e8f0;
+  /* Default Material comment hue is too dark on navy code blocks (# 1 / # 2 illegible). */
+  --md-code-hl-comment-color: #9eb1c9;
+  --md-code-hl-punctuation-color: #c3c6d7;
+  --md-code-hl-generic-color: #c3c6d7;
 
   --md-typeset-a-color: #93c5fd;
   --md-typeset-color: #dae2fd;
@@ -152,6 +157,28 @@
 
 .md-typeset pre > code {
   border-radius: 0.5rem;
+}
+
+/* Pygments comment spans — force readable contrast even if theme vars are skipped */
+[data-md-color-scheme="virtfoundry-dark"] .highlight .c,
+[data-md-color-scheme="virtfoundry-dark"] .highlight .ch,
+[data-md-color-scheme="virtfoundry-dark"] .highlight .cm,
+[data-md-color-scheme="virtfoundry-dark"] .highlight .c1,
+[data-md-color-scheme="virtfoundry-dark"] .highlight .cs,
+[data-md-color-scheme="virtfoundry-dark"] .highlight .cp,
+[data-md-color-scheme="virtfoundry-dark"] .highlight .cpf {
+  color: var(--md-code-hl-comment-color) !important;
+  font-style: italic;
+}
+
+[data-md-color-scheme="virtfoundry-light"] .highlight .c,
+[data-md-color-scheme="virtfoundry-light"] .highlight .ch,
+[data-md-color-scheme="virtfoundry-light"] .highlight .cm,
+[data-md-color-scheme="virtfoundry-light"] .highlight .c1,
+[data-md-color-scheme="virtfoundry-light"] .highlight .cs,
+[data-md-color-scheme="virtfoundry-light"] .highlight .cp,
+[data-md-color-scheme="virtfoundry-light"] .highlight .cpf {
+  color: var(--md-code-hl-comment-color) !important;
 }
 
 .md-typeset .md-button {
