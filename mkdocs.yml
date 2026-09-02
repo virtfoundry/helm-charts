@@ -69,6 +69,7 @@ markdown_extensions:
 nav:
   - Home: index.md
   - Getting started:
+      - Platform prerequisites: guide/prerequisites.md
       - Why VirtFoundry: guide/why.md
       - Quickstart: guide/quickstart.md
       - Kind (laptop): guide/kind.md

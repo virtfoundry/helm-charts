@@ -2,7 +2,10 @@
 
 VirtFoundry installs the **control plane** (API, UI). Platform state is stored in **`virtfoundry.io` CRDs**. Virtual machines and networking rely on KubeVirt, Multus, and CDI on the cluster.
 
-**Recommended order:** platform operators (KubeVirt, Multus, CDI) → **virtfoundry-operator** (CRDs + controller) → **virtfoundry** (API + UI).
+!!! tip "Install prerequisites first"
+    See **[Platform prerequisites](prerequisites.md)** for official install links to [KubeVirt](https://kubevirt.io/), [Multus](https://github.com/k8snetworkplumbingwg/multus-cni), [CDI](https://github.com/kubevirt/containerized-data-importer), storage, and optional MetalLB / CSI snapshots.
+
+**Recommended order:** [prerequisites](prerequisites.md) → **virtfoundry-operator** (CRDs + controller) → **virtfoundry** (API + UI).
 
 **Want UI + first VM in under 30 minutes?** Start with the [Quickstart](quickstart.md). On a laptop (Docker, no switch/VLAN), use **[Kind](kind.md)**.
 

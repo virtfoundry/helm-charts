@@ -2,7 +2,7 @@
 
 Goal: **UI login + first VM**. On a laptop, start with **[Kind](kind.md)** (Docker, no VLAN). On a cluster that already has Kubernetes, KubeVirt, Multus, and CDI, continue below.
 
-If you still need to install those platform components, budget extra time and follow the full [Installation](installation.md) guide (or run `./scripts/setup/{kubevirt,multus,cdi}.sh` from a [helm-charts](https://github.com/virtfoundry/helm-charts) clone).
+If you still need to install those platform components, see **[Platform prerequisites](prerequisites.md)** (official KubeVirt, Multus, CDI links) or the full [Installation](installation.md) guide.
 
 !!! tip "Homelab with Argo / Longhorn"
     Production-shaped layouts (Gateway API, Longhorn, snapshots): [Deployment topologies](topologies.md). Public IPs without a VLAN: [Kind](kind.md) or [Topologies — public underlay](topologies.md#public-network-underlay).
