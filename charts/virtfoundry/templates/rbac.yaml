@@ -10,7 +10,7 @@ metadata:
   name: {{ .Values.fullnamePrefix }}-api
 rules:
   - apiGroups: [""]
-    resources: ["namespaces", "pods", "services", "persistentvolumeclaims", "resourcequotas", "nodes"]
+    resources: ["namespaces", "pods", "services", "endpoints", "persistentvolumeclaims", "resourcequotas", "nodes"]
     verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
   - apiGroups: [""]
     resources: ["pods/log"]
