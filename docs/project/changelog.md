@@ -4,6 +4,17 @@ All notable changes to the **Helm chart and deploy tooling** are documented here
 
 Format based on [Keep a Changelog](https://keepachangelog.com/). Versioning: [SemVer](versioning.md).
 
+## [0.7.0] - 2026-09-02
+
+### Added
+
+- [Platform prerequisites](../guide/prerequisites.md) — install links for KubeVirt, Multus, CDI, Longhorn, MetalLB, CSI snapshotter
+
+### Changed
+
+- Charts and default `appVersion` `0.7.0`
+- Homepage and quickstart point to prerequisites guide
+
 ## [0.6.0] - 2026-09-01
 
 ### Added

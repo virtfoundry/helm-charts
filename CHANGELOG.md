@@ -2,6 +2,10 @@
 
 See [docs/project/changelog.md](docs/project/changelog.md) for the full release history (published on GitHub Pages).
 
+## [0.7.0] - 2026-09-02
+
+Charts `0.7.0`. New [Platform prerequisites](docs/guide/prerequisites.md) guide with KubeVirt, Multus, CDI, Longhorn, MetalLB, CSI snapshotter install links. Docs version bump; no MySQL references.
+
 ## [0.6.0] - 2026-09-01
 
 CRD store default. Operator chart at `0.6.0`. MySQL/worker templates and `values-kubernetes.yaml` removed. Docs: install prerequisites, VM snapshot screenshots, simplified quick install.
