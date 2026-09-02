@@ -92,7 +92,7 @@ helm install virtfoundry-operator virtfoundry/virtfoundry-operator \
   --namespace virtfoundry-system --create-namespace
 
 helm install virtfoundry virtfoundry/virtfoundry \
-  --version 0.6.0 \
+  --version 0.7.0 \
   --namespace virtfoundry-system \
   -f values-kind.yaml \
   --set secrets.rootPassword='change-me' \
@@ -150,7 +150,7 @@ platform:
 
 ```bash
 helm upgrade virtfoundry virtfoundry/virtfoundry \
-  --version 0.6.0 \
+  --version 0.7.0 \
   -n virtfoundry-system \
   -f values-kind.yaml \
   -f values-kind-public.yaml \
