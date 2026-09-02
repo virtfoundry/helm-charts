@@ -6,12 +6,12 @@ VirtFoundry is an open-source project under the [Apache License 2.0](https://www
 
 See [MAINTAINERS.md (core)](https://github.com/virtfoundry/core/blob/main/MAINTAINERS.md).
 
-| Name | GitHub | Role |
-|------|--------|------|
-| Matheus Thurler | [@Matheus-Thurler](https://github.com/Matheus-Thurler) | Lead maintainer |
-| Rodrigo Gonçalves | [@RodrigoGoncalves-dev](https://github.com/RodrigoGoncalves-dev) | Maintainer |
+| Name | GitHub | Company | Role |
+|------|--------|---------|------|
+| Matheus Thurler | [@Matheus-Thurler](https://github.com/Matheus-Thurler) | CI&T | Lead — DevOps / SRE |
+| Rodrigo Gonçalves | [@RodrigoGoncalves-dev](https://github.com/RodrigoGoncalves-dev) | SYS MANAGER INFORMATICA LTDA | Maintainer — full-stack |
 
-Matheus retains final merge authority and is the primary security contact. Rodrigo supports review, homelab validation, and operator/infra work.
+Matheus retains final merge authority and is the primary security contact. Rodrigo supports review, homelab validation, and operator/infra work. Governance model: [maintainer council](https://github.com/virtfoundry/core/blob/main/GOVERNANCE.md) ([CNCF template](https://github.com/cncf/project-template)).
 
 ## Official repositories
 
