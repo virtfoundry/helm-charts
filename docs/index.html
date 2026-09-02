@@ -1732,6 +1732,7 @@ helm<span class="w"> </span>repo<span class="w"> </span>update
 
 <span class="c1"># 1. CRDs + operator (after KubeVirt, Multus, CDI)</span>
 helm<span class="w"> </span>install<span class="w"> </span>virtfoundry-operator<span class="w"> </span>virtfoundry/virtfoundry-operator<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--version<span class="w"> </span><span class="m">0</span>.7.0<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--namespace<span class="w"> </span>virtfoundry-system<span class="w"> </span>--create-namespace
 
 <span class="c1"># 2. API + UI</span>
