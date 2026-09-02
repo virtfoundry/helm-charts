@@ -2,6 +2,33 @@ apiVersion: v1
 entries:
   virtfoundry:
   - apiVersion: v2
+    appVersion: 0.7.0
+    created: "2026-09-02T12:57:45.247599835Z"
+    description: VirtFoundry control plane — API and UI (virtfoundry.io CRD store)
+    digest: 7e165883ec59c97b9359e7f126d9256ad825a4057f1b79b4ecdc24b782c13816
+    home: https://github.com/virtfoundry/core
+    icon: https://raw.githubusercontent.com/virtfoundry/core/main/ui/public/favicon.svg
+    keywords:
+    - iaas
+    - kubevirt
+    - kubernetes
+    - multus
+    - cloudstack
+    kubeVersion: '>=1.28.0-0'
+    maintainers:
+    - name: Matheus Thurler
+      url: https://github.com/Matheus-Thurler
+    - name: virtfoundry
+      url: https://github.com/virtfoundry
+    name: virtfoundry
+    sources:
+    - https://github.com/virtfoundry/core
+    - https://github.com/virtfoundry/helm-charts
+    type: application
+    urls:
+    - https://github.com/virtfoundry/helm-charts/releases/download/virtfoundry-0.7.0/virtfoundry-0.7.0.tgz
+    version: 0.7.0
+  - apiVersion: v2
     appVersion: 0.5.0
     created: "2026-08-16T01:04:36.178714-03:00"
     description: VirtFoundry control plane — API, worker, UI, and optional MySQL
@@ -28,4 +55,27 @@ entries:
     urls:
     - https://github.com/virtfoundry/helm-charts/releases/download/virtfoundry-0.5.0/virtfoundry-0.5.0.tgz
     version: 0.5.0
-generated: "2026-08-16T01:04:36.178097-03:00"
+  virtfoundry-operator:
+  - apiVersion: v2
+    appVersion: 0.7.0
+    created: "2026-09-02T12:57:45.694085907Z"
+    description: VirtFoundry operator — virtfoundry.io CRDs and controllers
+    digest: aaf55b72e5a71efce3e151e4dbe9cf36719d5ebbd61650637e120b5082ded0f8
+    home: https://github.com/virtfoundry/operator
+    keywords:
+    - iaas
+    - kubevirt
+    - operator
+    - crd
+    kubeVersion: '>=1.28.0-0'
+    maintainers:
+    - name: virtfoundry
+      url: https://github.com/virtfoundry
+    name: virtfoundry-operator
+    sources:
+    - https://github.com/virtfoundry/operator
+    type: application
+    urls:
+    - https://github.com/virtfoundry/helm-charts/releases/download/virtfoundry-operator-0.7.0/virtfoundry-operator-0.7.0.tgz
+    version: 0.7.0
+generated: "2026-09-02T12:57:45.694100128Z"
