@@ -7,20 +7,20 @@ title: Home
 
 <div class="vf-hero" markdown="1">
 
-<span class="vf-badge">Release v0.6.0</span>
+<span class="vf-badge">CRD store · homelab E2E green</span>
 
 # VirtFoundry
 
 <p class="vf-lead">
 Kubernetes-native private cloud control plane — multi-tenant VMs on KubeVirt,
-networking with Multus, and a CloudStack-like API/UI. Built for people leaving
-Proxmox (or avoiding raw KubeVirt YAML) who already run Kubernetes.
+Multus networking, and a CloudStack-like API/UI. Platform state lives in
+<code>virtfoundry.io</code> CRDs (no MySQL in production). Built for people leaving
+Proxmox who already run Kubernetes.
 </p>
 
 [Quickstart :material-rocket-launch:](guide/quickstart.md){ .md-button .md-button--primary }
-[Kind (laptop) :material-laptop:](guide/kind.md){ .md-button }
-[Features :material-view-grid:](guide/features/index.md){ .md-button }
 [Why VirtFoundry :material-compass:](guide/why.md){ .md-button }
+[Adopters :material-account-group:](https://github.com/virtfoundry/core/blob/main/ADOPTERS.md){ .md-button }
 [Installation :material-download:](guide/installation.md){ .md-button }
 [GitHub :material-github:](https://github.com/virtfoundry/core){ .md-button }
 
@@ -167,6 +167,13 @@ Gateway API or Ingress profiles are configured via Helm values — see [Configur
 | [core](https://github.com/virtfoundry/core) | Application source (API, UI, kubernetes store) |
 | [operator](https://github.com/virtfoundry/operator) | CRDs and Kubernetes operator |
 | [helm-charts](https://github.com/virtfoundry/helm-charts) | Helm charts, deploy scripts, this documentation |
+| [terraform-provider-virtfoundry](https://github.com/virtfoundry/terraform-provider-virtfoundry) | Terraform provider |
+
+## Adopters & CNCF
+
+Homelab adopters: **Matheus Thurler**, **Rodrigo Gonçalves** ([full list](https://github.com/virtfoundry/core/blob/main/ADOPTERS.md)).
+
+CNCF Sandbox readiness tracker: [CNCF-CHECKLIST.md](https://github.com/virtfoundry/core/blob/main/docs/CNCF-CHECKLIST.md) in `core`.
 
 <div class="vf-links" markdown="1">
 
