@@ -2,6 +2,10 @@
 
 See [docs/project/changelog.md](docs/project/changelog.md) for the full release history (published on GitHub Pages).
 
+## [0.6.0] - 2026-09-01
+
+CRD store default. Operator chart at `0.6.0`. MySQL/worker templates and `values-kubernetes.yaml` removed. Docs: install prerequisites, VM snapshot screenshots, simplified quick install.
+
 ## [0.5.0] - 2026-08-16
 
 Pre-1.0 line. Same product as the former `1.5.0` tag plus Kind docs. Tags `v1.x` stay in git; they are not a 1.0 contract. Default images `0.5.0`. Pin Helm `--version 0.5.0`.

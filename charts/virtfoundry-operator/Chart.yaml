@@ -2,8 +2,8 @@ apiVersion: v2
 name: virtfoundry-operator
 description: VirtFoundry operator — virtfoundry.io CRDs and controllers
 type: application
-version: 0.1.0-dev
-appVersion: "0.1.0-dev"
+version: 0.6.0
+appVersion: "0.6.0"
 kubeVersion: ">=1.28.0-0"
 home: https://github.com/virtfoundry/operator
 sources:
