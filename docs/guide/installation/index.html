@@ -1818,16 +1818,16 @@ helm<span class="w"> </span>install<span class="w"> </span>virtfoundry<span clas
 </code></pre></div>
 <p>Pin a release (same CRD store flags):</p>
 <div class="highlight"><pre><span></span><code>helm<span class="w"> </span>install<span class="w"> </span>virtfoundry-operator<span class="w"> </span>virtfoundry/virtfoundry-operator<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--version<span class="w"> </span><span class="m">0</span>.6.0<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--version<span class="w"> </span><span class="m">0</span>.7.0<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--namespace<span class="w"> </span>virtfoundry-system<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--create-namespace
 
-helm<span class="w"> </span>install<span class="w"> </span>virtfoundry<span class="w"> </span>virtfoundry/virtfoundry<span class="w"> </span>--version<span class="w"> </span><span class="m">0</span>.6.0<span class="w"> </span><span class="se">\</span>
+helm<span class="w"> </span>install<span class="w"> </span>virtfoundry<span class="w"> </span>virtfoundry/virtfoundry<span class="w"> </span>--version<span class="w"> </span><span class="m">0</span>.7.0<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--namespace<span class="w"> </span>virtfoundry-system<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--set<span class="w"> </span>secrets.rootPassword<span class="o">=</span><span class="s1">'change-me'</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--set<span class="w"> </span>secrets.jwtSecret<span class="o">=</span><span class="s1">'change-me-long-random'</span>
 </code></pre></div>
-<p>Images default to <code>ghcr.io/virtfoundry/core:0.6.0</code> and <code>ui:0.6.0</code>.</p>
+<p>Images default to <code>ghcr.io/virtfoundry/core:0.7.0</code> and <code>ui:0.7.0</code>.</p>
 <hr />
 <h2 id="install-from-git-clone">Install from git clone<a class="headerlink" href="#install-from-git-clone" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/virtfoundry/helm-charts.git

@@ -1508,12 +1508,12 @@
 <h1 id="versioning">Versioning<a class="headerlink" href="#versioning" title="Permanent link">&para;</a></h1>
 <p>VirtFoundry follows <a href="https://semver.org/">Semantic Versioning 2.0.0</a>.</p>
 <h2 id="pre-10">Pre-1.0<a class="headerlink" href="#pre-10" title="Permanent link">&para;</a></h2>
-<p>The project is <strong>not 1.0 yet</strong>. The current release line is <strong>0.6.0</strong>.</p>
+<p>The project is <strong>not 1.0 yet</strong>. The current release line is <strong>0.7.0</strong>.</p>
 <p>Git tags <code>v1.0.0</code>–<code>v1.5.0</code> were cut too early. They remain in git/GHCR for history; they are <strong>not</strong> a SemVer 1.0 stability promise. Breaking changes may still land in <strong>0.x MINOR</strong> bumps until 1.0 is declared.</p>
-<p>Helm chart packages <code>1.x</code> were <strong>yanked</strong> from the repository index so a bare <code>helm install</code> resolves <strong>0.6.0</strong>. Pin anyway and install <strong>operator first</strong>:</p>
-<div class="highlight"><pre><span></span><code>helm<span class="w"> </span>install<span class="w"> </span>virtfoundry-operator<span class="w"> </span>virtfoundry/virtfoundry-operator<span class="w"> </span>--version<span class="w"> </span><span class="m">0</span>.6.0<span class="w"> </span><span class="se">\</span>
+<p>Helm chart packages <code>1.x</code> were <strong>yanked</strong> from the repository index so a bare <code>helm install</code> resolves <strong>0.7.0</strong>. Pin anyway and install <strong>operator first</strong>:</p>
+<div class="highlight"><pre><span></span><code>helm<span class="w"> </span>install<span class="w"> </span>virtfoundry-operator<span class="w"> </span>virtfoundry/virtfoundry-operator<span class="w"> </span>--version<span class="w"> </span><span class="m">0</span>.7.0<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>-n<span class="w"> </span>virtfoundry-system<span class="w"> </span>--create-namespace
-helm<span class="w"> </span>install<span class="w"> </span>virtfoundry<span class="w"> </span>virtfoundry/virtfoundry<span class="w"> </span>--version<span class="w"> </span><span class="m">0</span>.6.0<span class="w"> </span><span class="se">\</span>
+helm<span class="w"> </span>install<span class="w"> </span>virtfoundry<span class="w"> </span>virtfoundry/virtfoundry<span class="w"> </span>--version<span class="w"> </span><span class="m">0</span>.7.0<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>-n<span class="w"> </span>virtfoundry-system<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--set<span class="w"> </span>secrets.rootPassword<span class="o">=</span><span class="s1">'...'</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--set<span class="w"> </span>secrets.jwtSecret<span class="o">=</span><span class="s1">'...'</span>
@@ -1563,17 +1563,17 @@ helm<span class="w"> </span>install<span class="w"> </span>virtfoundry<span clas
 <tr>
 <td>Bug fix, doc fix</td>
 <td>PATCH</td>
-<td><code>0.5.0</code> → <code>0.5.1</code></td>
+<td><code>0.7.0</code> → <code>0.7.1</code></td>
 </tr>
 <tr>
 <td>New feature, chart profile change</td>
 <td>MINOR</td>
-<td><code>0.5.0</code> → <code>0.6.0</code></td>
+<td><code>0.7.0</code> → <code>0.8.0</code></td>
 </tr>
 <tr>
 <td>Breaking API or chart contract</td>
 <td>MINOR while on 0.x</td>
-<td><code>0.5.0</code> → <code>0.6.0</code> (document in CHANGELOG)</td>
+<td><code>0.7.0</code> → <code>0.8.0</code> (document in CHANGELOG)</td>
 </tr>
 <tr>
 <td>First stable contract</td>
@@ -1585,27 +1585,56 @@ helm<span class="w"> </span>install<span class="w"> </span>virtfoundry<span clas
 <h2 id="release-process">Release process<a class="headerlink" href="#release-process" title="Permanent link">&para;</a></h2>
 <ol>
 <li>Finish feature branch → PR → integration testing → merge <code>main</code></li>
-<li>Update <code>CHANGELOG.md</code> (both repos)</li>
-<li>Bump <code>Chart.yaml</code> + <code>values.yaml</code> image tags (chart repo) and <code>ui/package.json</code> (core)</li>
-<li>Commit: <code>chore(release): v0.6.0</code></li>
-<li>Tag <strong>both</strong> repositories:</li>
+<li>Update <code>CHANGELOG.md</code> (core, helm-charts, operator when touched)</li>
+<li><strong>Bump every version pin</strong> (same <code>X.Y.Z</code> everywhere — do not skip UI or values):</li>
 </ol>
-<div class="highlight"><pre><span></span><code>git<span class="w"> </span>tag<span class="w"> </span>v0.6.0
-git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>v0.6.0
+<table>
+<thead>
+<tr>
+<th>Repo</th>
+<th>Files</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>core</strong></td>
+<td><code>ui/package.json</code>, <code>ui/package-lock.json</code> (root + <code>"packages"</code> entry), <code>docs/PRODUCT.md</code></td>
+</tr>
+<tr>
+<td><strong>helm-charts</strong></td>
+<td><code>charts/virtfoundry/Chart.yaml</code>, <code>charts/virtfoundry-operator/Chart.yaml</code>, <code>charts/virtfoundry/values.yaml</code> (<code>images.api</code> / <code>images.ui</code>), <code>charts/virtfoundry-operator/values.yaml</code> + <code>values-homelab.yaml</code> (<code>image.tag</code>), install docs (<code>quickstart</code>, <code>installation</code>, <code>kind</code>, <code>helm-repository</code>, <code>index</code>, <code>README</code>)</td>
+</tr>
+<tr>
+<td><strong>operator</strong></td>
+<td><code>charts/virtfoundry-operator/Chart.yaml</code>, <code>values.yaml</code>, <code>values-homelab.yaml</code></td>
+</tr>
+<tr>
+<td><strong>This doc</strong></td>
+<td><code>docs/project/versioning.md</code> — current release line and examples</td>
+</tr>
+</tbody>
+</table>
+<p>The UI sidebar/login label reads <strong><code>ui/package.json</code> at build time</strong> (<code>src/lib/version.ts</code>). A chart bump without rebuilding/publishing UI leaves users on an old label (e.g. <code>v0.5.0</code>).</p>
+<ol>
+<li>Commit: <code>chore(release): v0.7.0</code></li>
+<li>Tag <strong>each</strong> repository that changed:</li>
+</ol>
+<div class="highlight"><pre><span></span><code>git<span class="w"> </span>tag<span class="w"> </span>v0.7.0
+git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>v0.7.0
 </code></pre></div>
 <ol>
-<li>CI publishes container images and Helm package; docs site rebuilds</li>
+<li>CI publishes container images and Helm package; docs site rebuilds; homelab digest write-back updates Argo overlay</li>
 </ol>
 <h2 id="consuming-versions">Consuming versions<a class="headerlink" href="#consuming-versions" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><span class="c1"># Helm — pin 0.6.0; install operator first (see Installation guide)</span>
-helm<span class="w"> </span>install<span class="w"> </span>virtfoundry-operator<span class="w"> </span>virtfoundry/virtfoundry-operator<span class="w"> </span>--version<span class="w"> </span><span class="m">0</span>.6.0<span class="w"> </span>...
-helm<span class="w"> </span>install<span class="w"> </span>virtfoundry<span class="w"> </span>virtfoundry/virtfoundry<span class="w"> </span>--version<span class="w"> </span><span class="m">0</span>.6.0<span class="w"> </span><span class="se">\</span>
+<div class="highlight"><pre><span></span><code><span class="c1"># Helm — pin 0.7.0; install operator first (see Installation guide)</span>
+helm<span class="w"> </span>install<span class="w"> </span>virtfoundry-operator<span class="w"> </span>virtfoundry/virtfoundry-operator<span class="w"> </span>--version<span class="w"> </span><span class="m">0</span>.7.0<span class="w"> </span>...
+helm<span class="w"> </span>install<span class="w"> </span>virtfoundry<span class="w"> </span>virtfoundry/virtfoundry<span class="w"> </span>--version<span class="w"> </span><span class="m">0</span>.7.0<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--set<span class="w"> </span>secrets.rootPassword<span class="o">=</span><span class="s1">'...'</span><span class="w"> </span>--set<span class="w"> </span>secrets.jwtSecret<span class="o">=</span><span class="s1">'...'</span><span class="w"> </span>...
 
 <span class="c1"># Container images</span>
-ghcr.io/virtfoundry/core:0.6.0
-ghcr.io/virtfoundry/ui:0.6.0
-ghcr.io/virtfoundry/operator:0.6.0
+ghcr.io/virtfoundry/core:0.7.0
+ghcr.io/virtfoundry/ui:0.7.0
+ghcr.io/virtfoundry/operator:0.7.0
 </code></pre></div>
 <p>Tags <code>latest</code> (on <code>main</code> builds) may also exist — pin explicitly in production.</p>
 <h2 id="cross-repo-features">Cross-repo features<a class="headerlink" href="#cross-repo-features" title="Permanent link">&para;</a></h2>
