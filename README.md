@@ -27,7 +27,7 @@ helm install virtfoundry-operator virtfoundry/virtfoundry-operator \
   -n virtfoundry-system --create-namespace
 
 helm install virtfoundry virtfoundry/virtfoundry \
-  --version 0.6.0 \
+  --version 0.7.0 \
   -n virtfoundry-system --create-namespace \
   --set secrets.rootPassword='change-me' \
   --set secrets.jwtSecret='change-me'
