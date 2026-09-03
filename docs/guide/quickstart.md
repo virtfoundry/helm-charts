@@ -51,7 +51,10 @@ kubectl -n virtfoundry-system get pods -w
 kubectl get crd | grep virtfoundry.io
 ```
 
-Optional — set the CSI snapshot class used by the Volume Snapshots UI (Longhorn example):
+!!! note "Helm `--set` is not optional for secrets"
+    `secrets.rootPassword` and `secrets.jwtSecret` must be passed on **this same** `helm install` (or via `-f`). They are chart values, not extra kubectl steps. Public CIDR and StorageClass do **not** need `--set` on a typical homelab: storage `auto` selects Longhorn when present; public stays off unless you enable it. Details: [Chart values](chart-values.md).
+
+Optional — pin the CSI snapshot class (only if auto did not pick Longhorn):
 
 ```bash
 helm upgrade virtfoundry virtfoundry/virtfoundry -n virtfoundry-system \
@@ -59,7 +62,7 @@ helm upgrade virtfoundry virtfoundry/virtfoundry -n virtfoundry-system \
   --set platform.storage.snapshotClass=longhorn
 ```
 
-Empty `snapshotClass` uses the cluster default `VolumeSnapshotClass` when one is marked default.
+Empty `snapshotClass` uses Longhorn when that is the resolved default class, otherwise the cluster default `VolumeSnapshotClass`.
 
 ---
 
@@ -127,7 +130,7 @@ curl -sS http://127.0.0.1:8080/api/v1/healthz || true
 | Full install + why each dependency | [Installation](installation.md) |
 | Min vs production layouts | [Topologies](topologies.md) |
 | Laptop (kind, no VLAN) | [Kind](kind.md) |
-| Helm values (public net, snapshots) | [Configuration](configuration.md) |
+| Helm values (public net, snapshots, **defaults**) | [Configuration](configuration.md) · [Chart values](chart-values.md) |
 | Why VirtFoundry vs Proxmox | [Why VirtFoundry](why.md) |
 | Traction / CNCF checklist | [CNCF checklist](https://github.com/virtfoundry/core/blob/main/docs/CNCF-CHECKLIST.md) |
 

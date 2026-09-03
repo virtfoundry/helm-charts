@@ -4,6 +4,15 @@ All notable changes to the **Helm chart and deploy tooling** are documented here
 
 Format based on [Keep a Changelog](https://keepachangelog.com/). Versioning: [SemVer](versioning.md).
 
+## [Unreleased]
+
+### Added
+
+- [Chart values](../guide/chart-values.md) — full default `values.yaml` on the docs site, why `--set` belongs on the Helm command
+- `platform.storage.defaultClass: auto` — select Longhorn when the StorageClass exists
+- `platform.networking.public.autoFromCluster` — fill CIDR/gateway/pool from Node InternalIP when you do not `--set` them
+- `scripts/detect-host-public-net.sh` — print a public-net values snippet from kubectl/host
+
 ## [0.7.0] - 2026-09-02
 
 ### Added

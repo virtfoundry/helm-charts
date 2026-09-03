@@ -22,6 +22,8 @@ helm install virtfoundry virtfoundry/virtfoundry --version 0.7.0 \
   --set secrets.jwtSecret='...'
 ```
 
+`--set` must be on this Helm command (chart values, not kubectl). Full defaults: [Chart values](chart-values.md).
+
 Optional values overlays (Gateway API, public networking, image tags) can be passed with `-f` on `helm upgrade --install`.
 
 ## GitHub Pages layout
