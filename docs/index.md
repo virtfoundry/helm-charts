@@ -172,7 +172,7 @@ Gateway API or Ingress profiles are configured via Helm values — see [Configur
 
 ## Adopters & CNCF
 
-Homelab adopters: **Matheus Thurler**, **Rodrigo Gonçalves** ([full list](https://github.com/virtfoundry/core/blob/main/ADOPTERS.md)).
+Homelab adopters: **Matheus Thurler**, **Weslei Paulo Pereira**, **Rodrigo Gonçalves** ([full list](https://github.com/virtfoundry/core/blob/main/ADOPTERS.md)).
 
 CNCF Sandbox readiness tracker: [CNCF-CHECKLIST.md](https://github.com/virtfoundry/core/blob/main/docs/CNCF-CHECKLIST.md) in `core`.
 
