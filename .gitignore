@@ -11,3 +11,4 @@ site/
 
 # Local homelab overrides — not published
 charts/virtfoundry/values-homelab.yaml
+mkdocs.local.yml
