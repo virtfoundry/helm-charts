@@ -1,0 +1,104 @@
+site_name: VirtFoundry
+site_description: Kubernetes-native IaaS control plane — KubeVirt, Multus, multi-tenant networking
+site_url: http://127.0.0.1:8000/
+repo_url: https://github.com/virtfoundry/helm-charts
+repo_name: virtfoundry/helm-charts
+edit_uri: edit/main/docs/
+
+theme:
+  name: material
+  custom_dir: overrides
+  language: en
+  logo: assets/logo.svg
+  favicon: assets/favicon.svg
+  font:
+    text: Inter
+    code: JetBrains Mono
+  palette:
+    - scheme: virtfoundry-light
+      primary: custom
+      accent: custom
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - scheme: virtfoundry-dark
+      primary: custom
+      accent: custom
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  features:
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.sections
+    - navigation.expand
+    - navigation.top
+    - navigation.footer
+    - navigation.indexes
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+    - content.code.annotate
+    - content.action.edit
+    - toc.follow
+
+plugins:
+  - search
+
+extra_css:
+  - stylesheets/extra.css
+
+extra_javascript:
+  - javascripts/carousel.js
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - md_in_html
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - tables
+  - toc:
+      permalink: true
+
+nav:
+  - Home: index.md
+  - Getting started:
+      - Platform prerequisites: guide/prerequisites.md
+      - Why VirtFoundry: guide/why.md
+      - Quickstart: guide/quickstart.md
+      - Kind (laptop): guide/kind.md
+      - Installation: guide/installation.md
+      - Topologies: guide/topologies.md
+      - Configuration: guide/configuration.md
+      - Helm repository: guide/helm-repository.md
+  - Features:
+      - Overview: guide/features/index.md
+      - Concepts and tenancy: guide/features/concepts.md
+      - Auth and IAM: guide/features/iam.md
+      - Service offerings: guide/features/offerings.md
+      - Images and templates: guide/features/templates.md
+      - Virtual machines: guide/features/vms.md
+      - Console and SSH: guide/features/access.md
+      - Volumes and snapshots: guide/features/storage.md
+      - VPCs and networks: guide/features/networking.md
+      - Security groups: guide/features/security-groups.md
+      - API quick reference: guide/features/api.md
+  - Project:
+      - Website / front door: project/website.md
+      - Versioning: project/versioning.md
+      - Changelog: project/changelog.md
+      - Governance: project/governance.md
+      - Sponsorship: project/sponsorship.md
+
+extra:
+  generator: false
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/virtfoundry/core
+      name: VirtFoundry on GitHub
