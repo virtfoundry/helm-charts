@@ -163,6 +163,34 @@ Images default to `ghcr.io/virtfoundry/core:0.7.0`, `ui:0.7.0`, and `operator:0.
 
 ---
 
+## Why `--set` is on the Helm command
+
+`--set` is a **Helm** flag. It must appear on the same `helm install` / `helm upgrade` line as the chart. It does not work as a follow-up kubectl command.
+
+- **Must override at install:** `secrets.rootPassword`, `secrets.jwtSecret` (defaults in the chart are lab-only).
+- **Usually omit:** public IP CIDR — see below. Storage class — `auto` picks Longhorn when it exists.
+- **Prefer `-f`:** anything more than two keys. Written defaults: [Chart values](chart-values.md).
+
+---
+
+### Longhorn — recommended storage (not bundled)
+
+VirtFoundry never ships disks. `platform.storage.defaultClass: auto` selects **`longhorn`** if that StorageClass is already on the cluster, otherwise the cluster default, otherwise `local-path`.
+
+Install [Longhorn](https://longhorn.io/) first if you want replicated VM disks and **volume** snapshots. `local-path` is fine for a first VM; volume snapshots need CSI (Longhorn provides that). Pin the class with `--set platform.storage.defaultClass=longhorn` if auto is not enough.
+
+---
+
+### Public IP — optional; homelab can inherit the node LAN
+
+Leave public **unset** (`enabled: false`, chart default) to install the UI. VMs stay on the pod network.
+
+If you enable public later, CIDR/gateway/pool default to the first **Node InternalIP** (`autoFromCluster: true`) so a single-LAN homelab does not invent `10.0.50.0/24`. That is the **Kubernetes** address, not a VLAN. Dedicated VM VLANs (this project's homelab uses `10.0.50.0/24` on `enp3s0.50`) must set CIDR by hand and `autoFromCluster: false`. Auto never sets `uplink` (that would steal the kubelet NIC).
+
+Script: `scripts/detect-host-public-net.sh`. Full values: [Chart values](chart-values.md). Underlay choices: [Topologies](topologies.md#public-network-underlay).
+
+---
+
 ## Install from git clone
 
 ```bash
@@ -215,4 +243,5 @@ You should see `virtfoundry-operator` and `virtfoundry-api` Running, Instance CR
 
 - [Quickstart](quickstart.md) — under-30-minute UI + first VM path
 - [Configuration](configuration.md) — Helm values and networking (includes `platform.storage.snapshotClass`)
+- [Chart values (defaults)](chart-values.md) — full `values.yaml`, why `--set`, Longhorn and public IP
 - [Helm repository](helm-repository.md) — publishing and consuming chart releases

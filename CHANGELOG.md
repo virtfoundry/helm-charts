@@ -2,6 +2,10 @@
 
 See [docs/project/changelog.md](docs/project/changelog.md) for the full release history (published on GitHub Pages).
 
+## [Unreleased]
+
+Docs: chart default values page. Chart: storage class `auto` (Longhorn if present). Public CIDR can inherit Node InternalIP (`autoFromCluster`). Script `scripts/detect-host-public-net.sh`.
+
 ## [0.7.0] - 2026-09-02
 
 Charts `0.7.0`. New [Platform prerequisites](docs/guide/prerequisites.md) guide with KubeVirt, Multus, CDI, Longhorn, MetalLB, CSI snapshotter install links. Docs version bump; no MySQL references.

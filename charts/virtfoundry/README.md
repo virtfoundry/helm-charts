@@ -35,7 +35,7 @@ From a git clone: `helm install virtfoundry ./charts/virtfoundry ...`
 
 | File | Use case |
 |------|----------|
-| `values.yaml` | Default — Ingress, CRD store, GHCR image tags |
+| `values.yaml` | Default — Ingress, CRD store, GHCR image tags; storage `auto`; public CIDR can follow Node InternalIP |
 | `values-kind.yaml` | Kind / laptop — NodePort 8080 |
 | `values-gateway.yaml` | Gateway API HTTPRoute example |
 | `values-homelab.yaml` | Reference homelab overlay (Gateway + public net) |

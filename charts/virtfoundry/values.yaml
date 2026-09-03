@@ -66,6 +66,9 @@ platform:
     # Public/shared network for tenant VMs (Multus bridge or macvlan — configured per site).
     public:
       enabled: false
+      # When true, empty/"auto" cidr, gateway, and ipPool are filled from the first
+      # Node InternalIP (/24, gateway .1, pool .20–.80). Never sets uplink.
+      autoFromCluster: true
       mode: bridge                    # bridge | macvlan
       cidr: 10.0.50.0/24
       gateway: 10.0.50.254
@@ -102,10 +105,11 @@ platform:
       namespace: kube-system          # DaemonSet namespace for bridge setup
       repairIntervalSeconds: 15       # bridge-keeper auto-repair loop
   storage:
-    # Chart default is local-path for easy labs; prefer longhorn in real clusters.
-    defaultClass: local-path       # preferred: longhorn (or ceph-rbd, nfs-client, …)
-    # VolumeSnapshotClass for CSI volume snapshots. Empty = use cluster default class.
-    snapshotClass: ""              # e.g. longhorn
+    # auto = Longhorn if the StorageClass exists, else the cluster default, else local-path.
+    # helm template / CI (no cluster) falls back to local-path.
+    defaultClass: auto
+    # VolumeSnapshotClass. Empty = longhorn when defaultClass resolves to longhorn, else cluster default.
+    snapshotClass: ""
     windowsBootSizeGi: 32
     windowsISOSizeGi: 8
   kubevirt:

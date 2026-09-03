@@ -21,7 +21,7 @@ Operational helpers for bare-metal and air-gapped installs. **Not required** for
 | [`setup/multus.sh`](setup/multus.sh) | Install or verify Multus CNI |
 | [`setup/cdi.sh`](setup/cdi.sh) | Install CDI for ISO/DataVolume imports |
 | [`sideload/ssh.sh`](sideload/ssh.sh) | Import images via SSH + `ctr` |
-| [`sideload/import-pod.yaml`](sideload/import-pod.yaml) | Privileged pod sideload fallback |
+| [`detect-host-public-net.sh`](detect-host-public-net.sh) | Print a `platform.networking.public` values snippet from Node InternalIP / host default route |
 
 ## Usage
 

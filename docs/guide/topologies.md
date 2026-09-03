@@ -20,7 +20,7 @@ Single node, home router only (no managed switch), `local-path`, port-forward to
 
 Multi-worker, **Longhorn** (preferred) or other replicated block storage, Ingress/Gateway + LB, tenant VPC + public/shared network, CSI volume snapshots and optional observability.
 
-Set `platform.storage.defaultClass=longhorn` and make Longhorn the cluster default StorageClass.
+Set `platform.storage.defaultClass=auto` (default) or `longhorn`, and make Longhorn the cluster default StorageClass if you want other workloads on it too.
 
 ![VirtFoundry production recommended](../diagrams/virtfoundry-prod-recommended.svg)
 
@@ -34,6 +34,8 @@ Set `platform.storage.defaultClass=longhorn` and make Longhorn the cluster defau
 ## Public network underlay
 
 `platform.networking.public` gives VMs a **second NIC** on a Linux bridge (`vf-pub0` by default) plus a static IP from `ipPool` (cloud-init). Kubernetes node IPs, SSH, and the CNI stay on whatever network they already use.
+
+You do **not** need `--set` for public CIDR on a single-LAN homelab: with `autoFromCluster: true` the chart copies a `/24` from Node InternalIP. That is **not** a substitute for `enabled: true` + a safe `uplink` (never the kubelet NIC). VLAN beside Kubernetes: set CIDR yourself and `autoFromCluster: false`. Script: `scripts/detect-host-public-net.sh`. Written defaults: [Chart values](chart-values.md).
 
 You do **not** need a VLAN. On a laptop the worked example is **[Kind](kind.md)** (public off, or a second Docker network). On metal, use a VLAN **or** the house LAN.
 
