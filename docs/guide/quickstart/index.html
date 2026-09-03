@@ -407,6 +407,8 @@
       
         
       
+        
+      
     
     
     
@@ -790,6 +792,34 @@
     
   
     Configuration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chart-values/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chart values (defaults)
   
 
     
@@ -1623,12 +1653,16 @@ helm<span class="w"> </span>install<span class="w"> </span>virtfoundry<span clas
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>-n<span class="w"> </span>virtfoundry-system<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span>-w
 kubectl<span class="w"> </span>get<span class="w"> </span>crd<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>virtfoundry.io
 </code></pre></div>
-<p>Optional — set the CSI snapshot class used by the Volume Snapshots UI (Longhorn example):</p>
+<div class="admonition note">
+<p class="admonition-title">Helm <code>--set</code> is not optional for secrets</p>
+<p><code>secrets.rootPassword</code> and <code>secrets.jwtSecret</code> must be passed on <strong>this same</strong> <code>helm install</code> (or via <code>-f</code>). They are chart values, not extra kubectl steps. Public CIDR and StorageClass do <strong>not</strong> need <code>--set</code> on a typical homelab: storage <code>auto</code> selects Longhorn when present; public stays off unless you enable it. Details: <a href="../chart-values/">Chart values</a>.</p>
+</div>
+<p>Optional — pin the CSI snapshot class (only if auto did not pick Longhorn):</p>
 <div class="highlight"><pre><span></span><code>helm<span class="w"> </span>upgrade<span class="w"> </span>virtfoundry<span class="w"> </span>virtfoundry/virtfoundry<span class="w"> </span>-n<span class="w"> </span>virtfoundry-system<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--reuse-values<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--set<span class="w"> </span>platform.storage.snapshotClass<span class="o">=</span>longhorn
 </code></pre></div>
-<p>Empty <code>snapshotClass</code> uses the cluster default <code>VolumeSnapshotClass</code> when one is marked default.</p>
+<p>Empty <code>snapshotClass</code> uses Longhorn when that is the resolved default class, otherwise the cluster default <code>VolumeSnapshotClass</code>.</p>
 <hr />
 <h2 id="2-expose-the-ui-510-min">2. Expose the UI (~5–10 min)<a class="headerlink" href="#2-expose-the-ui-510-min" title="Permanent link">&para;</a></h2>
 <p>Pick <strong>one</strong> path.</p>
@@ -1694,8 +1728,8 @@ kubectl<span class="w"> </span>get<span class="w"> </span>vm<span class="w"> </s
 <td><a href="../kind/">Kind</a></td>
 </tr>
 <tr>
-<td>Helm values (public net, snapshots)</td>
-<td><a href="../configuration/">Configuration</a></td>
+<td>Helm values (public net, snapshots, <strong>defaults</strong>)</td>
+<td><a href="../configuration/">Configuration</a> · <a href="../chart-values/">Chart values</a></td>
 </tr>
 <tr>
 <td>Why VirtFoundry vs Proxmox</td>

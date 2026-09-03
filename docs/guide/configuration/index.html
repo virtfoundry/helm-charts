@@ -16,7 +16,7 @@
         <link rel="prev" href="../topologies/">
       
       
-        <link rel="next" href="../helm-repository/">
+        <link rel="next" href="../chart-values/">
       
       
         
@@ -390,6 +390,8 @@
   
     
     
+      
+        
       
         
       
@@ -820,6 +822,34 @@
   
 </nav>
       
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chart-values/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chart values (defaults)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
     </li>
   
 
@@ -1702,7 +1732,11 @@ kubectl<span class="w"> </span>get<span class="w"> </span>vf-tenant
 kubectl<span class="w"> </span>get<span class="w"> </span>vf-instance<span class="w"> </span>-A
 </code></pre></div>
 <h2 id="public-networking">Public networking<a class="headerlink" href="#public-networking" title="Permanent link">&para;</a></h2>
-<p>Enable routable VM IPs on a host bridge + Multus NAD. VLAN tagging is optional — laptop walkthrough: <a href="../kind/">Kind</a>; real nodes: <a href="../topologies/#public-network-underlay">Topologies — public underlay</a>.</p>
+<p>Enable routable VM IPs on a host bridge + Multus NAD. VLAN tagging is optional — laptop walkthrough: <a href="../kind/">Kind</a>; real nodes: <a href="../topologies/#public-network-underlay">Topologies — public underlay</a>. Written chart defaults: <a href="../chart-values/">Chart values</a>.</p>
+<p>If you <strong>do not</strong> <code>--set</code> public CIDR/gateway, <code>autoFromCluster: true</code> copies a <code>/24</code> from the first Node <strong>InternalIP</strong> (kubelet address), gateway <code>.1</code>, pool <code>.20–.80</code>. Public stays <strong>disabled</strong> until you set <code>public.enabled: true</code>. Auto never sets <code>uplink</code>.</p>
+<p>Same LAN as Kubernetes (typical small homelab): enable public only after a second NIC or existing <code>br0</code>. <strong>Different VLAN than Node InternalIP</strong> (example: nodes <code>10.0.30.0/24</code>, VMs <code>10.0.50.0/24</code>): set <code>autoFromCluster: false</code> and write the VLAN CIDR (<code>values-homelab.yaml</code>).</p>
+<div class="highlight"><pre><span></span><code>./scripts/detect-host-public-net.sh<span class="w">   </span><span class="c1"># values snippet from kubectl/host</span>
+</code></pre></div>
 <table>
 <thead>
 <tr>
@@ -1718,9 +1752,14 @@ kubectl<span class="w"> </span>get<span class="w"> </span>vf-instance<span class
 <td>Shared public network</td>
 </tr>
 <tr>
+<td><code>public.autoFromCluster</code></td>
+<td><code>true</code></td>
+<td>Fill empty/default CIDR, gateway, pool, DNS from Node InternalIP</td>
+</tr>
+<tr>
 <td><code>public.cidr</code></td>
 <td><code>10.0.50.0/24</code></td>
-<td>L3 CIDR — VLAN subnet <strong>or</strong> the house LAN</td>
+<td>Fallback when auto cannot see the API; L3 CIDR — VLAN <strong>or</strong> house LAN</td>
 </tr>
 <tr>
 <td><code>public.gateway</code></td>
@@ -1790,8 +1829,8 @@ kubectl<span class="w"> </span>get<span class="w"> </span>vf-instance<span class
 <tbody>
 <tr>
 <td><code>storage.defaultClass</code></td>
-<td><code>local-path</code></td>
-<td>Chart default for easy labs; <strong>prefer <code>longhorn</code> in real clusters</strong></td>
+<td><code>auto</code></td>
+<td>Longhorn if present, else cluster default, else <code>local-path</code></td>
 </tr>
 <tr>
 <td><code>storage.snapshotClass</code></td>
@@ -1816,8 +1855,8 @@ kubectl<span class="w"> </span>get<span class="w"> </span>volumesnapshotclass
 </code></pre></div>
 <div class="highlight"><pre><span></span><code><span class="nt">platform</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">storage</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">defaultClass</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">longhorn</span><span class="w">   </span><span class="c1"># preferred; or ceph-rbd, nfs-client, standard, …</span>
-<span class="w">    </span><span class="nt">snapshotClass</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">longhorn</span><span class="w">  </span><span class="c1"># or leave empty to use the default VolumeSnapshotClass</span>
+<span class="w">    </span><span class="nt">defaultClass</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">auto</span><span class="w">       </span><span class="c1"># or longhorn / ceph-rbd / local-path</span>
+<span class="w">    </span><span class="nt">snapshotClass</span><span class="p">:</span><span class="w"> </span><span class="s">""</span><span class="w">        </span><span class="c1"># empty → longhorn when default resolves to longhorn</span>
 <span class="w">    </span><span class="nt">windowsBootSizeGi</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">32</span>
 <span class="w">    </span><span class="nt">windowsISOSizeGi</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">8</span>
 </code></pre></div>
@@ -1851,11 +1890,6 @@ kubectl<span class="w"> </span>get<span class="w"> </span>volumesnapshotclass
 <td>Container-disk templates</td>
 <td>—</td>
 <td>Image pulled as <code>containerDisk</code>; no PVC for the OS image</td>
-</tr>
-<tr>
-<td>Embedded MySQL (chart)</td>
-<td><strong>Cluster default</strong> StorageClass</td>
-<td>Chart PVC has no <code>storageClassName</code> yet — set cluster default or patch chart</td>
 </tr>
 <tr>
 <td>Tenant volumes (<code>/volumes</code> UI)</td>
@@ -1940,7 +1974,7 @@ kubectl<span class="w"> </span>get<span class="w"> </span>storageclass
 make<span class="w"> </span>render-local-config<span class="w"> </span><span class="nv">VALUES</span><span class="o">=</span>./charts/virtfoundry/values.yaml
 </code></pre></div>
 <h2 id="secrets">Secrets<a class="headerlink" href="#secrets" title="Permanent link">&para;</a></h2>
-<p>Never commit production secrets. Prefer:</p>
+<p>Never commit production secrets. Pass them on the <strong>same</strong> Helm command as the chart (<code>--set</code> or <code>-f</code>). See <a href="../chart-values/">Chart values</a>.</p>
 <div class="highlight"><pre><span></span><code>helm<span class="w"> </span>upgrade<span class="w"> </span>--install<span class="w"> </span>virtfoundry<span class="w"> </span>./charts/virtfoundry<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--set<span class="w"> </span>secrets.jwtSecret<span class="o">=</span><span class="s1">'...'</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--set<span class="w"> </span>secrets.rootPassword<span class="o">=</span><span class="s1">'...'</span>
@@ -1997,13 +2031,13 @@ make<span class="w"> </span>render-local-config<span class="w"> </span><span cla
         
         
           
-          <a href="../helm-repository/" class="md-footer__link md-footer__link--next" aria-label="Next: Helm repository">
+          <a href="../chart-values/" class="md-footer__link md-footer__link--next" aria-label="Next: Chart values (defaults)">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 Next
               </span>
               <div class="md-ellipsis">
-                Helm repository
+                Chart values (defaults)
               </div>
             </div>
             <div class="md-footer__button md-icon">

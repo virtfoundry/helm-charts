@@ -407,6 +407,8 @@
       
         
       
+        
+      
     
     
     
@@ -717,6 +719,45 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#why-set-is-on-the-helm-command" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why --set is on the Helm command
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Why --set is on the Helm command">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#longhorn-recommended-storage-not-bundled" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Longhorn — recommended storage (not bundled)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#public-ip-optional-homelab-can-inherit-the-node-lan" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Public IP — optional; homelab can inherit the node LAN
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#install-from-git-clone" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -812,6 +853,34 @@
     
   
     Configuration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chart-values/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chart values (defaults)
   
 
     
@@ -1559,6 +1628,45 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#why-set-is-on-the-helm-command" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why --set is on the Helm command
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Why --set is on the Helm command">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#longhorn-recommended-storage-not-bundled" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Longhorn — recommended storage (not bundled)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#public-ip-optional-homelab-can-inherit-the-node-lan" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Public IP — optional; homelab can inherit the node LAN
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#install-from-git-clone" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1829,6 +1937,23 @@ helm<span class="w"> </span>install<span class="w"> </span>virtfoundry<span clas
 </code></pre></div>
 <p>Images default to <code>ghcr.io/virtfoundry/core:0.7.0</code>, <code>ui:0.7.0</code>, and <code>operator:0.7.0</code>.</p>
 <hr />
+<h2 id="why-set-is-on-the-helm-command">Why <code>--set</code> is on the Helm command<a class="headerlink" href="#why-set-is-on-the-helm-command" title="Permanent link">&para;</a></h2>
+<p><code>--set</code> is a <strong>Helm</strong> flag. It must appear on the same <code>helm install</code> / <code>helm upgrade</code> line as the chart. It does not work as a follow-up kubectl command.</p>
+<ul>
+<li><strong>Must override at install:</strong> <code>secrets.rootPassword</code>, <code>secrets.jwtSecret</code> (defaults in the chart are lab-only).</li>
+<li><strong>Usually omit:</strong> public IP CIDR — see below. Storage class — <code>auto</code> picks Longhorn when it exists.</li>
+<li><strong>Prefer <code>-f</code>:</strong> anything more than two keys. Written defaults: <a href="../chart-values/">Chart values</a>.</li>
+</ul>
+<hr />
+<h3 id="longhorn-recommended-storage-not-bundled">Longhorn — recommended storage (not bundled)<a class="headerlink" href="#longhorn-recommended-storage-not-bundled" title="Permanent link">&para;</a></h3>
+<p>VirtFoundry never ships disks. <code>platform.storage.defaultClass: auto</code> selects <strong><code>longhorn</code></strong> if that StorageClass is already on the cluster, otherwise the cluster default, otherwise <code>local-path</code>.</p>
+<p>Install <a href="https://longhorn.io/">Longhorn</a> first if you want replicated VM disks and <strong>volume</strong> snapshots. <code>local-path</code> is fine for a first VM; volume snapshots need CSI (Longhorn provides that). Pin the class with <code>--set platform.storage.defaultClass=longhorn</code> if auto is not enough.</p>
+<hr />
+<h3 id="public-ip-optional-homelab-can-inherit-the-node-lan">Public IP — optional; homelab can inherit the node LAN<a class="headerlink" href="#public-ip-optional-homelab-can-inherit-the-node-lan" title="Permanent link">&para;</a></h3>
+<p>Leave public <strong>unset</strong> (<code>enabled: false</code>, chart default) to install the UI. VMs stay on the pod network.</p>
+<p>If you enable public later, CIDR/gateway/pool default to the first <strong>Node InternalIP</strong> (<code>autoFromCluster: true</code>) so a single-LAN homelab does not invent <code>10.0.50.0/24</code>. That is the <strong>Kubernetes</strong> address, not a VLAN. Dedicated VM VLANs (this project's homelab uses <code>10.0.50.0/24</code> on <code>enp3s0.50</code>) must set CIDR by hand and <code>autoFromCluster: false</code>. Auto never sets <code>uplink</code> (that would steal the kubelet NIC).</p>
+<p>Script: <code>scripts/detect-host-public-net.sh</code>. Full values: <a href="../chart-values/">Chart values</a>. Underlay choices: <a href="../topologies/#public-network-underlay">Topologies</a>.</p>
+<hr />
 <h2 id="install-from-git-clone">Install from git clone<a class="headerlink" href="#install-from-git-clone" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/virtfoundry/helm-charts.git
 <span class="nb">cd</span><span class="w"> </span>helm-charts
@@ -1866,6 +1991,7 @@ kubectl<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> <
 <ul>
 <li><a href="../quickstart/">Quickstart</a> — under-30-minute UI + first VM path</li>
 <li><a href="../configuration/">Configuration</a> — Helm values and networking (includes <code>platform.storage.snapshotClass</code>)</li>
+<li><a href="../chart-values/">Chart values (defaults)</a> — full <code>values.yaml</code>, why <code>--set</code>, Longhorn and public IP</li>
 <li><a href="../helm-repository/">Helm repository</a> — publishing and consuming chart releases</li>
 </ul>
 

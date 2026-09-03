@@ -407,6 +407,8 @@
       
         
       
+        
+      
     
     
     
@@ -757,6 +759,34 @@
     
   
     Configuration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chart-values/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chart values (defaults)
   
 
     
@@ -1560,7 +1590,7 @@
 </table>
 <h2 id="production-recommended">Production recommended<a class="headerlink" href="#production-recommended" title="Permanent link">&para;</a></h2>
 <p>Multi-worker, <strong>Longhorn</strong> (preferred) or other replicated block storage, Ingress/Gateway + LB, tenant VPC + public/shared network, CSI volume snapshots and optional observability.</p>
-<p>Set <code>platform.storage.defaultClass=longhorn</code> and make Longhorn the cluster default StorageClass.</p>
+<p>Set <code>platform.storage.defaultClass=auto</code> (default) or <code>longhorn</code>, and make Longhorn the cluster default StorageClass if you want other workloads on it too.</p>
 <p><img alt="VirtFoundry production recommended" src="../../diagrams/virtfoundry-prod-recommended.svg" /></p>
 <table>
 <thead>
@@ -1595,6 +1625,7 @@
 </table>
 <h2 id="public-network-underlay">Public network underlay<a class="headerlink" href="#public-network-underlay" title="Permanent link">&para;</a></h2>
 <p><code>platform.networking.public</code> gives VMs a <strong>second NIC</strong> on a Linux bridge (<code>vf-pub0</code> by default) plus a static IP from <code>ipPool</code> (cloud-init). Kubernetes node IPs, SSH, and the CNI stay on whatever network they already use.</p>
+<p>You do <strong>not</strong> need <code>--set</code> for public CIDR on a single-LAN homelab: with <code>autoFromCluster: true</code> the chart copies a <code>/24</code> from Node InternalIP. That is <strong>not</strong> a substitute for <code>enabled: true</code> + a safe <code>uplink</code> (never the kubelet NIC). VLAN beside Kubernetes: set CIDR yourself and <code>autoFromCluster: false</code>. Script: <code>scripts/detect-host-public-net.sh</code>. Written defaults: <a href="../chart-values/">Chart values</a>.</p>
 <p>You do <strong>not</strong> need a VLAN. On a laptop the worked example is <strong><a href="../kind/">Kind</a></strong> (public off, or a second Docker network). On metal, use a VLAN <strong>or</strong> the house LAN.</p>
 <p>The shared NAD is always CNI type <strong><code>bridge</code></strong>. Helm <code>public.mode: macvlan</code> is not a working NAD yet — do not use it to avoid bridging.</p>
 <p><strong>Never</strong> set <code>public.bridge.uplink</code> to the interface that holds the Kubernetes node IP, unless that NIC is already a port of a Linux bridge that <em>owns</em> the node address. Bridge-keeper runs <code>ip link set &lt;uplink&gt; master vf-pub0</code> and will drop SSH/kubelet. On kind that interface is <strong><code>eth0</code></strong>.</p>

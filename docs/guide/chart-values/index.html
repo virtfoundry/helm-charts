@@ -10,13 +10,13 @@
       
       
       
-        <link rel="canonical" href="https://virtfoundry.github.io/helm-charts/docs/guide/helm-repository/">
+        <link rel="canonical" href="https://virtfoundry.github.io/helm-charts/docs/guide/chart-values/">
       
       
-        <link rel="prev" href="../chart-values/">
+        <link rel="prev" href="../configuration/">
       
       
-        <link rel="next" href="../features/">
+        <link rel="next" href="../helm-repository/">
       
       
         
@@ -27,7 +27,7 @@
     
     
       
-        <title>Helm repository - VirtFoundry</title>
+        <title>Chart values (defaults) - VirtFoundry</title>
       
     
     
@@ -80,7 +80,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#helm-repository" class="md-skip">
+        <a href="#chart-values-defaults" class="md-skip">
           Skip to content
         </a>
       
@@ -115,7 +115,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Helm repository
+              Chart values (defaults)
             
           </span>
         </div>
@@ -657,34 +657,6 @@
                 
   
   
-  
-  
-    <li class="md-nav__item">
-      <a href="../chart-values/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Chart values (defaults)
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
     
   
   
@@ -704,7 +676,7 @@
   <span class="md-ellipsis">
     
   
-    Helm repository
+    Chart values (defaults)
   
 
     
@@ -722,7 +694,7 @@
   <span class="md-ellipsis">
     
   
-    Helm repository
+    Chart values (defaults)
   
 
     
@@ -748,10 +720,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#user-install" class="md-nav__link">
+  <a href="#why-set-goes-on-the-helm-command" class="md-nav__link">
     <span class="md-ellipsis">
       
-        User install
+        Why --set goes on the Helm command
       
     </span>
   </a>
@@ -759,10 +731,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#github-pages-layout" class="md-nav__link">
+  <a href="#longhorn-storage" class="md-nav__link">
     <span class="md-ellipsis">
       
-        GitHub Pages layout
+        Longhorn (storage)
       
     </span>
   </a>
@@ -770,10 +742,32 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#maintainer-publish-a-release" class="md-nav__link">
+  <a href="#public-ip-optional-lan-vlan" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Maintainer: publish a release
+        Public IP (optional LAN / VLAN)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#default-values-virtfoundry-api-ui" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Default values — virtfoundry (API + UI)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#default-values-virtfoundry-operator" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Default values — virtfoundry-operator
       
     </span>
   </a>
@@ -784,6 +778,34 @@
   
 </nav>
       
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../helm-repository/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Helm repository
+  
+
+    
+  </span>
+  
+  
+
+      </a>
     </li>
   
 
@@ -1412,10 +1434,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#user-install" class="md-nav__link">
+  <a href="#why-set-goes-on-the-helm-command" class="md-nav__link">
     <span class="md-ellipsis">
       
-        User install
+        Why --set goes on the Helm command
       
     </span>
   </a>
@@ -1423,10 +1445,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#github-pages-layout" class="md-nav__link">
+  <a href="#longhorn-storage" class="md-nav__link">
     <span class="md-ellipsis">
       
-        GitHub Pages layout
+        Longhorn (storage)
       
     </span>
   </a>
@@ -1434,10 +1456,32 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#maintainer-publish-a-release" class="md-nav__link">
+  <a href="#public-ip-optional-lan-vlan" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Maintainer: publish a release
+        Public IP (optional LAN / VLAN)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#default-values-virtfoundry-api-ui" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Default values — virtfoundry (API + UI)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#default-values-virtfoundry-operator" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Default values — virtfoundry-operator
       
     </span>
   </a>
@@ -1461,7 +1505,7 @@
 
 
   
-    <a href="https://github.com/virtfoundry/helm-charts/edit/main/docs/guide/helm-repository.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+    <a href="https://github.com/virtfoundry/helm-charts/edit/main/docs/guide/chart-values.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
     </a>
@@ -1469,75 +1513,235 @@
   
 
 
-<h1 id="helm-repository">Helm repository<a class="headerlink" href="#helm-repository" title="Permanent link">&para;</a></h1>
-<p>The chart is published to <strong>GitHub Pages</strong> when a git tag <code>v*</code> is pushed.</p>
-<h2 id="user-install">User install<a class="headerlink" href="#user-install" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code>helm<span class="w"> </span>repo<span class="w"> </span>add<span class="w"> </span>virtfoundry<span class="w"> </span>https://virtfoundry.github.io/helm-charts
-helm<span class="w"> </span>repo<span class="w"> </span>update
-helm<span class="w"> </span>search<span class="w"> </span>repo<span class="w"> </span>virtfoundry/virtfoundry<span class="w"> </span>--versions
-</code></pre></div>
-<p><strong>Prerequisites on the cluster:</strong> KubeVirt, Multus, CDI (ISO/import), StorageClass, Ingress or Gateway API — see <a href="../installation/#prerequisites-overview">Installation</a>. Then install a specific chart version (operator first):</p>
-<div class="highlight"><pre><span></span><code>helm<span class="w"> </span>install<span class="w"> </span>virtfoundry-operator<span class="w"> </span>virtfoundry/virtfoundry-operator<span class="w"> </span>--version<span class="w"> </span><span class="m">0</span>.7.0<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--namespace<span class="w"> </span>virtfoundry-system<span class="w"> </span>--create-namespace
-
-helm<span class="w"> </span>install<span class="w"> </span>virtfoundry<span class="w"> </span>virtfoundry/virtfoundry<span class="w"> </span>--version<span class="w"> </span><span class="m">0</span>.7.0<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--namespace<span class="w"> </span>virtfoundry-system<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--set<span class="w"> </span>secrets.rootPassword<span class="o">=</span><span class="s1">'...'</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--set<span class="w"> </span>secrets.jwtSecret<span class="o">=</span><span class="s1">'...'</span>
-</code></pre></div>
-<p><code>--set</code> must be on this Helm command (chart values, not kubectl). Full defaults: <a href="../chart-values/">Chart values</a>.</p>
-<p>Optional values overlays (Gateway API, public networking, image tags) can be passed with <code>-f</code> on <code>helm upgrade --install</code>.</p>
-<h2 id="github-pages-layout">GitHub Pages layout<a class="headerlink" href="#github-pages-layout" title="Permanent link">&para;</a></h2>
+<h1 id="chart-values-defaults">Chart values (defaults)<a class="headerlink" href="#chart-values-defaults" title="Permanent link">&para;</a></h1>
+<p>This page is the <strong>written default</strong> for the Helm charts. Helm only applies values <strong>at install or upgrade</strong>. Flags like <code>--set</code> must sit on <strong>the same</strong> <code>helm install</code> / <code>helm upgrade</code> command as the chart — they are not kubectl args and they are not remembered unless you pass <code>--reuse-values</code> on the next upgrade.</p>
+<p>Full source in git (always in sync with the chart):</p>
+<ul>
+<li><a href="https://github.com/virtfoundry/helm-charts/blob/main/charts/virtfoundry/values.yaml"><code>charts/virtfoundry/values.yaml</code></a> — API + UI</li>
+<li><a href="https://github.com/virtfoundry/helm-charts/blob/main/charts/virtfoundry-operator/values.yaml"><code>charts/virtfoundry-operator/values.yaml</code></a> — CRDs + operator</li>
+</ul>
+<h2 id="why-set-goes-on-the-helm-command">Why <code>--set</code> goes on the Helm command<a class="headerlink" href="#why-set-goes-on-the-helm-command" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
 <tr>
-<th>Path</th>
-<th>Content</th>
+<th>Mechanism</th>
+<th>When it applies</th>
+<th>Use for</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>https://virtfoundry.github.io/helm-charts/</code></td>
-<td>Helm <code>index.yaml</code> (<code>.tgz</code> packages are GitHub Release assets)</td>
+<td>Chart <code>values.yaml</code> (below)</td>
+<td>Every install unless overridden</td>
+<td>Safe defaults</td>
 </tr>
 <tr>
-<td><code>https://virtfoundry.github.io/helm-charts/docs/</code></td>
-<td>MkDocs documentation (this site)</td>
+<td><code>-f my-values.yaml</code></td>
+<td>Same Helm command</td>
+<td>Homelab / GitOps overlays</td>
+</tr>
+<tr>
+<td><code>--set key=value</code></td>
+<td>Same Helm command</td>
+<td>Secrets and one-off overrides</td>
+</tr>
+<tr>
+<td><code>kubectl edit</code> / env on a pod</td>
+<td>After install, until the next Helm sync</td>
+<td>Emergency only — Helm will overwrite</td>
 </tr>
 </tbody>
 </table>
-<p>Both live on the <strong><code>gh-pages</code></strong> branch: chart-releaser writes <code>index.yaml</code> at the root; the Docs workflow publishes MkDocs under <code>docs/</code>. Chart packages <code>1.x</code> were yanked from the index (git tags <code>v1.x</code> remain).</p>
-<div class="admonition warning">
-<p class="admonition-title">One-time setup: enable Pages</p>
-<p>If <code>/docs/</code> returns <strong>404</strong> but CI succeeded, GitHub Pages is probably disabled. Enable it once in the repo:</p>
-<p><strong>Settings → Pages → Build and deployment → Source:</strong> Deploy from a branch → <strong><code>gh-pages</code></strong> / <strong><code>/ (root)</code></strong></p>
-<p>Or via CLI (repo admin):</p>
-<div class="highlight"><pre><span></span><code>gh<span class="w"> </span>api<span class="w"> </span>repos/virtfoundry/helm-charts/pages<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>--input<span class="w"> </span>-<span class="w"> </span><span class="s">&lt;&lt;'EOF'</span>
-<span class="s">{</span>
-<span class="s">  "build_type": "legacy",</span>
-<span class="s">  "source": { "branch": "gh-pages", "path": "/" }</span>
-<span class="s">}</span>
-<span class="s">EOF</span>
+<p><code>--set secrets.rootPassword=…</code> and <code>--set secrets.jwtSecret=…</code> belong next to <code>helm install virtfoundry …</code> because those keys live in the <strong>chart</strong>. A later <code>kubectl set env</code> is not the source of truth.</p>
+<p>Prefer a file for anything larger than two secrets:</p>
+<div class="highlight"><pre><span></span><code>helm<span class="w"> </span>install<span class="w"> </span>virtfoundry<span class="w"> </span>virtfoundry/virtfoundry<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--version<span class="w"> </span><span class="m">0</span>.7.0<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--namespace<span class="w"> </span>virtfoundry-system<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-f<span class="w"> </span>my-values.yaml<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--set<span class="w"> </span>secrets.rootPassword<span class="o">=</span><span class="s1">'change-me'</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--set<span class="w"> </span>secrets.jwtSecret<span class="o">=</span><span class="s1">'change-me-long-random'</span>
 </code></pre></div>
-<p>First deploy can take 1–2 minutes after enabling.</p>
-</div>
-<h2 id="maintainer-publish-a-release">Maintainer: publish a release<a class="headerlink" href="#maintainer-publish-a-release" title="Permanent link">&para;</a></h2>
-<ol>
-<li>Bump <code>version</code> and <code>appVersion</code> in <code>charts/virtfoundry/Chart.yaml</code></li>
-<li>Update <code>CHANGELOG.md</code> and default image tags in <code>values.yaml</code></li>
-<li>Merge to <code>main</code></li>
-<li>Tag both <strong>virtfoundry</strong> and <strong>helm-charts</strong>:</li>
-</ol>
-<div class="highlight"><pre><span></span><code>git<span class="w"> </span>tag<span class="w"> </span>v0.7.0
-git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>v0.7.0
+<p><code>helm upgrade … --reuse-values</code> keeps previous <code>--set</code> / <code>-f</code> unless you override them.</p>
+<h2 id="longhorn-storage">Longhorn (storage)<a class="headerlink" href="#longhorn-storage" title="Permanent link">&para;</a></h2>
+<p>VirtFoundry does <strong>not</strong> install a disk backend. VM disks are Kubernetes PVCs on whatever <strong>StorageClass</strong> you point at.</p>
+<ul>
+<li>Chart key <code>platform.storage.defaultClass: auto</code> (default): at <strong>install time</strong> Helm looks at the cluster. If a StorageClass named <code>longhorn</code> exists, it is used. Else the StorageClass marked default. Else <code>local-path</code>.</li>
+<li><strong><a href="https://longhorn.io/">Longhorn</a></strong> is what we recommend on a real homelab: replicated block, CSI <strong>volume</strong> snapshots, disks that survive losing a worker. <code>local-path</code> is a demo class — volume snapshots will fail.</li>
+<li>You still install Longhorn <strong>before</strong> VirtFoundry (<a href="../prerequisites/">prerequisites</a>). The chart only <em>selects</em> the class; it does not deploy Longhorn.</li>
+<li>Force a class: <code>--set platform.storage.defaultClass=longhorn</code> (and usually <code>--set platform.storage.snapshotClass=longhorn</code>).</li>
+</ul>
+<h2 id="public-ip-optional-lan-vlan">Public IP (optional LAN / VLAN)<a class="headerlink" href="#public-ip-optional-lan-vlan" title="Permanent link">&para;</a></h2>
+<p><code>platform.networking.public.enabled</code> defaults to <strong><code>false</code></strong>. Then VMs use the <strong>pod</strong> network. You do <strong>not</strong> need <code>--set</code> for public IPs to install the control plane.</p>
+<p>When public is on, each VM can get a <strong>second NIC</strong> on a Linux bridge (<code>vf-pub0</code> by default) and a static address from <code>ipPool</code> (cloud-init). That CIDR must be <strong>your</strong> LAN or VLAN — not a number we invented.</p>
+<p><strong>Homelab, you did not pass CIDR/gateway:</strong></p>
+<ul>
+<li><code>autoFromCluster: true</code> (chart default) fills <code>cidr</code> / <code>gateway</code> / <code>ipPool</code> / <code>dns</code> from the first Kubernetes <strong>Node InternalIP</strong> (<code>/24</code>, gateway <code>.1</code>, pool <code>.20–.80</code>).</li>
+<li>That InternalIP is the <strong>kubelet</strong> address. If Kubernetes lives on <code>10.0.30.0/24</code> and VMs should sit on VLAN <code>10.0.50.0/24</code>, auto is <strong>wrong</strong> — set the VLAN explicitly and <code>autoFromCluster: false</code> (see <code>values-homelab.yaml</code>).</li>
+<li>Auto <strong>never</strong> sets <code>bridge.uplink</code>. Enslaving the Kubernetes NIC drops SSH. Public still needs a second NIC, a VLAN iface, or an existing <code>br0</code> before you flip <code>enabled: true</code>.</li>
+</ul>
+<p>Generate a values snippet from this host or <code>kubectl</code>:</p>
+<div class="highlight"><pre><span></span><code>./scripts/detect-host-public-net.sh<span class="w"> </span>&gt;<span class="w"> </span>public-from-host.yaml
+<span class="c1"># edit gateway / pool, then:</span>
+helm<span class="w"> </span>upgrade<span class="w"> </span>--install<span class="w"> </span>virtfoundry<span class="w"> </span>virtfoundry/virtfoundry<span class="w"> </span>-n<span class="w"> </span>virtfoundry-system<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-f<span class="w"> </span>public-from-host.yaml<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--set<span class="w"> </span>secrets.rootPassword<span class="o">=</span><span class="s1">'…'</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--set<span class="w"> </span>secrets.jwtSecret<span class="o">=</span><span class="s1">'…'</span>
 </code></pre></div>
-<ol>
-<li>Workflows publish Helm packages (<code>virtfoundry</code>, <code>virtfoundry-operator</code>) + rebuild docs</li>
-</ol>
-<p>Verify:</p>
-<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-sL<span class="w"> </span>https://virtfoundry.github.io/helm-charts/index.yaml<span class="w"> </span><span class="p">|</span><span class="w"> </span>head
+<p>Details: <a href="../configuration/#public-networking">Configuration — public networking</a>, <a href="../topologies/#public-network-underlay">Topologies</a>.</p>
+<h2 id="default-values-virtfoundry-api-ui">Default values — <code>virtfoundry</code> (API + UI)<a class="headerlink" href="#default-values-virtfoundry-api-ui" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><span class="c1"># Default values for VirtFoundry.</span>
+<span class="c1"># Installs API + UI. Platform state in virtfoundry.io CRDs (requires virtfoundry-operator).</span>
+
+<span class="nt">nameOverride</span><span class="p">:</span><span class="w"> </span><span class="s">""</span>
+<span class="nt">fullnamePrefix</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">virtfoundry</span>
+
+<span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">virtfoundry-system</span>
+
+<span class="nt">store</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">driver</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">kubernetes</span>
+
+<span class="nt">images</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">api</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ghcr.io/virtfoundry/core:0.7.0</span>
+<span class="w">  </span><span class="nt">ui</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ghcr.io/virtfoundry/ui:0.7.0</span>
+<span class="w">  </span><span class="nt">pullPolicy</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">IfNotPresent</span>
+<span class="w">  </span><span class="c1"># Optional: ["ghcr-pull"] for private GHCR packages</span>
+<span class="w">  </span><span class="nt">pullSecrets</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[]</span>
+
+<span class="nt">secrets</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">rootPassword</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">virtfoundry</span>
+<span class="w">  </span><span class="nt">jwtSecret</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">change-me-in-production</span>
+
+<span class="nt">config</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">logLevel</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">info</span>
+<span class="w">  </span><span class="nt">jwtExpire</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">86400</span>
+<span class="w">  </span><span class="nt">kubevirtEnabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+
+<span class="nt">ingress</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">  </span><span class="nt">className</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">nginx</span>
+<span class="w">  </span><span class="nt">host</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">iaas.local</span>
+<span class="w">  </span><span class="nt">annotations</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">nginx.ingress.kubernetes.io/proxy-read-timeout</span><span class="p">:</span><span class="w"> </span><span class="s">"3600"</span>
+<span class="w">    </span><span class="nt">nginx.ingress.kubernetes.io/proxy-send-timeout</span><span class="p">:</span><span class="w"> </span><span class="s">"3600"</span>
+
+<span class="c1"># Gateway API HTTPRoute (mutually exclusive with ingress.enabled)</span>
+<span class="nt">gateway</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+<span class="w">  </span><span class="nt">parentRefs</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">platform-gateway</span>
+<span class="w">      </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">traefik</span>
+<span class="w">      </span><span class="nt">sectionName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">web</span>
+<span class="w">  </span><span class="nt">hostnames</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">iaas.local</span>
+
+<span class="nt">ui</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">service</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ClusterIP</span>
+<span class="w">    </span><span class="nt">port</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">80</span>
+<span class="w">    </span><span class="nt">nodePort</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">30880</span>
+
+<span class="nt">api</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">service</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ClusterIP</span>
+<span class="w">    </span><span class="nt">port</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">8080</span>
+<span class="w">  </span><span class="nt">replicas</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+
+<span class="c1"># Optional cluster/platform bootstrap (bare-metal / air-gapped without a registry).</span>
+<span class="c1"># Image sideloading stays outside the chart — see scripts/sideload/.</span>
+<span class="nt">platform</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">multus</span><span class="p">:</span>
+<span class="w">    </span><span class="c1"># Install Multus thick plugin from upstream manifest when absent.</span>
+<span class="w">    </span><span class="nt">install</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+<span class="w">    </span><span class="nt">manifestUrl</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://raw.githubusercontent.com/k8snetworkplumbingwg/multus-cni/master/deployments/multus-daemonset-thick.yml</span>
+<span class="w">  </span><span class="nt">networking</span><span class="p">:</span>
+<span class="w">    </span><span class="c1"># Public/shared network for tenant VMs (Multus bridge or macvlan — configured per site).</span>
+<span class="w">    </span><span class="nt">public</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+<span class="w">      </span><span class="c1"># When true, empty/"auto" cidr, gateway, and ipPool are filled from the first</span>
+<span class="w">      </span><span class="c1"># Node InternalIP (/24, gateway .1, pool .20–.80). Never sets uplink.</span>
+<span class="w">      </span><span class="nt">autoFromCluster</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">      </span><span class="nt">mode</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">bridge</span><span class="w">                    </span><span class="c1"># bridge | macvlan</span>
+<span class="w">      </span><span class="nt">cidr</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.0.50.0/24</span>
+<span class="w">      </span><span class="nt">gateway</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.0.50.254</span>
+<span class="w">      </span><span class="nt">dns</span><span class="p">:</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.0.50.254</span>
+<span class="w">      </span><span class="nt">ipPool</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">start</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.0.50.10</span>
+<span class="w">        </span><span class="nt">end</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.0.50.99</span>
+<span class="w">      </span><span class="nt">reservedRanges</span><span class="p">:</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">start</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.0.50.100</span>
+<span class="w">          </span><span class="nt">end</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.0.50.150</span>
+<span class="w">          </span><span class="nt">reason</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">metallb-loadbalancer</span>
+<span class="w">      </span><span class="nt">bridge</span><span class="p">:</span>
+<span class="w">        </span><span class="c1"># Linux IFNAMSIZ is 16 incl. NUL → max 15 chars. "virtfoundry-pub0" is 16 and fails.</span>
+<span class="w">        </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">vf-pub0</span>
+<span class="w">        </span><span class="nt">uplink</span><span class="p">:</span><span class="w"> </span><span class="s">""</span><span class="w">                    </span><span class="c1"># physical NIC or VLAN interface on the node</span>
+<span class="w">        </span><span class="nt">address</span><span class="p">:</span><span class="w"> </span><span class="s">""</span><span class="w">                   </span><span class="c1"># optional bridge IPv4 for dnsmasq (outside VM pool)</span>
+<span class="w">      </span><span class="nt">macvlan</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">master</span><span class="p">:</span><span class="w"> </span><span class="s">""</span>
+<span class="w">        </span><span class="nt">mode</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">bridge</span>
+<span class="w">      </span><span class="nt">nad</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">virtfoundry-public</span>
+<span class="w">        </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">virtfoundry-system</span>
+<span class="w">    </span><span class="c1"># Private tenant VPC networks (isolated L2 on internal bridge).</span>
+<span class="w">    </span><span class="nt">isolated</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">      </span><span class="nt">bridge</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">virtfoundry-br0</span>
+<span class="w">    </span><span class="c1"># Default VM networking when no network_ids are set on deploy.</span>
+<span class="w">    </span><span class="nt">vm</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">defaultNetwork</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pod</span><span class="w">             </span><span class="c1"># pod | public</span>
+<span class="w">      </span><span class="nt">allowPodNetwork</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span><span class="w">           </span><span class="c1"># false = Multus-only when public network is used</span>
+<span class="w">    </span><span class="nt">bridge</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">kube-system</span><span class="w">          </span><span class="c1"># DaemonSet namespace for bridge setup</span>
+<span class="w">      </span><span class="nt">repairIntervalSeconds</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">15</span><span class="w">       </span><span class="c1"># bridge-keeper auto-repair loop</span>
+<span class="w">  </span><span class="nt">storage</span><span class="p">:</span>
+<span class="w">    </span><span class="c1"># auto = Longhorn if the StorageClass exists, else the cluster default, else local-path.</span>
+<span class="w">    </span><span class="c1"># helm template / CI (no cluster) falls back to local-path.</span>
+<span class="w">    </span><span class="nt">defaultClass</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">auto</span>
+<span class="w">    </span><span class="c1"># VolumeSnapshotClass. Empty = longhorn when defaultClass resolves to longhorn, else cluster default.</span>
+<span class="w">    </span><span class="nt">snapshotClass</span><span class="p">:</span><span class="w"> </span><span class="s">""</span>
+<span class="w">    </span><span class="nt">windowsBootSizeGi</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">32</span>
+<span class="w">    </span><span class="nt">windowsISOSizeGi</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">8</span>
+<span class="w">  </span><span class="nt">kubevirt</span><span class="p">:</span>
+<span class="w">    </span><span class="c1"># Guest vCPU overcommit for shared VMs (VirtFoundry omits CPU request).</span>
+<span class="w">    </span><span class="c1"># Pod request ≈ guest_vcpus / cpuAllocationRatio. 0 = do not patch CR.</span>
+<span class="w">    </span><span class="nt">cpuAllocationRatio</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10</span>
+<span class="w">    </span><span class="nt">featureGates</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+<span class="w">      </span><span class="nt">gates</span><span class="p">:</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Snapshot</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">VideoConfig</span>
+<span class="w">  </span><span class="nt">cdi</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">install</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+<span class="w">    </span><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="s">""</span><span class="w">  </span><span class="c1"># empty = latest from GitHub releases API at install time</span>
 </code></pre></div>
-<p>See <a href="../../project/versioning/">Versioning</a> for SemVer policy.</p>
+<h2 id="default-values-virtfoundry-operator">Default values — <code>virtfoundry-operator</code><a class="headerlink" href="#default-values-virtfoundry-operator" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><span class="nt">nameOverride</span><span class="p">:</span><span class="w"> </span><span class="s">""</span>
+<span class="nt">fullnamePrefix</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">virtfoundry-operator</span>
+
+<span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">virtfoundry-system</span>
+
+<span class="nt">image</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">repository</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ghcr.io/virtfoundry/operator</span>
+<span class="w">  </span><span class="nt">tag</span><span class="p">:</span><span class="w"> </span><span class="s">"0.7.0"</span>
+<span class="w">  </span><span class="nt">digest</span><span class="p">:</span><span class="w"> </span><span class="s">""</span>
+<span class="w">  </span><span class="nt">pullPolicy</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">IfNotPresent</span>
+
+<span class="nt">replicas</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+
+<span class="nt">leaderElection</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+
+<span class="nt">resources</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">requests</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">cpu</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">50m</span>
+<span class="w">    </span><span class="nt">memory</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">128Mi</span>
+<span class="w">  </span><span class="nt">limits</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">cpu</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">500m</span>
+<span class="w">    </span><span class="nt">memory</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">256Mi</span>
+
+<span class="c1"># Homelab sideload: set pullPolicy IfNotPresent after ctr import.</span>
+</code></pre></div>
 
 
 
@@ -1573,7 +1777,7 @@ git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </
       <nav class="md-footer__inner md-grid" aria-label="Footer" >
         
           
-          <a href="../chart-values/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Chart values (defaults)">
+          <a href="../configuration/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Configuration">
             <div class="md-footer__button md-icon">
               
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
@@ -1583,20 +1787,20 @@ git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </
                 Previous
               </span>
               <div class="md-ellipsis">
-                Chart values (defaults)
+                Configuration
               </div>
             </div>
           </a>
         
         
           
-          <a href="../features/" class="md-footer__link md-footer__link--next" aria-label="Next: Overview">
+          <a href="../helm-repository/" class="md-footer__link md-footer__link--next" aria-label="Next: Helm repository">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 Next
               </span>
               <div class="md-ellipsis">
-                Overview
+                Helm repository
               </div>
             </div>
             <div class="md-footer__button md-icon">
