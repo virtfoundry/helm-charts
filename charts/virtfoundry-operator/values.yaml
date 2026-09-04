@@ -5,7 +5,7 @@ namespace: virtfoundry-system
 
 image:
   repository: ghcr.io/virtfoundry/operator
-  tag: "0.7.0"
+  tag: "0.7.1"
   digest: ""
   pullPolicy: IfNotPresent
 
