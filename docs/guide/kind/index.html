@@ -1639,11 +1639,11 @@ helm<span class="w"> </span>repo<span class="w"> </span>add<span class="w"> </sp
 helm<span class="w"> </span>repo<span class="w"> </span>update
 
 helm<span class="w"> </span>install<span class="w"> </span>virtfoundry-operator<span class="w"> </span>virtfoundry/virtfoundry-operator<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--version<span class="w"> </span><span class="m">0</span>.7.0<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--version<span class="w"> </span><span class="m">0</span>.7.1<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--namespace<span class="w"> </span>virtfoundry-system<span class="w"> </span>--create-namespace
 
 helm<span class="w"> </span>install<span class="w"> </span>virtfoundry<span class="w"> </span>virtfoundry/virtfoundry<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--version<span class="w"> </span><span class="m">0</span>.7.0<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--version<span class="w"> </span><span class="m">0</span>.7.1<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--namespace<span class="w"> </span>virtfoundry-system<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>-f<span class="w"> </span>values-kind.yaml<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--set<span class="w"> </span>secrets.rootPassword<span class="o">=</span><span class="s1">'change-me'</span><span class="w"> </span><span class="se">\</span>
@@ -1686,7 +1686,7 @@ docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </spa
 <span class="w">        </span><span class="nt">address</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.0.50.2/24</span><span class="w">     </span><span class="c1"># host side of vf-pub0; not in the VM pool</span>
 </code></pre></div>
 <div class="highlight"><pre><span></span><code>helm<span class="w"> </span>upgrade<span class="w"> </span>virtfoundry<span class="w"> </span>virtfoundry/virtfoundry<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--version<span class="w"> </span><span class="m">0</span>.7.0<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--version<span class="w"> </span><span class="m">0</span>.7.1<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>-n<span class="w"> </span>virtfoundry-system<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>-f<span class="w"> </span>values-kind.yaml<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>-f<span class="w"> </span>values-kind-public.yaml<span class="w"> </span><span class="se">\</span>

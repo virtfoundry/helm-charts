@@ -1477,10 +1477,10 @@ helm<span class="w"> </span>repo<span class="w"> </span>update
 helm<span class="w"> </span>search<span class="w"> </span>repo<span class="w"> </span>virtfoundry/virtfoundry<span class="w"> </span>--versions
 </code></pre></div>
 <p><strong>Prerequisites on the cluster:</strong> KubeVirt, Multus, CDI (ISO/import), StorageClass, Ingress or Gateway API — see <a href="../installation/#prerequisites-overview">Installation</a>. Then install a specific chart version (operator first):</p>
-<div class="highlight"><pre><span></span><code>helm<span class="w"> </span>install<span class="w"> </span>virtfoundry-operator<span class="w"> </span>virtfoundry/virtfoundry-operator<span class="w"> </span>--version<span class="w"> </span><span class="m">0</span>.7.0<span class="w"> </span><span class="se">\</span>
+<div class="highlight"><pre><span></span><code>helm<span class="w"> </span>install<span class="w"> </span>virtfoundry-operator<span class="w"> </span>virtfoundry/virtfoundry-operator<span class="w"> </span>--version<span class="w"> </span><span class="m">0</span>.7.1<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--namespace<span class="w"> </span>virtfoundry-system<span class="w"> </span>--create-namespace
 
-helm<span class="w"> </span>install<span class="w"> </span>virtfoundry<span class="w"> </span>virtfoundry/virtfoundry<span class="w"> </span>--version<span class="w"> </span><span class="m">0</span>.7.0<span class="w"> </span><span class="se">\</span>
+helm<span class="w"> </span>install<span class="w"> </span>virtfoundry<span class="w"> </span>virtfoundry/virtfoundry<span class="w"> </span>--version<span class="w"> </span><span class="m">0</span>.7.1<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--namespace<span class="w"> </span>virtfoundry-system<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--set<span class="w"> </span>secrets.rootPassword<span class="o">=</span><span class="s1">'...'</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--set<span class="w"> </span>secrets.jwtSecret<span class="o">=</span><span class="s1">'...'</span>
@@ -1528,8 +1528,8 @@ helm<span class="w"> </span>install<span class="w"> </span>virtfoundry<span clas
 <li>Merge to <code>main</code></li>
 <li>Tag both <strong>virtfoundry</strong> and <strong>helm-charts</strong>:</li>
 </ol>
-<div class="highlight"><pre><span></span><code>git<span class="w"> </span>tag<span class="w"> </span>v0.7.0
-git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>v0.7.0
+<div class="highlight"><pre><span></span><code>git<span class="w"> </span>tag<span class="w"> </span>v0.7.1
+git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>v0.7.1
 </code></pre></div>
 <ol>
 <li>Workflows publish Helm packages (<code>virtfoundry</code>, <code>virtfoundry-operator</code>) + rebuild docs</li>

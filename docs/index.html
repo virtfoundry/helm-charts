@@ -1625,7 +1625,7 @@
 
 
 <div class="vf-hero">
-<p><span class="vf-badge">v0.7.0 · CRD store</span></p>
+<p><span class="vf-badge">v0.7.1 · CRD store</span></p>
 <h1 id="virtfoundry">VirtFoundry<a class="headerlink" href="#virtfoundry" title="Permanent link">&para;</a></h1>
 <p class="vf-lead">
 Kubernetes-native private cloud control plane — multi-tenant VMs on KubeVirt,
@@ -1762,12 +1762,12 @@ helm<span class="w"> </span>repo<span class="w"> </span>update
 
 <span class="c1"># 1. CRDs + operator (after KubeVirt, Multus, CDI)</span>
 helm<span class="w"> </span>install<span class="w"> </span>virtfoundry-operator<span class="w"> </span>virtfoundry/virtfoundry-operator<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--version<span class="w"> </span><span class="m">0</span>.7.0<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--version<span class="w"> </span><span class="m">0</span>.7.1<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--namespace<span class="w"> </span>virtfoundry-system<span class="w"> </span>--create-namespace
 
 <span class="c1"># 2. API + UI</span>
 helm<span class="w"> </span>install<span class="w"> </span>virtfoundry<span class="w"> </span>virtfoundry/virtfoundry<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--version<span class="w"> </span><span class="m">0</span>.7.0<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--version<span class="w"> </span><span class="m">0</span>.7.1<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--namespace<span class="w"> </span>virtfoundry-system<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--set<span class="w"> </span>secrets.rootPassword<span class="o">=</span><span class="s1">'your-root-password'</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--set<span class="w"> </span>secrets.jwtSecret<span class="o">=</span><span class="s1">'your-jwt-secret'</span>

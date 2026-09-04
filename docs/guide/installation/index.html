@@ -1926,16 +1926,16 @@ helm<span class="w"> </span>install<span class="w"> </span>virtfoundry<span clas
 </code></pre></div>
 <p>Pin a release (same CRD store flags):</p>
 <div class="highlight"><pre><span></span><code>helm<span class="w"> </span>install<span class="w"> </span>virtfoundry-operator<span class="w"> </span>virtfoundry/virtfoundry-operator<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--version<span class="w"> </span><span class="m">0</span>.7.0<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--version<span class="w"> </span><span class="m">0</span>.7.1<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--namespace<span class="w"> </span>virtfoundry-system<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--create-namespace
 
-helm<span class="w"> </span>install<span class="w"> </span>virtfoundry<span class="w"> </span>virtfoundry/virtfoundry<span class="w"> </span>--version<span class="w"> </span><span class="m">0</span>.7.0<span class="w"> </span><span class="se">\</span>
+helm<span class="w"> </span>install<span class="w"> </span>virtfoundry<span class="w"> </span>virtfoundry/virtfoundry<span class="w"> </span>--version<span class="w"> </span><span class="m">0</span>.7.1<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--namespace<span class="w"> </span>virtfoundry-system<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--set<span class="w"> </span>secrets.rootPassword<span class="o">=</span><span class="s1">'change-me'</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--set<span class="w"> </span>secrets.jwtSecret<span class="o">=</span><span class="s1">'change-me-long-random'</span>
 </code></pre></div>
-<p>Images default to <code>ghcr.io/virtfoundry/core:0.7.0</code>, <code>ui:0.7.0</code>, and <code>operator:0.7.0</code>.</p>
+<p>Images default to <code>ghcr.io/virtfoundry/core:0.7.1</code>, <code>ui:0.7.1</code>, and <code>operator:0.7.1</code>.</p>
 <hr />
 <h2 id="why-set-is-on-the-helm-command">Why <code>--set</code> is on the Helm command<a class="headerlink" href="#why-set-is-on-the-helm-command" title="Permanent link">&para;</a></h2>
 <p><code>--set</code> is a <strong>Helm</strong> flag. It must appear on the same <code>helm install</code> / <code>helm upgrade</code> line as the chart. It does not work as a follow-up kubectl command.</p>
