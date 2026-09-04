@@ -4,7 +4,9 @@ See [docs/project/changelog.md](docs/project/changelog.md) for the full release 
 
 ## [Unreleased]
 
-Docs: chart default values page. Chart: storage class `auto` (Longhorn if present). Public CIDR can inherit Node InternalIP (`autoFromCluster`). Script `scripts/detect-host-public-net.sh`.
+## [0.7.1] - 2026-09-04
+
+Charts `0.7.1`. Default images `0.7.1` (VM create hides platform Windows ISO until the tenant uploads one). Docs: chart default values page. Chart: storage class `auto` (Longhorn if present). Public CIDR can inherit Node InternalIP (`autoFromCluster`). Script `scripts/detect-host-public-net.sh`.
 
 ## [0.7.0] - 2026-09-02
 

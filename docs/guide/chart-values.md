@@ -22,7 +22,7 @@ Prefer a file for anything larger than two secrets:
 
 ```bash
 helm install virtfoundry virtfoundry/virtfoundry \
-  --version 0.7.0 \
+  --version 0.7.1 \
   --namespace virtfoundry-system \
   -f my-values.yaml \
   --set secrets.rootPassword='change-me' \

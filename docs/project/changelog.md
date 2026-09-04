@@ -6,12 +6,18 @@ Format based on [Keep a Changelog](https://keepachangelog.com/). Versioning: [Se
 
 ## [Unreleased]
 
+## [0.7.1] - 2026-09-04
+
 ### Added
 
 - [Chart values](../guide/chart-values.md) — full default `values.yaml` on the docs site, why `--set` belongs on the Helm command
 - `platform.storage.defaultClass: auto` — select Longhorn when the StorageClass exists
 - `platform.networking.public.autoFromCluster` — fill CIDR/gateway/pool from Node InternalIP when you do not `--set` them
 - `scripts/detect-host-public-net.sh` — print a public-net values snippet from kubectl/host
+
+### Changed
+
+- Charts and default `appVersion` `0.7.1` (core UI hides platform Windows ISO from VM create until the tenant uploads one)
 
 ## [0.7.0] - 2026-09-02
 

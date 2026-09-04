@@ -7,7 +7,7 @@ title: Home
 
 <div class="vf-hero" markdown="1">
 
-<span class="vf-badge">v0.7.0 · CRD store</span>
+<span class="vf-badge">v0.7.1 · CRD store</span>
 
 # VirtFoundry
 
@@ -136,12 +136,12 @@ helm repo update
 
 # 1. CRDs + operator (after KubeVirt, Multus, CDI)
 helm install virtfoundry-operator virtfoundry/virtfoundry-operator \
-  --version 0.7.0 \
+  --version 0.7.1 \
   --namespace virtfoundry-system --create-namespace
 
 # 2. API + UI
 helm install virtfoundry virtfoundry/virtfoundry \
-  --version 0.7.0 \
+  --version 0.7.1 \
   --namespace virtfoundry-system \
   --set secrets.rootPassword='your-root-password' \
   --set secrets.jwtSecret='your-jwt-secret'
