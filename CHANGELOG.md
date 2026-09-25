@@ -4,6 +4,12 @@ See [docs/project/changelog.md](docs/project/changelog.md) for the full release 
 
 ## [Unreleased]
 
+## [0.7.3] - 2026-09-25
+
+### Fixed
+
+- Control-plane NetworkPolicy DNS egress allows NodeLocalDNS (and any DNS on port 53), not only `kube-system` CoreDNS pods — fixes UI nginx CrashLoop (`host not found in upstream "virtfoundry-api"`) on Kubespray clusters.
+
 ## [0.7.2] - 2026-09-25
 
 Security release: Restricted PSS pods, isolated networking default off, Ingress TLS-by-default, secrets fail-closed, CORS origins, CDI importer egress docs.
