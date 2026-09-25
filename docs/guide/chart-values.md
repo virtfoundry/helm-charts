@@ -25,9 +25,12 @@ helm install virtfoundry virtfoundry/virtfoundry \
   --version 0.7.1 \
   --namespace virtfoundry-system \
   -f my-values.yaml \
-  --set secrets.rootPassword='change-me' \
-  --set secrets.jwtSecret='change-me-long-random'
+  --set secrets.rootPassword='choose-a-strong-password' \
+  --set secrets.jwtSecret="$(openssl rand -hex 32)"
 ```
+
+Those two keys have **no defaults**: the chart refuses to render without them (or
+`secrets.existingSecret`). Rules and GitOps guidance: [Secrets](configuration.md#secrets).
 
 `helm upgrade … --reuse-values` keeps previous `--set` / `-f` unless you override them.
 

@@ -31,6 +31,6 @@ echo ""
 echo "Local API against this cluster:"
 echo "  kubectl config use-context $KUBE_CONTEXT"
 if [ -n "${APP_ROOT:-}" ]; then
-  echo "  cd $APP_ROOT && ROOT_PASSWORD=virtfoundry go run ./cmd/server"
+  echo "  cd $APP_ROOT && ROOT_PASSWORD=\"\$(openssl rand -base64 18)\" JWT_SECRET=\"\$(openssl rand -hex 32)\" go run ./cmd/server"
   echo "  UI dev: cd $APP_ROOT/ui && npm run dev"
 fi

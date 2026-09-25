@@ -96,11 +96,14 @@ helm install virtfoundry virtfoundry/virtfoundry \
   --version 0.7.1 \
   --namespace virtfoundry-system \
   -f values-kind.yaml \
-  --set secrets.rootPassword='change-me' \
-  --set secrets.jwtSecret='change-me-long-random'
+  --set secrets.rootPassword='kind-lab-password' \
+  --set secrets.jwtSecret="$(openssl rand -hex 32)"
 ```
 
-Open **http://127.0.0.1:8080** — user `root`, password `change-me`.
+Open **http://127.0.0.1:8080** — user `root`, password `kind-lab-password`.
+
+Even on a laptop the chart requires real credentials: `rootPassword` needs 12+ chars,
+`jwtSecret` 32+, and the old defaults are rejected ([Secrets](configuration.md#secrets)).
 
 Deploy a **container-disk** VM (Templates → small offering → Console). The guest has a pod IP only; you reach it through **noVNC**, not from your LAN.
 

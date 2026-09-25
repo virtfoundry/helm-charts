@@ -25,6 +25,18 @@ IMPORT_NODE_IP="${IMPORT_NODE_IP:-}"
 LOCAL_REGISTRY="${LOCAL_REGISTRY:-docker.io/virtfoundry}"
 USE_SIDELOAD="${USE_SIDELOAD:-false}"
 
+# Bootstrap credentials. The chart has no defaults, so either reference a Secret you
+# already manage or export both values before running this script.
+EXISTING_SECRET="${EXISTING_SECRET:-}"
+SECRET_ARGS=()
+if [ -n "$EXISTING_SECRET" ]; then
+  SECRET_ARGS=(--set "secrets.existingSecret=${EXISTING_SECRET}")
+else
+  : "${ROOT_PASSWORD:?ROOT_PASSWORD is required (min 12 chars) unless EXISTING_SECRET is set}"
+  : "${JWT_SECRET:?JWT_SECRET is required (min 32 chars, e.g. openssl rand -hex 32) unless EXISTING_SECRET is set}"
+  SECRET_ARGS=(--set-string "secrets.rootPassword=${ROOT_PASSWORD}" --set-string "secrets.jwtSecret=${JWT_SECRET}")
+fi
+
 if [ ! -d "$APP_ROOT/docker" ]; then
   echo "ERROR: virtfoundry app repo not found at APP_ROOT=$APP_ROOT" >&2
   echo "Set APP_ROOT to virtfoundry/core or clone next to helm-charts" >&2
@@ -88,6 +100,7 @@ helm upgrade --install "$RELEASE" "$CHART_DIR" \
   --set "images.api=${IMAGE_API}" \
   --set "images.ui=${IMAGE_UI}" \
   --set "images.pullPolicy=${PULL_POLICY}" \
+  "${SECRET_ARGS[@]}" \
   --timeout 10m
 
 if [ "$USE_SIDELOAD" = "true" ]; then

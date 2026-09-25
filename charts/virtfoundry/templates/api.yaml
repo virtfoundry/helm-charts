@@ -30,13 +30,17 @@ spec:
             - name: ROOT_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.fullnamePrefix }}-secrets
-                  key: ROOT_PASSWORD
+                  name: {{ include "virtfoundry.secretName" . }}
+                  key: {{ include "virtfoundry.rootPasswordKey" . }}
             - name: JWT_SECRET
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.fullnamePrefix }}-secrets
-                  key: JWT_SECRET
+                  name: {{ include "virtfoundry.secretName" . }}
+                  key: {{ include "virtfoundry.jwtSecretKey" . }}
+            {{- if .Values.secrets.allowInsecureDefaults }}
+            - name: VF_ALLOW_INSECURE_DEFAULTS
+              value: "1"
+            {{- end }}
             - name: VIRTFOUNDRY_STORE
               value: {{ .Values.store.driver | quote }}
           volumeMounts:

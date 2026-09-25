@@ -143,8 +143,8 @@ helm install virtfoundry-operator virtfoundry/virtfoundry-operator \
 helm install virtfoundry virtfoundry/virtfoundry \
   --version 0.7.1 \
   --namespace virtfoundry-system \
-  --set secrets.rootPassword='your-root-password' \
-  --set secrets.jwtSecret='your-jwt-secret'
+  --set secrets.rootPassword='choose-a-strong-password' \
+  --set secrets.jwtSecret="$(openssl rand -hex 32)"
 ```
 
 Gateway API or Ingress profiles are configured via Helm values — see [Configuration](guide/configuration.md). Under-30-minute walkthrough: [Quickstart](guide/quickstart.md).

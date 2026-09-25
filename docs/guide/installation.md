@@ -141,9 +141,12 @@ helm install virtfoundry-operator virtfoundry/virtfoundry-operator \
 # 2. API + UI
 helm install virtfoundry virtfoundry/virtfoundry \
   --namespace virtfoundry-system \
-  --set secrets.rootPassword='change-me' \
-  --set secrets.jwtSecret='change-me-long-random'
+  --set secrets.rootPassword='choose-a-strong-password' \
+  --set secrets.jwtSecret="$(openssl rand -hex 32)"
 ```
+
+The chart ships no credential defaults — see [Secrets](configuration.md#secrets) for the
+rules and for the `secrets.existingSecret` path.
 
 Pin a release (same CRD store flags):
 
@@ -155,8 +158,8 @@ helm install virtfoundry-operator virtfoundry/virtfoundry-operator \
 
 helm install virtfoundry virtfoundry/virtfoundry --version 0.7.1 \
   --namespace virtfoundry-system \
-  --set secrets.rootPassword='change-me' \
-  --set secrets.jwtSecret='change-me-long-random'
+  --set secrets.rootPassword='choose-a-strong-password' \
+  --set secrets.jwtSecret="$(openssl rand -hex 32)"
 ```
 
 Images default to `ghcr.io/virtfoundry/core:0.7.1`, `ui:0.7.1`, and `operator:0.7.1`.
@@ -167,7 +170,7 @@ Images default to `ghcr.io/virtfoundry/core:0.7.1`, `ui:0.7.1`, and `operator:0.
 
 `--set` is a **Helm** flag. It must appear on the same `helm install` / `helm upgrade` line as the chart. It does not work as a follow-up kubectl command.
 
-- **Must override at install:** `secrets.rootPassword`, `secrets.jwtSecret` (defaults in the chart are lab-only).
+- **Must set at install:** `secrets.rootPassword`, `secrets.jwtSecret` — or `secrets.existingSecret`. The chart has no defaults for them and fails to render without one of the two ([Secrets](configuration.md#secrets)).
 - **Usually omit:** public IP CIDR — see below. Storage class — `auto` picks Longhorn when it exists.
 - **Prefer `-f`:** anything more than two keys. Written defaults: [Chart values](chart-values.md).
 
@@ -202,8 +205,8 @@ helm install virtfoundry-operator ./charts/virtfoundry-operator \
 
 helm install virtfoundry ./charts/virtfoundry \
   --namespace virtfoundry-system \
-  --set secrets.rootPassword='change-me' \
-  --set secrets.jwtSecret='change-me-long-random'
+  --set secrets.rootPassword='choose-a-strong-password' \
+  --set secrets.jwtSecret="$(openssl rand -hex 32)"
 ```
 
 Validate templates:
@@ -216,10 +219,10 @@ make lint
 
 ## First login
 
-Default bootstrap credentials (override with `secrets.rootPassword`):
+Bootstrap credentials come from the chart — there is no built-in default password:
 
 - **User:** `root`
-- **Password:** value of `secrets.rootPassword` (default in chart values: `virtfoundry`)
+- **Password:** the `secrets.rootPassword` you passed at install (or `ROOT_PASSWORD` in your `secrets.existingSecret`)
 
 API base path: `/api/v1` on the same hostname as the UI.
 

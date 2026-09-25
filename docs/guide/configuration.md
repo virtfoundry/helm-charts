@@ -14,8 +14,85 @@ VirtFoundry runtime configuration is YAML rendered by Helm into a ConfigMap. **H
 | `platform.networking.isolated.bridge.name` | `networking.isolated.bridge_name` | Tenant VPC bridge |
 | `platform.networking.vm.*` | `networking.vm.*` | Default VM networking |
 | `platform.storage.*` | `storage.*` | Default StorageClass for CDI/ISO disks |
-| `secrets.jwtSecret` | — | Env `JWT_SECRET` on API (not in ConfigMap) |
-| `secrets.rootPassword` | — | Env `ROOT_PASSWORD` on API |
+| `secrets.jwtSecret` | — | Env `JWT_SECRET` on API (not in ConfigMap) — see [Secrets](#secrets) |
+| `secrets.rootPassword` | — | Env `ROOT_PASSWORD` on API — see [Secrets](#secrets) |
+
+## Secrets
+
+The chart ships **no** credential defaults. A root password or HMAC key published in a
+public repository is a cluster-compromise path, so the chart refuses to render instead
+of installing one. `helm install` / `helm template` with plain defaults fails with an
+explicit error, and the sentinels `virtfoundry` and `change-me-in-production` are
+rejected even if you pass them by hand.
+
+| Key | Default | Description |
+|-----|---------|-------------|
+| `secrets.rootPassword` | `""` | Bootstrap `root` password. Required unless `existingSecret`. Min **12** chars |
+| `secrets.jwtSecret` | `""` | HMAC key for API tokens. Required unless `existingSecret`. Min **32** chars |
+| `secrets.existingSecret` | `""` | Name of a Secret you manage; the chart then renders no Secret of its own |
+| `secrets.rootPasswordKey` | `ROOT_PASSWORD` | Key read from that Secret |
+| `secrets.jwtSecretKey` | `JWT_SECRET` | Key read from that Secret |
+| `secrets.autoGenerateJwtSecret` | `false` | Generate a random 48-char JWT secret on first install |
+| `secrets.allowInsecureDefaults` | `false` | Local development only — skips every check and sets `VF_ALLOW_INSECURE_DEFAULTS=1` on the API |
+
+The thresholds match the API, which exits non-zero on an empty, short, or known-default
+credential ([core#93](https://github.com/virtfoundry/core/issues/93)). A chart that
+rendered such a value would only move the failure to the first pod start.
+
+### Option A — pass the values (simplest)
+
+```bash
+helm upgrade --install virtfoundry virtfoundry/virtfoundry \
+  --namespace virtfoundry-system \
+  --set secrets.rootPassword='choose-a-strong-password' \
+  --set secrets.jwtSecret="$(openssl rand -hex 32)"
+```
+
+### Option B — `existingSecret` (recommended for GitOps)
+
+Create the Secret with whatever tool owns your secrets (Sealed Secrets, External
+Secrets, SOPS, `kubectl` for a one-off), then reference it:
+
+```bash
+kubectl -n virtfoundry-system create secret generic virtfoundry-credentials \
+  --from-literal=ROOT_PASSWORD='choose-a-strong-password' \
+  --from-literal=JWT_SECRET="$(openssl rand -hex 32)"
+
+helm upgrade --install virtfoundry virtfoundry/virtfoundry \
+  --namespace virtfoundry-system \
+  --set secrets.existingSecret=virtfoundry-credentials
+```
+
+The API reads `ROOT_PASSWORD` and `JWT_SECRET` from that Secret. Rename the keys with
+`secrets.rootPasswordKey` / `secrets.jwtSecretKey`. When the chart can read the Secret
+(a real install or `--dry-run=server`), it also verifies the stored values are present
+and not sentinels — a Secret missing `JWT_SECRET` fails the install instead of producing
+a crash-looping API.
+
+### Upgrades do not reset credentials
+
+`helm upgrade` without `--set secrets.*` reads the current values back from the live
+Secret, so the root password stays valid and issued tokens keep verifying. Credentials
+change only when you pass a new value explicitly.
+
+`secrets.autoGenerateJwtSecret: true` extends that to the first install: the chart
+generates a 48-char secret, and later upgrades reuse the stored one. If the live Secret
+cannot be read during an upgrade, the render **fails** rather than silently rotating the
+key.
+
+### GitOps / Argo CD
+
+`lookup` needs an API connection. It returns nothing during `helm template` and
+client-side dry-runs, which is why `autoGenerateJwtSecret` is off by default:
+
+- **Argo CD and similar:** use `secrets.existingSecret` and let your secrets operator own
+  the value. Do not rely on generation — a dry-run that cannot see the Secret would
+  otherwise produce a different key on each render.
+- **Overlay values files must carry real credentials.** An overlay still holding
+  `rootPassword: virtfoundry` or `jwtSecret: change-me-in-production` now fails to sync,
+  which is the intended outcome.
+- CI that only renders templates should pass throwaway values that satisfy the length
+  rules (see `.github/workflows/chart-lint.yaml`).
 
 ## Platform store
 
