@@ -836,6 +836,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#host-bridges-isolated-public" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Host bridges (isolated / public)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#storage" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1761,6 +1772,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#host-bridges-isolated-public" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Host bridges (isolated / public)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#storage" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1919,7 +1941,12 @@
 <tr>
 <td><code>platform.networking.public.*</code></td>
 <td><code>networking.public.*</code></td>
-<td>Shared VM network</td>
+<td>Shared VM network (off by default)</td>
+</tr>
+<tr>
+<td><code>platform.networking.isolated.enabled</code></td>
+<td>—</td>
+<td>Host bridge DaemonSet for tenant VPCs (off by default; see <a href="#host-bridges-isolated--public">Host bridges</a>)</td>
 </tr>
 <tr>
 <td><code>platform.networking.isolated.bridge.name</code></td>
@@ -2198,7 +2225,7 @@ rationale: <a href="https://github.com/virtfoundry/helm-charts/blob/main/charts/
 <tr>
 <td><code>public.enabled</code></td>
 <td><code>false</code></td>
-<td>Shared public network</td>
+<td>Shared public network (schedules host bridge DaemonSet when true)</td>
 </tr>
 <tr>
 <td><code>public.autoFromCluster</code></td>
@@ -2259,6 +2286,80 @@ rationale: <a href="https://github.com/virtfoundry/helm-charts/blob/main/charts/
 <div class="admonition danger">
 <p class="admonition-title">Do not enslave the Kubernetes NIC</p>
 <p><code>uplink</code> must not be the interface that holds the node IP (SSH/kubelet). Bridge-keeper runs <code>ip link set &lt;uplink&gt; master &lt;bridge&gt;</code>. Use a VLAN subinterface, a second NIC, or point <code>bridge.name</code> at an existing mgmt bridge with <code>uplink</code> empty.</p>
+</div>
+<h2 id="host-bridges-isolated-public">Host bridges (isolated / public)<a class="headerlink" href="#host-bridges-isolated-public" title="Permanent link">&para;</a></h2>
+<p>Default chart install is <strong>API + UI only</strong>: both <code>platform.networking.isolated.enabled</code> and <code>platform.networking.public.enabled</code> are <strong><code>false</code></strong>, so no hostNetwork DaemonSet is rendered (<a href="https://github.com/virtfoundry/helm-charts/issues/40">#40</a>).</p>
+<p>Opting into either flag deploys <code>*-bridge-setup</code> in <code>platform.networking.bridge.namespace</code> (default <code>kube-system</code>). That DaemonSet uses <strong><code>hostNetwork</code></strong> so it can create Linux bridges on the node. It does <strong>not</strong> use <code>hostPID</code> or <code>privileged: true</code>.</p>
+<table>
+<thead>
+<tr>
+<th>Capability</th>
+<th>Containers</th>
+<th>Why</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>NET_ADMIN</code></td>
+<td>init, bridge-keeper, dhcp</td>
+<td>Create/enslave bridges, addresses, routes</td>
+</tr>
+<tr>
+<td><code>NET_RAW</code></td>
+<td>dhcp only</td>
+<td>dnsmasq DHCP / raw sockets</td>
+</tr>
+</tbody>
+</table>
+<p>Identity: dedicated ServiceAccount with <code>automountServiceAccountToken: false</code> (no API access). Image defaults to alpine <strong>pinned by digest</strong> (<code>platform.networking.bridge.image</code>).</p>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>isolated.enabled</code></td>
+<td><code>false</code></td>
+<td>Tenant VPC L2 on an internal bridge (<code>virtfoundry-br0</code>)</td>
+</tr>
+<tr>
+<td><code>isolated.bridge.name</code></td>
+<td><code>virtfoundry-br0</code></td>
+<td>Linux bridge name (≤15 chars)</td>
+</tr>
+<tr>
+<td><code>bridge.namespace</code></td>
+<td><code>kube-system</code></td>
+<td>Namespace for the DaemonSet + scripts ConfigMap</td>
+</tr>
+<tr>
+<td><code>bridge.image</code></td>
+<td>alpine@sha256:…</td>
+<td>Pin / override (prefer a prebuilt image with dnsmasq)</td>
+</tr>
+<tr>
+<td><code>bridge.nodeSelector</code></td>
+<td><code>{}</code></td>
+<td>Optional node selection</td>
+</tr>
+<tr>
+<td><code>bridge.tolerations</code></td>
+<td><code>[]</code></td>
+<td>Empty respects control-plane <code>NoSchedule</code>; set <code>operator: Exists</code> for kind / single-node homelabs</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition warning">
+<p class="admonition-title">Host privileges are intentional</p>
+<p>Enabling isolated or public networking is an <strong>operator opt-in</strong> to host networking on every selected node. Do not enable it for a control-plane-only install unless you need Multus host bridges.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">DHCP still runs <code>apk add dnsmasq</code></p>
+<p>Until a prebuilt bridge/DHCP image ships, the public <code>dhcp</code> container installs dnsmasq at start. Override <code>bridge.image</code> with an image that already includes dnsmasq to remove that step.</p>
 </div>
 <h2 id="storage">Storage<a class="headerlink" href="#storage" title="Permanent link">&para;</a></h2>
 <p>VirtFoundry does <strong>not</strong> ship a storage backend. It uses <strong>StorageClasses already present on your cluster</strong> (Longhorn, Ceph RBD, NFS, OpenEBS, <code>local-path</code>, cloud provider disks, etc.).</p>

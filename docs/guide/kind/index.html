@@ -1653,7 +1653,7 @@ helm<span class="w"> </span>install<span class="w"> </span>virtfoundry<span clas
 <p>Even on a laptop the chart requires real credentials: <code>rootPassword</code> needs 12+ chars,
 <code>jwtSecret</code> 32+, and the old defaults are rejected (<a href="../configuration/#secrets">Secrets</a>).</p>
 <p>Deploy a <strong>container-disk</strong> VM (Templates → small offering → Console). The guest has a pod IP only; you reach it through <strong>noVNC</strong>, not from your LAN.</p>
-<p>Isolated VPCs still work: bridge-keeper creates <code>virtfoundry-br0</code> <strong>inside</strong> the kind node. That L2 never leaves Docker.</p>
+<p>Isolated VPCs still work when you use <code>values-kind.yaml</code> (sets <code>isolated.enabled: true</code> and tolerates the control-plane taint): bridge-keeper creates <code>virtfoundry-br0</code> <strong>inside</strong> the kind node. That L2 never leaves Docker. Chart defaults leave isolated <strong>off</strong> so a bare install stays API+UI-only.</p>
 <hr />
 <h2 id="4-optional-local-public-ips-still-no-vlan">4. Optional — local “public” IPs (still no VLAN)<a class="headerlink" href="#4-optional-local-public-ips-still-no-vlan" title="Permanent link">&para;</a></h2>
 <p>Use this when you want a guest address you can <code>ping</code> from the <strong>same laptop</strong>, without a switch.</p>

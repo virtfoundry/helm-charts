@@ -742,6 +742,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#host-bridges-isolated-public" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Host bridges (isolated / public)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#public-ip-optional-lan-vlan" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1456,6 +1467,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#host-bridges-isolated-public" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Host bridges (isolated / public)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#public-ip-optional-lan-vlan" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1572,6 +1594,9 @@
 <li>You still install Longhorn <strong>before</strong> VirtFoundry (<a href="../prerequisites/">prerequisites</a>). The chart only <em>selects</em> the class; it does not deploy Longhorn.</li>
 <li>Force a class: <code>--set platform.storage.defaultClass=longhorn</code> (and usually <code>--set platform.storage.snapshotClass=longhorn</code>).</li>
 </ul>
+<h2 id="host-bridges-isolated-public">Host bridges (isolated / public)<a class="headerlink" href="#host-bridges-isolated-public" title="Permanent link">&para;</a></h2>
+<p><code>platform.networking.isolated.enabled</code> and <code>platform.networking.public.enabled</code> both default to <strong><code>false</code></strong>. A default install does <strong>not</strong> schedule the hostNetwork bridge DaemonSet. Set either flag only when you need Multus host bridges — that opt-in documents the host privileges in <a href="../configuration/#host-bridges-isolated--public">Configuration — host bridges</a>.</p>
+<p>Kind and full L2 overlays set <code>isolated.enabled: true</code> (and often <code>bridge.tolerations: [{operator: Exists}]</code> so the DaemonSet can run on a tainted control-plane).</p>
 <h2 id="public-ip-optional-lan-vlan">Public IP (optional LAN / VLAN)<a class="headerlink" href="#public-ip-optional-lan-vlan" title="Permanent link">&para;</a></h2>
 <p><code>platform.networking.public.enabled</code> defaults to <strong><code>false</code></strong>. Then VMs use the <strong>pod</strong> network. You do <strong>not</strong> need <code>--set</code> for public IPs to install the control plane.</p>
 <p>When public is on, each VM can get a <strong>second NIC</strong> on a Linux bridge (<code>vf-pub0</code> by default) and a static address from <code>ipPool</code> (cloud-init). That CIDR must be <strong>your</strong> LAN or VLAN — not a number we invented.</p>
@@ -1756,8 +1781,11 @@ helm<span class="w"> </span>upgrade<span class="w"> </span>--install<span class=
 <span class="w">        </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">virtfoundry-public</span>
 <span class="w">        </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">virtfoundry-system</span>
 <span class="w">    </span><span class="c1"># Private tenant VPC networks (isolated L2 on internal bridge).</span>
+<span class="w">    </span><span class="c1"># Default false: API+UI-only installs must not schedule a hostNetwork bridge</span>
+<span class="w">    </span><span class="c1"># DaemonSet. Opt in (with public.enabled) only when you need Multus host bridges —</span>
+<span class="w">    </span><span class="c1"># see docs/guide/configuration.md#host-bridges-isolated--public.</span>
 <span class="w">    </span><span class="nt">isolated</span><span class="p">:</span>
-<span class="w">      </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">      </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
 <span class="w">      </span><span class="nt">bridge</span><span class="p">:</span>
 <span class="w">        </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">virtfoundry-br0</span>
 <span class="w">    </span><span class="c1"># Default VM networking when no network_ids are set on deploy.</span>
@@ -1767,6 +1795,13 @@ helm<span class="w"> </span>upgrade<span class="w"> </span>--install<span class=
 <span class="w">    </span><span class="nt">bridge</span><span class="p">:</span>
 <span class="w">      </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">kube-system</span><span class="w">          </span><span class="c1"># DaemonSet namespace for bridge setup</span>
 <span class="w">      </span><span class="nt">repairIntervalSeconds</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">15</span><span class="w">       </span><span class="c1"># bridge-keeper auto-repair loop</span>
+<span class="w">      </span><span class="c1"># alpine:3.21 index digest (multi-arch). Override with a prebuilt image that</span>
+<span class="w">      </span><span class="c1"># already includes dnsmasq to avoid runtime `apk add` in the dhcp container.</span>
+<span class="w">      </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">alpine@sha256:ce64758a109eb420d874a118f87920e625e12d3634e03b4a5573fd9f6e5d3507</span>
+<span class="w">      </span><span class="c1"># Empty = do not tolerate control-plane NoSchedule. Homelab / kind overlays that</span>
+<span class="w">      </span><span class="c1"># run bridges on every node (including control-plane) should set operator: Exists.</span>
+<span class="w">      </span><span class="nt">nodeSelector</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{}</span>
+<span class="w">      </span><span class="nt">tolerations</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[]</span>
 <span class="w">  </span><span class="nt">storage</span><span class="p">:</span>
 <span class="w">    </span><span class="c1"># auto = Longhorn if the StorageClass exists, else the cluster default, else local-path.</span>
 <span class="w">    </span><span class="c1"># helm template / CI (no cluster) falls back to local-path.</span>

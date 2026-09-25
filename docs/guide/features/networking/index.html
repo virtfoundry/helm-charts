@@ -1521,6 +1521,7 @@
 <p>The CIDR planner helps pick a non-overlapping VPC CIDR.</p>
 <h2 id="private-networks">Private networks<a class="headerlink" href="#private-networks" title="Permanent link">&para;</a></h2>
 <p>Isolated L2 networks attached to a VPC; VMs join via Multus NICs.</p>
+<p>Helm <code>platform.networking.isolated.enabled</code> defaults to <strong><code>false</code></strong> (API+UI-only). Turn it on (and accept the host bridge DaemonSet privileges) when you need tenant VPC bridges on the nodes — see <a href="../../configuration/#host-bridges-isolated--public">Host bridges</a>.</p>
 <p><strong>UI:</strong> Network → <strong>Networks</strong> (<code>/networks</code>)</p>
 <table>
 <thead>
