@@ -23,6 +23,9 @@ jobs:
       - name: Helm lint
         run: helm lint ./charts/virtfoundry --set-string secrets.rootPassword="$CI_ROOT_PASSWORD" --set-string secrets.jwtSecret="$CI_JWT_SECRET"
 
+      - name: Helm lint (operator chart)
+        run: helm lint ./charts/virtfoundry-operator
+
       - name: Reject sentinel credentials (must fail)
         run: ./scripts/ci/assert-secrets-fail-closed.sh
 
@@ -42,6 +45,9 @@ jobs:
 
       - name: Security gates (#37 secrets, #38 platform RBAC)
         run: bash ./scripts/ci/security-gates.sh
+
+      - name: Operator chart RBAC gate (#43 least privilege)
+        run: bash ./scripts/ci/verify-operator-chart-rbac.sh
 
       - name: Install MkDocs
         run: pip install -r requirements-docs.txt

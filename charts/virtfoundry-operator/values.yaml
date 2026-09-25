@@ -13,6 +13,12 @@ replicas: 1
 
 leaderElection: true
 
+# Cluster-side guard rail: denies the operator ServiceAccount any Namespace
+# DELETE outside virtfoundry-tenant-* labelled virtfoundry.io/tenant. Rendered
+# only when the cluster serves ValidatingAdmissionPolicy (Kubernetes >= 1.30).
+namespaceGuard:
+  enabled: true
+
 resources:
   requests:
     cpu: 50m

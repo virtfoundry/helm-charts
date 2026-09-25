@@ -1,6 +1,7 @@
-.PHONY: help lint template security-gates setup-kubevirt setup-multus setup-cdi render-local-config docs-build docs-serve
+.PHONY: help lint template security-gates verify-operator-chart-rbac setup-kubevirt setup-multus setup-cdi render-local-config docs-build docs-serve
 
 CHART := ./charts/virtfoundry
+OPERATOR_CHART := ./charts/virtfoundry-operator
 
 # Throwaway render-only credentials. The chart ships no defaults and fails to render
 # without them (helm-charts#37) — never reuse these on a cluster.
@@ -11,10 +12,11 @@ RENDER_SECRETS := --set-string secrets.rootPassword=$(RENDER_ROOT_PASSWORD) --se
 help: ## Show available targets
 	@grep -E '^[a-zA-Z0-9_-]+:.*##' Makefile | awk 'BEGIN {FS = ":.*## "}; {printf "  %-22s %s\n", $$1, $$2}'
 
-lint: template security-gates ## Validate chart renders + security gates
+lint: template security-gates verify-operator-chart-rbac ## Validate chart renders + security gates
 
 template: ## Render Helm templates locally
 	helm lint $(CHART) $(RENDER_SECRETS)
+	helm lint $(OPERATOR_CHART)
 	./scripts/ci/assert-secrets-fail-closed.sh
 	helm template virtfoundry $(CHART) $(RENDER_SECRETS)
 	helm template virtfoundry $(CHART) --set secrets.existingSecret=virtfoundry-credentials
@@ -22,6 +24,9 @@ template: ## Render Helm templates locally
 
 security-gates: ## PR gates for secrets fail-closed (#37) and scoped platform RBAC (#38)
 	bash ./scripts/ci/security-gates.sh
+
+verify-operator-chart-rbac: ## PR gate for least-privilege operator ClusterRole (#43)
+	bash ./scripts/ci/verify-operator-chart-rbac.sh
 
 setup-kubevirt: ## Optional: install KubeVirt prerequisite
 	./scripts/setup/kubevirt.sh
@@ -42,6 +47,3 @@ docs-build: ## Build MkDocs site locally
 docs-serve: ## Serve MkDocs locally (http://127.0.0.1:8000)
 	pip install -r requirements-docs.txt
 	mkdocs serve
-
-security-gates: ## Unified PR gates (#37 secrets + #38 platform RBAC)
-	bash ./scripts/ci/security-gates.sh
