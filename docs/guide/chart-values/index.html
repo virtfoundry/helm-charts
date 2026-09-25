@@ -1558,9 +1558,11 @@
 <span class="w">  </span>--version<span class="w"> </span><span class="m">0</span>.7.1<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--namespace<span class="w"> </span>virtfoundry-system<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>-f<span class="w"> </span>my-values.yaml<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--set<span class="w"> </span>secrets.rootPassword<span class="o">=</span><span class="s1">'change-me'</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--set<span class="w"> </span>secrets.jwtSecret<span class="o">=</span><span class="s1">'change-me-long-random'</span>
+<span class="w">  </span>--set<span class="w"> </span>secrets.rootPassword<span class="o">=</span><span class="s1">'choose-a-strong-password'</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--set<span class="w"> </span>secrets.jwtSecret<span class="o">=</span><span class="s2">"</span><span class="k">$(</span>openssl<span class="w"> </span>rand<span class="w"> </span>-hex<span class="w"> </span><span class="m">32</span><span class="k">)</span><span class="s2">"</span>
 </code></pre></div>
+<p>Those two keys have <strong>no defaults</strong>: the chart refuses to render without them (or
+<code>secrets.existingSecret</code>). Rules and GitOps guidance: <a href="../configuration/#secrets">Secrets</a>.</p>
 <p><code>helm upgrade … --reuse-values</code> keeps previous <code>--set</code> / <code>-f</code> unless you override them.</p>
 <h2 id="longhorn-storage">Longhorn (storage)<a class="headerlink" href="#longhorn-storage" title="Permanent link">&para;</a></h2>
 <p>VirtFoundry does <strong>not</strong> install a disk backend. VM disks are Kubernetes PVCs on whatever <strong>StorageClass</strong> you point at.</p>
@@ -1607,9 +1609,32 @@ helm<span class="w"> </span>upgrade<span class="w"> </span>--install<span class=
 <span class="w">  </span><span class="c1"># Optional: ["ghcr-pull"] for private GHCR packages</span>
 <span class="w">  </span><span class="nt">pullSecrets</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[]</span>
 
+<span class="c1"># Bootstrap credentials for the API. The chart ships no defaults on purpose:</span>
+<span class="c1"># rendering fails with an explicit error until real values are supplied.</span>
 <span class="nt">secrets</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">rootPassword</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">virtfoundry</span>
-<span class="w">  </span><span class="nt">jwtSecret</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">change-me-in-production</span>
+<span class="w">  </span><span class="c1"># Recommended for GitOps: reference a Secret you created out of band (Sealed</span>
+<span class="w">  </span><span class="c1"># Secrets, External Secrets, SOPS). When set, the chart does not manage the</span>
+<span class="w">  </span><span class="c1"># Secret and the inline values below are ignored.</span>
+<span class="w">  </span><span class="nt">existingSecret</span><span class="p">:</span><span class="w"> </span><span class="s">""</span>
+<span class="w">  </span><span class="nt">rootPasswordKey</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ROOT_PASSWORD</span>
+<span class="w">  </span><span class="nt">jwtSecretKey</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">JWT_SECRET</span>
+
+<span class="w">  </span><span class="c1"># Required unless existingSecret is set. rootPassword &gt;= 12 chars,</span>
+<span class="w">  </span><span class="c1"># jwtSecret &gt;= 32 chars (`openssl rand -hex 32`); the published defaults</span>
+<span class="w">  </span><span class="c1"># "virtfoundry" and "change-me-in-production" are rejected.</span>
+<span class="w">  </span><span class="nt">rootPassword</span><span class="p">:</span><span class="w"> </span><span class="s">""</span>
+<span class="w">  </span><span class="nt">jwtSecret</span><span class="p">:</span><span class="w"> </span><span class="s">""</span>
+
+<span class="w">  </span><span class="c1"># Generate a random 48-char jwtSecret on first install and keep it on upgrade by</span>
+<span class="w">  </span><span class="c1"># reading the live Secret back with `lookup`. Needs an API server connection, so</span>
+<span class="w">  </span><span class="c1"># `helm template` and client-side dry-runs still fail closed — Argo CD and other</span>
+<span class="w">  </span><span class="c1"># GitOps flows should use existingSecret instead.</span>
+<span class="w">  </span><span class="nt">autoGenerateJwtSecret</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+
+<span class="w">  </span><span class="c1"># Local development only: skip the checks above and set</span>
+<span class="w">  </span><span class="c1"># VF_ALLOW_INSECURE_DEFAULTS=1 on the API (core#108). Never enable on a cluster</span>
+<span class="w">  </span><span class="c1"># that is reachable from outside your laptop.</span>
+<span class="w">  </span><span class="nt">allowInsecureDefaults</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
 
 <span class="nt">config</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">logLevel</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">info</span>

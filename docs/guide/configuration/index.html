@@ -703,6 +703,67 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#secrets" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Secrets
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Secrets">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#option-a-pass-the-values-simplest" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Option A — pass the values (simplest)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#option-b-existingsecret-recommended-for-gitops" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Option B — existingSecret (recommended for GitOps)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#upgrades-do-not-reset-credentials" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Upgrades do not reset credentials
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gitops-argo-cd" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GitOps / Argo CD
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#platform-store" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -808,7 +869,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#secrets" class="md-nav__link">
+  <a href="#secrets_1" class="md-nav__link">
     <span class="md-ellipsis">
       
         Secrets
@@ -1517,6 +1578,67 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#secrets" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Secrets
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Secrets">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#option-a-pass-the-values-simplest" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Option A — pass the values (simplest)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#option-b-existingsecret-recommended-for-gitops" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Option B — existingSecret (recommended for GitOps)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#upgrades-do-not-reset-credentials" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Upgrades do not reset credentials
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gitops-argo-cd" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GitOps / Argo CD
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#platform-store" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1622,7 +1744,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#secrets" class="md-nav__link">
+  <a href="#secrets_1" class="md-nav__link">
     <span class="md-ellipsis">
       
         Secrets
@@ -1712,15 +1834,113 @@
 <tr>
 <td><code>secrets.jwtSecret</code></td>
 <td>—</td>
-<td>Env <code>JWT_SECRET</code> on API (not in ConfigMap)</td>
+<td>Env <code>JWT_SECRET</code> on API (not in ConfigMap) — see <a href="#secrets">Secrets</a></td>
 </tr>
 <tr>
 <td><code>secrets.rootPassword</code></td>
 <td>—</td>
-<td>Env <code>ROOT_PASSWORD</code> on API</td>
+<td>Env <code>ROOT_PASSWORD</code> on API — see <a href="#secrets">Secrets</a></td>
 </tr>
 </tbody>
 </table>
+<h2 id="secrets">Secrets<a class="headerlink" href="#secrets" title="Permanent link">&para;</a></h2>
+<p>The chart ships <strong>no</strong> credential defaults. A root password or HMAC key published in a
+public repository is a cluster-compromise path, so the chart refuses to render instead
+of installing one. <code>helm install</code> / <code>helm template</code> with plain defaults fails with an
+explicit error, and the sentinels <code>virtfoundry</code> and <code>change-me-in-production</code> are
+rejected even if you pass them by hand.</p>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>secrets.rootPassword</code></td>
+<td><code>""</code></td>
+<td>Bootstrap <code>root</code> password. Required unless <code>existingSecret</code>. Min <strong>12</strong> chars</td>
+</tr>
+<tr>
+<td><code>secrets.jwtSecret</code></td>
+<td><code>""</code></td>
+<td>HMAC key for API tokens. Required unless <code>existingSecret</code>. Min <strong>32</strong> chars</td>
+</tr>
+<tr>
+<td><code>secrets.existingSecret</code></td>
+<td><code>""</code></td>
+<td>Name of a Secret you manage; the chart then renders no Secret of its own</td>
+</tr>
+<tr>
+<td><code>secrets.rootPasswordKey</code></td>
+<td><code>ROOT_PASSWORD</code></td>
+<td>Key read from that Secret</td>
+</tr>
+<tr>
+<td><code>secrets.jwtSecretKey</code></td>
+<td><code>JWT_SECRET</code></td>
+<td>Key read from that Secret</td>
+</tr>
+<tr>
+<td><code>secrets.autoGenerateJwtSecret</code></td>
+<td><code>false</code></td>
+<td>Generate a random 48-char JWT secret on first install</td>
+</tr>
+<tr>
+<td><code>secrets.allowInsecureDefaults</code></td>
+<td><code>false</code></td>
+<td>Local development only — skips every check and sets <code>VF_ALLOW_INSECURE_DEFAULTS=1</code> on the API</td>
+</tr>
+</tbody>
+</table>
+<p>The thresholds match the API, which exits non-zero on an empty, short, or known-default
+credential (<a href="https://github.com/virtfoundry/core/issues/93">core#93</a>). A chart that
+rendered such a value would only move the failure to the first pod start.</p>
+<h3 id="option-a-pass-the-values-simplest">Option A — pass the values (simplest)<a class="headerlink" href="#option-a-pass-the-values-simplest" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>helm<span class="w"> </span>upgrade<span class="w"> </span>--install<span class="w"> </span>virtfoundry<span class="w"> </span>virtfoundry/virtfoundry<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--namespace<span class="w"> </span>virtfoundry-system<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--set<span class="w"> </span>secrets.rootPassword<span class="o">=</span><span class="s1">'choose-a-strong-password'</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--set<span class="w"> </span>secrets.jwtSecret<span class="o">=</span><span class="s2">"</span><span class="k">$(</span>openssl<span class="w"> </span>rand<span class="w"> </span>-hex<span class="w"> </span><span class="m">32</span><span class="k">)</span><span class="s2">"</span>
+</code></pre></div>
+<h3 id="option-b-existingsecret-recommended-for-gitops">Option B — <code>existingSecret</code> (recommended for GitOps)<a class="headerlink" href="#option-b-existingsecret-recommended-for-gitops" title="Permanent link">&para;</a></h3>
+<p>Create the Secret with whatever tool owns your secrets (Sealed Secrets, External
+Secrets, SOPS, <code>kubectl</code> for a one-off), then reference it:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>-n<span class="w"> </span>virtfoundry-system<span class="w"> </span>create<span class="w"> </span>secret<span class="w"> </span>generic<span class="w"> </span>virtfoundry-credentials<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--from-literal<span class="o">=</span><span class="nv">ROOT_PASSWORD</span><span class="o">=</span><span class="s1">'choose-a-strong-password'</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--from-literal<span class="o">=</span><span class="nv">JWT_SECRET</span><span class="o">=</span><span class="s2">"</span><span class="k">$(</span>openssl<span class="w"> </span>rand<span class="w"> </span>-hex<span class="w"> </span><span class="m">32</span><span class="k">)</span><span class="s2">"</span>
+
+helm<span class="w"> </span>upgrade<span class="w"> </span>--install<span class="w"> </span>virtfoundry<span class="w"> </span>virtfoundry/virtfoundry<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--namespace<span class="w"> </span>virtfoundry-system<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--set<span class="w"> </span>secrets.existingSecret<span class="o">=</span>virtfoundry-credentials
+</code></pre></div>
+<p>The API reads <code>ROOT_PASSWORD</code> and <code>JWT_SECRET</code> from that Secret. Rename the keys with
+<code>secrets.rootPasswordKey</code> / <code>secrets.jwtSecretKey</code>. When the chart can read the Secret
+(a real install or <code>--dry-run=server</code>), it also verifies the stored values are present
+and not sentinels — a Secret missing <code>JWT_SECRET</code> fails the install instead of producing
+a crash-looping API.</p>
+<h3 id="upgrades-do-not-reset-credentials">Upgrades do not reset credentials<a class="headerlink" href="#upgrades-do-not-reset-credentials" title="Permanent link">&para;</a></h3>
+<p><code>helm upgrade</code> without <code>--set secrets.*</code> reads the current values back from the live
+Secret, so the root password stays valid and issued tokens keep verifying. Credentials
+change only when you pass a new value explicitly.</p>
+<p><code>secrets.autoGenerateJwtSecret: true</code> extends that to the first install: the chart
+generates a 48-char secret, and later upgrades reuse the stored one. If the live Secret
+cannot be read during an upgrade, the render <strong>fails</strong> rather than silently rotating the
+key.</p>
+<h3 id="gitops-argo-cd">GitOps / Argo CD<a class="headerlink" href="#gitops-argo-cd" title="Permanent link">&para;</a></h3>
+<p><code>lookup</code> needs an API connection. It returns nothing during <code>helm template</code> and
+client-side dry-runs, which is why <code>autoGenerateJwtSecret</code> is off by default:</p>
+<ul>
+<li><strong>Argo CD and similar:</strong> use <code>secrets.existingSecret</code> and let your secrets operator own
+  the value. Do not rely on generation — a dry-run that cannot see the Secret would
+  otherwise produce a different key on each render.</li>
+<li><strong>Overlay values files must carry real credentials.</strong> An overlay still holding
+  <code>rootPassword: virtfoundry</code> or <code>jwtSecret: change-me-in-production</code> now fails to sync,
+  which is the intended outcome.</li>
+<li>CI that only renders templates should pass throwaway values that satisfy the length
+  rules (see <code>.github/workflows/chart-lint.yaml</code>).</li>
+</ul>
 <h2 id="platform-store">Platform store<a class="headerlink" href="#platform-store" title="Permanent link">&para;</a></h2>
 <p>Platform state lives in <strong><code>virtfoundry.io</code> CRDs</strong>. Install <strong><code>virtfoundry-operator</code></strong> before the API chart.</p>
 <div class="highlight"><pre><span></span><code><span class="nt">store</span><span class="p">:</span>
@@ -1973,7 +2193,7 @@ kubectl<span class="w"> </span>get<span class="w"> </span>storageclass
 <div class="highlight"><pre><span></span><code>make<span class="w"> </span>render-local-config
 make<span class="w"> </span>render-local-config<span class="w"> </span><span class="nv">VALUES</span><span class="o">=</span>./charts/virtfoundry/values.yaml
 </code></pre></div>
-<h2 id="secrets">Secrets<a class="headerlink" href="#secrets" title="Permanent link">&para;</a></h2>
+<h2 id="secrets_1">Secrets<a class="headerlink" href="#secrets_1" title="Permanent link">&para;</a></h2>
 <p>Never commit production secrets. Pass them on the <strong>same</strong> Helm command as the chart (<code>--set</code> or <code>-f</code>). See <a href="../chart-values/">Chart values</a>.</p>
 <div class="highlight"><pre><span></span><code>helm<span class="w"> </span>upgrade<span class="w"> </span>--install<span class="w"> </span>virtfoundry<span class="w"> </span>./charts/virtfoundry<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--set<span class="w"> </span>secrets.jwtSecret<span class="o">=</span><span class="s1">'...'</span><span class="w"> </span><span class="se">\</span>

@@ -1646,8 +1646,8 @@ helm<span class="w"> </span>install<span class="w"> </span>virtfoundry-operator<
 helm<span class="w"> </span>install<span class="w"> </span>virtfoundry<span class="w"> </span>virtfoundry/virtfoundry<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--version<span class="w"> </span><span class="m">0</span>.7.1<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--namespace<span class="w"> </span>virtfoundry-system<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--set<span class="w"> </span>secrets.rootPassword<span class="o">=</span><span class="s1">'change-me'</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--set<span class="w"> </span>secrets.jwtSecret<span class="o">=</span><span class="s1">'change-me-long-random'</span>
+<span class="w">  </span>--set<span class="w"> </span>secrets.rootPassword<span class="o">=</span><span class="s1">'choose-a-strong-password'</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--set<span class="w"> </span>secrets.jwtSecret<span class="o">=</span><span class="s2">"</span><span class="k">$(</span>openssl<span class="w"> </span>rand<span class="w"> </span>-hex<span class="w"> </span><span class="m">32</span><span class="k">)</span><span class="s2">"</span>
 </code></pre></div>
 <p>Wait until pods are ready:</p>
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>-n<span class="w"> </span>virtfoundry-system<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span>-w
@@ -1655,7 +1655,7 @@ kubectl<span class="w"> </span>get<span class="w"> </span>crd<span class="w"> </
 </code></pre></div>
 <div class="admonition note">
 <p class="admonition-title">Helm <code>--set</code> is not optional for secrets</p>
-<p><code>secrets.rootPassword</code> and <code>secrets.jwtSecret</code> must be passed on <strong>this same</strong> <code>helm install</code> (or via <code>-f</code>). They are chart values, not extra kubectl steps. Public CIDR and StorageClass do <strong>not</strong> need <code>--set</code> on a typical homelab: storage <code>auto</code> selects Longhorn when present; public stays off unless you enable it. Details: <a href="../chart-values/">Chart values</a>.</p>
+<p><code>secrets.rootPassword</code> (12+ chars) and <code>secrets.jwtSecret</code> (32+ chars) must be passed on <strong>this same</strong> <code>helm install</code> (or via <code>-f</code>, or replaced by <code>secrets.existingSecret</code>). The chart has no defaults for them and the install fails without them — see <a href="../configuration/#secrets">Secrets</a>. They are chart values, not extra kubectl steps. Public CIDR and StorageClass do <strong>not</strong> need <code>--set</code> on a typical homelab: storage <code>auto</code> selects Longhorn when present; public stays off unless you enable it. Details: <a href="../chart-values/">Chart values</a>.</p>
 </div>
 <p>Optional — pin the CSI snapshot class (only if auto did not pick Longhorn):</p>
 <div class="highlight"><pre><span></span><code>helm<span class="w"> </span>upgrade<span class="w"> </span>virtfoundry<span class="w"> </span>virtfoundry/virtfoundry<span class="w"> </span>-n<span class="w"> </span>virtfoundry-system<span class="w"> </span><span class="se">\</span>
@@ -1676,7 +1676,7 @@ kubectl<span class="w"> </span>get<span class="w"> </span>crd<span class="w"> </
 <h2 id="3-first-login-1-min">3. First login (~1 min)<a class="headerlink" href="#3-first-login-1-min" title="Permanent link">&para;</a></h2>
 <ul>
 <li><strong>User:</strong> <code>root</code></li>
-<li><strong>Password:</strong> the <code>secrets.rootPassword</code> you set (<code>change-me</code> above)</li>
+<li><strong>Password:</strong> the <code>secrets.rootPassword</code> you set (<code>choose-a-strong-password</code> above)</li>
 </ul>
 <hr />
 <h2 id="4-deploy-a-first-vm-10-min">4. Deploy a first VM (~10 min)<a class="headerlink" href="#4-deploy-a-first-vm-10-min" title="Permanent link">&para;</a></h2>

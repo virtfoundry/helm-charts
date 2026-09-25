@@ -1921,9 +1921,11 @@ helm<span class="w"> </span>install<span class="w"> </span>virtfoundry-operator<
 <span class="c1"># 2. API + UI</span>
 helm<span class="w"> </span>install<span class="w"> </span>virtfoundry<span class="w"> </span>virtfoundry/virtfoundry<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--namespace<span class="w"> </span>virtfoundry-system<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--set<span class="w"> </span>secrets.rootPassword<span class="o">=</span><span class="s1">'change-me'</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--set<span class="w"> </span>secrets.jwtSecret<span class="o">=</span><span class="s1">'change-me-long-random'</span>
+<span class="w">  </span>--set<span class="w"> </span>secrets.rootPassword<span class="o">=</span><span class="s1">'choose-a-strong-password'</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--set<span class="w"> </span>secrets.jwtSecret<span class="o">=</span><span class="s2">"</span><span class="k">$(</span>openssl<span class="w"> </span>rand<span class="w"> </span>-hex<span class="w"> </span><span class="m">32</span><span class="k">)</span><span class="s2">"</span>
 </code></pre></div>
+<p>The chart ships no credential defaults — see <a href="../configuration/#secrets">Secrets</a> for the
+rules and for the <code>secrets.existingSecret</code> path.</p>
 <p>Pin a release (same CRD store flags):</p>
 <div class="highlight"><pre><span></span><code>helm<span class="w"> </span>install<span class="w"> </span>virtfoundry-operator<span class="w"> </span>virtfoundry/virtfoundry-operator<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--version<span class="w"> </span><span class="m">0</span>.7.1<span class="w"> </span><span class="se">\</span>
@@ -1932,15 +1934,15 @@ helm<span class="w"> </span>install<span class="w"> </span>virtfoundry<span clas
 
 helm<span class="w"> </span>install<span class="w"> </span>virtfoundry<span class="w"> </span>virtfoundry/virtfoundry<span class="w"> </span>--version<span class="w"> </span><span class="m">0</span>.7.1<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--namespace<span class="w"> </span>virtfoundry-system<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--set<span class="w"> </span>secrets.rootPassword<span class="o">=</span><span class="s1">'change-me'</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--set<span class="w"> </span>secrets.jwtSecret<span class="o">=</span><span class="s1">'change-me-long-random'</span>
+<span class="w">  </span>--set<span class="w"> </span>secrets.rootPassword<span class="o">=</span><span class="s1">'choose-a-strong-password'</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--set<span class="w"> </span>secrets.jwtSecret<span class="o">=</span><span class="s2">"</span><span class="k">$(</span>openssl<span class="w"> </span>rand<span class="w"> </span>-hex<span class="w"> </span><span class="m">32</span><span class="k">)</span><span class="s2">"</span>
 </code></pre></div>
 <p>Images default to <code>ghcr.io/virtfoundry/core:0.7.1</code>, <code>ui:0.7.1</code>, and <code>operator:0.7.1</code>.</p>
 <hr />
 <h2 id="why-set-is-on-the-helm-command">Why <code>--set</code> is on the Helm command<a class="headerlink" href="#why-set-is-on-the-helm-command" title="Permanent link">&para;</a></h2>
 <p><code>--set</code> is a <strong>Helm</strong> flag. It must appear on the same <code>helm install</code> / <code>helm upgrade</code> line as the chart. It does not work as a follow-up kubectl command.</p>
 <ul>
-<li><strong>Must override at install:</strong> <code>secrets.rootPassword</code>, <code>secrets.jwtSecret</code> (defaults in the chart are lab-only).</li>
+<li><strong>Must set at install:</strong> <code>secrets.rootPassword</code>, <code>secrets.jwtSecret</code> — or <code>secrets.existingSecret</code>. The chart has no defaults for them and fails to render without one of the two (<a href="../configuration/#secrets">Secrets</a>).</li>
 <li><strong>Usually omit:</strong> public IP CIDR — see below. Storage class — <code>auto</code> picks Longhorn when it exists.</li>
 <li><strong>Prefer <code>-f</code>:</strong> anything more than two keys. Written defaults: <a href="../chart-values/">Chart values</a>.</li>
 </ul>
@@ -1963,18 +1965,18 @@ helm<span class="w"> </span>install<span class="w"> </span>virtfoundry-operator<
 
 helm<span class="w"> </span>install<span class="w"> </span>virtfoundry<span class="w"> </span>./charts/virtfoundry<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--namespace<span class="w"> </span>virtfoundry-system<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--set<span class="w"> </span>secrets.rootPassword<span class="o">=</span><span class="s1">'change-me'</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--set<span class="w"> </span>secrets.jwtSecret<span class="o">=</span><span class="s1">'change-me-long-random'</span>
+<span class="w">  </span>--set<span class="w"> </span>secrets.rootPassword<span class="o">=</span><span class="s1">'choose-a-strong-password'</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--set<span class="w"> </span>secrets.jwtSecret<span class="o">=</span><span class="s2">"</span><span class="k">$(</span>openssl<span class="w"> </span>rand<span class="w"> </span>-hex<span class="w"> </span><span class="m">32</span><span class="k">)</span><span class="s2">"</span>
 </code></pre></div>
 <p>Validate templates:</p>
 <div class="highlight"><pre><span></span><code>make<span class="w"> </span>lint
 </code></pre></div>
 <hr />
 <h2 id="first-login">First login<a class="headerlink" href="#first-login" title="Permanent link">&para;</a></h2>
-<p>Default bootstrap credentials (override with <code>secrets.rootPassword</code>):</p>
+<p>Bootstrap credentials come from the chart — there is no built-in default password:</p>
 <ul>
 <li><strong>User:</strong> <code>root</code></li>
-<li><strong>Password:</strong> value of <code>secrets.rootPassword</code> (default in chart values: <code>virtfoundry</code>)</li>
+<li><strong>Password:</strong> the <code>secrets.rootPassword</code> you passed at install (or <code>ROOT_PASSWORD</code> in your <code>secrets.existingSecret</code>)</li>
 </ul>
 <p>API base path: <code>/api/v1</code> on the same hostname as the UI.</p>
 <h2 id="verify-crd-store">Verify CRD store<a class="headerlink" href="#verify-crd-store" title="Permanent link">&para;</a></h2>
