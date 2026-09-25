@@ -42,3 +42,6 @@ docs-build: ## Build MkDocs site locally
 docs-serve: ## Serve MkDocs locally (http://127.0.0.1:8000)
 	pip install -r requirements-docs.txt
 	mkdocs serve
+
+security-gates: ## Unified PR gates (#37 secrets + #38 platform RBAC)
+	bash ./scripts/ci/security-gates.sh
