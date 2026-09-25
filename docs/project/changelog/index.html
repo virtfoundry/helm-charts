@@ -1292,15 +1292,15 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#080-2026-09-25" class="md-nav__link">
+  <a href="#072-2026-09-25" class="md-nav__link">
     <span class="md-ellipsis">
       
-        [0.8.0] - 2026-09-25
+        [0.7.2] - 2026-09-25
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="[0.8.0] - 2026-09-25">
+    <nav class="md-nav" aria-label="[0.7.2] - 2026-09-25">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -2008,15 +2008,15 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#080-2026-09-25" class="md-nav__link">
+  <a href="#072-2026-09-25" class="md-nav__link">
     <span class="md-ellipsis">
       
-        [0.8.0] - 2026-09-25
+        [0.7.2] - 2026-09-25
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="[0.8.0] - 2026-09-25">
+    <nav class="md-nav" aria-label="[0.7.2] - 2026-09-25">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -2643,8 +2643,8 @@
 <p>All notable changes to the <strong>Helm chart and deploy tooling</strong> are documented here.</p>
 <p>Format based on <a href="https://keepachangelog.com/">Keep a Changelog</a>. Versioning: <a href="../versioning/">SemVer</a>.</p>
 <h2 id="unreleased">[Unreleased]<a class="headerlink" href="#unreleased" title="Permanent link">&para;</a></h2>
-<h2 id="080-2026-09-25">[0.8.0] - 2026-09-25<a class="headerlink" href="#080-2026-09-25" title="Permanent link">&para;</a></h2>
-<p>Security release aligning charts with core/operator 0.8.0 (PSS hardening, networking/Ingress defaults, secrets fail-closed).</p>
+<h2 id="072-2026-09-25">[0.7.2] - 2026-09-25<a class="headerlink" href="#072-2026-09-25" title="Permanent link">&para;</a></h2>
+<p>Security release aligning charts with core/operator 0.7.2 (PSS hardening, networking/Ingress defaults, secrets fail-closed).</p>
 <h3 id="security">Security<a class="headerlink" href="#security" title="Permanent link">&para;</a></h3>
 <ul>
 <li>Harden API/UI Deployments (closes <a href="https://github.com/virtfoundry/helm-charts/issues/42">#42</a>): non-root + drop ALL + RuntimeDefault seccomp + readOnlyRootFilesystem, requests/limits, UI SA without token automount, Service <code>80→8080</code> via nginx ConfigMap. Default NetworkPolicy for control plane (<code>networkPolicy.enabled</code>); set <code>allowedIngressNamespaces</code> to restrict. Residuals: env-injected secrets; API egress open — follow-ups on the issue. Core images: UI listens on 8080 / API UID 65532.</li>
