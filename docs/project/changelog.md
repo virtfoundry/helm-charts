@@ -8,6 +8,8 @@ Format based on [Keep a Changelog](https://keepachangelog.com/). Versioning: [Se
 
 ### Security
 
+- Document CDI importer egress NetworkPolicy in each **tenant** namespace (created by core `EnsureTenantNamespace`; not a release-NS chart object) — closes [#49](https://github.com/virtfoundry/helm-charts/issues/49), follow-up to [core#95](https://github.com/virtfoundry/core/issues/95). See [Images and templates](../guide/features/templates.md#cdi-importer-egress) and [example private-mirror policy](../examples/cdi-importer-egress-private-mirror.yaml).
+
 - **Breaking:** the `virtfoundry` chart ships no credential defaults. `secrets.rootPassword` (min 12 chars) and `secrets.jwtSecret` (min 32 chars) are required, and the published sentinels `virtfoundry` / `change-me-in-production` are refused — install and `helm template` fail closed instead ([#37](https://github.com/virtfoundry/helm-charts/issues/37), [core#93](https://github.com/virtfoundry/core/issues/93))
 - Platform hook RBAC no longer grants `apiGroups: ["*"] / resources: ["*"]`. Each hook Job has its own ServiceAccount: `-platform-kubevirt` (get/patch on `kubevirt/kubevirt` only), `-platform-multus` and `-platform-cdi` (rendered only with `platform.multus.install` / `platform.cdi.install`)
 - Hook RBAC carries `helm.sh/hook-delete-policy: before-hook-creation,hook-succeeded`, so no platform identity outlives the install/upgrade

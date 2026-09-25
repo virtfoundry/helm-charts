@@ -102,6 +102,78 @@ curl -X POST -H "Authorization: Bearer $TOKEN" \
 !!! warning
     You cannot deploy from an ISO template until `import_state` is `ready`.
 
+## Allowed ISO URLs
+
+CDI downloads the ISO from **inside the cluster**. VirtFoundry validates the URL in the API ([core#95](https://github.com/virtfoundry/core/issues/95)): `https` on port 443 only, no embedded credentials, no loopback / link-local / private / reserved targets, and the host must be on an admin allowlist.
+
+Configure via the API config (ConfigMap or env):
+
+```yaml
+security:
+  iso_import:
+    allowed_hosts:
+      - "iso.mylab.example.com"
+      - "*.blob.core.windows.net"
+    disable_http_import: false
+```
+
+```bash
+VIRTFOUNDRY_ISO_ALLOWED_HOSTS="iso.mylab.example.com,*.blob.core.windows.net"
+VIRTFOUNDRY_ISO_DISABLE_HTTP_IMPORT=1
+```
+
+With no `allowed_hosts`, the built-in list covers public Microsoft / Linux install media and common object-storage hosts. Setting `allowed_hosts` **replaces** that list. Details: [core VM-TEMPLATES](https://github.com/virtfoundry/core/blob/main/docs/VM-TEMPLATES.md#allowed-iso-urls).
+
+## CDI importer egress
+
+The allowlist is **name-based**. CDI resolves the hostname itself, so DNS rebinding (or a redirect to a private address) can still reach cluster-internal or metadata targets if the network path exists.
+
+VirtFoundry therefore creates an **Egress** NetworkPolicy in each **tenant** namespace (where CDI importer pods run — not the chart release namespace). A single NetworkPolicy in `virtfoundry-system` cannot cover tenant importers.
+
+| | |
+|--|--|
+| Name | `virtfoundry-cdi-importer-egress` |
+| Created by | core `EnsureTenantNamespace` (on tenant create and on API bootstrap for existing tenants) |
+| Selects | pods labeled `cdi.kubevirt.io=importer` |
+| Allows | DNS to `kube-system` / `k8s-app=kube-dns` (UDP+TCP 53); `0.0.0.0/0` and `::/0` except private / link-local / CGNAT ranges |
+
+**Requirements:** the cluster CNI must enforce NetworkPolicy (Calico, Cilium, etc.). Without enforcement the object is inert.
+
+### Private ISO mirrors
+
+If your mirror lives on RFC1918 (or another denied range), either:
+
+1. Patch the policy in the tenant NS to add an `egress` `ipBlock` for that CIDR, or
+2. Apply a second allow policy in the same namespace (NetworkPolicies are additive for allowed traffic).
+
+Example second policy (also under [`docs/examples/`](../../examples/cdi-importer-egress-private-mirror.yaml)):
+
+```yaml
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: virtfoundry-cdi-importer-private-mirror
+  namespace: virtfoundry-tenant-acme   # each tenant NS
+spec:
+  podSelector:
+    matchLabels:
+      cdi.kubevirt.io: importer
+  policyTypes: [Egress]
+  egress:
+    - to:
+        - ipBlock:
+            cidr: 10.10.0.0/24        # your mirror subnet
+```
+
+Also add the mirror hostname to `security.iso_import.allowed_hosts` so the API accepts the URL.
+
+### Residuals
+
+- DNS rebinding to a *public* malicious IP is still possible; the allowlist remains the app control.
+- Upload / other CDI components are not selected by this policy (only `cdi.kubevirt.io=importer`).
+
+Tracked as [helm-charts#49](https://github.com/virtfoundry/helm-charts/issues/49).
+
 ## Deploying with templates
 
 On **VMs**, pick a template + [service offering](offerings.md). See [Virtual machines](vms.md).

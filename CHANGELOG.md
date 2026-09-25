@@ -4,6 +4,10 @@ See [docs/project/changelog.md](docs/project/changelog.md) for the full release 
 
 ## [Unreleased]
 
+### Security
+
+- Document CDI importer egress NetworkPolicy (tenant NS, not chart release NS) aligned with [core#95](https://github.com/virtfoundry/core/issues/95) allowlist — closes [#49](https://github.com/virtfoundry/helm-charts/issues/49). Policy is created by core on tenant ensure; chart docs cover private-mirror extensions ([example](docs/examples/cdi-importer-egress-private-mirror.yaml)).
+
 **Breaking (security).** The `virtfoundry` chart no longer ships default credentials. `secrets.rootPassword` (min 12 chars) and `secrets.jwtSecret` (min 32 chars) are required, the published sentinels `virtfoundry` / `change-me-in-production` are rejected, and `secrets.existingSecret` is supported for GitOps. An upgrade that omits the values reuses the ones already stored in the live Secret. See [Secrets](docs/guide/configuration.md#secrets) — [#37](https://github.com/virtfoundry/helm-charts/issues/37).
 
 Security: platform hook Jobs no longer share a wildcard ClusterRole. Each Job gets a scoped ServiceAccount that is deleted when the hook phase succeeds. Upgrades must remove the old `virtfoundry-platform` ServiceAccount/ClusterRole/ClusterRoleBinding by hand — see [docs/project/changelog.md](docs/project/changelog.md).
