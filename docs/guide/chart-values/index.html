@@ -1671,6 +1671,23 @@ helm<span class="w"> </span>upgrade<span class="w"> </span>--install<span class=
 <span class="w">    </span><span class="nt">port</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">8080</span>
 <span class="w">  </span><span class="nt">replicas</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
 
+<span class="nt">rbac</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">api</span><span class="p">:</span>
+<span class="w">    </span><span class="c1"># Namespaces where the API may manage Secrets. The release namespace is always</span>
+<span class="w">    </span><span class="c1"># included. Listing your tenant namespaces (virtfoundry-tenant-{slug}) here</span>
+<span class="w">    </span><span class="c1"># removes the cluster-wide Secret rule from the API ClusterRole entirely — the</span>
+<span class="w">    </span><span class="c1"># strictest setup, at the cost of a values change per new tenant.</span>
+<span class="w">    </span><span class="c1"># Leave empty to keep the cluster-scoped fallback (get/create/update only,</span>
+<span class="w">    </span><span class="c1"># never list/watch/delete). See README "API permissions".</span>
+<span class="w">    </span><span class="nt">secretNamespaces</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[]</span>
+
+<span class="c1"># Cluster-side guard rail: denies the API ServiceAccount any Namespace DELETE</span>
+<span class="c1"># outside virtfoundry-tenant-* / virtfoundry-vpc-* carrying a virtfoundry.io/</span>
+<span class="c1"># label. Rendered only when the cluster serves ValidatingAdmissionPolicy</span>
+<span class="c1"># (Kubernetes &gt;= 1.30).</span>
+<span class="nt">namespaceGuard</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+
 <span class="c1"># Optional cluster/platform bootstrap (bare-metal / air-gapped without a registry).</span>
 <span class="c1"># Image sideloading stays outside the chart — see scripts/sideload/.</span>
 <span class="nt">platform</span><span class="p">:</span>

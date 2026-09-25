@@ -775,6 +775,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#rbac-api-permissions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        RBAC (API permissions)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#public-networking" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1650,6 +1661,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#rbac-api-permissions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        RBAC (API permissions)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#public-networking" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1951,6 +1973,41 @@ client-side dry-runs, which is why <code>autoGenerateJwtSecret</code> is off by 
 kubectl<span class="w"> </span>get<span class="w"> </span>vf-tenant
 kubectl<span class="w"> </span>get<span class="w"> </span>vf-instance<span class="w"> </span>-A
 </code></pre></div>
+<h2 id="rbac-api-permissions">RBAC (API permissions)<a class="headerlink" href="#rbac-api-permissions" title="Permanent link">&para;</a></h2>
+<p>The API ClusterRole grants only the verbs the API calls: <code>nodes</code> and <code>pods</code> are read
+only, <code>secrets</code> never gets <code>list</code>, <code>watch</code> or <code>delete</code>, and <code>virtfoundry.io</code> resources
+are enumerated one by one instead of <code>*</code>.</p>
+<p>Tenant workloads live in namespaces the API creates at runtime
+(<code>virtfoundry-tenant-{slug}</code>), and RBAC matches neither name prefixes nor labels, so
+those rules stay cluster scoped. Two settings narrow what is left:</p>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Default</th>
+<th>Effect</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>rbac.api.secretNamespaces</code></td>
+<td><code>[]</code></td>
+<td>List your tenant namespaces to replace the cluster-scoped Secret rule with a <code>Role</code> per namespace</td>
+</tr>
+<tr>
+<td><code>namespaceGuard.enabled</code></td>
+<td><code>true</code></td>
+<td><code>ValidatingAdmissionPolicy</code> denying the API ServiceAccount any Namespace <code>DELETE</code> outside <code>virtfoundry-tenant-*</code> / <code>virtfoundry-vpc-*</code> (Kubernetes 1.30+)</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight"><pre><span></span><code>helm<span class="w"> </span>upgrade<span class="w"> </span>virtfoundry<span class="w"> </span>virtfoundry/virtfoundry<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--reuse-values<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--set<span class="w"> </span><span class="s1">'rbac.api.secretNamespaces={virtfoundry-tenant-acme,virtfoundry-tenant-globex}'</span>
+</code></pre></div>
+<p>A tenant namespace missing from that list cannot store API-key Secrets, so
+tenant-scoped API keys created there fail to authenticate. Full rule-by-rule
+rationale: <a href="https://github.com/virtfoundry/helm-charts/blob/main/charts/virtfoundry/README.md#api-permissions">chart README — API permissions</a>.</p>
 <h2 id="public-networking">Public networking<a class="headerlink" href="#public-networking" title="Permanent link">&para;</a></h2>
 <p>Enable routable VM IPs on a host bridge + Multus NAD. VLAN tagging is optional — laptop walkthrough: <a href="../kind/">Kind</a>; real nodes: <a href="../topologies/#public-network-underlay">Topologies — public underlay</a>. Written chart defaults: <a href="../chart-values/">Chart values</a>.</p>
 <p>If you <strong>do not</strong> <code>--set</code> public CIDR/gateway, <code>autoFromCluster: true</code> copies a <code>/24</code> from the first Node <strong>InternalIP</strong> (kubelet address), gateway <code>.1</code>, pool <code>.20–.80</code>. Public stays <strong>disabled</strong> until you set <code>public.enabled: true</code>. Auto never sets <code>uplink</code>.</p>
