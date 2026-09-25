@@ -40,8 +40,8 @@ helm install virtfoundry-operator virtfoundry/virtfoundry-operator \
 helm install virtfoundry virtfoundry/virtfoundry \
   --version 0.7.1 \
   --namespace virtfoundry-system \
-  --set secrets.rootPassword='change-me' \
-  --set secrets.jwtSecret='change-me-long-random'
+  --set secrets.rootPassword='choose-a-strong-password' \
+  --set secrets.jwtSecret="$(openssl rand -hex 32)"
 ```
 
 Wait until pods are ready:
@@ -52,7 +52,7 @@ kubectl get crd | grep virtfoundry.io
 ```
 
 !!! note "Helm `--set` is not optional for secrets"
-    `secrets.rootPassword` and `secrets.jwtSecret` must be passed on **this same** `helm install` (or via `-f`). They are chart values, not extra kubectl steps. Public CIDR and StorageClass do **not** need `--set` on a typical homelab: storage `auto` selects Longhorn when present; public stays off unless you enable it. Details: [Chart values](chart-values.md).
+    `secrets.rootPassword` (12+ chars) and `secrets.jwtSecret` (32+ chars) must be passed on **this same** `helm install` (or via `-f`, or replaced by `secrets.existingSecret`). The chart has no defaults for them and the install fails without them — see [Secrets](configuration.md#secrets). They are chart values, not extra kubectl steps. Public CIDR and StorageClass do **not** need `--set` on a typical homelab: storage `auto` selects Longhorn when present; public stays off unless you enable it. Details: [Chart values](chart-values.md).
 
 Optional — pin the CSI snapshot class (only if auto did not pick Longhorn):
 
@@ -87,7 +87,7 @@ Use your cluster’s IngressClass or Gateway + HTTPRoute. Example values and Gat
 ## 3. First login (~1 min)
 
 - **User:** `root`
-- **Password:** the `secrets.rootPassword` you set (`change-me` above)
+- **Password:** the `secrets.rootPassword` you set (`choose-a-strong-password` above)
 
 ---
 

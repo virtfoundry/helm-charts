@@ -30,9 +30,13 @@ helm install virtfoundry-operator virtfoundry/virtfoundry-operator \
 helm install virtfoundry virtfoundry/virtfoundry \
   --version 0.7.1 \
   -n virtfoundry-system --create-namespace \
-  --set secrets.rootPassword='change-me' \
-  --set secrets.jwtSecret='change-me'
+  --set secrets.rootPassword='choose-a-strong-password' \
+  --set secrets.jwtSecret="$(openssl rand -hex 32)"
 ```
+
+The chart ships **no** credential defaults: install fails until `secrets.rootPassword`
+(min 12 chars) and `secrets.jwtSecret` (min 32 chars) are set, or `secrets.existingSecret`
+points at a Secret you manage. See [Secrets](docs/guide/configuration.md#secrets).
 
 ## Local validation
 

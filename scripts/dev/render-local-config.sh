@@ -18,7 +18,12 @@ fi
 
 mkdir -p "$(dirname "$OUTPUT")"
 
-helm template virtfoundry "$CHART_DIR" -f "$VALUES" --show-only templates/configmap.yaml \
+# The chart refuses to render without credentials. This script only extracts the
+# non-sensitive ConfigMap, so throwaway values that satisfy the length rules are enough.
+helm template virtfoundry "$CHART_DIR" -f "$VALUES" \
+  --set-string secrets.rootPassword=render-only-placeholder \
+  --set-string secrets.jwtSecret=render-only-placeholder-not-a-real-jwt-secret \
+  --show-only templates/configmap.yaml \
   | awk '/^  config.yaml: \|$/{p=1;next} p && /^[^ ]/{exit} p{sub(/^    /,""); print}' \
   > "$OUTPUT"
 

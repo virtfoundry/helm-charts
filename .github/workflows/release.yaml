@@ -28,10 +28,16 @@ jobs:
         uses: azure/setup-helm@v4
 
       - name: Lint chart
+        env:
+          # Throwaway render-only credentials: the chart ships no defaults and refuses
+          # to render without them.
+          CI_ROOT_PASSWORD: ci-render-only-password
+          CI_JWT_SECRET: ci-render-only-jwt-secret-0123456789abcdef
         run: |
-          helm lint ./charts/virtfoundry
-          helm template virtfoundry ./charts/virtfoundry
-          helm template virtfoundry ./charts/virtfoundry -f ./charts/virtfoundry/values-gateway.yaml
+          helm lint ./charts/virtfoundry --set-string secrets.rootPassword="$CI_ROOT_PASSWORD" --set-string secrets.jwtSecret="$CI_JWT_SECRET"
+          ./scripts/ci/assert-secrets-fail-closed.sh
+          helm template virtfoundry ./charts/virtfoundry --set-string secrets.rootPassword="$CI_ROOT_PASSWORD" --set-string secrets.jwtSecret="$CI_JWT_SECRET"
+          helm template virtfoundry ./charts/virtfoundry -f ./charts/virtfoundry/values-gateway.yaml --set-string secrets.rootPassword="$CI_ROOT_PASSWORD" --set-string secrets.jwtSecret="$CI_JWT_SECRET"
 
       - name: Bootstrap gh-pages branch
         run: |

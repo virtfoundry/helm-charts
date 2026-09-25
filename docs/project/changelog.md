@@ -8,6 +8,7 @@ Format based on [Keep a Changelog](https://keepachangelog.com/). Versioning: [Se
 
 ### Security
 
+- **Breaking:** the `virtfoundry` chart ships no credential defaults. `secrets.rootPassword` (min 12 chars) and `secrets.jwtSecret` (min 32 chars) are required, and the published sentinels `virtfoundry` / `change-me-in-production` are refused — install and `helm template` fail closed instead ([#37](https://github.com/virtfoundry/helm-charts/issues/37), [core#93](https://github.com/virtfoundry/core/issues/93))
 - Platform hook RBAC no longer grants `apiGroups: ["*"] / resources: ["*"]`. Each hook Job has its own ServiceAccount: `-platform-kubevirt` (get/patch on `kubevirt/kubevirt` only), `-platform-multus` and `-platform-cdi` (rendered only with `platform.multus.install` / `platform.cdi.install`)
 - Hook RBAC carries `helm.sh/hook-delete-policy: before-hook-creation,hook-succeeded`, so no platform identity outlives the install/upgrade
 
@@ -18,6 +19,17 @@ kubectl delete clusterrolebinding virtfoundry-platform --ignore-not-found
 kubectl delete clusterrole virtfoundry-platform --ignore-not-found
 kubectl -n virtfoundry-system delete serviceaccount virtfoundry-platform --ignore-not-found
 ```
+
+### Added
+
+- `secrets.existingSecret` (with `secrets.rootPasswordKey` / `secrets.jwtSecretKey`) — bring your own Secret; recommended for Argo CD and other GitOps flows
+- `secrets.autoGenerateJwtSecret` — random 48-char JWT secret on first install, preserved across upgrades via `lookup`
+- `secrets.allowInsecureDefaults` — local-development escape hatch that also sets `VF_ALLOW_INSECURE_DEFAULTS=1` on the API
+
+### Changed
+
+- `helm upgrade` without `--set secrets.*` reuses the credentials already stored in the live Secret, so upgrades no longer reset the root password or invalidate issued tokens
+- Documented in [Configuration — Secrets](../guide/configuration.md#secrets)
 
 ## [0.7.1] - 2026-09-04
 

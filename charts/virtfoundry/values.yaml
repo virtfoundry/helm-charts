@@ -16,9 +16,32 @@ images:
   # Optional: ["ghcr-pull"] for private GHCR packages
   pullSecrets: []
 
+# Bootstrap credentials for the API. The chart ships no defaults on purpose:
+# rendering fails with an explicit error until real values are supplied.
 secrets:
-  rootPassword: virtfoundry
-  jwtSecret: change-me-in-production
+  # Recommended for GitOps: reference a Secret you created out of band (Sealed
+  # Secrets, External Secrets, SOPS). When set, the chart does not manage the
+  # Secret and the inline values below are ignored.
+  existingSecret: ""
+  rootPasswordKey: ROOT_PASSWORD
+  jwtSecretKey: JWT_SECRET
+
+  # Required unless existingSecret is set. rootPassword >= 12 chars,
+  # jwtSecret >= 32 chars (`openssl rand -hex 32`); the published defaults
+  # "virtfoundry" and "change-me-in-production" are rejected.
+  rootPassword: ""
+  jwtSecret: ""
+
+  # Generate a random 48-char jwtSecret on first install and keep it on upgrade by
+  # reading the live Secret back with `lookup`. Needs an API server connection, so
+  # `helm template` and client-side dry-runs still fail closed — Argo CD and other
+  # GitOps flows should use existingSecret instead.
+  autoGenerateJwtSecret: false
+
+  # Local development only: skip the checks above and set
+  # VF_ALLOW_INSECURE_DEFAULTS=1 on the API (core#108). Never enable on a cluster
+  # that is reachable from outside your laptop.
+  allowInsecureDefaults: false
 
 config:
   logLevel: info

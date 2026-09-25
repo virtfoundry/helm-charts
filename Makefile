@@ -2,15 +2,23 @@
 
 CHART := ./charts/virtfoundry
 
+# Throwaway render-only credentials. The chart ships no defaults and fails to render
+# without them (helm-charts#37) — never reuse these on a cluster.
+RENDER_ROOT_PASSWORD ?= render-only-password
+RENDER_JWT_SECRET ?= render-only-jwt-secret-0123456789abcdef
+RENDER_SECRETS := --set-string secrets.rootPassword=$(RENDER_ROOT_PASSWORD) --set-string secrets.jwtSecret=$(RENDER_JWT_SECRET)
+
 help: ## Show available targets
 	@grep -E '^[a-zA-Z0-9_-]+:.*##' Makefile | awk 'BEGIN {FS = ":.*## "}; {printf "  %-22s %s\n", $$1, $$2}'
 
 lint: template security-gates ## Validate chart renders + security gates
 
 template: ## Render Helm templates locally
-	helm lint $(CHART)
-	helm template virtfoundry $(CHART)
-	helm template virtfoundry $(CHART) -f $(CHART)/values-gateway.yaml
+	helm lint $(CHART) $(RENDER_SECRETS)
+	./scripts/ci/assert-secrets-fail-closed.sh
+	helm template virtfoundry $(CHART) $(RENDER_SECRETS)
+	helm template virtfoundry $(CHART) --set secrets.existingSecret=virtfoundry-credentials
+	helm template virtfoundry $(CHART) -f $(CHART)/values-gateway.yaml $(RENDER_SECRETS)
 
 security-gates: ## PR gates for secrets fail-closed (#37) and scoped platform RBAC (#38)
 	bash ./scripts/ci/security-gates.sh

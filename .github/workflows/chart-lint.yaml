@@ -9,6 +9,11 @@ on:
 jobs:
   lint:
     runs-on: ubuntu-latest
+    env:
+      # Throwaway render-only credentials. The chart refuses to render without them;
+      # these only satisfy the length rules and never reach a cluster.
+      CI_ROOT_PASSWORD: ci-render-only-password
+      CI_JWT_SECRET: ci-render-only-jwt-secret-0123456789abcdef
     steps:
       - uses: actions/checkout@v4
 
@@ -16,13 +21,19 @@ jobs:
         uses: azure/setup-helm@v4
 
       - name: Helm lint
-        run: helm lint ./charts/virtfoundry
+        run: helm lint ./charts/virtfoundry --set-string secrets.rootPassword="$CI_ROOT_PASSWORD" --set-string secrets.jwtSecret="$CI_JWT_SECRET"
+
+      - name: Reject sentinel credentials (must fail)
+        run: ./scripts/ci/assert-secrets-fail-closed.sh
 
       - name: Render default values
-        run: helm template virtfoundry ./charts/virtfoundry
+        run: helm template virtfoundry ./charts/virtfoundry --set-string secrets.rootPassword="$CI_ROOT_PASSWORD" --set-string secrets.jwtSecret="$CI_JWT_SECRET"
+
+      - name: Render with existingSecret
+        run: helm template virtfoundry ./charts/virtfoundry --set secrets.existingSecret=virtfoundry-credentials
 
       - name: Render gateway profile
-        run: helm template virtfoundry ./charts/virtfoundry -f ./charts/virtfoundry/values-gateway.yaml
+        run: helm template virtfoundry ./charts/virtfoundry -f ./charts/virtfoundry/values-gateway.yaml --set-string secrets.rootPassword="$CI_ROOT_PASSWORD" --set-string secrets.jwtSecret="$CI_JWT_SECRET"
 
       - name: Setup Python
         uses: actions/setup-python@v5
