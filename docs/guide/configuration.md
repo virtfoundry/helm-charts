@@ -111,6 +111,31 @@ kubectl get vf-tenant
 kubectl get vf-instance -A
 ```
 
+## RBAC (API permissions)
+
+The API ClusterRole grants only the verbs the API calls: `nodes` and `pods` are read
+only, `secrets` never gets `list`, `watch` or `delete`, and `virtfoundry.io` resources
+are enumerated one by one instead of `*`.
+
+Tenant workloads live in namespaces the API creates at runtime
+(`virtfoundry-tenant-{slug}`), and RBAC matches neither name prefixes nor labels, so
+those rules stay cluster scoped. Two settings narrow what is left:
+
+| Key | Default | Effect |
+|-----|---------|--------|
+| `rbac.api.secretNamespaces` | `[]` | List your tenant namespaces to replace the cluster-scoped Secret rule with a `Role` per namespace |
+| `namespaceGuard.enabled` | `true` | `ValidatingAdmissionPolicy` denying the API ServiceAccount any Namespace `DELETE` outside `virtfoundry-tenant-*` / `virtfoundry-vpc-*` (Kubernetes 1.30+) |
+
+```bash
+helm upgrade virtfoundry virtfoundry/virtfoundry \
+  --reuse-values \
+  --set 'rbac.api.secretNamespaces={virtfoundry-tenant-acme,virtfoundry-tenant-globex}'
+```
+
+A tenant namespace missing from that list cannot store API-key Secrets, so
+tenant-scoped API keys created there fail to authenticate. Full rule-by-rule
+rationale: [chart README — API permissions](https://github.com/virtfoundry/helm-charts/blob/main/charts/virtfoundry/README.md#api-permissions).
+
 ## Public networking
 
 Enable routable VM IPs on a host bridge + Multus NAD. VLAN tagging is optional — laptop walkthrough: [Kind](kind.md); real nodes: [Topologies — public underlay](topologies.md#public-network-underlay). Written chart defaults: [Chart values](chart-values.md).

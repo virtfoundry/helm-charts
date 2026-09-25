@@ -53,6 +53,52 @@ dry-runs, so generation cannot be relied on there.
 
 Details: [Configuration — Secrets](https://virtfoundry.github.io/helm-charts/docs/guide/configuration/#secrets).
 
+## API permissions
+
+The API ClusterRole grants only the verbs the API calls, so a compromised API pod
+cannot enumerate Secrets, mutate Nodes, or schedule pods of its own:
+
+| Resource | Verbs | Why |
+|----------|-------|-----|
+| `nodes` | `get`, `list` | Hypervisor capacity view. No `delete`/`patch` — nothing in the API mutates Nodes |
+| `pods`, `pods/log` | `get`, `list` | Console and log endpoints; virt-launcher pods are created by KubeVirt |
+| `namespaces` | `get`, `list`, `create`, `delete` | Tenant and VPC namespaces, created at runtime |
+| `resourcequotas` | `get`, `list`, `create` | Written once per tenant namespace |
+| `secrets` | `get`, `create`, `update` | Cluster-scoped fallback only — never `list`, `watch` or `delete` |
+| `virtfoundry.io` CRDs | full CRUD | Enumerated resource by resource instead of `*`, so a new CRD is granted deliberately |
+
+### Remaining cluster scope
+
+Tenant workloads live in namespaces the API creates at runtime
+(`virtfoundry-tenant-{slug}`, `virtfoundry-vpc-{slug}-{id}`). RBAC matches neither
+name prefixes nor labels, so the namespaced rules above stay in a ClusterRole; they
+are kept narrow by verb instead. Namespace `delete` is additionally fenced by the
+guard below.
+
+`secrets` is the one rule you can remove outright. API-key Secrets are written next
+to their APIKey CR, so a tenant-scoped key lands in that tenant's namespace, and the
+Secret name is derived from the key (RBAC has no prefix matching, and it ignores
+`resourceNames` on `create`). List the namespaces explicitly to trade a values change
+per tenant for zero cluster-wide Secret access:
+
+```bash
+helm upgrade virtfoundry virtfoundry/virtfoundry \
+  --set 'rbac.api.secretNamespaces={virtfoundry-tenant-acme,virtfoundry-tenant-globex}'
+```
+
+The release namespace is always included, and each listed namespace gets a `Role` +
+`RoleBinding` with `get`/`create`/`update`/`delete` on Secrets. A tenant namespace
+that is missing from the list cannot store API-key Secrets, so tenant-scoped API keys
+created there will fail to authenticate.
+
+### Namespace deletion guard
+
+`namespaceGuard.enabled` (default `true`) installs a `ValidatingAdmissionPolicy` that
+denies the API ServiceAccount any Namespace `DELETE` outside `virtfoundry-tenant-*` /
+`virtfoundry-vpc-*` carrying a `virtfoundry.io/` label. It renders only on clusters
+serving `admissionregistration.k8s.io/v1` policies (Kubernetes 1.30+), so the chart
+still installs on older clusters — there the ClusterRole is the only limit.
+
 ## Profiles
 
 | File | Use case |

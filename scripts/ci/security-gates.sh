@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # PR / CI security gates for charts/virtfoundry.
-# Keeps #37 (secrets fail-closed) and #38 (no platform RBAC wildcards) from regressing.
+# Keeps #37 (secrets fail-closed), #38 (no platform RBAC wildcards) and #39
+# (least-privilege API ClusterRole) from regressing.
 #
 # Gates activate when the corresponding fix is present in the tree:
 #   #37 → templates reference virtfoundry.validateSecrets
@@ -102,5 +103,189 @@ PY
 else
   ok "skip platform RBAC gates (scoped -platform-kubevirt identities not in chart yet)"
 fi
+
+# --- Gate: least-privilege API ClusterRole (#39) ---
+# The API ClusterRole has to stay cluster scoped (tenant namespaces are created at
+# runtime), so these checks police the verbs instead: no way to enumerate or destroy
+# Secrets, no writes to Nodes, no pod creation, and no wildcards.
+check_api_clusterrole() {
+  local file="$1"
+  local label="$2"
+  local secrets_mode="$3" # "fallback" (get/create/update) or "none"
+  python3 - "$file" "$label" "$secrets_mode" "${CHART}/../virtfoundry-operator/crds" <<'PY'
+import re
+import sys
+from pathlib import Path
+
+path, label, secrets_mode, crd_dir = sys.argv[1:5]
+
+failures = []
+
+
+def fail(msg):
+    failures.append(msg)
+
+
+def parse_rules(doc):
+    """Minimal parser for the rule shape this chart renders (flow or block lists)."""
+    lines = doc.splitlines()
+    start = next((i for i, line in enumerate(lines) if line.rstrip() == "rules:"), None)
+    if start is None:
+        return []
+    rules, current, key = [], None, None
+    for line in lines[start + 1:]:
+        if not line.strip() or line.lstrip().startswith("#"):
+            continue
+        if not line.startswith("  "):
+            break
+        item = line.strip()
+        if line.startswith("  - "):
+            current, key = {}, None
+            rules.append(current)
+            item = item[2:]
+        if item.startswith("- "):
+            if current is None or key is None:
+                raise SystemExit(f"security-gates: cannot parse rule list near: {line!r}")
+            current[key].append(item[2:].strip().strip("\"'"))
+            continue
+        match = re.match(r"([A-Za-z]+):\s*(.*)$", item)
+        if not match or current is None:
+            raise SystemExit(f"security-gates: cannot parse rule line: {line!r}")
+        key, rest = match.group(1), match.group(2).strip()
+        if rest.startswith("["):
+            current[key] = [v.strip().strip("\"'") for v in rest.strip("[]").split(",") if v.strip()]
+        else:
+            current[key] = [rest.strip("\"'")] if rest else []
+    return rules
+
+
+docs = re.split(r"(?m)^---\s*$", Path(path).read_text())
+role = None
+for doc in docs:
+    if not re.search(r"(?m)^kind:\s*ClusterRole\s*$", doc):
+        continue
+    name = re.search(r"(?m)^\s{2}name:\s*(\S+)\s*$", doc)
+    if name and name.group(1).endswith("-api"):
+        role = doc
+        break
+
+if role is None:
+    raise SystemExit(f"security-gates: FAIL ({label}): no *-api ClusterRole in the rendered output")
+
+rules = parse_rules(role)
+if len(rules) < 10 or any("verbs" not in r or "resources" not in r for r in rules):
+    raise SystemExit(f"security-gates: FAIL ({label}): parsed {len(rules)} usable API ClusterRole rules")
+
+
+def verbs_for(resource, group=""):
+    out = set()
+    for rule in rules:
+        if group in rule.get("apiGroups", []) and resource in rule.get("resources", []):
+            out |= set(rule["verbs"])
+    return out
+
+
+for rule in rules:
+    if "*" in rule.get("apiGroups", []):
+        fail("apiGroups wildcard")
+    if "*" in rule.get("resources", []):
+        fail(f"resources wildcard for apiGroups {rule.get('apiGroups')}")
+    if "*" in rule["verbs"]:
+        fail(f"verbs wildcard for resources {rule.get('resources')}")
+
+# helm-charts#39: a compromised API pod must not be able to read every Secret in
+# the cluster or delete the ones it can reach.
+secrets = verbs_for("secrets")
+if secrets_mode == "none":
+    if secrets:
+        fail(f"expected no cluster-wide secrets rule with rbac.api.secretNamespaces set, got {sorted(secrets)}")
+else:
+    forbidden = secrets & {"list", "watch", "delete", "deletecollection", "patch"}
+    if forbidden:
+        fail(f"cluster-wide secrets rule grants {sorted(forbidden)}")
+    if not secrets:
+        fail("expected the cluster-scoped secrets fallback (get/create/update) by default")
+
+nodes = verbs_for("nodes")
+write_verbs = nodes - {"get", "list", "watch"}
+if write_verbs:
+    fail(f"nodes rule grants {sorted(write_verbs)} (read only: the API never mutates Nodes)")
+
+pods = verbs_for("pods") - {"get", "list", "watch"}
+if pods:
+    fail(f"pods rule grants {sorted(pods)} (virt-launcher pods are created by KubeVirt)")
+
+# Explicit virtfoundry.io resources must cover every shipped CRD, otherwise the
+# list silently falls behind a new kind.
+granted = set()
+for rule in rules:
+    if "virtfoundry.io" in rule.get("apiGroups", []):
+        granted |= {r for r in rule["resources"] if "/" not in r}
+plurals = set()
+for crd in sorted(Path(crd_dir).glob("*.yaml")):
+    plurals |= set(re.findall(r"(?m)^\s+plural:\s*(\S+)\s*$", crd.read_text()))
+if not plurals:
+    fail(f"no CRD plurals found under {crd_dir}")
+missing = plurals - granted
+if missing:
+    fail(f"virtfoundry.io rule is missing CRDs {sorted(missing)} (add them to templates/rbac.yaml)")
+unknown = granted - plurals
+if unknown:
+    fail(f"virtfoundry.io rule grants unknown resources {sorted(unknown)}")
+
+if failures:
+    print(f"security-gates: FAIL ({label}): API ClusterRole:", file=sys.stderr)
+    for item in failures:
+        print(f"  - {item}", file=sys.stderr)
+    sys.exit(1)
+print(f"security-gates: ok: API ClusterRole is least privilege ({label})")
+PY
+}
+
+check_api_clusterrole "${TMP}/safe.yaml" "default" fallback
+
+helm template vf "$CHART" \
+  --set "secrets.rootPassword=${SAFE_ROOT}" \
+  --set "secrets.jwtSecret=${SAFE_JWT}" \
+  --set 'rbac.api.secretNamespaces={virtfoundry-tenant-acme,virtfoundry-tenant-globex}' \
+  >"${TMP}/scoped-secrets.yaml" \
+  || die "helm template with rbac.api.secretNamespaces failed"
+
+check_api_clusterrole "${TMP}/scoped-secrets.yaml" "secretNamespaces" none
+
+for ns in virtfoundry-tenant-acme virtfoundry-tenant-globex; do
+  python3 - "${TMP}/scoped-secrets.yaml" "$ns" <<'PY' || exit 1
+import re
+import sys
+from pathlib import Path
+
+path, ns = sys.argv[1:3]
+for doc in re.split(r"(?m)^---\s*$", Path(path).read_text()):
+    if not re.search(r"(?m)^kind:\s*RoleBinding\s*$", doc):
+        continue
+    if re.search(rf"(?m)^\s{{2}}namespace:\s*{re.escape(ns)}\s*$", doc):
+        print(f"security-gates: ok: secrets RoleBinding rendered in {ns} (#39)")
+        sys.exit(0)
+print(f"security-gates: FAIL: rbac.api.secretNamespaces did not render a RoleBinding in {ns}", file=sys.stderr)
+sys.exit(1)
+PY
+done
+
+# Namespace deletion guard: must render on 1.30+, must be skipped below it so the
+# chart still installs (same contract as the operator chart, helm-charts#43).
+VAP_API="admissionregistration.k8s.io/v1/ValidatingAdmissionPolicy"
+guard="$(helm template vf "$CHART" \
+  --set "secrets.rootPassword=${SAFE_ROOT}" \
+  --set "secrets.jwtSecret=${SAFE_JWT}" \
+  -s templates/api-namespace-guard.yaml --api-versions "$VAP_API" 2>/dev/null || true)"
+grep -q "kind: ValidatingAdmissionPolicy$" <<<"$guard" \
+  || die "API namespace deletion guard must render on clusters serving ${VAP_API}" \
+         "(templates/api-namespace-guard.yaml missing, empty, or namespaceGuard.enabled defaults to false)"
+ok "API namespace deletion guard renders on clusters serving ValidatingAdmissionPolicy (#39)"
+
+if grep -q "kind: ValidatingAdmissionPolicy$" "${TMP}/safe.yaml"; then
+  die "API namespace guard rendered on a cluster without ${VAP_API} (chart would fail to install)"
+fi
+ok "API namespace deletion guard is skipped on clusters without ValidatingAdmissionPolicy (#39)"
 
 ok "all security gates passed"

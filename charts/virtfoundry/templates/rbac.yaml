@@ -1,23 +1,67 @@
+{{- /*
+API identity. Every verb below maps to a call the API actually makes; the
+"API permissions" section of this chart's README records why the cluster-scoped
+rules cannot be narrowed further (helm-charts#39).
+*/}}
+{{- $secretNamespaces := dig "api" "secretNamespaces" (list) (.Values.rbac | default dict) -}}
+{{- /*
+virtfoundry.io resources are listed one by one instead of ["*"], so a new CRD has
+to be granted deliberately. scripts/ci/security-gates.sh diffs this list against
+charts/virtfoundry-operator/crds and fails when they drift apart.
+*/}}
+{{- $vfResources := list "apikeys" "disks" "disksnapshots" "instances" "instancesnapshots" "ipaddresses" "networks" "offerings" "roles" "securitygroups" "sshkeys" "templates" "tenants" "users" "vpcs" -}}
 apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: {{ .Values.fullnamePrefix }}-api
   namespace: {{ .Values.namespace }}
+  labels:
+    {{- include "virtfoundry.labels" . | nindent 4 }}
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
   name: {{ .Values.fullnamePrefix }}-api
+  labels:
+    {{- include "virtfoundry.labels" . | nindent 4 }}
 rules:
+  # Tenant workloads live in namespaces the API creates at runtime
+  # (virtfoundry-tenant-{slug}, virtfoundry-vpc-{slug}-{id}). RBAC matches neither
+  # name prefixes nor labels, so the rules below stay cluster scoped and are kept
+  # narrow by verb instead. Namespace delete is fenced by api-namespace-guard.yaml.
   - apiGroups: [""]
-    resources: ["namespaces", "pods", "services", "endpoints", "persistentvolumeclaims", "resourcequotas", "nodes"]
-    verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+    resources: ["namespaces"]
+    verbs: ["get", "list", "create", "delete"]
+  # virt-launcher pods are created by KubeVirt, not by the API, which only reads
+  # them to serve the console/log endpoints.
+  - apiGroups: [""]
+    resources: ["pods"]
+    verbs: ["get", "list"]
   - apiGroups: [""]
     resources: ["pods/log"]
     verbs: ["get"]
+  # LoadBalancer and VM SSH services, with their manually managed Endpoints.
+  - apiGroups: [""]
+    resources: ["services", "endpoints"]
+    verbs: ["get", "list", "create", "update", "delete"]
+  - apiGroups: [""]
+    resources: ["persistentvolumeclaims"]
+    verbs: ["get", "list", "create", "delete"]
+  # Written once when a tenant namespace is created.
+  - apiGroups: [""]
+    resources: ["resourcequotas"]
+    verbs: ["get", "list", "create"]
+  # Hypervisor capacity view (ListNodes) only. No create/update/patch/delete:
+  # nothing in the API mutates Nodes, and node deletion evicts every VM on a host.
+  - apiGroups: [""]
+    resources: ["nodes"]
+    verbs: ["get", "list"]
+  - apiGroups: [""]
+    resources: ["events"]
+    verbs: ["get", "list", "watch"]
   - apiGroups: ["networking.k8s.io"]
     resources: ["networkpolicies"]
-    verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+    verbs: ["get", "list", "create", "update", "delete"]
   - apiGroups: ["kubevirt.io"]
     resources: ["virtualmachines", "virtualmachineinstances"]
     verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
@@ -37,19 +81,38 @@ rules:
     resources: ["network-attachment-definitions"]
     verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
   - apiGroups: ["virtfoundry.io"]
-    resources: ["*"]
+    resources:
+      {{- range $vfResources }}
+      - {{ . }}
+      {{- end }}
     verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+  - apiGroups: ["virtfoundry.io"]
+    resources:
+      {{- range $vfResources }}
+      - {{ . }}/status
+      {{- end }}
+    verbs: ["get", "update", "patch"]
+  {{- if not $secretNamespaces }}
+  {{- /*
+  API-key Secrets are written next to the APIKey CR, so a tenant-scoped key lands
+  in that tenant's namespace. Those names are derived from the key, which rules
+  out resourceNames (and RBAC ignores resourceNames on create anyway), and the
+  namespace does not exist at install time. The fallback is therefore cluster
+  scoped, but without list/watch/delete: a compromised API pod cannot enumerate
+  or destroy Secrets it does not already know by name. Set
+  rbac.api.secretNamespaces to drop this rule entirely.
+  */}}
   - apiGroups: [""]
     resources: ["secrets"]
-    verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
-  - apiGroups: [""]
-    resources: ["events"]
-    verbs: ["get", "list", "watch", "create"]
+    verbs: ["get", "create", "update"]
+  {{- end }}
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
   name: {{ .Values.fullnamePrefix }}-api
+  labels:
+    {{- include "virtfoundry.labels" . | nindent 4 }}
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
@@ -58,3 +121,38 @@ subjects:
   - kind: ServiceAccount
     name: {{ .Values.fullnamePrefix }}-api
     namespace: {{ .Values.namespace }}
+{{- /*
+Secrets the API owns: the bootstrap credentials plus the per-user and
+platform-scoped API-key Secrets. Namespaced so delete stays inside VirtFoundry's
+own namespaces, and repeated for every namespace in rbac.api.secretNamespaces.
+*/}}
+{{- range $ns := prepend $secretNamespaces .Values.namespace | uniq }}
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: {{ $.Values.fullnamePrefix }}-api-secrets
+  namespace: {{ $ns }}
+  labels:
+    {{- include "virtfoundry.labels" $ | nindent 4 }}
+rules:
+  - apiGroups: [""]
+    resources: ["secrets"]
+    verbs: ["get", "create", "update", "delete"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: {{ $.Values.fullnamePrefix }}-api-secrets
+  namespace: {{ $ns }}
+  labels:
+    {{- include "virtfoundry.labels" $ | nindent 4 }}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: {{ $.Values.fullnamePrefix }}-api-secrets
+subjects:
+  - kind: ServiceAccount
+    name: {{ $.Values.fullnamePrefix }}-api
+    namespace: {{ $.Values.namespace }}
+{{- end }}
