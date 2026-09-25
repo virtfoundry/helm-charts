@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
-# PR / CI gate for charts/virtfoundry-operator (helm-charts#43, virtfoundry/operator#11).
-# Fails if the rendered operator ClusterRole regains cluster-wide Secret access,
-# if it can update arbitrary Namespaces, or if the namespace deletion guard stops
-# rendering on clusters that serve ValidatingAdmissionPolicy.
+# PR / CI gate for charts/virtfoundry-operator (helm-charts#43 follow-up, virtfoundry/operator#12).
+# Fails if the rendered operator ClusterRole drifts from Tenant+Instance needs,
+# regains cluster-wide Secret access, can update arbitrary Namespaces, or if the
+# namespace deletion guard stops rendering on clusters that serve ValidatingAdmissionPolicy.
 #
 # Keep in sync with virtfoundry/operator hack/verify-chart-rbac.sh — the operator
 # repo is the source of truth for this chart.
@@ -11,6 +11,37 @@ set -euo pipefail
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 CHART="${CHART_DIR:-${ROOT}/charts/virtfoundry-operator}"
 VAP_API="admissionregistration.k8s.io/v1/ValidatingAdmissionPolicy"
+
+# API groups / resource names that belong to future controllers, not Tenant+Instance.
+FORBIDDEN_PATTERNS=(
+  'secrets'
+  'networkpolicies'
+  'persistentvolumeclaims'
+  'volumesnapshots'
+  'network-attachment-definitions'
+  'virtualmachinesnapshots'
+  'virtualmachinerestores'
+  'datavolumes'
+  'users'
+  'roles'
+  'apikeys'
+  'vpcs'
+  'networks'
+  'securitygroups'
+  'disks'
+  'disksnapshots'
+  'instancesnapshots'
+  'sshkeys'
+  'ipaddresses'
+)
+
+REQUIRED_SNIPPETS=(
+  'resources: \["tenants"\]'
+  'resources: \["instances"\]'
+  'resources: \["offerings", "templates"\]'
+  'resources: \["namespaces"\]'
+  'resources: \["virtualmachines", "virtualmachineinstances"\]'
+)
 
 die() { echo "operator-chart-rbac: FAIL: $*" >&2; exit 1; }
 ok() { echo "operator-chart-rbac: ok: $*"; }
@@ -22,12 +53,21 @@ command -v helm >/dev/null || die "helm not installed"
 rbac="$(helm template virtfoundry-operator "$CHART" -s templates/rbac.yaml | sed 's/[[:space:]]*#.*$//')" \
   || die "helm template of templates/rbac.yaml failed"
 
-if grep -qw "secrets" <<<"$rbac"; then
-  echo "operator-chart-rbac: offending rules:" >&2
-  grep -n -B2 -w "secrets" <<<"$rbac" >&2
-  die "rendered ClusterRole grants access to secrets"
-fi
-ok "rendered ClusterRole has no secrets rule"
+for pat in "${FORBIDDEN_PATTERNS[@]}"; do
+  if grep -qw "$pat" <<<"$rbac"; then
+    echo "operator-chart-rbac: offending rules:" >&2
+    grep -n -B2 -w "$pat" <<<"$rbac" >&2
+    die "rendered ClusterRole still grants access to '$pat' (Tenant+Instance only)"
+  fi
+done
+ok "rendered ClusterRole has no future-controller / sprawl rules"
+
+for snip in "${REQUIRED_SNIPPETS[@]}"; do
+  if ! grep -Eq "$snip" <<<"$rbac"; then
+    die "rendered ClusterRole missing required rule matching /$snip/"
+  fi
+done
+ok "rendered ClusterRole covers Tenant + Instance (+ KubeVirt VMs/VMIs)"
 
 # The ClusterRole cannot be scoped by resourceNames (tenant namespaces are
 # virtfoundry-tenant-{slug}), so at least keep `update` off namespaces.

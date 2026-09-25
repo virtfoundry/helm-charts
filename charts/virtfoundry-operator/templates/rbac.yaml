@@ -4,57 +4,24 @@ metadata:
   name: {{ include "virtfoundry-operator.fullname" . }}
   labels:
     {{- include "virtfoundry-operator.labels" . | nindent 4 }}
+# Keep in sync with kubebuilder markers on TenantReconciler / InstanceReconciler
+# and config/rbac/role.yaml (make manifests). Add permissions per controller when it lands.
 rules:
   - apiGroups: ["virtfoundry.io"]
-    resources:
-      - tenants
-      - offerings
-      - templates
-      - users
-      - roles
-      - apikeys
-      - vpcs
-      - networks
-      - securitygroups
-      - disks
-      - disksnapshots
-      - instances
-      - instancesnapshots
-      - sshkeys
-      - ipaddresses
+    resources: ["tenants"]
     verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
   - apiGroups: ["virtfoundry.io"]
-    resources:
-      - tenants/status
-      - offerings/status
-      - templates/status
-      - users/status
-      - roles/status
-      - apikeys/status
-      - vpcs/status
-      - networks/status
-      - securitygroups/status
-      - disks/status
-      - disksnapshots/status
-      - instances/status
-      - instancesnapshots/status
-      - sshkeys/status
-      - ipaddresses/status
+    resources: ["tenants/status", "instances/status"]
     verbs: ["get", "update", "patch"]
   - apiGroups: ["virtfoundry.io"]
-    resources:
-      - tenants/finalizers
-      - vpcs/finalizers
-      - networks/finalizers
-      - securitygroups/finalizers
-      - disks/finalizers
-      - disksnapshots/finalizers
-      - instances/finalizers
-      - instancesnapshots/finalizers
-      - templates/finalizers
-      - users/finalizers
-      - apikeys/finalizers
+    resources: ["tenants/finalizers", "instances/finalizers"]
     verbs: ["update"]
+  - apiGroups: ["virtfoundry.io"]
+    resources: ["instances"]
+    verbs: ["get", "list", "watch", "update", "patch"]
+  - apiGroups: ["virtfoundry.io"]
+    resources: ["offerings", "templates"]
+    verbs: ["get", "list", "watch"]
   # Tenant namespaces are named virtfoundry-tenant-{slug}, so resourceNames
   # cannot scope these verbs (no prefix matching, and namespaces are cluster
   # scoped). Deletion is constrained by the operator's ownership guard and by
@@ -64,29 +31,8 @@ rules:
     verbs: ["get", "list", "watch", "create", "patch", "delete"]
   # No secrets: no controller reads or writes Secrets. If one ever needs to,
   # grant a Role in {{ .Values.namespace }} instead of a ClusterRole.
-  - apiGroups: [""]
-    resources: ["events"]
-    verbs: ["create", "patch"]
-  - apiGroups: ["networking.k8s.io"]
-    resources: ["networkpolicies"]
-    verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
-  - apiGroups: [""]
-    resources: ["persistentvolumeclaims"]
-    verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
-  - apiGroups: ["snapshot.storage.k8s.io"]
-    resources: ["volumesnapshots"]
-    verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
-  - apiGroups: ["k8s.cni.cncf.io"]
-    resources: ["network-attachment-definitions"]
-    verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
   - apiGroups: ["kubevirt.io"]
     resources: ["virtualmachines", "virtualmachineinstances"]
-    verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
-  - apiGroups: ["snapshot.kubevirt.io"]
-    resources: ["virtualmachinesnapshots", "virtualmachinerestores"]
-    verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
-  - apiGroups: ["cdi.kubevirt.io"]
-    resources: ["datavolumes"]
     verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
 ---
 apiVersion: rbac.authorization.k8s.io/v1
