@@ -84,16 +84,42 @@ gateway:
     - iaas.local
 
 ui:
+  replicas: 1
+  # Container listens on 8080 as non-root (chart mounts nginx ConfigMap; Service stays 80→8080).
+  # Requires UI image that can run as UID 101, or the ConfigMap override (default).
+  containerPort: 8080
   service:
     type: ClusterIP
     port: 80
     nodePort: 30880
+  securityContext:
+    runAsUser: 101   # nginx user in nginx:alpine / ghcr.io/virtfoundry/ui
+    runAsGroup: 101
+    fsGroup: 101
+  resources:
+    requests:
+      cpu: 25m
+      memory: 64Mi
+    limits:
+      cpu: 200m
+      memory: 128Mi
 
 api:
   service:
     type: ClusterIP
     port: 8080
   replicas: 1
+  securityContext:
+    runAsUser: 65532
+    runAsGroup: 65532
+    fsGroup: 65532
+  resources:
+    requests:
+      cpu: 50m
+      memory: 128Mi
+    limits:
+      cpu: 500m
+      memory: 512Mi
   # Browser origins allowed for CORS and for /ws/events + /ws/console.
   # The request host is always accepted (UI nginx proxies /api and /ws same-origin),
   # so leave empty for the default Ingress/Gateway layout. Set this only when the
@@ -104,6 +130,18 @@ api:
     # Example for split origins:
     # allowedOrigins:
     #   - "https://console.example.com"
+
+# Control-plane NetworkPolicy (API + UI). Empty allowedIngressNamespaces = any
+# namespace may reach the HTTP ports (safe default for Ingress/Gateway). Set the
+# list (e.g. ingress-nginx, traefik) to tighten. API egress stays open for the
+# kube-apiserver. Disable with networkPolicy.enabled=false on CNIs without NP.
+networkPolicy:
+  enabled: true
+  allowedIngressNamespaces: []
+  # Example:
+  # allowedIngressNamespaces:
+  #   - ingress-nginx
+  #   - traefik
 
 rbac:
   api:

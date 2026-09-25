@@ -68,6 +68,18 @@ api:
 
 Details: [Configuration — Allowed origins](https://virtfoundry.github.io/helm-charts/docs/guide/configuration/#allowed-origins-cors--websockets).
 
+## Pod hardening
+
+API and UI run as non-root with drop-ALL capabilities, RuntimeDefault seccomp,
+read-only root filesystem, and resource requests/limits. The UI uses a dedicated
+ServiceAccount with `automountServiceAccountToken: false` and listens on container
+port **8080** (Service still exposes **80**). A chart nginx ConfigMap overrides the
+image default so older UI tags keep working. Control-plane NetworkPolicy is on by
+default — set `networkPolicy.allowedIngressNamespaces` when you know the
+Ingress/Gateway namespaces.
+
+Details: [Configuration — Pod hardening](https://virtfoundry.github.io/helm-charts/docs/guide/configuration/#pod-hardening-api--ui).
+
 ## API permissions
 
 The API ClusterRole grants only the verbs the API calls, so a compromised API pod

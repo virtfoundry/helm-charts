@@ -1,0 +1,128 @@
+{{- if .Values.networkPolicy.enabled }}
+{{- /*
+Control-plane NetworkPolicy (helm-charts#42).
+
+Default: deny other ports; allow HTTP to UI/API from any namespace (Ingress /
+Gateway identity varies). Set networkPolicy.allowedIngressNamespaces to
+restrict who may reach the ClusterIPs. UI egress is limited to DNS + API;
+API egress stays open so the in-cluster kube-apiserver (and CRD clients) work
+without knowing the apiserver CIDR — tighten in a follow-up when practical.
+*/}}
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: {{ .Values.fullnamePrefix }}-ui
+  namespace: {{ .Values.namespace }}
+  labels:
+    {{- include "virtfoundry.labels" . | nindent 4 }}
+    app: {{ .Values.fullnamePrefix }}-ui
+spec:
+  podSelector:
+    matchLabels:
+      app: {{ .Values.fullnamePrefix }}-ui
+  policyTypes:
+    - Ingress
+    - Egress
+  ingress:
+    - ports:
+        - protocol: TCP
+          port: {{ .Values.ui.containerPort | default 8080 }}
+      {{- with .Values.networkPolicy.allowedIngressNamespaces }}
+      from:
+        - podSelector: {}
+        {{- range . }}
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: {{ . | quote }}
+        {{- end }}
+      {{- end }}
+  egress:
+    - to:
+        - podSelector:
+            matchLabels:
+              app: {{ .Values.fullnamePrefix }}-api
+      ports:
+        - protocol: TCP
+          port: {{ .Values.api.service.port }}
+    - to:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: kube-system
+          podSelector:
+            matchLabels:
+              k8s-app: kube-dns
+      ports:
+        - protocol: UDP
+          port: 53
+        - protocol: TCP
+          port: 53
+    - to:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: kube-system
+          podSelector:
+            matchLabels:
+              k8s-app: coredns
+      ports:
+        - protocol: UDP
+          port: 53
+        - protocol: TCP
+          port: 53
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: {{ .Values.fullnamePrefix }}-api
+  namespace: {{ .Values.namespace }}
+  labels:
+    {{- include "virtfoundry.labels" . | nindent 4 }}
+    app: {{ .Values.fullnamePrefix }}-api
+spec:
+  podSelector:
+    matchLabels:
+      app: {{ .Values.fullnamePrefix }}-api
+  policyTypes:
+    - Ingress
+    - Egress
+  ingress:
+    - ports:
+        - protocol: TCP
+          port: 8080
+      {{- with .Values.networkPolicy.allowedIngressNamespaces }}
+      from:
+        - podSelector: {}
+        {{- range . }}
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: {{ . | quote }}
+        {{- end }}
+      {{- end }}
+  egress:
+    # DNS
+    - to:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: kube-system
+          podSelector:
+            matchLabels:
+              k8s-app: kube-dns
+      ports:
+        - protocol: UDP
+          port: 53
+        - protocol: TCP
+          port: 53
+    - to:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: kube-system
+          podSelector:
+            matchLabels:
+              k8s-app: coredns
+      ports:
+        - protocol: UDP
+          port: 53
+        - protocol: TCP
+          port: 53
+    # kube-apiserver + tenant workloads (CIDR unknown in a generic chart).
+    - {}
+{{- end }}

@@ -323,4 +323,73 @@ grep -q "alpine@sha256:" "${TMP}/bridge-on.yaml" \
   || die "bridge DaemonSet must pin alpine by digest (#40)"
 ok "opt-in bridge DaemonSet uses caps, no hostPID, pinned alpine (#40)"
 
+# --- Gate: API/UI pod hardening (#42) ---
+python3 - "${TMP}/safe.yaml" <<'PY' || exit 1
+import re
+import sys
+from pathlib import Path
+
+text = Path(sys.argv[1]).read_text()
+docs = re.split(r"(?m)^---\s*$", text)
+
+def find_dep(name_suffix):
+    for doc in docs:
+        if not re.search(r"(?m)^kind:\s*Deployment\s*$", doc):
+            continue
+        name = re.search(r"(?m)^\s{2}name:\s*(\S+)\s*$", doc)
+        if name and name.group(1).endswith(name_suffix):
+            return doc
+    return None
+
+failures = []
+for suffix in ("-api", "-ui"):
+    dep = find_dep(suffix)
+    if dep is None:
+        failures.append(f"missing Deployment *{suffix}")
+        continue
+    for needle in (
+        "runAsNonRoot: true",
+        "type: RuntimeDefault",
+        "allowPrivilegeEscalation: false",
+        "readOnlyRootFilesystem: true",
+        "drop:",
+        "requests:",
+        "limits:",
+    ):
+        if needle not in dep:
+            failures.append(f"{suffix}: missing {needle}")
+    if "ALL" not in dep:
+        failures.append(f"{suffix}: capabilities.drop must include ALL")
+
+ui_sa = None
+for doc in docs:
+    if not re.search(r"(?m)^kind:\s*ServiceAccount\s*$", doc):
+        continue
+    name = re.search(r"(?m)^\s{2}name:\s*(\S+)\s*$", doc)
+    if name and name.group(1).endswith("-ui"):
+        ui_sa = doc
+        break
+if ui_sa is None:
+    failures.append("missing UI ServiceAccount")
+elif "automountServiceAccountToken: false" not in ui_sa:
+    failures.append("UI ServiceAccount must set automountServiceAccountToken: false")
+
+ui_dep = find_dep("-ui")
+if ui_dep and "automountServiceAccountToken: false" not in ui_dep:
+    failures.append("UI Deployment must set automountServiceAccountToken: false")
+if ui_dep and re.search(r"containerPort:\s*80\b", ui_dep):
+    failures.append("UI must not listen on containerPort 80 (use 8080)")
+
+np_kinds = [d for d in docs if re.search(r"(?m)^kind:\s*NetworkPolicy\s*$", d)]
+if len(np_kinds) < 2:
+    failures.append("expected NetworkPolicy for API and UI when networkPolicy.enabled defaults true")
+
+if failures:
+    print("security-gates: FAIL (#42) API/UI hardening:", file=sys.stderr)
+    for item in failures:
+        print(f"  - {item}", file=sys.stderr)
+    sys.exit(1)
+print("security-gates: ok: API/UI pod hardening (#42)")
+PY
+
 ok "all security gates passed"

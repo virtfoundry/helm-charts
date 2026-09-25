@@ -19,6 +19,21 @@ VirtFoundry runtime configuration is YAML rendered by Helm into a ConfigMap. **H
 | `secrets.jwtSecret` | — | Env `JWT_SECRET` on API (not in ConfigMap) — see [Secrets](#secrets) |
 | `secrets.rootPassword` | — | Env `ROOT_PASSWORD` on API — see [Secrets](#secrets) |
 
+## Pod hardening (API / UI)
+
+API and UI Deployments match the operator chart pattern: `runAsNonRoot`, drop `ALL` capabilities, `seccompProfile: RuntimeDefault`, `readOnlyRootFilesystem` with emptyDir mounts, and resource requests/limits ([#42](https://github.com/virtfoundry/helm-charts/issues/42)).
+
+| Key | Default | Notes |
+|-----|---------|-------|
+| `ui.containerPort` | `8080` | Non-root listen; Service stays `port: 80` → targetPort 8080 |
+| `ui` / `api` `resources` | set | Override per environment |
+| `ui` SA | dedicated | `automountServiceAccountToken: false` |
+| `api` SA | `-api` | Token mounted (kube-apiserver client) |
+| `networkPolicy.enabled` | `true` | Control-plane NetworkPolicy; set `false` if the CNI does not enforce NP |
+| `networkPolicy.allowedIngressNamespaces` | `[]` | Empty = any namespace may hit UI/API HTTP ports; list Ingress/Gateway namespaces to restrict |
+
+The chart mounts an nginx ConfigMap so the UI works as UID 101 even when the image still ships a port-80 default. Prefer UI images that listen on 8080 (core `docker/Dockerfile.ui`). Residual: bootstrap secrets remain env vars (`ROOT_PASSWORD` / `JWT_SECRET`); file mounts need an API change.
+
 ## Allowed origins (CORS / WebSockets)
 
 After [core#98](https://github.com/virtfoundry/core/issues/98) / [PR #113](https://github.com/virtfoundry/core/pull/113), the API never emits `Access-Control-Allow-Origin: *`. CORS and the `/ws/events` / `/ws/console` Origin checks accept:
