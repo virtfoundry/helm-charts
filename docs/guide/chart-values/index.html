@@ -1763,6 +1763,12 @@ helm<span class="w"> </span>upgrade<span class="w"> </span>--install<span class=
 
 <span class="nt">leaderElection</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 
+<span class="c1"># Cluster-side guard rail: denies the operator ServiceAccount any Namespace</span>
+<span class="c1"># DELETE outside virtfoundry-tenant-* labelled virtfoundry.io/tenant. Rendered</span>
+<span class="c1"># only when the cluster serves ValidatingAdmissionPolicy (Kubernetes &gt;= 1.30).</span>
+<span class="nt">namespaceGuard</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+
 <span class="nt">resources</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">requests</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">cpu</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">50m</span>
