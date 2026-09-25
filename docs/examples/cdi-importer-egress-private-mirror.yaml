@@ -1,0 +1,24 @@
+# Example: allow CDI importer egress to a private ISO mirror.
+#
+# VirtFoundry creates virtfoundry-cdi-importer-egress in each tenant namespace
+# (see docs/guide/features/templates.md#cdi-importer-egress). That policy
+# denies RFC1918 / link-local / CGNAT by default. NetworkPolicies are additive
+# for allowed traffic — apply this *alongside* the managed policy, once per
+# tenant namespace that needs the mirror.
+#
+# Also add the mirror hostname to security.iso_import.allowed_hosts (core#95).
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: virtfoundry-cdi-importer-private-mirror
+  namespace: virtfoundry-tenant-acme # replace with each tenant NS
+spec:
+  podSelector:
+    matchLabels:
+      cdi.kubevirt.io: importer
+  policyTypes:
+    - Egress
+  egress:
+    - to:
+        - ipBlock:
+            cidr: 10.10.0.0/24 # your private mirror subnet

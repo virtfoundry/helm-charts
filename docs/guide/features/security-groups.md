@@ -39,6 +39,10 @@ Pod / VM traffic selection (KubeVirt + Multus)
 
 Exact selectors depend on how VMs are labeled and which networks they join. Prefer least privilege: open only the ports you need from known CIDRs.
 
+## Related platform NetworkPolicies
+
+ISO HTTP imports use a separate egress policy on **CDI importer** pods (`virtfoundry-cdi-importer-egress` in each tenant namespace). That is not a security group — see [Images and templates → CDI importer egress](templates.md#cdi-importer-egress).
+
 ## Related
 
 - [VPCs & networks](networking.md)
