@@ -20,6 +20,8 @@ The CIDR planner helps pick a non-overlapping VPC CIDR.
 
 Isolated L2 networks attached to a VPC; VMs join via Multus NICs.
 
+Helm `platform.networking.isolated.enabled` defaults to **`false`** (API+UI-only). Turn it on (and accept the host bridge DaemonSet privileges) when you need tenant VPC bridges on the nodes — see [Host bridges](../configuration.md#host-bridges-isolated--public).
+
 **UI:** Network → **Networks** (`/networks`)
 
 | Action | API |

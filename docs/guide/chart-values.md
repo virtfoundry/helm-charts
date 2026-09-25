@@ -43,6 +43,12 @@ VirtFoundry does **not** install a disk backend. VM disks are Kubernetes PVCs on
 - You still install Longhorn **before** VirtFoundry ([prerequisites](prerequisites.md)). The chart only *selects* the class; it does not deploy Longhorn.
 - Force a class: `--set platform.storage.defaultClass=longhorn` (and usually `--set platform.storage.snapshotClass=longhorn`).
 
+## Host bridges (isolated / public)
+
+`platform.networking.isolated.enabled` and `platform.networking.public.enabled` both default to **`false`**. A default install does **not** schedule the hostNetwork bridge DaemonSet. Set either flag only when you need Multus host bridges — that opt-in documents the host privileges in [Configuration — host bridges](configuration.md#host-bridges-isolated--public).
+
+Kind and full L2 overlays set `isolated.enabled: true` (and often `bridge.tolerations: [{operator: Exists}]` so the DaemonSet can run on a tainted control-plane).
+
 ## Public IP (optional LAN / VLAN)
 
 `platform.networking.public.enabled` defaults to **`false`**. Then VMs use the **pod** network. You do **not** need `--set` for public IPs to install the control plane.
