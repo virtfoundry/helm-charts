@@ -89,11 +89,11 @@ helm repo add virtfoundry https://virtfoundry.github.io/helm-charts
 helm repo update
 
 helm install virtfoundry-operator virtfoundry/virtfoundry-operator \
-  --version 0.7.1 \
+  --version 0.8.0 \
   --namespace virtfoundry-system --create-namespace
 
 helm install virtfoundry virtfoundry/virtfoundry \
-  --version 0.7.1 \
+  --version 0.8.0 \
   --namespace virtfoundry-system \
   -f values-kind.yaml \
   --set secrets.rootPassword='kind-lab-password' \
@@ -154,7 +154,7 @@ platform:
 
 ```bash
 helm upgrade virtfoundry virtfoundry/virtfoundry \
-  --version 0.7.1 \
+  --version 0.8.0 \
   -n virtfoundry-system \
   -f values-kind.yaml \
   -f values-kind-public.yaml \

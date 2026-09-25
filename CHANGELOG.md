@@ -4,6 +4,10 @@ See [docs/project/changelog.md](docs/project/changelog.md) for the full release 
 
 ## [Unreleased]
 
+## [0.8.0] - 2026-09-25
+
+Security release: Restricted PSS pods, isolated networking default off, Ingress TLS-by-default, secrets fail-closed, CORS origins, CDI importer egress docs.
+
 ### Security
 
 - Harden API/UI pods for Restricted PSS alignment (closes [#42](https://github.com/virtfoundry/helm-charts/issues/42)): `runAsNonRoot`, drop ALL caps, `seccompProfile: RuntimeDefault`, `readOnlyRootFilesystem` + emptyDir for `/tmp` (and nginx cache/run), resource requests/limits. UI dedicated SA with `automountServiceAccountToken: false`; Service stays `80→8080` via chart nginx ConfigMap. Control-plane NetworkPolicy enabled by default (tighten with `networkPolicy.allowedIngressNamespaces`). Residual: secrets still env-injected; API egress open for kube-apiserver — see follow-ups on [#42](https://github.com/virtfoundry/helm-charts/issues/42). Coordinates [core UI/API non-root images](https://github.com/virtfoundry/core).

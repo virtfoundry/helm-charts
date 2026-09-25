@@ -24,11 +24,11 @@ helm repo update
 
 # After KubeVirt, Multus, CDI
 helm install virtfoundry-operator virtfoundry/virtfoundry-operator \
-  --version 0.7.1 \
+  --version 0.8.0 \
   -n virtfoundry-system --create-namespace
 
 helm install virtfoundry virtfoundry/virtfoundry \
-  --version 0.7.1 \
+  --version 0.8.0 \
   -n virtfoundry-system --create-namespace \
   --set secrets.rootPassword='choose-a-strong-password' \
   --set secrets.jwtSecret="$(openssl rand -hex 32)"

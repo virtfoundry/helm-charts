@@ -152,17 +152,17 @@ Pin a release (same CRD store flags):
 
 ```bash
 helm install virtfoundry-operator virtfoundry/virtfoundry-operator \
-  --version 0.7.1 \
+  --version 0.8.0 \
   --namespace virtfoundry-system \
   --create-namespace
 
-helm install virtfoundry virtfoundry/virtfoundry --version 0.7.1 \
+helm install virtfoundry virtfoundry/virtfoundry --version 0.8.0 \
   --namespace virtfoundry-system \
   --set secrets.rootPassword='choose-a-strong-password' \
   --set secrets.jwtSecret="$(openssl rand -hex 32)"
 ```
 
-Images default to `ghcr.io/virtfoundry/core:0.7.1`, `ui:0.7.1`, and `operator:0.7.1`.
+Images default to `ghcr.io/virtfoundry/core:0.8.0`, `ui:0.8.0`, and `operator:0.8.0`.
 
 ---
 
