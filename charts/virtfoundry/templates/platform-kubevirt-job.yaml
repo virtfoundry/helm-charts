@@ -16,7 +16,7 @@ spec:
   ttlSecondsAfterFinished: 600
   template:
     spec:
-      serviceAccountName: {{ .Values.fullnamePrefix }}-platform
+      serviceAccountName: {{ .Values.fullnamePrefix }}-platform-kubevirt
       restartPolicy: OnFailure
       containers:
         # registry.k8s.io/kubectl is distroless: no shell, binary at /bin/kubectl.

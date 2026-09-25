@@ -1,62 +1,227 @@
 {{- $platform := .Values.platform -}}
 {{- $ratio := int ($platform.kubevirt.cpuAllocationRatio | default 0) }}
-{{- /* SA required for kubevirt-config Job when cpuAllocationRatio > 0, not only featureGates/multus/cdi */}}
-{{- if or $platform.multus.install $platform.kubevirt.featureGates.enabled $platform.cdi.install (gt $ratio 0) }}
+{{- $gates := $platform.kubevirt.featureGates.enabled }}
+{{- /*
+One ServiceAccount per platform hook Job, each bound only to the rules its kubectl
+calls need. The accounts exist for the hook phase only, so they are removed once the
+phase succeeds and nothing keeps a cluster-wide identity around after install.
+*/}}
+{{- if or $gates (gt $ratio 0) }}
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: {{ .Values.fullnamePrefix }}-platform
+  name: {{ .Values.fullnamePrefix }}-platform-kubevirt
+  namespace: {{ .Values.namespace }}
+  labels:
+    {{- include "virtfoundry.labels" . | nindent 4 }}
+  annotations:
+    helm.sh/hook: post-install,post-upgrade
+    helm.sh/hook-weight: "0"
+    helm.sh/hook-delete-policy: before-hook-creation,hook-succeeded
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: {{ .Values.fullnamePrefix }}-platform-kubevirt
+  labels:
+    {{- include "virtfoundry.labels" . | nindent 4 }}
+  annotations:
+    helm.sh/hook: post-install,post-upgrade
+    helm.sh/hook-weight: "0"
+    helm.sh/hook-delete-policy: before-hook-creation,hook-succeeded
+rules:
+  # kubectl patch kubevirt kubevirt -n kubevirt --type=merge
+  - apiGroups: [kubevirt.io]
+    resources: [kubevirts]
+    resourceNames: [kubevirt]
+    verbs: [get, patch]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: {{ .Values.fullnamePrefix }}-platform-kubevirt
+  labels:
+    {{- include "virtfoundry.labels" . | nindent 4 }}
+  annotations:
+    helm.sh/hook: post-install,post-upgrade
+    helm.sh/hook-weight: "0"
+    helm.sh/hook-delete-policy: before-hook-creation,hook-succeeded
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: {{ .Values.fullnamePrefix }}-platform-kubevirt
+subjects:
+  - kind: ServiceAccount
+    name: {{ .Values.fullnamePrefix }}-platform-kubevirt
+    namespace: {{ .Values.namespace }}
+{{- end }}
+{{- if $platform.multus.install }}
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: {{ .Values.fullnamePrefix }}-platform-multus
   namespace: {{ .Values.namespace }}
   labels:
     {{- include "virtfoundry.labels" . | nindent 4 }}
   annotations:
     helm.sh/hook: pre-install,pre-upgrade
     helm.sh/hook-weight: "-20"
+    helm.sh/hook-delete-policy: before-hook-creation,hook-succeeded
 ---
 apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRole
+kind: Role
 metadata:
-  name: {{ .Values.fullnamePrefix }}-platform
+  name: {{ .Values.fullnamePrefix }}-platform-multus
+  namespace: kube-system
   labels:
     {{- include "virtfoundry.labels" . | nindent 4 }}
   annotations:
     helm.sh/hook: pre-install,pre-upgrade
     helm.sh/hook-weight: "-20"
+    helm.sh/hook-delete-policy: before-hook-creation,hook-succeeded
 rules:
-  - apiGroups: [kubevirt.io]
-    resources: [kubevirt]
-    verbs: [get, patch]
+  # Upstream manifest ships every namespaced object in kube-system:
+  # ServiceAccount/multus, ConfigMap/multus-daemon-config, DaemonSet/kube-multus-ds.
+  # watch on daemonsets backs `kubectl rollout status`.
   - apiGroups: [apps]
     resources: [daemonsets]
     verbs: [get, list, watch, create, update, patch]
   - apiGroups: [""]
-    resources: [namespaces, pods]
-    verbs: [get, list, watch, create]
-  - apiGroups: [cdi.kubevirt.io]
-    resources: [cdis]
-    verbs: [get, list, watch, create, update, patch]
-  - apiGroups: [apiextensions.k8s.io]
-    resources: [customresourcedefinitions]
-    verbs: [get, list, watch, create, update, patch]
-  - apiGroups: ["*"]
-    resources: ["*"]
-    verbs: [get, list, watch, create, update, patch, apply]
+    resources: [serviceaccounts, configmaps]
+    verbs: [get, list, create, update, patch]
 ---
 apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRoleBinding
+kind: RoleBinding
 metadata:
-  name: {{ .Values.fullnamePrefix }}-platform
+  name: {{ .Values.fullnamePrefix }}-platform-multus
+  namespace: kube-system
   labels:
     {{- include "virtfoundry.labels" . | nindent 4 }}
   annotations:
     helm.sh/hook: pre-install,pre-upgrade
     helm.sh/hook-weight: "-20"
+    helm.sh/hook-delete-policy: before-hook-creation,hook-succeeded
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: {{ .Values.fullnamePrefix }}-platform-multus
+subjects:
+  - kind: ServiceAccount
+    name: {{ .Values.fullnamePrefix }}-platform-multus
+    namespace: {{ .Values.namespace }}
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: {{ .Values.fullnamePrefix }}-platform-multus
+  labels:
+    {{- include "virtfoundry.labels" . | nindent 4 }}
+  annotations:
+    helm.sh/hook: pre-install,pre-upgrade
+    helm.sh/hook-weight: "-20"
+    helm.sh/hook-delete-policy: before-hook-creation,hook-succeeded
+rules:
+  # NetworkAttachmentDefinition CRD from the upstream manifest.
+  - apiGroups: [apiextensions.k8s.io]
+    resources: [customresourcedefinitions]
+    verbs: [get, list, create, update, patch]
+  # The manifest also carries ClusterRole/multus and its binding. Applying them needs
+  # escalate/bind because the upstream role is wider than this installer identity.
+  - apiGroups: [rbac.authorization.k8s.io]
+    resources: [clusterroles]
+    verbs: [get, list, create, update, patch, escalate]
+  - apiGroups: [rbac.authorization.k8s.io]
+    resources: [clusterrolebindings]
+    verbs: [get, list, create, update, patch, bind]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: {{ .Values.fullnamePrefix }}-platform-multus
+  labels:
+    {{- include "virtfoundry.labels" . | nindent 4 }}
+  annotations:
+    helm.sh/hook: pre-install,pre-upgrade
+    helm.sh/hook-weight: "-20"
+    helm.sh/hook-delete-policy: before-hook-creation,hook-succeeded
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
-  name: {{ .Values.fullnamePrefix }}-platform
+  name: {{ .Values.fullnamePrefix }}-platform-multus
 subjects:
   - kind: ServiceAccount
-    name: {{ .Values.fullnamePrefix }}-platform
+    name: {{ .Values.fullnamePrefix }}-platform-multus
+    namespace: {{ .Values.namespace }}
+{{- end }}
+{{- if $platform.cdi.install }}
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: {{ .Values.fullnamePrefix }}-platform-cdi
+  namespace: {{ .Values.namespace }}
+  labels:
+    {{- include "virtfoundry.labels" . | nindent 4 }}
+  annotations:
+    helm.sh/hook: pre-install,pre-upgrade
+    helm.sh/hook-weight: "-15"
+    helm.sh/hook-delete-policy: before-hook-creation,hook-succeeded
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: {{ .Values.fullnamePrefix }}-platform-cdi
+  labels:
+    {{- include "virtfoundry.labels" . | nindent 4 }}
+  annotations:
+    helm.sh/hook: pre-install,pre-upgrade
+    helm.sh/hook-weight: "-15"
+    helm.sh/hook-delete-policy: before-hook-creation,hook-succeeded
+rules:
+  # cdi-operator.yaml creates namespace cdi, so these cannot be namespaced Roles.
+  - apiGroups: [""]
+    resources: [namespaces]
+    verbs: [get, list, create, update, patch]
+  - apiGroups: [""]
+    resources: [serviceaccounts]
+    verbs: [get, list, create, update, patch]
+  # Deployment/cdi-operator, plus `kubectl rollout status deployment/cdi-deployment`.
+  - apiGroups: [apps]
+    resources: [deployments]
+    verbs: [get, list, watch, create, update, patch]
+  - apiGroups: [apiextensions.k8s.io]
+    resources: [customresourcedefinitions]
+    verbs: [get, list, create, update, patch]
+  # cdi-cr.yaml, then `kubectl wait --for=condition=Available cdi/cdi`.
+  - apiGroups: [cdi.kubevirt.io]
+    resources: [cdis]
+    verbs: [get, list, watch, create, update, patch]
+  # cdi-operator.yaml ships its own (Cluster)Role and bindings; escalate/bind let this
+  # installer identity create them without holding the operator's own permissions.
+  - apiGroups: [rbac.authorization.k8s.io]
+    resources: [clusterroles, roles]
+    verbs: [get, list, create, update, patch, escalate]
+  - apiGroups: [rbac.authorization.k8s.io]
+    resources: [clusterrolebindings, rolebindings]
+    verbs: [get, list, create, update, patch, bind]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: {{ .Values.fullnamePrefix }}-platform-cdi
+  labels:
+    {{- include "virtfoundry.labels" . | nindent 4 }}
+  annotations:
+    helm.sh/hook: pre-install,pre-upgrade
+    helm.sh/hook-weight: "-15"
+    helm.sh/hook-delete-policy: before-hook-creation,hook-succeeded
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: {{ .Values.fullnamePrefix }}-platform-cdi
+subjects:
+  - kind: ServiceAccount
+    name: {{ .Values.fullnamePrefix }}-platform-cdi
     namespace: {{ .Values.namespace }}
 {{- end }}

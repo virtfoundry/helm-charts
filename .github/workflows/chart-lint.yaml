@@ -29,6 +29,9 @@ jobs:
         with:
           python-version: "3.12"
 
+      - name: Security gates (#37 secrets, #38 platform RBAC)
+        run: bash ./scripts/ci/security-gates.sh
+
       - name: Install MkDocs
         run: pip install -r requirements-docs.txt
 
