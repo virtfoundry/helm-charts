@@ -49,10 +49,13 @@ Other CRDs are installed for API/GitOps use; additional controllers are tracked 
 
 ## Permissions
 
-The operator ClusterRole is scoped to what the controllers above actually reconcile:
+The operator ClusterRole matches kubebuilder `config/rbac/role.yaml` for the controllers above:
 
-- **No Secrets.** No controller reads or writes Secrets. If one ever needs to, grant a `Role` in `virtfoundry-system` rather than widening the ClusterRole.
-- **No `update` on Namespaces.** Tenant namespaces are `virtfoundry-tenant-{slug}`, so `resourceNames` cannot scope them (namespaces are cluster scoped and RBAC has no prefix matching). The Tenant reconciler instead refuses to adopt or delete any namespace it cannot prove it owns, by name prefix, `virtfoundry.io/tenant` label, ownerRef, and a UID precondition on delete.
+- **virtfoundry.io:** tenants (CRUD), instances (get/list/watch/update/patch + status/finalizers), offerings/templates (read)
+- **core:** namespaces (get/list/watch/create/patch/delete) for tenant namespaces
+- **kubevirt.io:** virtualmachines / virtualmachineinstances (CRUD)
+- **No Secrets**, NetPol, PVC, VolumeSnapshots, Multus NADs, CDI DataVolumes, KubeVirt snapshot APIs, or other virtfoundry.io kinds until a controller needs them. If Secrets are needed later, grant a `Role` in `virtfoundry-system` rather than widening the ClusterRole.
+- **No `update` on Namespaces.** Tenant namespaces are `virtfoundry-tenant-{slug}`, so `resourceNames` cannot scope them (namespaces are cluster scoped and RBAC has no prefix matching). The Tenant reconciler instead refuses to adopt or delete any namespace it cannot prove it owns, by name prefix, `virtfoundry.io/tenant` label, ownerRef, and a UID precondition on delete. Namespace `delete` remains cluster-scoped in RBAC; the ValidatingAdmissionPolicy below is the extra guard.
 
 ### Namespace deletion guard
 
