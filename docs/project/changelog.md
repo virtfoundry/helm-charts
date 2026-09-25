@@ -6,6 +6,10 @@ Format based on [Keep a Changelog](https://keepachangelog.com/). Versioning: [Se
 
 ## [Unreleased]
 
+## [0.8.0] - 2026-09-25
+
+Security release aligning charts with core/operator 0.8.0 (PSS hardening, networking/Ingress defaults, secrets fail-closed).
+
 ### Security
 
 - Harden API/UI Deployments (closes [#42](https://github.com/virtfoundry/helm-charts/issues/42)): non-root + drop ALL + RuntimeDefault seccomp + readOnlyRootFilesystem, requests/limits, UI SA without token automount, Service `80→8080` via nginx ConfigMap. Default NetworkPolicy for control plane (`networkPolicy.enabled`); set `allowedIngressNamespaces` to restrict. Residuals: env-injected secrets; API egress open — follow-ups on the issue. Core images: UI listens on 8080 / API UID 65532.
