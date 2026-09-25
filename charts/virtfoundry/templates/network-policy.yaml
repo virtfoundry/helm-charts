@@ -44,26 +44,10 @@ spec:
       ports:
         - protocol: TCP
           port: {{ .Values.api.service.port }}
-    - to:
-        - namespaceSelector:
-            matchLabels:
-              kubernetes.io/metadata.name: kube-system
-          podSelector:
-            matchLabels:
-              k8s-app: kube-dns
-      ports:
-        - protocol: UDP
-          port: 53
-        - protocol: TCP
-          port: 53
-    - to:
-        - namespaceSelector:
-            matchLabels:
-              kubernetes.io/metadata.name: kube-system
-          podSelector:
-            matchLabels:
-              k8s-app: coredns
-      ports:
+    # DNS without a podSelector: covers CoreDNS and node-local DNS
+    # (e.g. Kubespray NodeLocalDNS on 169.254.25.10). Restricting to
+    # kube-system/coredns pods alone breaks UI nginx upstream resolve.
+    - ports:
         - protocol: UDP
           port: 53
         - protocol: TCP
@@ -98,27 +82,8 @@ spec:
         {{- end }}
       {{- end }}
   egress:
-    # DNS
-    - to:
-        - namespaceSelector:
-            matchLabels:
-              kubernetes.io/metadata.name: kube-system
-          podSelector:
-            matchLabels:
-              k8s-app: kube-dns
-      ports:
-        - protocol: UDP
-          port: 53
-        - protocol: TCP
-          port: 53
-    - to:
-        - namespaceSelector:
-            matchLabels:
-              kubernetes.io/metadata.name: kube-system
-          podSelector:
-            matchLabels:
-              k8s-app: coredns
-      ports:
+    # DNS (CoreDNS + node-local DNS — see UI policy comment).
+    - ports:
         - protocol: UDP
           port: 53
         - protocol: TCP

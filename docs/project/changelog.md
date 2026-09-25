@@ -6,6 +6,12 @@ Format based on [Keep a Changelog](https://keepachangelog.com/). Versioning: [Se
 
 ## [Unreleased]
 
+## [0.7.3] - 2026-09-25
+
+### Fixed
+
+- Control-plane NetworkPolicy DNS egress allows NodeLocalDNS (port 53 without CoreDNS-only selectors) so the UI can resolve `virtfoundry-api` on Kubespray clusters.
+
 ## [0.7.2] - 2026-09-25
 
 Security release aligning charts with core/operator 0.7.2 (PSS hardening, networking/Ingress defaults, secrets fail-closed).
