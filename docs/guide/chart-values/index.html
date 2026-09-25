@@ -1702,16 +1702,42 @@ helm<span class="w"> </span>upgrade<span class="w"> </span>--install<span class=
 <span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">iaas.local</span>
 
 <span class="nt">ui</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">replicas</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+<span class="w">  </span><span class="c1"># Container listens on 8080 as non-root (chart mounts nginx ConfigMap; Service stays 80→8080).</span>
+<span class="w">  </span><span class="c1"># Requires UI image that can run as UID 101, or the ConfigMap override (default).</span>
+<span class="w">  </span><span class="nt">containerPort</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">8080</span>
 <span class="w">  </span><span class="nt">service</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ClusterIP</span>
 <span class="w">    </span><span class="nt">port</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">80</span>
 <span class="w">    </span><span class="nt">nodePort</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">30880</span>
+<span class="w">  </span><span class="nt">securityContext</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">runAsUser</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">101</span><span class="w">   </span><span class="c1"># nginx user in nginx:alpine / ghcr.io/virtfoundry/ui</span>
+<span class="w">    </span><span class="nt">runAsGroup</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">101</span>
+<span class="w">    </span><span class="nt">fsGroup</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">101</span>
+<span class="w">  </span><span class="nt">resources</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">requests</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">cpu</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">25m</span>
+<span class="w">      </span><span class="nt">memory</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">64Mi</span>
+<span class="w">    </span><span class="nt">limits</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">cpu</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">200m</span>
+<span class="w">      </span><span class="nt">memory</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">128Mi</span>
 
 <span class="nt">api</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">service</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ClusterIP</span>
 <span class="w">    </span><span class="nt">port</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">8080</span>
 <span class="w">  </span><span class="nt">replicas</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+<span class="w">  </span><span class="nt">securityContext</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">runAsUser</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">65532</span>
+<span class="w">    </span><span class="nt">runAsGroup</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">65532</span>
+<span class="w">    </span><span class="nt">fsGroup</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">65532</span>
+<span class="w">  </span><span class="nt">resources</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">requests</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">cpu</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">50m</span>
+<span class="w">      </span><span class="nt">memory</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">128Mi</span>
+<span class="w">    </span><span class="nt">limits</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">cpu</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">500m</span>
+<span class="w">      </span><span class="nt">memory</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">512Mi</span>
 <span class="w">  </span><span class="c1"># Browser origins allowed for CORS and for /ws/events + /ws/console.</span>
 <span class="w">  </span><span class="c1"># The request host is always accepted (UI nginx proxies /api and /ws same-origin),</span>
 <span class="w">  </span><span class="c1"># so leave empty for the default Ingress/Gateway layout. Set this only when the</span>
@@ -1722,6 +1748,18 @@ helm<span class="w"> </span>upgrade<span class="w"> </span>--install<span class=
 <span class="w">    </span><span class="c1"># Example for split origins:</span>
 <span class="w">    </span><span class="c1"># allowedOrigins:</span>
 <span class="w">    </span><span class="c1">#   - "https://console.example.com"</span>
+
+<span class="c1"># Control-plane NetworkPolicy (API + UI). Empty allowedIngressNamespaces = any</span>
+<span class="c1"># namespace may reach the HTTP ports (safe default for Ingress/Gateway). Set the</span>
+<span class="c1"># list (e.g. ingress-nginx, traefik) to tighten. API egress stays open for the</span>
+<span class="c1"># kube-apiserver. Disable with networkPolicy.enabled=false on CNIs without NP.</span>
+<span class="nt">networkPolicy</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">  </span><span class="nt">allowedIngressNamespaces</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[]</span>
+<span class="w">  </span><span class="c1"># Example:</span>
+<span class="w">  </span><span class="c1"># allowedIngressNamespaces:</span>
+<span class="w">  </span><span class="c1">#   - ingress-nginx</span>
+<span class="w">  </span><span class="c1">#   - traefik</span>
 
 <span class="nt">rbac</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">api</span><span class="p">:</span>

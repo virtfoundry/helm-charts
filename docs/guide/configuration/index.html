@@ -703,6 +703,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#pod-hardening-api-ui" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pod hardening (API / UI)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#allowed-origins-cors-websockets" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1639,6 +1650,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#pod-hardening-api-ui" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pod hardening (API / UI)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#allowed-origins-cors-websockets" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1975,6 +1997,50 @@
 </tr>
 </tbody>
 </table>
+<h2 id="pod-hardening-api-ui">Pod hardening (API / UI)<a class="headerlink" href="#pod-hardening-api-ui" title="Permanent link">&para;</a></h2>
+<p>API and UI Deployments match the operator chart pattern: <code>runAsNonRoot</code>, drop <code>ALL</code> capabilities, <code>seccompProfile: RuntimeDefault</code>, <code>readOnlyRootFilesystem</code> with emptyDir mounts, and resource requests/limits (<a href="https://github.com/virtfoundry/helm-charts/issues/42">#42</a>).</p>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Default</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ui.containerPort</code></td>
+<td><code>8080</code></td>
+<td>Non-root listen; Service stays <code>port: 80</code> → targetPort 8080</td>
+</tr>
+<tr>
+<td><code>ui</code> / <code>api</code> <code>resources</code></td>
+<td>set</td>
+<td>Override per environment</td>
+</tr>
+<tr>
+<td><code>ui</code> SA</td>
+<td>dedicated</td>
+<td><code>automountServiceAccountToken: false</code></td>
+</tr>
+<tr>
+<td><code>api</code> SA</td>
+<td><code>-api</code></td>
+<td>Token mounted (kube-apiserver client)</td>
+</tr>
+<tr>
+<td><code>networkPolicy.enabled</code></td>
+<td><code>true</code></td>
+<td>Control-plane NetworkPolicy; set <code>false</code> if the CNI does not enforce NP</td>
+</tr>
+<tr>
+<td><code>networkPolicy.allowedIngressNamespaces</code></td>
+<td><code>[]</code></td>
+<td>Empty = any namespace may hit UI/API HTTP ports; list Ingress/Gateway namespaces to restrict</td>
+</tr>
+</tbody>
+</table>
+<p>The chart mounts an nginx ConfigMap so the UI works as UID 101 even when the image still ships a port-80 default. Prefer UI images that listen on 8080 (core <code>docker/Dockerfile.ui</code>). Residual: bootstrap secrets remain env vars (<code>ROOT_PASSWORD</code> / <code>JWT_SECRET</code>); file mounts need an API change.</p>
 <h2 id="allowed-origins-cors-websockets">Allowed origins (CORS / WebSockets)<a class="headerlink" href="#allowed-origins-cors-websockets" title="Permanent link">&para;</a></h2>
 <p>After <a href="https://github.com/virtfoundry/core/issues/98">core#98</a> / <a href="https://github.com/virtfoundry/core/pull/113">PR #113</a>, the API never emits <code>Access-Control-Allow-Origin: *</code>. CORS and the <code>/ws/events</code> / <code>/ws/console</code> Origin checks accept:</p>
 <ol>
