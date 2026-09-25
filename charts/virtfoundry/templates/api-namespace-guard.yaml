@@ -1,0 +1,53 @@
+{{- /*
+The API creates tenant and VPC namespaces at runtime, so its ClusterRole cannot
+scope `delete` on namespaces by name or label (helm-charts#39). This policy is the
+cluster-side half of that guard: it keeps the API ServiceAccount from deleting any
+namespace VirtFoundry does not own. Mirrors the operator chart's namespace-guard.
+*/}}
+{{- if and .Values.namespaceGuard.enabled (.Capabilities.APIVersions.Has "admissionregistration.k8s.io/v1/ValidatingAdmissionPolicy") }}
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingAdmissionPolicy
+metadata:
+  name: {{ .Values.fullnamePrefix }}-api-namespace-guard
+  labels:
+    {{- include "virtfoundry.labels" . | nindent 4 }}
+spec:
+  failurePolicy: Fail
+  matchConstraints:
+    resourceRules:
+      - apiGroups: [""]
+        apiVersions: ["v1"]
+        operations: ["DELETE"]
+        resources: ["namespaces"]
+  matchConditions:
+    # Only the API ServiceAccount is constrained; humans and other controllers
+    # keep whatever their own RBAC allows.
+    - name: api-service-account-only
+      expression: >-
+        request.userInfo.username ==
+        'system:serviceaccount:{{ .Values.namespace }}:{{ .Values.fullnamePrefix }}-api'
+  validations:
+    - expression: >-
+        oldObject.metadata.name.startsWith('virtfoundry-tenant-') ||
+        oldObject.metadata.name.startsWith('virtfoundry-vpc-')
+      message: the VirtFoundry API may only delete namespaces named virtfoundry-tenant-* or virtfoundry-vpc-*
+      reason: Forbidden
+    # Tenant namespaces are labelled virtfoundry.io/managed-by and
+    # virtfoundry.io/tenant-slug by the API, virtfoundry.io/tenant by the
+    # operator, so accept any virtfoundry.io/ label rather than one spelling.
+    - expression: >-
+        has(oldObject.metadata.labels) &&
+        oldObject.metadata.labels.exists(k, k.startsWith('virtfoundry.io/'))
+      message: the VirtFoundry API may only delete namespaces labelled virtfoundry.io/*
+      reason: Forbidden
+---
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingAdmissionPolicyBinding
+metadata:
+  name: {{ .Values.fullnamePrefix }}-api-namespace-guard
+  labels:
+    {{- include "virtfoundry.labels" . | nindent 4 }}
+spec:
+  policyName: {{ .Values.fullnamePrefix }}-api-namespace-guard
+  validationActions: ["Deny"]
+{{- end }}

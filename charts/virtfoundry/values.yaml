@@ -78,6 +78,23 @@ api:
     port: 8080
   replicas: 1
 
+rbac:
+  api:
+    # Namespaces where the API may manage Secrets. The release namespace is always
+    # included. Listing your tenant namespaces (virtfoundry-tenant-{slug}) here
+    # removes the cluster-wide Secret rule from the API ClusterRole entirely — the
+    # strictest setup, at the cost of a values change per new tenant.
+    # Leave empty to keep the cluster-scoped fallback (get/create/update only,
+    # never list/watch/delete). See README "API permissions".
+    secretNamespaces: []
+
+# Cluster-side guard rail: denies the API ServiceAccount any Namespace DELETE
+# outside virtfoundry-tenant-* / virtfoundry-vpc-* carrying a virtfoundry.io/
+# label. Rendered only when the cluster serves ValidatingAdmissionPolicy
+# (Kubernetes >= 1.30).
+namespaceGuard:
+  enabled: true
+
 # Optional cluster/platform bootstrap (bare-metal / air-gapped without a registry).
 # Image sideloading stays outside the chart — see scripts/sideload/.
 platform:
