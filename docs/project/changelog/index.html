@@ -1289,6 +1289,23 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="[Unreleased]">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#security" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Security
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -1955,6 +1972,23 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="[Unreleased]">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#security" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Security
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -2543,6 +2577,16 @@
 <p>All notable changes to the <strong>Helm chart and deploy tooling</strong> are documented here.</p>
 <p>Format based on <a href="https://keepachangelog.com/">Keep a Changelog</a>. Versioning: <a href="../versioning/">SemVer</a>.</p>
 <h2 id="unreleased">[Unreleased]<a class="headerlink" href="#unreleased" title="Permanent link">&para;</a></h2>
+<h3 id="security">Security<a class="headerlink" href="#security" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Platform hook RBAC no longer grants <code>apiGroups: ["*"] / resources: ["*"]</code>. Each hook Job has its own ServiceAccount: <code>-platform-kubevirt</code> (get/patch on <code>kubevirt/kubevirt</code> only), <code>-platform-multus</code> and <code>-platform-cdi</code> (rendered only with <code>platform.multus.install</code> / <code>platform.cdi.install</code>)</li>
+<li>Hook RBAC carries <code>helm.sh/hook-delete-policy: before-hook-creation,hook-succeeded</code>, so no platform identity outlives the install/upgrade</li>
+</ul>
+<p>Upgrading from <code>0.7.1</code> or older leaves the previous wildcard objects behind — Helm never owned them. Remove them once:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>delete<span class="w"> </span>clusterrolebinding<span class="w"> </span>virtfoundry-platform<span class="w"> </span>--ignore-not-found
+kubectl<span class="w"> </span>delete<span class="w"> </span>clusterrole<span class="w"> </span>virtfoundry-platform<span class="w"> </span>--ignore-not-found
+kubectl<span class="w"> </span>-n<span class="w"> </span>virtfoundry-system<span class="w"> </span>delete<span class="w"> </span>serviceaccount<span class="w"> </span>virtfoundry-platform<span class="w"> </span>--ignore-not-found
+</code></pre></div>
 <h2 id="071-2026-09-04">[0.7.1] - 2026-09-04<a class="headerlink" href="#071-2026-09-04" title="Permanent link">&para;</a></h2>
 <h3 id="added">Added<a class="headerlink" href="#added" title="Permanent link">&para;</a></h3>
 <ul>

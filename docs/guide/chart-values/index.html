@@ -1651,6 +1651,9 @@ helm<span class="w"> </span>upgrade<span class="w"> </span>--install<span class=
 <span class="nt">platform</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">multus</span><span class="p">:</span>
 <span class="w">    </span><span class="c1"># Install Multus thick plugin from upstream manifest when absent.</span>
+<span class="w">    </span><span class="c1"># The installer Job applies upstream RBAC, so its hook ServiceAccount holds</span>
+<span class="w">    </span><span class="c1"># escalate/bind for the pre-install phase. Keep false when Multus is managed</span>
+<span class="w">    </span><span class="c1"># outside the chart (scripts/setup/multus.sh or your platform team).</span>
 <span class="w">    </span><span class="nt">install</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
 <span class="w">    </span><span class="nt">manifestUrl</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://raw.githubusercontent.com/k8snetworkplumbingwg/multus-cni/master/deployments/multus-daemonset-thick.yml</span>
 <span class="w">  </span><span class="nt">networking</span><span class="p">:</span>
@@ -1706,6 +1709,7 @@ helm<span class="w"> </span>upgrade<span class="w"> </span>--install<span class=
 <span class="w">  </span><span class="nt">kubevirt</span><span class="p">:</span>
 <span class="w">    </span><span class="c1"># Guest vCPU overcommit for shared VMs (VirtFoundry omits CPU request).</span>
 <span class="w">    </span><span class="c1"># Pod request ≈ guest_vcpus / cpuAllocationRatio. 0 = do not patch CR.</span>
+<span class="w">    </span><span class="c1"># &gt; 0 renders a post-install Job whose identity can only get/patch kubevirt/kubevirt.</span>
 <span class="w">    </span><span class="nt">cpuAllocationRatio</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10</span>
 <span class="w">    </span><span class="nt">featureGates</span><span class="p">:</span>
 <span class="w">      </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
@@ -1713,6 +1717,8 @@ helm<span class="w"> </span>upgrade<span class="w"> </span>--install<span class=
 <span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Snapshot</span>
 <span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">VideoConfig</span>
 <span class="w">  </span><span class="nt">cdi</span><span class="p">:</span>
+<span class="w">    </span><span class="c1"># Same hook RBAC caveat as platform.multus.install: the Job applies the upstream</span>
+<span class="w">    </span><span class="c1"># operator manifests, which requires escalate/bind during pre-install.</span>
 <span class="w">    </span><span class="nt">install</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
 <span class="w">    </span><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="s">""</span><span class="w">  </span><span class="c1"># empty = latest from GitHub releases API at install time</span>
 </code></pre></div>
