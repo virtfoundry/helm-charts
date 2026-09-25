@@ -26,6 +26,10 @@ platform:
     vm:
       defaultNetwork: pod
       allowPodNetwork: true
+    bridge:
+      # kind control-plane is tainted NoSchedule; bridges must still run there.
+      tolerations:
+        - operator: Exists
   storage:
     defaultClass: standard
     snapshotClass: ""

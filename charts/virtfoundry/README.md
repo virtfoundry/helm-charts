@@ -114,6 +114,13 @@ denies the API ServiceAccount any Namespace `DELETE` outside `virtfoundry-tenant
 serving `admissionregistration.k8s.io/v1` policies (Kubernetes 1.30+), so the chart
 still installs on older clusters — there the ClusterRole is the only limit.
 
+## Host bridges (isolated / public)
+
+`platform.networking.isolated.enabled` and `platform.networking.public.enabled` default
+to **`false`**. Enabling either deploys a `hostNetwork` DaemonSet (`NET_ADMIN`, optional
+`NET_RAW` for DHCP) with a dedicated ServiceAccount that does not automount a token.
+Details: [Configuration — host bridges](https://virtfoundry.github.io/helm-charts/docs/guide/configuration/#host-bridges-isolated--public).
+
 ## Profiles
 
 | File | Use case |

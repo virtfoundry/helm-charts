@@ -288,4 +288,39 @@ if grep -q "kind: ValidatingAdmissionPolicy$" "${TMP}/safe.yaml"; then
 fi
 ok "API namespace deletion guard is skipped on clusters without ValidatingAdmissionPolicy (#39)"
 
+# Bridge DaemonSet must not render on default values (isolated/public both off) — #40.
+if grep -q "bridge-setup" "${TMP}/safe.yaml"; then
+  die "default helm template must not render bridge-setup DaemonSet (isolated.enabled should be false; #40)"
+fi
+if grep -qE "hostPID:\\s*true" "${TMP}/safe.yaml"; then
+  die "default helm template must not set hostPID: true (#40)"
+fi
+ok "default install does not schedule hostNetwork bridge DaemonSet (#40)"
+
+# When opted in, DaemonSet must use caps (not privileged) and no hostPID.
+helm template vf "$CHART" \
+  --set "secrets.rootPassword=${SAFE_ROOT}" \
+  --set "secrets.jwtSecret=${SAFE_JWT}" \
+  --set platform.networking.isolated.enabled=true \
+  >"${TMP}/bridge-on.yaml" \
+  || die "helm template with isolated.enabled=true failed"
+
+grep -q "kind: DaemonSet$" "${TMP}/bridge-on.yaml" \
+  || die "isolated.enabled=true must render bridge DaemonSet (#40)"
+grep -q "name: .*bridge-setup" "${TMP}/bridge-on.yaml" \
+  || die "isolated.enabled=true must render bridge-setup ServiceAccount (#40)"
+grep -q "automountServiceAccountToken: false" "${TMP}/bridge-on.yaml" \
+  || die "bridge ServiceAccount must set automountServiceAccountToken: false (#40)"
+if grep -qE "hostPID:\\s*true" "${TMP}/bridge-on.yaml"; then
+  die "bridge DaemonSet must not set hostPID: true (#40)"
+fi
+if grep -qE "privileged:\\s*true" "${TMP}/bridge-on.yaml"; then
+  die "bridge DaemonSet must not use privileged: true (#40)"
+fi
+grep -q "NET_ADMIN" "${TMP}/bridge-on.yaml" \
+  || die "bridge DaemonSet must request NET_ADMIN (#40)"
+grep -q "alpine@sha256:" "${TMP}/bridge-on.yaml" \
+  || die "bridge DaemonSet must pin alpine by digest (#40)"
+ok "opt-in bridge DaemonSet uses caps, no hostPID, pinned alpine (#40)"
+
 ok "all security gates passed"

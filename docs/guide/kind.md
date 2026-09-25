@@ -107,7 +107,7 @@ Even on a laptop the chart requires real credentials: `rootPassword` needs 12+ c
 
 Deploy a **container-disk** VM (Templates → small offering → Console). The guest has a pod IP only; you reach it through **noVNC**, not from your LAN.
 
-Isolated VPCs still work: bridge-keeper creates `virtfoundry-br0` **inside** the kind node. That L2 never leaves Docker.
+Isolated VPCs still work when you use `values-kind.yaml` (sets `isolated.enabled: true` and tolerates the control-plane taint): bridge-keeper creates `virtfoundry-br0` **inside** the kind node. That L2 never leaves Docker. Chart defaults leave isolated **off** so a bare install stays API+UI-only.
 
 ---
 

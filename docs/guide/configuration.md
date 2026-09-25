@@ -11,7 +11,8 @@ VirtFoundry runtime configuration is YAML rendered by Helm into a ConfigMap. **H
 | `config.jwtExpire` | `security.jwt_expire` | |
 | `config.kubevirtEnabled` | `kubevirt.enabled` | |
 | `api.security.allowedOrigins` | `security.allowed_origins` | CORS / WS Origin allowlist — see [Allowed origins](#allowed-origins-cors--websockets) |
-| `platform.networking.public.*` | `networking.public.*` | Shared VM network |
+| `platform.networking.public.*` | `networking.public.*` | Shared VM network (off by default) |
+| `platform.networking.isolated.enabled` | — | Host bridge DaemonSet for tenant VPCs (off by default; see [Host bridges](#host-bridges-isolated--public)) |
 | `platform.networking.isolated.bridge.name` | `networking.isolated.bridge_name` | Tenant VPC bridge |
 | `platform.networking.vm.*` | `networking.vm.*` | Default VM networking |
 | `platform.storage.*` | `storage.*` | Default StorageClass for CDI/ISO disks |
@@ -208,7 +209,7 @@ Same LAN as Kubernetes (typical small homelab): enable public only after a secon
 
 | Key | Default | Description |
 |-----|---------|-------------|
-| `public.enabled` | `false` | Shared public network |
+| `public.enabled` | `false` | Shared public network (schedules host bridge DaemonSet when true) |
 | `public.autoFromCluster` | `true` | Fill empty/default CIDR, gateway, pool, DNS from Node InternalIP |
 | `public.cidr` | `10.0.50.0/24` | Fallback when auto cannot see the API; L3 CIDR — VLAN **or** house LAN |
 | `public.gateway` | `10.0.50.254` | VM default gateway in cloud-init — **must match a reachable router IP on that CIDR** |
@@ -225,6 +226,34 @@ Same LAN as Kubernetes (typical small homelab): enable public only after a secon
 
 !!! danger "Do not enslave the Kubernetes NIC"
     `uplink` must not be the interface that holds the node IP (SSH/kubelet). Bridge-keeper runs `ip link set <uplink> master <bridge>`. Use a VLAN subinterface, a second NIC, or point `bridge.name` at an existing mgmt bridge with `uplink` empty.
+
+## Host bridges (isolated / public)
+
+Default chart install is **API + UI only**: both `platform.networking.isolated.enabled` and `platform.networking.public.enabled` are **`false`**, so no hostNetwork DaemonSet is rendered ([#40](https://github.com/virtfoundry/helm-charts/issues/40)).
+
+Opting into either flag deploys `*-bridge-setup` in `platform.networking.bridge.namespace` (default `kube-system`). That DaemonSet uses **`hostNetwork`** so it can create Linux bridges on the node. It does **not** use `hostPID` or `privileged: true`.
+
+| Capability | Containers | Why |
+|------------|------------|-----|
+| `NET_ADMIN` | init, bridge-keeper, dhcp | Create/enslave bridges, addresses, routes |
+| `NET_RAW` | dhcp only | dnsmasq DHCP / raw sockets |
+
+Identity: dedicated ServiceAccount with `automountServiceAccountToken: false` (no API access). Image defaults to alpine **pinned by digest** (`platform.networking.bridge.image`).
+
+| Key | Default | Description |
+|-----|---------|-------------|
+| `isolated.enabled` | `false` | Tenant VPC L2 on an internal bridge (`virtfoundry-br0`) |
+| `isolated.bridge.name` | `virtfoundry-br0` | Linux bridge name (≤15 chars) |
+| `bridge.namespace` | `kube-system` | Namespace for the DaemonSet + scripts ConfigMap |
+| `bridge.image` | alpine@sha256:… | Pin / override (prefer a prebuilt image with dnsmasq) |
+| `bridge.nodeSelector` | `{}` | Optional node selection |
+| `bridge.tolerations` | `[]` | Empty respects control-plane `NoSchedule`; set `operator: Exists` for kind / single-node homelabs |
+
+!!! warning "Host privileges are intentional"
+    Enabling isolated or public networking is an **operator opt-in** to host networking on every selected node. Do not enable it for a control-plane-only install unless you need Multus host bridges.
+
+!!! note "DHCP still runs `apk add dnsmasq`"
+    Until a prebuilt bridge/DHCP image ships, the public `dhcp` container installs dnsmasq at start. Override `bridge.image` with an image that already includes dnsmasq to remove that step.
 
 ## Storage
 

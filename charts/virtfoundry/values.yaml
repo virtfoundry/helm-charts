@@ -163,8 +163,11 @@ platform:
         name: virtfoundry-public
         namespace: virtfoundry-system
     # Private tenant VPC networks (isolated L2 on internal bridge).
+    # Default false: API+UI-only installs must not schedule a hostNetwork bridge
+    # DaemonSet. Opt in (with public.enabled) only when you need Multus host bridges —
+    # see docs/guide/configuration.md#host-bridges-isolated--public.
     isolated:
-      enabled: true
+      enabled: false
       bridge:
         name: virtfoundry-br0
     # Default VM networking when no network_ids are set on deploy.
@@ -174,6 +177,13 @@ platform:
     bridge:
       namespace: kube-system          # DaemonSet namespace for bridge setup
       repairIntervalSeconds: 15       # bridge-keeper auto-repair loop
+      # alpine:3.21 index digest (multi-arch). Override with a prebuilt image that
+      # already includes dnsmasq to avoid runtime `apk add` in the dhcp container.
+      image: alpine@sha256:ce64758a109eb420d874a118f87920e625e12d3634e03b4a5573fd9f6e5d3507
+      # Empty = do not tolerate control-plane NoSchedule. Homelab / kind overlays that
+      # run bridges on every node (including control-plane) should set operator: Exists.
+      nodeSelector: {}
+      tolerations: []
   storage:
     # auto = Longhorn if the StorageClass exists, else the cluster default, else local-path.
     # helm template / CI (no cluster) falls back to local-path.

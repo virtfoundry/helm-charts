@@ -1,6 +1,17 @@
 {{- if or .Values.platform.networking.public.enabled .Values.platform.networking.isolated.enabled }}
 {{- include "virtfoundry.validateBridgeNames" . }}
 {{- $interval := int (.Values.platform.networking.bridge.repairIntervalSeconds | default 15) }}
+{{- $bridgeImage := .Values.platform.networking.bridge.image | default "alpine@sha256:ce64758a109eb420d874a118f87920e625e12d3634e03b4a5573fd9f6e5d3507" }}
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: {{ .Values.fullnamePrefix }}-bridge-setup
+  namespace: {{ .Values.platform.networking.bridge.namespace }}
+  labels:
+    app.kubernetes.io/name: {{ .Values.fullnamePrefix }}-bridge-setup
+    {{- include "virtfoundry.labels" . | nindent 4 }}
+automountServiceAccountToken: false
+---
 apiVersion: apps/v1
 kind: DaemonSet
 metadata:
@@ -20,16 +31,29 @@ spec:
       labels:
         app.kubernetes.io/name: {{ .Values.fullnamePrefix }}-bridge-setup
     spec:
+      serviceAccountName: {{ .Values.fullnamePrefix }}-bridge-setup
+      automountServiceAccountToken: false
       hostNetwork: true
-      hostPID: true
+      # hostPID is not required to create or repair Linux bridges.
+      {{- with .Values.platform.networking.bridge.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.platform.networking.bridge.tolerations }}
       tolerations:
-        - operator: Exists
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       # One-shot fast path so Multus sees the bridge before workloads schedule on a fresh node.
       initContainers:
         - name: setup-bridges
-          image: alpine:3.21
+          image: {{ $bridgeImage }}
           securityContext:
-            privileged: true
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+              add:
+                - NET_ADMIN
           command:
             - sh
             - -c
@@ -44,9 +68,14 @@ spec:
       containers:
         # Continuous auto-repair: host bridges can vanish after reboot quirks, NM, or manual ops.
         - name: bridge-keeper
-          image: alpine:3.21
+          image: {{ $bridgeImage }}
           securityContext:
-            privileged: true
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+              add:
+                - NET_ADMIN
           command:
             - sh
             - -c
@@ -95,14 +124,22 @@ spec:
               memory: 16Mi
         {{- if .Values.platform.networking.public.enabled }}
         - name: dhcp
-          image: alpine:3.21
+          image: {{ $bridgeImage }}
           securityContext:
-            privileged: true
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+              add:
+                - NET_ADMIN
+                - NET_RAW
           command:
             - sh
             - -c
             - |
               set -e
+              # Residual (helm-charts#40): alpine has no dnsmasq; install at runtime
+              # until a prebuilt bridge/DHCP image is published.
               apk add --no-cache dnsmasq
               . /scripts/bridge-lib.sh
               BR="{{ .Values.platform.networking.public.bridge.name }}"
