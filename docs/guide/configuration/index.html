@@ -775,6 +775,34 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#ingress-and-tls" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ingress and TLS
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Ingress and TLS">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#gateway-api-https" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Gateway API HTTPS
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#platform-store" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1672,6 +1700,34 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#ingress-and-tls" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ingress and TLS
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Ingress and TLS">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#gateway-api-https" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Gateway API HTTPS
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#platform-store" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2020,6 +2076,65 @@ client-side dry-runs, which is why <code>autoGenerateJwtSecret</code> is off by 
 <li>CI that only renders templates should pass throwaway values that satisfy the length
   rules (see <code>.github/workflows/chart-lint.yaml</code>).</li>
 </ul>
+<h2 id="ingress-and-tls">Ingress and TLS<a class="headerlink" href="#ingress-and-tls" title="Permanent link">&para;</a></h2>
+<p>The chart does <strong>not</strong> expose a cleartext HTTP control plane by default.</p>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Default</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ingress.enabled</code></td>
+<td><code>false</code></td>
+<td>Opt in. When <code>true</code>, you must set <code>ingress.tls</code> <strong>or</strong> <code>ingress.allowCleartext: true</code></td>
+</tr>
+<tr>
+<td><code>ingress.tls</code></td>
+<td><code>[]</code></td>
+<td>Standard Ingress <code>spec.tls</code> entries (<code>secretName</code> + <code>hosts</code>)</td>
+</tr>
+<tr>
+<td><code>ingress.allowCleartext</code></td>
+<td><code>false</code></td>
+<td>Lab-only escape hatch for HTTP without TLS</td>
+</tr>
+<tr>
+<td><code>ingress.annotations</code></td>
+<td>nginx timeouts</td>
+<td>Add cert-manager keys here (<code>cert-manager.io/cluster-issuer</code>, <code>ssl-redirect</code>, …)</td>
+</tr>
+<tr>
+<td><code>gateway.enabled</code></td>
+<td><code>false</code></td>
+<td>Mutually exclusive with Ingress</td>
+</tr>
+<tr>
+<td><code>gateway.parentRefs[].sectionName</code></td>
+<td><code>websecure</code></td>
+<td>Bind the HTTPS Gateway listener; use <code>web</code> only for redirect</td>
+</tr>
+</tbody>
+</table>
+<p>Example with cert-manager (also shipped as <code>charts/virtfoundry/values-ingress-tls.yaml</code>):</p>
+<div class="highlight"><pre><span></span><code><span class="nt">ingress</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">  </span><span class="nt">host</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">iaas.example.com</span>
+<span class="w">  </span><span class="nt">annotations</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">cert-manager.io/cluster-issuer</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">letsencrypt-prod</span>
+<span class="w">    </span><span class="nt">nginx.ingress.kubernetes.io/ssl-redirect</span><span class="p">:</span><span class="w"> </span><span class="s">"true"</span>
+<span class="w">  </span><span class="nt">tls</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">secretName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">virtfoundry-tls</span>
+<span class="w">      </span><span class="nt">hosts</span><span class="p">:</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">iaas.example.com</span>
+</code></pre></div>
+<h3 id="gateway-api-https">Gateway API HTTPS<a class="headerlink" href="#gateway-api-https" title="Permanent link">&para;</a></h3>
+<p><code>values-gateway.yaml</code> binds <code>sectionName: websecure</code>. Your Gateway must expose an HTTPS listener with that name (TLS cert on the Gateway/Listener, not in the chart).</p>
+<p>For HTTP→HTTPS redirect, apply a second HTTPRoute on the cleartext listener (<code>sectionName: web</code>) with a <code>RequestRedirect</code> filter — see <a href="../../examples/httproute-https-redirect.yaml">httproute-https-redirect.yaml</a>.</p>
+<p>Homelab overlays that still use <code>sectionName: web</code> alone keep cleartext HTTP until the Gateway gains <code>websecure</code> and a redirect route.</p>
 <h2 id="platform-store">Platform store<a class="headerlink" href="#platform-store" title="Permanent link">&para;</a></h2>
 <p>Platform state lives in <strong><code>virtfoundry.io</code> CRDs</strong>. Install <strong><code>virtfoundry-operator</code></strong> before the API chart.</p>
 <div class="highlight"><pre><span></span><code><span class="nt">store</span><span class="p">:</span>
@@ -2297,11 +2412,23 @@ kubectl<span class="w"> </span>get<span class="w"> </span>storageclass
 <tbody>
 <tr>
 <td><code>values.yaml</code></td>
-<td>Generic / production defaults</td>
+<td>Generic defaults (Ingress off)</td>
+</tr>
+<tr>
+<td><code>values-ingress-tls.yaml</code></td>
+<td>Ingress + TLS / cert-manager</td>
+</tr>
+<tr>
+<td><code>values-gateway.yaml</code></td>
+<td>Gateway API HTTPS (<code>websecure</code>)</td>
+</tr>
+<tr>
+<td><code>values-kind.yaml</code></td>
+<td>Kind / NodePort</td>
 </tr>
 </tbody>
 </table>
-<p>Additional value overlays can set Gateway API hostnames, image tags, and platform networking for your cluster.</p>
+<p>Additional value overlays can set Gateway API hostnames, image tags, and platform networking for your cluster. Homelab GitOps values live in the Argo CD values repo (not published with the chart).</p>
 <h2 id="local-dev">Local dev<a class="headerlink" href="#local-dev" title="Permanent link">&para;</a></h2>
 <p>Generate <code>virtfoundry/config/config.yaml</code> from Helm values:</p>
 <div class="highlight"><pre><span></span><code>make<span class="w"> </span>render-local-config

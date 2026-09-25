@@ -1,0 +1,24 @@
+# Companion HTTPRoute: redirect cleartext HTTP (Gateway listener "web") to HTTPS.
+# Apply next to the chart HTTPRoute that binds sectionName: websecure
+# (see charts/virtfoundry/values-gateway.yaml).
+#
+# Adjust gateway name/namespace/hostname to match your Gateway and chart values.
+# kubectl apply -f docs/examples/httproute-https-redirect.yaml
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: virtfoundry-https-redirect
+  namespace: virtfoundry-system
+spec:
+  parentRefs:
+    - name: platform-gateway
+      namespace: traefik
+      sectionName: web
+  hostnames:
+    - iaas.example.com
+  rules:
+    - filters:
+        - type: RequestRedirect
+          requestRedirect:
+            scheme: https
+            statusCode: 301
