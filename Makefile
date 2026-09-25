@@ -1,16 +1,19 @@
-.PHONY: help lint template setup-kubevirt setup-multus setup-cdi render-local-config docs-build docs-serve
+.PHONY: help lint template security-gates setup-kubevirt setup-multus setup-cdi render-local-config docs-build docs-serve
 
 CHART := ./charts/virtfoundry
 
 help: ## Show available targets
 	@grep -E '^[a-zA-Z0-9_-]+:.*##' Makefile | awk 'BEGIN {FS = ":.*## "}; {printf "  %-22s %s\n", $$1, $$2}'
 
-lint: template ## Validate chart renders (default + gateway profile)
+lint: template security-gates ## Validate chart renders + security gates
 
 template: ## Render Helm templates locally
 	helm lint $(CHART)
 	helm template virtfoundry $(CHART)
 	helm template virtfoundry $(CHART) -f $(CHART)/values-gateway.yaml
+
+security-gates: ## PR gates for secrets fail-closed (#37) and scoped platform RBAC (#38)
+	bash ./scripts/ci/security-gates.sh
 
 setup-kubevirt: ## Optional: install KubeVirt prerequisite
 	./scripts/setup/kubevirt.sh
