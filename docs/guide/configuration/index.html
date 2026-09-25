@@ -703,6 +703,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#allowed-origins-cors-websockets" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Allowed origins (CORS / WebSockets)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#secrets" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1589,6 +1600,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#allowed-origins-cors-websockets" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Allowed origins (CORS / WebSockets)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#secrets" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1834,6 +1856,11 @@
 <td></td>
 </tr>
 <tr>
+<td><code>api.security.allowedOrigins</code></td>
+<td><code>security.allowed_origins</code></td>
+<td>CORS / WS Origin allowlist — see <a href="#allowed-origins-cors--websockets">Allowed origins</a></td>
+</tr>
+<tr>
 <td><code>platform.networking.public.*</code></td>
 <td><code>networking.public.*</code></td>
 <td>Shared VM network</td>
@@ -1865,6 +1892,36 @@
 </tr>
 </tbody>
 </table>
+<h2 id="allowed-origins-cors-websockets">Allowed origins (CORS / WebSockets)<a class="headerlink" href="#allowed-origins-cors-websockets" title="Permanent link">&para;</a></h2>
+<p>After <a href="https://github.com/virtfoundry/core/issues/98">core#98</a> / <a href="https://github.com/virtfoundry/core/pull/113">PR #113</a>, the API never emits <code>Access-Control-Allow-Origin: *</code>. CORS and the <code>/ws/events</code> / <code>/ws/console</code> Origin checks accept:</p>
+<ol>
+<li>The <strong>request host</strong> itself (same-origin), and</li>
+<li>Any origin listed in <code>security.allowed_origins</code></li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>Deploy layout</th>
+<th>Set <code>api.security.allowedOrigins</code>?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Default chart</strong> — Ingress or Gateway fronts the UI; UI nginx proxies <code>/api/</code> and <code>/ws/</code> on the same host</td>
+<td><strong>No</strong> — leave <code>[]</code>. Same-origin proxy needs nothing.</td>
+</tr>
+<tr>
+<td><strong>Split UI/API</strong> — browser loads the UI from a different origin than the API (e.g. <code>https://console.example.com</code> calling <code>https://api.example.com</code>)</td>
+<td><strong>Yes</strong> — list every UI origin the browser will send</td>
+</tr>
+</tbody>
+</table>
+<div class="highlight"><pre><span></span><code><span class="nt">api</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">security</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">allowedOrigins</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">"https://console.example.com"</span>
+</code></pre></div>
+<p>Empty means fail closed for cross-origin traffic (no <code>*</code>). Operators can also override via env <code>VIRTFOUNDRY_ALLOWED_ORIGINS</code> (comma-separated) on the API pod; the chart writes the YAML list into the ConfigMap.</p>
 <h2 id="secrets">Secrets<a class="headerlink" href="#secrets" title="Permanent link">&para;</a></h2>
 <p>The chart ships <strong>no</strong> credential defaults. A root password or HMAC key published in a
 public repository is a cluster-compromise path, so the chart refuses to render instead

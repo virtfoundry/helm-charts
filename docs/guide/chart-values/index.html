@@ -1670,6 +1670,16 @@ helm<span class="w"> </span>upgrade<span class="w"> </span>--install<span class=
 <span class="w">    </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ClusterIP</span>
 <span class="w">    </span><span class="nt">port</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">8080</span>
 <span class="w">  </span><span class="nt">replicas</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+<span class="w">  </span><span class="c1"># Browser origins allowed for CORS and for /ws/events + /ws/console.</span>
+<span class="w">  </span><span class="c1"># The request host is always accepted (UI nginx proxies /api and /ws same-origin),</span>
+<span class="w">  </span><span class="c1"># so leave empty for the default Ingress/Gateway layout. Set this only when the</span>
+<span class="w">  </span><span class="c1"># UI is served from a different origin than the API (split UI/API). Maps to</span>
+<span class="w">  </span><span class="c1"># security.allowed_origins / VIRTFOUNDRY_ALLOWED_ORIGINS in core.</span>
+<span class="w">  </span><span class="nt">security</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">allowedOrigins</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[]</span>
+<span class="w">    </span><span class="c1"># Example for split origins:</span>
+<span class="w">    </span><span class="c1"># allowedOrigins:</span>
+<span class="w">    </span><span class="c1">#   - "https://console.example.com"</span>
 
 <span class="nt">rbac</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">api</span><span class="p">:</span>
