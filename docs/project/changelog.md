@@ -8,6 +8,7 @@ Format based on [Keep a Changelog](https://keepachangelog.com/). Versioning: [Se
 
 ### Security
 
+- **Breaking:** `ingress.enabled` defaults to `false` (no cleartext HTTP control plane). Enabling Ingress requires `ingress.tls` or `ingress.allowCleartext: true`. Gateway profile uses `sectionName: websecure`; HTTP→HTTPS redirect example at [httproute-https-redirect.yaml](../examples/httproute-https-redirect.yaml) — closes [#41](https://github.com/virtfoundry/helm-charts/issues/41). See [Ingress and TLS](../guide/configuration.md#ingress-and-tls).
 - `api.security.allowedOrigins` → ConfigMap `security.allowed_origins` (CORS / `/ws/*` Origin allowlist) — closes [#51](https://github.com/virtfoundry/helm-charts/issues/51), residual from [core#98](https://github.com/virtfoundry/core/issues/98) / [PR #113](https://github.com/virtfoundry/core/pull/113). Default `[]` is correct for same-origin UI proxy; split UI/API must list UI origins. See [Allowed origins](../guide/configuration.md#allowed-origins-cors--websockets).
 - Document CDI importer egress NetworkPolicy in each **tenant** namespace (created by core `EnsureTenantNamespace`; not a release-NS chart object) — closes [#49](https://github.com/virtfoundry/helm-charts/issues/49), follow-up to [core#95](https://github.com/virtfoundry/core/issues/95). See [Images and templates](../guide/features/templates.md#cdi-importer-egress) and [example private-mirror policy](../examples/cdi-importer-egress-private-mirror.yaml).
 

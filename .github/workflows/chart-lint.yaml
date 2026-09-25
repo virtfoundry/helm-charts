@@ -38,6 +38,19 @@ jobs:
       - name: Render gateway profile
         run: helm template virtfoundry ./charts/virtfoundry -f ./charts/virtfoundry/values-gateway.yaml --set-string secrets.rootPassword="$CI_ROOT_PASSWORD" --set-string secrets.jwtSecret="$CI_JWT_SECRET"
 
+      - name: Render ingress TLS profile
+        run: helm template virtfoundry ./charts/virtfoundry -f ./charts/virtfoundry/values-ingress-tls.yaml --set-string secrets.rootPassword="$CI_ROOT_PASSWORD" --set-string secrets.jwtSecret="$CI_JWT_SECRET"
+
+      - name: Reject cleartext Ingress (must fail)
+        run: |
+          if helm template virtfoundry ./charts/virtfoundry \
+            --set ingress.enabled=true \
+            --set-string secrets.rootPassword="$CI_ROOT_PASSWORD" \
+            --set-string secrets.jwtSecret="$CI_JWT_SECRET" >/dev/null 2>&1; then
+            echo "expected fail: ingress.enabled without tls"
+            exit 1
+          fi
+
       - name: Setup Python
         uses: actions/setup-python@v5
         with:

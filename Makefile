@@ -21,6 +21,9 @@ template: ## Render Helm templates locally
 	helm template virtfoundry $(CHART) $(RENDER_SECRETS)
 	helm template virtfoundry $(CHART) --set secrets.existingSecret=virtfoundry-credentials
 	helm template virtfoundry $(CHART) -f $(CHART)/values-gateway.yaml $(RENDER_SECRETS)
+	helm template virtfoundry $(CHART) -f $(CHART)/values-ingress-tls.yaml $(RENDER_SECRETS)
+	@! helm template virtfoundry $(CHART) --set ingress.enabled=true $(RENDER_SECRETS) >/dev/null 2>&1 \
+		|| (echo "expected fail: ingress.enabled without tls"; exit 1)
 
 security-gates: ## PR gates for secrets fail-closed (#37) and scoped platform RBAC (#38)
 	bash ./scripts/ci/security-gates.sh

@@ -1,4 +1,7 @@
 {{- if .Values.ingress.enabled }}
+{{- if and (not .Values.ingress.tls) (not .Values.ingress.allowCleartext) }}
+{{- fail "ingress.enabled requires ingress.tls (secretName + hosts) or ingress.allowCleartext=true. Cleartext HTTP is not the default — see docs/guide/configuration.md#ingress-and-tls" }}
+{{- end }}
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
@@ -10,6 +13,10 @@ metadata:
     {{- end }}
 spec:
   ingressClassName: {{ .Values.ingress.className }}
+  {{- with .Values.ingress.tls }}
+  tls:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
   rules:
     - host: {{ .Values.ingress.host }}
       http:

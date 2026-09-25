@@ -48,21 +48,38 @@ config:
   jwtExpire: 86400
   kubevirtEnabled: true
 
+# Off by default: a cleartext HTTP control plane is not a safe default (passwords/JWTs).
+# Enable with ingress.tls (and optional cert-manager annotations), or set
+# ingress.allowCleartext=true for lab-only HTTP. See docs/guide/configuration.md#ingress-and-tls
 ingress:
-  enabled: true
+  enabled: false
   className: nginx
   host: iaas.local
+  # When true, allows ingress.enabled without ingress.tls (lab only).
+  allowCleartext: false
   annotations:
     nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
     nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
+    # cert-manager (optional) — pair with ingress.tls[].secretName:
+    # cert-manager.io/cluster-issuer: letsencrypt-prod
+    # nginx.ingress.kubernetes.io/ssl-redirect: "true"
+  # Required when enabled (unless allowCleartext). Example:
+  # tls:
+  #   - secretName: virtfoundry-tls
+  #     hosts:
+  #       - iaas.example.com
+  tls: []
 
-# Gateway API HTTPRoute (mutually exclusive with ingress.enabled)
+# Gateway API HTTPRoute (mutually exclusive with ingress.enabled).
+# Default parentRefs.sectionName is websecure (HTTPS listener). Pair with an
+# HTTP→HTTPS redirect on sectionName web — see values-gateway.yaml and
+# docs/examples/httproute-https-redirect.yaml.
 gateway:
   enabled: false
   parentRefs:
     - name: platform-gateway
       namespace: traefik
-      sectionName: web
+      sectionName: websecure
   hostnames:
     - iaas.local
 

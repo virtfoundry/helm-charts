@@ -6,6 +6,7 @@ See [docs/project/changelog.md](docs/project/changelog.md) for the full release 
 
 ### Security
 
+- **Breaking:** `ingress.enabled` defaults to `false`. Enabling Ingress requires `ingress.tls` (or `ingress.allowCleartext: true` for lab HTTP). Gateway example binds `sectionName: websecure`; HTTP→HTTPS redirect example at [httproute-https-redirect.yaml](docs/examples/httproute-https-redirect.yaml) — closes [#41](https://github.com/virtfoundry/helm-charts/issues/41). See [Ingress and TLS](docs/guide/configuration.md#ingress-and-tls).
 - Expose `api.security.allowedOrigins` in chart values → ConfigMap `security.allowed_origins` for CORS / WS Origin allowlist ([core#98](https://github.com/virtfoundry/core/issues/98) / [PR #113](https://github.com/virtfoundry/core/pull/113)) — closes [#51](https://github.com/virtfoundry/helm-charts/issues/51). Same-origin UI proxy needs nothing; split UI/API must set the list.
 - Document CDI importer egress NetworkPolicy (tenant NS, not chart release NS) aligned with [core#95](https://github.com/virtfoundry/core/issues/95) allowlist — closes [#49](https://github.com/virtfoundry/helm-charts/issues/49). Policy is created by core on tenant ensure; chart docs cover private-mirror extensions ([example](docs/examples/cdi-importer-egress-private-mirror.yaml)).
 

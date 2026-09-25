@@ -1,5 +1,9 @@
-# Example: Gateway API HTTPRoute instead of Ingress.
-# Requires Gateway API CRDs and a controller (e.g. Traefik, Envoy Gateway).
+# Example: Gateway API HTTPS HTTPRoute instead of Ingress.
+# Requires Gateway API CRDs and a controller (e.g. Traefik, Envoy Gateway)
+# with an HTTPS listener named "websecure" (TLS terminated on the Gateway).
+#
+# HTTP→HTTPS redirect: apply docs/examples/httproute-https-redirect.yaml
+# (binds parentRefs.sectionName: web) alongside this route on websecure.
 ingress:
   enabled: false
 
@@ -8,6 +12,6 @@ gateway:
   parentRefs:
     - name: platform-gateway
       namespace: traefik
-      sectionName: web
+      sectionName: websecure
   hostnames:
     - iaas.example.com

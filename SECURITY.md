@@ -9,5 +9,6 @@ Helm-specific notes:
 - Never commit real `secrets.rootPassword` / `secrets.jwtSecret` values
 - The chart ships no credential defaults and refuses to render without them; do not add any
 - Prefer `secrets.existingSecret` with an external secrets tool for non-lab installs
+- Do not enable Ingress without TLS (`ingress.tls` or cert-manager annotations); `ingress.enabled` defaults to `false`
 - Leave `api.security.allowedOrigins` empty for same-origin UI→API proxy; set it for split UI/API origins only
 - Review RBAC under `charts/virtfoundry/` and `charts/virtfoundry-operator/` before production

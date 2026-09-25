@@ -38,6 +38,7 @@ jobs:
           ./scripts/ci/assert-secrets-fail-closed.sh
           helm template virtfoundry ./charts/virtfoundry --set-string secrets.rootPassword="$CI_ROOT_PASSWORD" --set-string secrets.jwtSecret="$CI_JWT_SECRET"
           helm template virtfoundry ./charts/virtfoundry -f ./charts/virtfoundry/values-gateway.yaml --set-string secrets.rootPassword="$CI_ROOT_PASSWORD" --set-string secrets.jwtSecret="$CI_JWT_SECRET"
+          helm template virtfoundry ./charts/virtfoundry -f ./charts/virtfoundry/values-ingress-tls.yaml --set-string secrets.rootPassword="$CI_ROOT_PASSWORD" --set-string secrets.jwtSecret="$CI_JWT_SECRET"
 
       - name: Bootstrap gh-pages branch
         run: |

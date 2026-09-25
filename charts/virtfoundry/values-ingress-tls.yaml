@@ -1,0 +1,24 @@
+# Example: Ingress with TLS (cert-manager ClusterIssuer + tls secret).
+# helm upgrade --install virtfoundry ./charts/virtfoundry \
+#   -f ./charts/virtfoundry/values-ingress-tls.yaml \
+#   --set secrets.rootPassword='…' --set secrets.jwtSecret='…'
+#
+# Adjust host, className, and cluster-issuer to match your cluster.
+
+ingress:
+  enabled: true
+  className: nginx
+  host: iaas.example.com
+  allowCleartext: false
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
+  tls:
+    - secretName: virtfoundry-tls
+      hosts:
+        - iaas.example.com
+
+gateway:
+  enabled: false
