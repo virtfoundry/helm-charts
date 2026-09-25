@@ -1,0 +1,42 @@
+{{- if and .Values.namespaceGuard.enabled (.Capabilities.APIVersions.Has "admissionregistration.k8s.io/v1/ValidatingAdmissionPolicy") }}
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingAdmissionPolicy
+metadata:
+  name: {{ include "virtfoundry-operator.fullname" . }}-namespace-guard
+  labels:
+    {{- include "virtfoundry-operator.labels" . | nindent 4 }}
+spec:
+  failurePolicy: Fail
+  matchConstraints:
+    resourceRules:
+      - apiGroups: [""]
+        apiVersions: ["v1"]
+        operations: ["DELETE"]
+        resources: ["namespaces"]
+  matchConditions:
+    # Only the operator ServiceAccount is constrained; humans and other
+    # controllers keep whatever their own RBAC allows.
+    - name: operator-service-account-only
+      expression: >-
+        request.userInfo.username ==
+        'system:serviceaccount:{{ .Values.namespace }}:{{ include "virtfoundry-operator.fullname" . }}'
+  validations:
+    - expression: oldObject.metadata.name.startsWith('virtfoundry-tenant-')
+      message: virtfoundry-operator may only delete namespaces named virtfoundry-tenant-*
+      reason: Forbidden
+    - expression: >-
+        has(oldObject.metadata.labels) &&
+        'virtfoundry.io/tenant' in oldObject.metadata.labels
+      message: virtfoundry-operator may only delete namespaces labelled virtfoundry.io/tenant
+      reason: Forbidden
+---
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingAdmissionPolicyBinding
+metadata:
+  name: {{ include "virtfoundry-operator.fullname" . }}-namespace-guard
+  labels:
+    {{- include "virtfoundry-operator.labels" . | nindent 4 }}
+spec:
+  policyName: {{ include "virtfoundry-operator.fullname" . }}-namespace-guard
+  validationActions: ["Deny"]
+{{- end }}

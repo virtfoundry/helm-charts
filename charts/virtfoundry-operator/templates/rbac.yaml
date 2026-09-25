@@ -55,12 +55,18 @@ rules:
       - users/finalizers
       - apikeys/finalizers
     verbs: ["update"]
+  # Tenant namespaces are named virtfoundry-tenant-{slug}, so resourceNames
+  # cannot scope these verbs (no prefix matching, and namespaces are cluster
+  # scoped). Deletion is constrained by the operator's ownership guard and by
+  # the ValidatingAdmissionPolicy in namespace-guard.yaml.
   - apiGroups: [""]
     resources: ["namespaces"]
-    verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+    verbs: ["get", "list", "watch", "create", "patch", "delete"]
+  # No secrets: no controller reads or writes Secrets. If one ever needs to,
+  # grant a Role in {{ .Values.namespace }} instead of a ClusterRole.
   - apiGroups: [""]
-    resources: ["secrets", "events"]
-    verbs: ["get", "list", "watch", "create", "update", "patch"]
+    resources: ["events"]
+    verbs: ["create", "patch"]
   - apiGroups: ["networking.k8s.io"]
     resources: ["networkpolicies"]
     verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
