@@ -6,9 +6,9 @@ Format based on [Keep a Changelog](https://keepachangelog.com/). Versioning: [Se
 
 ## [Unreleased]
 
-## [0.8.0] - 2026-09-25
+## [0.7.2] - 2026-09-25
 
-Security release aligning charts with core/operator 0.8.0 (PSS hardening, networking/Ingress defaults, secrets fail-closed).
+Security release aligning charts with core/operator 0.7.2 (PSS hardening, networking/Ingress defaults, secrets fail-closed).
 
 ### Security
 

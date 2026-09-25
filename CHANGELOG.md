@@ -4,7 +4,7 @@ See [docs/project/changelog.md](docs/project/changelog.md) for the full release 
 
 ## [Unreleased]
 
-## [0.8.0] - 2026-09-25
+## [0.7.2] - 2026-09-25
 
 Security release: Restricted PSS pods, isolated networking default off, Ingress TLS-by-default, secrets fail-closed, CORS origins, CDI importer egress docs.
 
