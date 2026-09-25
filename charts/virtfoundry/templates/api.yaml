@@ -17,6 +17,13 @@ spec:
     spec:
       {{- include "virtfoundry.imagePullSecrets" . | nindent 6 }}
       serviceAccountName: {{ .Values.fullnamePrefix }}-api
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: {{ .Values.api.securityContext.runAsUser | default 65532 }}
+        runAsGroup: {{ .Values.api.securityContext.runAsGroup | default 65532 }}
+        fsGroup: {{ .Values.api.securityContext.fsGroup | default 65532 }}
+        seccompProfile:
+          type: RuntimeDefault
       containers:
         - name: api
           image: {{ .Values.images.api }}
@@ -24,6 +31,11 @@ spec:
           ports:
             - containerPort: 8080
               name: http
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop: ["ALL"]
           env:
             - name: CONFIG_PATH
               value: /etc/virtfoundry/config.yaml
@@ -46,22 +58,29 @@ spec:
           volumeMounts:
             - name: config
               mountPath: /etc/virtfoundry
+              readOnly: true
+            - name: tmp
+              mountPath: /tmp
           readinessProbe:
             httpGet:
               path: /health
-              port: 8080
+              port: http
             initialDelaySeconds: 5
             periodSeconds: 10
           livenessProbe:
             httpGet:
               path: /health
-              port: 8080
+              port: http
             initialDelaySeconds: 15
             periodSeconds: 20
+          resources:
+            {{- toYaml .Values.api.resources | nindent 12 }}
       volumes:
         - name: config
           configMap:
             name: {{ .Values.fullnamePrefix }}-config
+        - name: tmp
+          emptyDir: {}
 ---
 apiVersion: v1
 kind: Service

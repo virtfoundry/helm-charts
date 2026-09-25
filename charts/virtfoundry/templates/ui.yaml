@@ -1,3 +1,12 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: {{ .Values.fullnamePrefix }}-ui
+  namespace: {{ .Values.namespace }}
+  labels:
+    {{- include "virtfoundry.labels" . | nindent 4 }}
+automountServiceAccountToken: false
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -6,7 +15,7 @@ metadata:
   labels:
     app: {{ .Values.fullnamePrefix }}-ui
 spec:
-  replicas: 1
+  replicas: {{ .Values.ui.replicas | default 1 }}
   selector:
     matchLabels:
       app: {{ .Values.fullnamePrefix }}-ui
@@ -16,19 +25,75 @@ spec:
         app: {{ .Values.fullnamePrefix }}-ui
     spec:
       {{- include "virtfoundry.imagePullSecrets" . | nindent 6 }}
+      serviceAccountName: {{ .Values.fullnamePrefix }}-ui
+      automountServiceAccountToken: false
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: {{ .Values.ui.securityContext.runAsUser | default 101 }}
+        runAsGroup: {{ .Values.ui.securityContext.runAsGroup | default 101 }}
+        fsGroup: {{ .Values.ui.securityContext.fsGroup | default 101 }}
+        seccompProfile:
+          type: RuntimeDefault
       containers:
         - name: ui
           image: {{ .Values.images.ui }}
           imagePullPolicy: {{ .Values.images.pullPolicy }}
           ports:
-            - containerPort: 80
+            - containerPort: {{ .Values.ui.containerPort | default 8080 }}
               name: http
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop: ["ALL"]
+          volumeMounts:
+            - name: nginx-main
+              mountPath: /etc/nginx/nginx.conf
+              subPath: nginx.conf
+              readOnly: true
+            - name: nginx-default
+              mountPath: /etc/nginx/conf.d/default.conf
+              subPath: default.conf
+              readOnly: true
+            - name: tmp
+              mountPath: /tmp
+            - name: nginx-cache
+              mountPath: /var/cache/nginx
+            - name: nginx-run
+              mountPath: /var/run
           readinessProbe:
             httpGet:
               path: /
-              port: 80
+              port: http
             initialDelaySeconds: 3
             periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+            initialDelaySeconds: 10
+            periodSeconds: 20
+          resources:
+            {{- toYaml .Values.ui.resources | nindent 12 }}
+      volumes:
+        - name: nginx-main
+          configMap:
+            name: {{ .Values.fullnamePrefix }}-ui-nginx
+            items:
+              - key: nginx.conf
+                path: nginx.conf
+        - name: nginx-default
+          configMap:
+            name: {{ .Values.fullnamePrefix }}-ui-nginx
+            items:
+              - key: default.conf
+                path: default.conf
+        - name: tmp
+          emptyDir: {}
+        - name: nginx-cache
+          emptyDir: {}
+        - name: nginx-run
+          emptyDir: {}
 ---
 apiVersion: v1
 kind: Service
@@ -41,7 +106,7 @@ spec:
     app: {{ .Values.fullnamePrefix }}-ui
   ports:
     - port: {{ .Values.ui.service.port }}
-      targetPort: 80
+      targetPort: {{ .Values.ui.containerPort | default 8080 }}
       name: http
       {{- if and (eq .Values.ui.service.type "NodePort") .Values.ui.service.nodePort }}
       nodePort: {{ .Values.ui.service.nodePort }}
