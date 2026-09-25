@@ -77,6 +77,16 @@ api:
     type: ClusterIP
     port: 8080
   replicas: 1
+  # Browser origins allowed for CORS and for /ws/events + /ws/console.
+  # The request host is always accepted (UI nginx proxies /api and /ws same-origin),
+  # so leave empty for the default Ingress/Gateway layout. Set this only when the
+  # UI is served from a different origin than the API (split UI/API). Maps to
+  # security.allowed_origins / VIRTFOUNDRY_ALLOWED_ORIGINS in core.
+  security:
+    allowedOrigins: []
+    # Example for split origins:
+    # allowedOrigins:
+    #   - "https://console.example.com"
 
 rbac:
   api:

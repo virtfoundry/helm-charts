@@ -14,6 +14,7 @@ data:
       format: "json"
     security:
       jwt_expire: {{ .Values.config.jwtExpire }}
+      allowed_origins: {{ .Values.api.security.allowedOrigins | default list | toJson }}
     kubevirt:
       enabled: {{ .Values.config.kubevirtEnabled }}
       kubeconfig: ""

@@ -53,6 +53,21 @@ dry-runs, so generation cannot be relied on there.
 
 Details: [Configuration — Secrets](https://virtfoundry.github.io/helm-charts/docs/guide/configuration/#secrets).
 
+## Allowed origins (CORS / WebSockets)
+
+Default installs expose the UI behind Ingress/Gateway and proxy `/api` + `/ws` same-origin — leave `api.security.allowedOrigins` empty (`[]`).
+
+Set the list only when the browser talks to the API from a **different origin** than the UI hostname (split UI/API). That maps to core `security.allowed_origins` / `VIRTFOUNDRY_ALLOWED_ORIGINS` ([core#98](https://github.com/virtfoundry/core/issues/98)).
+
+```yaml
+api:
+  security:
+    allowedOrigins:
+      - "https://console.example.com"
+```
+
+Details: [Configuration — Allowed origins](https://virtfoundry.github.io/helm-charts/docs/guide/configuration/#allowed-origins-cors--websockets).
+
 ## API permissions
 
 The API ClusterRole grants only the verbs the API calls, so a compromised API pod
