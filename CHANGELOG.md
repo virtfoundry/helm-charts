@@ -6,6 +6,7 @@ See [docs/project/changelog.md](docs/project/changelog.md) for the full release 
 
 ### Security
 
+- Expose `api.security.allowedOrigins` in chart values → ConfigMap `security.allowed_origins` for CORS / WS Origin allowlist ([core#98](https://github.com/virtfoundry/core/issues/98) / [PR #113](https://github.com/virtfoundry/core/pull/113)) — closes [#51](https://github.com/virtfoundry/helm-charts/issues/51). Same-origin UI proxy needs nothing; split UI/API must set the list.
 - Document CDI importer egress NetworkPolicy (tenant NS, not chart release NS) aligned with [core#95](https://github.com/virtfoundry/core/issues/95) allowlist — closes [#49](https://github.com/virtfoundry/helm-charts/issues/49). Policy is created by core on tenant ensure; chart docs cover private-mirror extensions ([example](docs/examples/cdi-importer-egress-private-mirror.yaml)).
 
 **Breaking (security).** The `virtfoundry` chart no longer ships default credentials. `secrets.rootPassword` (min 12 chars) and `secrets.jwtSecret` (min 32 chars) are required, the published sentinels `virtfoundry` / `change-me-in-production` are rejected, and `secrets.existingSecret` is supported for GitOps. An upgrade that omits the values reuses the ones already stored in the live Secret. See [Secrets](docs/guide/configuration.md#secrets) — [#37](https://github.com/virtfoundry/helm-charts/issues/37).

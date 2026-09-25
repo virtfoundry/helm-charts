@@ -10,12 +10,34 @@ VirtFoundry runtime configuration is YAML rendered by Helm into a ConfigMap. **H
 | `config.logLevel` | `logger.level` | |
 | `config.jwtExpire` | `security.jwt_expire` | |
 | `config.kubevirtEnabled` | `kubevirt.enabled` | |
+| `api.security.allowedOrigins` | `security.allowed_origins` | CORS / WS Origin allowlist — see [Allowed origins](#allowed-origins-cors--websockets) |
 | `platform.networking.public.*` | `networking.public.*` | Shared VM network |
 | `platform.networking.isolated.bridge.name` | `networking.isolated.bridge_name` | Tenant VPC bridge |
 | `platform.networking.vm.*` | `networking.vm.*` | Default VM networking |
 | `platform.storage.*` | `storage.*` | Default StorageClass for CDI/ISO disks |
 | `secrets.jwtSecret` | — | Env `JWT_SECRET` on API (not in ConfigMap) — see [Secrets](#secrets) |
 | `secrets.rootPassword` | — | Env `ROOT_PASSWORD` on API — see [Secrets](#secrets) |
+
+## Allowed origins (CORS / WebSockets)
+
+After [core#98](https://github.com/virtfoundry/core/issues/98) / [PR #113](https://github.com/virtfoundry/core/pull/113), the API never emits `Access-Control-Allow-Origin: *`. CORS and the `/ws/events` / `/ws/console` Origin checks accept:
+
+1. The **request host** itself (same-origin), and
+2. Any origin listed in `security.allowed_origins`
+
+| Deploy layout | Set `api.security.allowedOrigins`? |
+|---------------|------------------------------------|
+| **Default chart** — Ingress or Gateway fronts the UI; UI nginx proxies `/api/` and `/ws/` on the same host | **No** — leave `[]`. Same-origin proxy needs nothing. |
+| **Split UI/API** — browser loads the UI from a different origin than the API (e.g. `https://console.example.com` calling `https://api.example.com`) | **Yes** — list every UI origin the browser will send |
+
+```yaml
+api:
+  security:
+    allowedOrigins:
+      - "https://console.example.com"
+```
+
+Empty means fail closed for cross-origin traffic (no `*`). Operators can also override via env `VIRTFOUNDRY_ALLOWED_ORIGINS` (comma-separated) on the API pod; the chart writes the YAML list into the ConfigMap.
 
 ## Secrets
 
