@@ -1011,6 +1011,56 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#allowed-iso-urls" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Allowed ISO URLs
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cdi-importer-egress" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CDI importer egress
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="CDI importer egress">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#private-iso-mirrors" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Private ISO mirrors
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#residuals" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Residuals
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#deploying-with-templates" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1500,6 +1550,56 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#allowed-iso-urls" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Allowed ISO URLs
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cdi-importer-egress" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CDI importer egress
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="CDI importer egress">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#private-iso-mirrors" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Private ISO mirrors
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#residuals" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Residuals
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#deploying-with-templates" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1703,6 +1803,79 @@ curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </spa
 <p class="admonition-title">Warning</p>
 <p>You cannot deploy from an ISO template until <code>import_state</code> is <code>ready</code>.</p>
 </div>
+<h2 id="allowed-iso-urls">Allowed ISO URLs<a class="headerlink" href="#allowed-iso-urls" title="Permanent link">&para;</a></h2>
+<p>CDI downloads the ISO from <strong>inside the cluster</strong>. VirtFoundry validates the URL in the API (<a href="https://github.com/virtfoundry/core/issues/95">core#95</a>): <code>https</code> on port 443 only, no embedded credentials, no loopback / link-local / private / reserved targets, and the host must be on an admin allowlist.</p>
+<p>Configure via the API config (ConfigMap or env):</p>
+<div class="highlight"><pre><span></span><code><span class="nt">security</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">iso_import</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">allowed_hosts</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">"iso.mylab.example.com"</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">"*.blob.core.windows.net"</span>
+<span class="w">    </span><span class="nt">disable_http_import</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="nv">VIRTFOUNDRY_ISO_ALLOWED_HOSTS</span><span class="o">=</span><span class="s2">"iso.mylab.example.com,*.blob.core.windows.net"</span>
+<span class="nv">VIRTFOUNDRY_ISO_DISABLE_HTTP_IMPORT</span><span class="o">=</span><span class="m">1</span>
+</code></pre></div>
+<p>With no <code>allowed_hosts</code>, the built-in list covers public Microsoft / Linux install media and common object-storage hosts. Setting <code>allowed_hosts</code> <strong>replaces</strong> that list. Details: <a href="https://github.com/virtfoundry/core/blob/main/docs/VM-TEMPLATES.md#allowed-iso-urls">core VM-TEMPLATES</a>.</p>
+<h2 id="cdi-importer-egress">CDI importer egress<a class="headerlink" href="#cdi-importer-egress" title="Permanent link">&para;</a></h2>
+<p>The allowlist is <strong>name-based</strong>. CDI resolves the hostname itself, so DNS rebinding (or a redirect to a private address) can still reach cluster-internal or metadata targets if the network path exists.</p>
+<p>VirtFoundry therefore creates an <strong>Egress</strong> NetworkPolicy in each <strong>tenant</strong> namespace (where CDI importer pods run — not the chart release namespace). A single NetworkPolicy in <code>virtfoundry-system</code> cannot cover tenant importers.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Name</td>
+<td><code>virtfoundry-cdi-importer-egress</code></td>
+</tr>
+<tr>
+<td>Created by</td>
+<td>core <code>EnsureTenantNamespace</code> (on tenant create and on API bootstrap for existing tenants)</td>
+</tr>
+<tr>
+<td>Selects</td>
+<td>pods labeled <code>cdi.kubevirt.io=importer</code></td>
+</tr>
+<tr>
+<td>Allows</td>
+<td>DNS to <code>kube-system</code> / <code>k8s-app=kube-dns</code> (UDP+TCP 53); <code>0.0.0.0/0</code> and <code>::/0</code> except private / link-local / CGNAT ranges</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Requirements:</strong> the cluster CNI must enforce NetworkPolicy (Calico, Cilium, etc.). Without enforcement the object is inert.</p>
+<h3 id="private-iso-mirrors">Private ISO mirrors<a class="headerlink" href="#private-iso-mirrors" title="Permanent link">&para;</a></h3>
+<p>If your mirror lives on RFC1918 (or another denied range), either:</p>
+<ol>
+<li>Patch the policy in the tenant NS to add an <code>egress</code> <code>ipBlock</code> for that CIDR, or</li>
+<li>Apply a second allow policy in the same namespace (NetworkPolicies are additive for allowed traffic).</li>
+</ol>
+<p>Example second policy (also under <a href="../../../examples/cdi-importer-egress-private-mirror.yaml"><code>docs/examples/</code></a>):</p>
+<div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">networking.k8s.io/v1</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">NetworkPolicy</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">virtfoundry-cdi-importer-private-mirror</span>
+<span class="w">  </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">virtfoundry-tenant-acme</span><span class="w">   </span><span class="c1"># each tenant NS</span>
+<span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">podSelector</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">matchLabels</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">cdi.kubevirt.io</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">importer</span>
+<span class="w">  </span><span class="nt">policyTypes</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">Egress</span><span class="p p-Indicator">]</span>
+<span class="w">  </span><span class="nt">egress</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">to</span><span class="p">:</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">ipBlock</span><span class="p">:</span>
+<span class="w">            </span><span class="nt">cidr</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.10.0.0/24</span><span class="w">        </span><span class="c1"># your mirror subnet</span>
+</code></pre></div>
+<p>Also add the mirror hostname to <code>security.iso_import.allowed_hosts</code> so the API accepts the URL.</p>
+<h3 id="residuals">Residuals<a class="headerlink" href="#residuals" title="Permanent link">&para;</a></h3>
+<ul>
+<li>DNS rebinding to a <em>public</em> malicious IP is still possible; the allowlist remains the app control.</li>
+<li>Upload / other CDI components are not selected by this policy (only <code>cdi.kubevirt.io=importer</code>).</li>
+</ul>
+<p>Tracked as <a href="https://github.com/virtfoundry/helm-charts/issues/49">helm-charts#49</a>.</p>
 <h2 id="deploying-with-templates">Deploying with templates<a class="headerlink" href="#deploying-with-templates" title="Permanent link">&para;</a></h2>
 <p>On <strong>VMs</strong>, pick a template + <a href="../offerings/">service offering</a>. See <a href="../vms/">Virtual machines</a>.</p>
 

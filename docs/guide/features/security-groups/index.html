@@ -1140,6 +1140,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#related-platform-networkpolicies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Related platform NetworkPolicies
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#related" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1478,6 +1489,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#related-platform-networkpolicies" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Related platform NetworkPolicies
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#related" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1562,6 +1584,8 @@ NetworkPolicy in tenant namespace
 Pod / VM traffic selection (KubeVirt + Multus)
 </code></pre></div>
 <p>Exact selectors depend on how VMs are labeled and which networks they join. Prefer least privilege: open only the ports you need from known CIDRs.</p>
+<h2 id="related-platform-networkpolicies">Related platform NetworkPolicies<a class="headerlink" href="#related-platform-networkpolicies" title="Permanent link">&para;</a></h2>
+<p>ISO HTTP imports use a separate egress policy on <strong>CDI importer</strong> pods (<code>virtfoundry-cdi-importer-egress</code> in each tenant namespace). That is not a security group — see <a href="../templates/#cdi-importer-egress">Images and templates → CDI importer egress</a>.</p>
 <h2 id="related">Related<a class="headerlink" href="#related" title="Permanent link">&para;</a></h2>
 <ul>
 <li><a href="../networking/">VPCs &amp; networks</a></li>

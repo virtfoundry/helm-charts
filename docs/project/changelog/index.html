@@ -2623,7 +2623,12 @@
 <h2 id="unreleased">[Unreleased]<a class="headerlink" href="#unreleased" title="Permanent link">&para;</a></h2>
 <h3 id="security">Security<a class="headerlink" href="#security" title="Permanent link">&para;</a></h3>
 <ul>
-<li><strong>Breaking:</strong> the <code>virtfoundry</code> chart ships no credential defaults. <code>secrets.rootPassword</code> (min 12 chars) and <code>secrets.jwtSecret</code> (min 32 chars) are required, and the published sentinels <code>virtfoundry</code> / <code>change-me-in-production</code> are refused — install and <code>helm template</code> fail closed instead (<a href="https://github.com/virtfoundry/helm-charts/issues/37">#37</a>, <a href="https://github.com/virtfoundry/core/issues/93">core#93</a>)</li>
+<li>
+<p>Document CDI importer egress NetworkPolicy in each <strong>tenant</strong> namespace (created by core <code>EnsureTenantNamespace</code>; not a release-NS chart object) — closes <a href="https://github.com/virtfoundry/helm-charts/issues/49">#49</a>, follow-up to <a href="https://github.com/virtfoundry/core/issues/95">core#95</a>. See <a href="../../guide/features/templates/#cdi-importer-egress">Images and templates</a> and <a href="../../examples/cdi-importer-egress-private-mirror.yaml">example private-mirror policy</a>.</p>
+</li>
+<li>
+<p><strong>Breaking:</strong> the <code>virtfoundry</code> chart ships no credential defaults. <code>secrets.rootPassword</code> (min 12 chars) and <code>secrets.jwtSecret</code> (min 32 chars) are required, and the published sentinels <code>virtfoundry</code> / <code>change-me-in-production</code> are refused — install and <code>helm template</code> fail closed instead (<a href="https://github.com/virtfoundry/helm-charts/issues/37">#37</a>, <a href="https://github.com/virtfoundry/core/issues/93">core#93</a>)</p>
+</li>
 <li>Platform hook RBAC no longer grants <code>apiGroups: ["*"] / resources: ["*"]</code>. Each hook Job has its own ServiceAccount: <code>-platform-kubevirt</code> (get/patch on <code>kubevirt/kubevirt</code> only), <code>-platform-multus</code> and <code>-platform-cdi</code> (rendered only with <code>platform.multus.install</code> / <code>platform.cdi.install</code>)</li>
 <li>Hook RBAC carries <code>helm.sh/hook-delete-policy: before-hook-creation,hook-succeeded</code>, so no platform identity outlives the install/upgrade</li>
 </ul>

@@ -1763,6 +1763,11 @@ helm<span class="w"> </span>upgrade<span class="w"> </span>--install<span class=
 <span class="w">    </span><span class="c1"># operator manifests, which requires escalate/bind during pre-install.</span>
 <span class="w">    </span><span class="nt">install</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
 <span class="w">    </span><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="s">""</span><span class="w">  </span><span class="c1"># empty = latest from GitHub releases API at install time</span>
+<span class="w">    </span><span class="c1"># CDI HTTP importer pods run in each *tenant* namespace (DataVolume NS), not</span>
+<span class="w">    </span><span class="c1"># in this release namespace. Core creates NetworkPolicy</span>
+<span class="w">    </span><span class="c1"># virtfoundry-cdi-importer-egress there on EnsureTenantNamespace — a chart</span>
+<span class="w">    </span><span class="c1"># NetworkPolicy here cannot cover them. Docs + private-mirror example:</span>
+<span class="w">    </span><span class="c1"># docs/guide/features/templates.md#cdi-importer-egress</span>
 </code></pre></div>
 <h2 id="default-values-virtfoundry-operator">Default values — <code>virtfoundry-operator</code><a class="headerlink" href="#default-values-virtfoundry-operator" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><span class="nt">nameOverride</span><span class="p">:</span><span class="w"> </span><span class="s">""</span>
