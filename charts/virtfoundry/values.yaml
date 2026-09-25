@@ -60,6 +60,9 @@ api:
 platform:
   multus:
     # Install Multus thick plugin from upstream manifest when absent.
+    # The installer Job applies upstream RBAC, so its hook ServiceAccount holds
+    # escalate/bind for the pre-install phase. Keep false when Multus is managed
+    # outside the chart (scripts/setup/multus.sh or your platform team).
     install: false
     manifestUrl: https://raw.githubusercontent.com/k8snetworkplumbingwg/multus-cni/master/deployments/multus-daemonset-thick.yml
   networking:
@@ -115,6 +118,7 @@ platform:
   kubevirt:
     # Guest vCPU overcommit for shared VMs (VirtFoundry omits CPU request).
     # Pod request ≈ guest_vcpus / cpuAllocationRatio. 0 = do not patch CR.
+    # > 0 renders a post-install Job whose identity can only get/patch kubevirt/kubevirt.
     cpuAllocationRatio: 10
     featureGates:
       enabled: false
@@ -122,5 +126,7 @@ platform:
         - Snapshot
         - VideoConfig
   cdi:
+    # Same hook RBAC caveat as platform.multus.install: the Job applies the upstream
+    # operator manifests, which requires escalate/bind during pre-install.
     install: false
     version: ""  # empty = latest from GitHub releases API at install time

@@ -14,7 +14,7 @@ spec:
   ttlSecondsAfterFinished: 600
   template:
     spec:
-      serviceAccountName: {{ .Values.fullnamePrefix }}-platform
+      serviceAccountName: {{ .Values.fullnamePrefix }}-platform-multus
       restartPolicy: OnFailure
       containers:
         - name: install

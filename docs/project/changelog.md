@@ -6,6 +6,19 @@ Format based on [Keep a Changelog](https://keepachangelog.com/). Versioning: [Se
 
 ## [Unreleased]
 
+### Security
+
+- Platform hook RBAC no longer grants `apiGroups: ["*"] / resources: ["*"]`. Each hook Job has its own ServiceAccount: `-platform-kubevirt` (get/patch on `kubevirt/kubevirt` only), `-platform-multus` and `-platform-cdi` (rendered only with `platform.multus.install` / `platform.cdi.install`)
+- Hook RBAC carries `helm.sh/hook-delete-policy: before-hook-creation,hook-succeeded`, so no platform identity outlives the install/upgrade
+
+Upgrading from `0.7.1` or older leaves the previous wildcard objects behind — Helm never owned them. Remove them once:
+
+```bash
+kubectl delete clusterrolebinding virtfoundry-platform --ignore-not-found
+kubectl delete clusterrole virtfoundry-platform --ignore-not-found
+kubectl -n virtfoundry-system delete serviceaccount virtfoundry-platform --ignore-not-found
+```
+
 ## [0.7.1] - 2026-09-04
 
 ### Added
