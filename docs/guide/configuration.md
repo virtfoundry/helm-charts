@@ -116,6 +116,42 @@ client-side dry-runs, which is why `autoGenerateJwtSecret` is off by default:
 - CI that only renders templates should pass throwaway values that satisfy the length
   rules (see `.github/workflows/chart-lint.yaml`).
 
+## Ingress and TLS
+
+The chart does **not** expose a cleartext HTTP control plane by default.
+
+| Key | Default | Notes |
+|-----|---------|-------|
+| `ingress.enabled` | `false` | Opt in. When `true`, you must set `ingress.tls` **or** `ingress.allowCleartext: true` |
+| `ingress.tls` | `[]` | Standard Ingress `spec.tls` entries (`secretName` + `hosts`) |
+| `ingress.allowCleartext` | `false` | Lab-only escape hatch for HTTP without TLS |
+| `ingress.annotations` | nginx timeouts | Add cert-manager keys here (`cert-manager.io/cluster-issuer`, `ssl-redirect`, …) |
+| `gateway.enabled` | `false` | Mutually exclusive with Ingress |
+| `gateway.parentRefs[].sectionName` | `websecure` | Bind the HTTPS Gateway listener; use `web` only for redirect |
+
+Example with cert-manager (also shipped as `charts/virtfoundry/values-ingress-tls.yaml`):
+
+```yaml
+ingress:
+  enabled: true
+  host: iaas.example.com
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+  tls:
+    - secretName: virtfoundry-tls
+      hosts:
+        - iaas.example.com
+```
+
+### Gateway API HTTPS
+
+`values-gateway.yaml` binds `sectionName: websecure`. Your Gateway must expose an HTTPS listener with that name (TLS cert on the Gateway/Listener, not in the chart).
+
+For HTTP→HTTPS redirect, apply a second HTTPRoute on the cleartext listener (`sectionName: web`) with a `RequestRedirect` filter — see [httproute-https-redirect.yaml](../examples/httproute-https-redirect.yaml).
+
+Homelab overlays that still use `sectionName: web` alone keep cleartext HTTP until the Gateway gains `websecure` and a redirect route.
+
 ## Platform store
 
 Platform state lives in **`virtfoundry.io` CRDs**. Install **`virtfoundry-operator`** before the API chart.
@@ -294,9 +330,12 @@ If omitted, the API falls back to `platform.storage.defaultClass` from Helm.
 
 | File | Use case |
 |------|----------|
-| `values.yaml` | Generic / production defaults |
+| `values.yaml` | Generic defaults (Ingress off) |
+| `values-ingress-tls.yaml` | Ingress + TLS / cert-manager |
+| `values-gateway.yaml` | Gateway API HTTPS (`websecure`) |
+| `values-kind.yaml` | Kind / NodePort |
 
-Additional value overlays can set Gateway API hostnames, image tags, and platform networking for your cluster.
+Additional value overlays can set Gateway API hostnames, image tags, and platform networking for your cluster. Homelab GitOps values live in the Argo CD values repo (not published with the chart).
 
 ## Local dev
 

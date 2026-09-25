@@ -118,10 +118,10 @@ still installs on older clusters — there the ClusterRole is the only limit.
 
 | File | Use case |
 |------|----------|
-| `values.yaml` | Default — Ingress, CRD store, GHCR image tags; storage `auto`; public CIDR can follow Node InternalIP |
+| `values.yaml` | Default — Ingress **off**; CRD store, GHCR image tags; storage `auto`; public CIDR can follow Node InternalIP |
 | `values-kind.yaml` | Kind / laptop — NodePort 8080 |
-| `values-gateway.yaml` | Gateway API HTTPRoute example |
-| `values-homelab.yaml` | Reference homelab overlay (Gateway + public net) |
+| `values-gateway.yaml` | Gateway API HTTPS HTTPRoute (`websecure`) |
+| `values-ingress-tls.yaml` | Ingress + TLS / cert-manager example |
 
 ## Docs
 
