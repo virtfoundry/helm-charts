@@ -86,7 +86,7 @@ First tagged CRD-store / operator chart line (no separate `v0.6.0` / chart `0.6.
 
 ## [0.5.0] - 2026-08-16
 
-Pre-1.0 release line. VirtFoundry is **not 1.0** yet; `v1.0.0`–`v1.5.0` tags were premature and are not a stability contract.
+Pre-1.0 release line. VirtFoundry is **not 1.0** yet. Premature `v1.0.0`–`v1.5.0` / `virtfoundry-1.x` tags and releases were **deleted** (2026-09-27); they are not a stability contract and must not appear in the Helm index.
 
 ### Changed
 
@@ -97,99 +97,9 @@ Pre-1.0 release line. VirtFoundry is **not 1.0** yet; `v1.0.0`–`v1.5.0` tags w
 
 - Kind laptop guide (no VLAN); public-network underlay without a switch
 
-## [1.5.0] - 2026-08-11
+### Absorbed (from deleted premature 1.x chart line)
 
-### Changed
-
-- Default container images bumped to `1.5.0` (API, worker, UI)
-
-### Added
-
-- `appVersion` aligned with [core v1.5.0](https://github.com/virtfoundry/core/releases/tag/v1.5.0): root delete-tenant, dedicated CPU offerings, Features docs, IFNAMSIZ-safe public bridge default, CI attestation fix
-
-### Docs
-
-- Features guide under `docs/guide/features/` (published on GitHub Pages)
-
-## [1.4.1] - 2026-08-05
-
-### Changed
-
-- Default container images bumped to `1.4.1` (API, worker, UI)
-
-### Fixed
-
-- `appVersion` aligned with [core v1.4.1](https://github.com/virtfoundry/core/releases/tag/v1.4.1): volume delete while attached returns 409 Conflict; UI version label synced with release
-
-No chart template or values schema changes — upgrade by bumping the chart version or overriding image tags.
-
-## [1.4.0] - 2026-08-05
-
-### Changed
-
-- Default container images bumped to `1.4.0` (API, worker, UI)
-
-### Added
-
-- `appVersion` aligned with [core v1.4.0](https://github.com/virtfoundry/core/releases/tag/v1.4.0): template seed dedup, ISO import polling UI, `docs/VM-TEMPLATES.md`
-
-No chart template or values schema changes — upgrade by bumping the chart version or overriding image tags.
-
-## [1.3.0] - 2026-08-05
-
-### Changed
-
-- Default container images bumped to `1.3.0` (API, worker, UI)
-
-### Added
-
-- `appVersion` aligned with [core v1.3.0](https://github.com/virtfoundry/core/releases/tag/v1.3.0): service offerings CRUD API, `/offerings` admin UI, `service_offering_id` persist on VM resize
-
-No chart template or values schema changes — upgrade by bumping the chart version or overriding image tags.
-
-## [1.2.0] - 2026-08-05
-
-### Changed
-
-- Default container images bumped to `1.2.0` (API, worker, UI)
-
-### Added
-
-- `appVersion` aligned with [core v1.2.0](https://github.com/virtfoundry/core/releases/tag/v1.2.0): volume attach/detach API, VM Detail Storage tab, volume delete guard, `defaultClass` wiring for tenant PVCs
-
-No chart template or values schema changes — upgrade by bumping the chart version or overriding image tags.
-
-## [1.1.1] - 2026-08-04
-
-### Changed
-
-- Default container images bumped to `1.1.1` (API, worker, UI)
-
-### Fixed
-
-- `appVersion` aligned with [core v1.1.1](https://github.com/virtfoundry/core/releases/tag/v1.1.1): VM create pod NIC naming fix, login page layout and theme support, optimized logo PNGs
-
-No chart template or values schema changes — upgrade by bumping the chart version or overriding image tags.
-
-## [1.1.0] - 2026-08-04
-
-### Added
-
-- Default container images bumped to `1.1.0` (API, worker, UI)
-- Chart icon updated to application favicon
-
-### Changed
-
-- `appVersion` aligned with [core v1.1.0](https://github.com/virtfoundry/core/releases/tag/v1.1.0): default VPC (`10.0.0.0/16`) per tenant, self-service API keys, UI accordion navigation and header menus, Redux client state, dashboard and favicon updates
-
-No chart template or values schema changes — upgrade by bumping the chart version or overriding image tags.
-
-## [1.0.0] - 2026-08-03
-
-### Added
-
-- IAM release: users, roles, API keys, permission middleware
-- Default container images `1.0.0`
+- IAM release, default VPC, volumes, offerings, templates/ISO, dedicated CPU, Features docs, volume-delete 409, UI polish — previously published as chart/app `1.0.0`–`1.5.0`
 
 ## [0.2.0] - 2026-08-02
 
@@ -223,14 +133,6 @@ No chart template or values schema changes — upgrade by bumping the chart vers
 [0.7.2]: https://github.com/virtfoundry/helm-charts/compare/v0.7.1...v0.7.2
 [0.7.1]: https://github.com/virtfoundry/helm-charts/compare/v0.7.0...v0.7.1
 [0.7.0]: https://github.com/virtfoundry/helm-charts/compare/v0.5.0...v0.7.0
-[0.5.0]: https://github.com/virtfoundry/helm-charts/compare/v1.5.0...v0.5.0
-[1.5.0]: https://github.com/virtfoundry/helm-charts/compare/v1.4.1...v1.5.0
-[1.4.1]: https://github.com/virtfoundry/helm-charts/compare/v1.4.0...v1.4.1
-[1.4.0]: https://github.com/virtfoundry/helm-charts/compare/v1.3.0...v1.4.0
-[1.3.0]: https://github.com/virtfoundry/helm-charts/compare/v1.2.0...v1.3.0
-[1.2.0]: https://github.com/virtfoundry/helm-charts/compare/v1.1.1...v1.2.0
-[1.1.1]: https://github.com/virtfoundry/helm-charts/compare/v1.1.0...v1.1.1
-[1.1.0]: https://github.com/virtfoundry/helm-charts/compare/v1.0.0...v1.1.0
-[1.0.0]: https://github.com/virtfoundry/helm-charts/compare/v0.2.0...v1.0.0
+[0.5.0]: https://github.com/virtfoundry/helm-charts/compare/v0.2.0...v0.5.0
 [0.2.0]: https://github.com/virtfoundry/helm-charts/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/virtfoundry/helm-charts/releases/tag/v0.1.0
