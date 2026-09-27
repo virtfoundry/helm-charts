@@ -63,27 +63,21 @@ kubectl -n virtfoundry-system delete serviceaccount virtfoundry-platform --ignor
 
 ## [0.7.0] - 2026-09-02
 
+First tagged CRD-store / operator chart line (no separate `v0.6.0` / chart `0.6.0` tag was ever published).
+
 ### Added
 
+- `virtfoundry-operator` Helm chart with bundled `virtfoundry.io/v1alpha1` CRDs
+- `store.driver=kubernetes` profile documented as default install path
 - [Platform prerequisites](../guide/prerequisites.md) — install links for KubeVirt, Multus, CDI, Longhorn, MetalLB, CSI snapshotter
 
 ### Changed
 
-- Charts and default `appVersion` `0.7.0`
-- Homepage and quickstart point to prerequisites guide
-
-## [0.6.0] - 2026-09-01
-
-### Added
-
-- `virtfoundry-operator` Helm chart (`0.6.0`) with bundled `virtfoundry.io/v1alpha1` CRDs
-- `store.driver=kubernetes` profile documented as default install path
-
-### Changed
-
 - **Breaking (0.x):** removed MySQL StatefulSet, worker Deployment, and `values-kubernetes.yaml` overlay
-- Default images `ghcr.io/virtfoundry/{core,ui,operator}:0.6.0`
+- Charts and default `appVersion` `0.7.0`
+- Default images `ghcr.io/virtfoundry/{core,ui,operator}:0.7.0`
 - Install docs list KubeVirt, Multus, CDI prerequisites before Helm commands
+- Homepage and quickstart point to prerequisites guide
 - VM snapshot UI screenshots and CRD store terminal shot refresh
 
 ### Removed
@@ -225,7 +219,10 @@ No chart template or values schema changes — upgrade by bumping the chart vers
 - GitHub Pages Helm repository via chart-releaser
 - Deploy scripts and setup helpers (KubeVirt, Multus, CDI)
 
-[0.6.0]: https://github.com/virtfoundry/helm-charts/compare/v0.5.0...v0.6.0
+[0.7.3]: https://github.com/virtfoundry/helm-charts/compare/v0.7.2...v0.7.3
+[0.7.2]: https://github.com/virtfoundry/helm-charts/compare/v0.7.1...v0.7.2
+[0.7.1]: https://github.com/virtfoundry/helm-charts/compare/v0.7.0...v0.7.1
+[0.7.0]: https://github.com/virtfoundry/helm-charts/compare/v0.5.0...v0.7.0
 [0.5.0]: https://github.com/virtfoundry/helm-charts/compare/v1.5.0...v0.5.0
 [1.5.0]: https://github.com/virtfoundry/helm-charts/compare/v1.4.1...v1.5.0
 [1.4.1]: https://github.com/virtfoundry/helm-charts/compare/v1.4.0...v1.4.1
