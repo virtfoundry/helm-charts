@@ -6,9 +6,9 @@ VirtFoundry follows [Semantic Versioning 2.0.0](https://semver.org/).
 
 The project is **not 1.0 yet**. The current release line is **0.7.3**.
 
-Git tags `v1.0.0`–`v1.5.0` were cut too early. They remain in git/GHCR for history; they are **not** a SemVer 1.0 stability promise. Breaking changes may still land in **0.x MINOR** bumps until 1.0 is declared.
+Premature product tags `v1.0.0`–`v1.5.0` and chart tags `virtfoundry-1.x` were cut too early and were **deleted** (2026-09-27) — they are **not** a SemVer 1.0 stability promise. Breaking changes may still land in **0.x MINOR** bumps until a real `1.0.0` is declared.
 
-Helm chart packages `1.x` were **yanked** from the repository index so a bare `helm install` resolves **0.7.3**. Pin anyway and install **operator first**:
+The Helm index must not list `1.x` packages; a bare `helm install` resolves **0.7.3**. Pin anyway and install **operator first**:
 
 ```bash
 helm install virtfoundry-operator virtfoundry/virtfoundry-operator --version 0.7.3 \

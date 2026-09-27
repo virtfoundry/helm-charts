@@ -33,43 +33,11 @@ Charts `0.7.1`. Default images `0.7.1` (VM create hides platform Windows ISO unt
 
 ## [0.7.0] - 2026-09-02
 
-Charts `0.7.0`. New [Platform prerequisites](docs/guide/prerequisites.md) guide with KubeVirt, Multus, CDI, Longhorn, MetalLB, CSI snapshotter install links. Docs version bump; no MySQL references.
-
-## [0.6.0] - 2026-09-01
-
-CRD store default. Operator chart at `0.6.0`. MySQL/worker templates and `values-kubernetes.yaml` removed. Docs: install prerequisites, VM snapshot screenshots, simplified quick install.
+First tagged CRD-store / operator chart line (no separate `v0.6.0` / chart `0.6.0` tag was ever published). Charts `0.7.0`. CRD store default; `virtfoundry-operator` chart shipped. MySQL/worker templates and `values-kubernetes.yaml` removed. New [Platform prerequisites](docs/guide/prerequisites.md) guide with KubeVirt, Multus, CDI, Longhorn, MetalLB, CSI snapshotter install links. Docs: install prerequisites, VM snapshot screenshots, simplified quick install.
 
 ## [0.5.0] - 2026-08-16
 
-Pre-1.0 line. Same product as the former `1.5.0` tag plus Kind docs. Tags `v1.x` stay in git; they are not a 1.0 contract. Default images `0.5.0`. Pin Helm `--version 0.5.0`.
-
-## [1.5.0] - 2026-08-11
-
-Root delete-tenant, dedicated CPU, Features docs, IFNAMSIZ-safe bridge default. Default images `1.5.0`.
-
-## [1.4.1] - 2026-08-05
-
-Volume delete 409 fix and UI version label. Default images `1.4.1`.
-
-## [1.4.0] - 2026-08-05
-
-Template catalog dedup, ISO import polling, VM-TEMPLATES guide. Default images `1.4.0`.
-
-## [1.3.0] - 2026-08-05
-
-Service offerings CRUD, admin UI, VM resize persist. Default images `1.3.0`.
-
-## [1.2.0] - 2026-08-05
-
-Volume attach/detach, storage UI, defaultClass wiring. Default images `1.2.0`.
-
-## [1.1.1] - 2026-08-04
-
-VM pod network fix, login page redesign, optimized logo assets. Default images `1.1.1`.
-
-## [1.1.0] - 2026-08-04
-
-Default VPC per tenant, UI polish (accordion nav, header menus, Redux), self-service API keys, default images `1.1.0`.
+Pre-1.0 line. Premature `v1.x` / `virtfoundry-1.x` tags and the `v1.5.0` GitHub Release were deleted in the 2026-09-27 cleanup (already yanked from the Helm index). Default images `0.5.0`. Pin Helm `--version 0.5.0`. Absorbs features that had been published under the premature 1.x chart line (IAM/VPC/volumes/offerings/templates/dedicated CPU, etc.).
 
 ## [0.2.0] - 2026-08-02
 
