@@ -4,6 +4,12 @@ See [docs/project/changelog.md](docs/project/changelog.md) for the full release 
 
 ## [Unreleased]
 
+## [0.8.0] - 2026-09-28
+
+### Changed
+
+- Chart / image pins aligned with core **0.8.0** (UI day-2 polish). No chart schema change.
+
 ## [0.7.3] - 2026-09-25
 
 ### Fixed
