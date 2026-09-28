@@ -33,9 +33,9 @@ helm install virtfoundry virtfoundry/virtfoundry --version 0.8.0 \
 
 | Change | Version bump | Example |
 |--------|--------------|---------|
-| Bug fix, doc fix, security patch (non-breaking) | PATCH | `0.7.1` → `0.8.0` |
-| New feature, chart profile change | MINOR | `0.8.0` → `0.8.0` |
-| Breaking API or chart contract | MINOR while on 0.x | `0.8.0` → `0.8.0` (document in CHANGELOG) |
+| Bug fix, doc fix, security patch (non-breaking) | PATCH | `0.8.0` → `0.8.1` |
+| New feature, chart profile change | MINOR | `0.8.0` → `0.9.0` |
+| Breaking API or chart contract | MINOR while on 0.x | `0.8.0` → `0.9.0` (document in CHANGELOG) |
 | First stable contract | MAJOR | `0.x` → `1.0.0` (explicit declaration) |
 
 ## Release process
