@@ -2,6 +2,33 @@ apiVersion: v1
 entries:
   virtfoundry:
   - apiVersion: v2
+    appVersion: 0.8.0
+    created: "2026-09-28T19:02:56.585836017Z"
+    description: VirtFoundry control plane — API and UI (virtfoundry.io CRD store)
+    digest: 4d213b3639b2ff5eed60585003d3e22be7174aec5d8b6c473bbdcbc52ef71fb5
+    home: https://github.com/virtfoundry/core
+    icon: https://raw.githubusercontent.com/virtfoundry/core/main/ui/public/favicon.svg
+    keywords:
+    - iaas
+    - kubevirt
+    - kubernetes
+    - multus
+    - cloudstack
+    kubeVersion: '>=1.28.0-0'
+    maintainers:
+    - name: Matheus Thurler
+      url: https://github.com/Matheus-Thurler
+    - name: virtfoundry
+      url: https://github.com/virtfoundry
+    name: virtfoundry
+    sources:
+    - https://github.com/virtfoundry/core
+    - https://github.com/virtfoundry/helm-charts
+    type: application
+    urls:
+    - https://github.com/virtfoundry/helm-charts/releases/download/virtfoundry-0.8.0/virtfoundry-0.8.0.tgz
+    version: 0.8.0
+  - apiVersion: v2
     appVersion: 0.7.3
     created: "2026-09-25T21:36:57.676521468Z"
     description: VirtFoundry control plane — API and UI (virtfoundry.io CRD store)
@@ -138,6 +165,28 @@ entries:
     version: 0.5.0
   virtfoundry-operator:
   - apiVersion: v2
+    appVersion: 0.8.0
+    created: "2026-09-28T19:02:56.892123847Z"
+    description: VirtFoundry operator — virtfoundry.io CRDs and controllers
+    digest: 6d0ca5711d370a1679ba66f8b2c67e4b1f9a363dcc61f07766193791e8975b30
+    home: https://github.com/virtfoundry/operator
+    keywords:
+    - iaas
+    - kubevirt
+    - operator
+    - crd
+    kubeVersion: '>=1.28.0-0'
+    maintainers:
+    - name: virtfoundry
+      url: https://github.com/virtfoundry
+    name: virtfoundry-operator
+    sources:
+    - https://github.com/virtfoundry/operator
+    type: application
+    urls:
+    - https://github.com/virtfoundry/helm-charts/releases/download/virtfoundry-operator-0.8.0/virtfoundry-operator-0.8.0.tgz
+    version: 0.8.0
+  - apiVersion: v2
     appVersion: 0.7.3
     created: "2026-09-25T21:36:57.997338896Z"
     description: VirtFoundry operator — virtfoundry.io CRDs and controllers
@@ -225,4 +274,4 @@ entries:
     urls:
     - https://github.com/virtfoundry/helm-charts/releases/download/virtfoundry-operator-0.7.0/virtfoundry-operator-0.7.0.tgz
     version: 0.7.0
-generated: "2026-09-25T21:36:57.99739703Z"
+generated: "2026-09-28T19:02:56.892161463Z"
