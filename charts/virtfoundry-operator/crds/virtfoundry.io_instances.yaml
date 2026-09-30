@@ -94,6 +94,12 @@ spec:
                 required:
                 - name
                 type: object
+              powerState:
+                description: PowerState is Running or Halted (maps to KubeVirt RunStrategy).
+                enum:
+                - Running
+                - Halted
+                type: string
               sshKeyRefs:
                 description: SSHKeyRefs names SSHKey CRs injected at boot.
                 items:
