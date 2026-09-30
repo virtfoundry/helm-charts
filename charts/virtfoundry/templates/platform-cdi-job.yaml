@@ -29,7 +29,8 @@ spec:
               fi
               VERSION="{{ .Values.platform.cdi.version }}"
               if [ -z "$VERSION" ]; then
-                VERSION="$(wget -qO- https://api.github.com/repos/kubevirt/containerized-data-importer/releases/latest | grep '"tag_name"' | head -1 | cut -d'"' -f4)"
+                echo "platform.cdi.version is required when platform.cdi.install=true (do not use releases/latest)"
+                exit 1
               fi
               echo "Installing CDI $VERSION"
               kubectl apply -f "https://github.com/kubevirt/containerized-data-importer/releases/download/${VERSION}/cdi-operator.yaml"
