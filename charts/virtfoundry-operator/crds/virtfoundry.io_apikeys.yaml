@@ -60,6 +60,9 @@ spec:
                 description: SecretRef points at the Secret holding secret_hash.
                 properties:
                   key:
+                    description: |-
+                      Key defaults to "userData" for cloud-init refs and implementation-defined
+                      keys for User/APIKey credential hashes.
                     type: string
                   name:
                     type: string

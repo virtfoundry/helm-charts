@@ -51,10 +51,28 @@ spec:
           spec:
             description: InstanceSpec is the desired state of an Instance.
             properties:
+              cloudInitSecretRef:
+                description: |-
+                  CloudInitSecretRef points at a Secret holding cloud-init user-data
+                  (default key: userData) in the Instance namespace. When set, it overrides
+                  Template cloud-init (secret or legacy string); sshKeyRefs still merge on top.
+                properties:
+                  key:
+                    description: |-
+                      Key defaults to "userData" for cloud-init refs and implementation-defined
+                      keys for User/APIKey credential hashes.
+                    type: string
+                  name:
+                    type: string
+                required:
+                - name
+                type: object
               cloudInitUserData:
                 description: |-
-                  CloudInitUserData is optional guest cloud-init user-data.
-                  When non-empty, it overrides Template.spec.cloudInitUserData; sshKeyRefs still merge on top.
+                  CloudInitUserData is optional inline guest cloud-init user-data.
+                  When non-empty and CloudInitSecretRef is unset, it overrides Template
+                  cloud-init; sshKeyRefs still merge on top.
+                  Prefer CloudInitSecretRef so passwords are not stored on the Instance CR.
                 type: string
               dedicatedCPU:
                 description: DedicatedCPU pins vCPU threads to host cores.
