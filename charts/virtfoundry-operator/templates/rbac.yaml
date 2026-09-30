@@ -32,8 +32,11 @@ rules:
   - apiGroups: [""]
     resources: ["namespaces"]
     verbs: ["get", "list", "watch", "create", "patch", "delete"]
-  # No secrets: no controller reads or writes Secrets. If one ever needs to,
-  # grant a Role in {{ .Values.namespace }} instead of a ClusterRole.
+  # Secrets: read-only for Template/Instance cloudInitSecretRef (operator#16).
+  # Never grant create/update/patch/delete on secrets cluster-wide.
+  - apiGroups: [""]
+    resources: ["secrets"]
+    verbs: ["get", "list", "watch"]
   - apiGroups: [""]
     resources: ["resourcequotas", "limitranges"]
     verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]

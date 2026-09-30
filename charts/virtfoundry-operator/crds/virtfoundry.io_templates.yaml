@@ -44,8 +44,28 @@ spec:
               bootDiskSizeGi:
                 description: BootDiskSizeGi boot disk size in gibibytes.
                 type: integer
+              cloudInitSecretRef:
+                description: |-
+                  CloudInitSecretRef points at a Secret holding cloud-init user-data
+                  (default key: userData). Prefer this over CloudInitUserData so guest
+                  passwords/SSH config are not stored in the Template CR (operator#16).
+                  When set, the Instance reconciler reads the Secret from the Instance
+                  (tenant) namespace, falling back to the Template namespace.
+                properties:
+                  key:
+                    description: |-
+                      Key defaults to "userData" for cloud-init refs and implementation-defined
+                      keys for User/APIKey credential hashes.
+                    type: string
+                  name:
+                    type: string
+                required:
+                - name
+                type: object
               cloudInitUserData:
-                description: CloudInitUserData cloud-init user-data payload.
+                description: |-
+                  CloudInitUserData is a legacy inline cloud-init user-data payload.
+                  Deprecated: prefer CloudInitSecretRef. Still honored when secretRef is unset.
                 type: string
               displayName:
                 description: DisplayName shown in UI/REST.
