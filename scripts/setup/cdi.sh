@@ -20,7 +20,11 @@ fi
 
 echo "TIP: CDI can also be installed via Helm hook: platform.cdi.install=true"
 
-VERSION="${CDI_VERSION:-$(curl -fsSL https://api.github.com/repos/kubevirt/containerized-data-importer/releases/latest | grep '"tag_name"' | head -1 | cut -d'"' -f4)}"
+VERSION="${CDI_VERSION:-v1.66.1}"
+if [ -z "$VERSION" ]; then
+  echo "ERROR: CDI_VERSION is empty (pin a release tag; do not use /releases/latest)" >&2
+  exit 1
+fi
 echo "==> Installing CDI $VERSION"
 
 kubectl apply -f "https://github.com/kubevirt/containerized-data-importer/releases/download/${VERSION}/cdi-operator.yaml"
