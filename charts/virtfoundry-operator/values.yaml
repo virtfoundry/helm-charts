@@ -28,3 +28,7 @@ resources:
     memory: 256Mi
 
 # Homelab sideload: set pullPolicy IfNotPresent after ctr import.
+
+# CR CREATE/UPDATE bounds (Instance tenant ns + Offering CPU/memory).
+crAdmission:
+  enabled: true
