@@ -51,6 +51,11 @@ spec:
           spec:
             description: InstanceSpec is the desired state of an Instance.
             properties:
+              cloudInitUserData:
+                description: |-
+                  CloudInitUserData is optional guest cloud-init user-data.
+                  When non-empty, it overrides Template.spec.cloudInitUserData; sshKeyRefs still merge on top.
+                type: string
               dedicatedCPU:
                 description: DedicatedCPU pins vCPU threads to host cores.
                 type: boolean
