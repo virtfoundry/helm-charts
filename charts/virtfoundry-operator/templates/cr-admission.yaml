@@ -1,0 +1,51 @@
+{{- if and .Values.crAdmission.enabled (.Capabilities.APIVersions.Has "admissionregistration.k8s.io/v1/ValidatingAdmissionPolicy") }}
+{{- /*
+  Cluster-side admission for VirtFoundry CRs (issue #13 slice 1).
+
+  - Instance: CREATE/UPDATE only in virtfoundry-tenant-*
+  - Offering: CPU/memory bounds (also enforced via CRD OpenAPI)
+
+  Tenant slug uniqueness is controller-enforced (#15/#20); admission-time
+  uniqueness waits on validating webhooks (#26). Residual: cert-manager +
+  Helm :9443, Template CR admission (#26). ContainerDisk image allowlist is
+  enforced in the Instance reconciler (#22).
+*/ -}}
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingAdmissionPolicy
+metadata:
+  name: {{ include "virtfoundry-operator.fullname" . }}-cr-admission
+  labels:
+    {{- include "virtfoundry-operator.labels" . | nindent 4 }}
+spec:
+  failurePolicy: Fail
+  matchConstraints:
+    resourceRules:
+      - apiGroups: ["virtfoundry.io"]
+        apiVersions: ["v1alpha1"]
+        operations: ["CREATE", "UPDATE"]
+        resources: ["instances", "offerings"]
+  validations:
+    - expression: >-
+        !(object.kind == 'Instance') ||
+        (has(object.metadata.namespace) &&
+         object.metadata.namespace.startsWith('virtfoundry-tenant-') &&
+         object.metadata.namespace != 'virtfoundry-tenant-')
+      message: Instance must be created in a virtfoundry-tenant-* namespace
+      reason: Forbidden
+    - expression: >-
+        !(object.kind == 'Offering') ||
+        (object.spec.cpu >= 1 && object.spec.cpu <= 256 &&
+         object.spec.memoryMi >= 64 && object.spec.memoryMi <= 1048576)
+      message: Offering cpu must be 1..256 and memoryMi 64..1048576
+      reason: Invalid
+---
+apiVersion: admissionregistration.k8s.io/v1
+kind: ValidatingAdmissionPolicyBinding
+metadata:
+  name: {{ include "virtfoundry-operator.fullname" . }}-cr-admission
+  labels:
+    {{- include "virtfoundry-operator.labels" . | nindent 4 }}
+spec:
+  policyName: {{ include "virtfoundry-operator.fullname" . }}-cr-admission
+  validationActions: ["Deny"]
+{{- end }}

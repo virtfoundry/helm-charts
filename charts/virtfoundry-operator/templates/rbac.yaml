@@ -4,14 +4,14 @@ metadata:
   name: {{ include "virtfoundry-operator.fullname" . }}
   labels:
     {{- include "virtfoundry-operator.labels" . | nindent 4 }}
-# Keep in sync with kubebuilder markers on TenantReconciler / InstanceReconciler
+# Keep in sync with kubebuilder markers on Tenant/Instance/Network reconcilers
 # and config/rbac/role.yaml (make manifests). Add permissions per controller when it lands.
 rules:
   - apiGroups: ["virtfoundry.io"]
     resources: ["tenants"]
     verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
   - apiGroups: ["virtfoundry.io"]
-    resources: ["tenants/status", "instances/status"]
+    resources: ["tenants/status", "instances/status", "networks/status"]
     verbs: ["get", "update", "patch"]
   - apiGroups: ["virtfoundry.io"]
     resources: ["tenants/finalizers", "instances/finalizers"]
@@ -20,8 +20,11 @@ rules:
     resources: ["instances"]
     verbs: ["get", "list", "watch", "update", "patch"]
   - apiGroups: ["virtfoundry.io"]
-    resources: ["offerings", "templates"]
+    resources: ["offerings", "templates", "networks", "sshkeys"]
     verbs: ["get", "list", "watch"]
+  - apiGroups: ["k8s.cni.cncf.io"]
+    resources: ["network-attachment-definitions"]
+    verbs: ["get", "list", "watch", "create", "update", "patch"]
   # Tenant namespaces are named virtfoundry-tenant-{slug}, so resourceNames
   # cannot scope these verbs (no prefix matching, and namespaces are cluster
   # scoped). Deletion is constrained by the operator's ownership guard and by
@@ -31,6 +34,12 @@ rules:
     verbs: ["get", "list", "watch", "create", "patch", "delete"]
   # No secrets: no controller reads or writes Secrets. If one ever needs to,
   # grant a Role in {{ .Values.namespace }} instead of a ClusterRole.
+  - apiGroups: [""]
+    resources: ["resourcequotas", "limitranges"]
+    verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+  - apiGroups: ["networking.k8s.io"]
+    resources: ["networkpolicies"]
+    verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
   - apiGroups: ["kubevirt.io"]
     resources: ["virtualmachines", "virtualmachineinstances"]
     verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
