@@ -1902,6 +1902,10 @@ helm<span class="w"> </span>upgrade<span class="w"> </span>--install<span class=
 <span class="w">    </span><span class="nt">memory</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">256Mi</span>
 
 <span class="c1"># Homelab sideload: set pullPolicy IfNotPresent after ctr import.</span>
+
+<span class="c1"># CR CREATE/UPDATE bounds (Instance tenant ns + Offering CPU/memory).</span>
+<span class="nt">crAdmission</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 </code></pre></div>
 
 
