@@ -175,6 +175,11 @@ platform:
     # Public/shared network for tenant VMs (Multus bridge or macvlan — configured per site).
     public:
       enabled: false
+      # In-cluster dnsmasq on the public bridge. Disable when an upstream
+      # router (e.g. MikroTik) already serves DHCP on the VLAN — otherwise
+      # dnsmasq often fails to bind UDP/67 and Argo stays Progressing.
+      dhcp:
+        enabled: true
       # When true, empty/"auto" cidr, gateway, and ipPool are filled from the first
       # Node InternalIP (/24, gateway .1, pool .20–.80). Never sets uplink.
       autoFromCluster: true
