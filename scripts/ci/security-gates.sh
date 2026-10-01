@@ -224,6 +224,8 @@ for rule in rules:
 plurals = set()
 for crd in sorted(Path(crd_dir).glob("*.yaml")):
     plurals |= set(re.findall(r"(?m)^\s+plural:\s*(\S+)\s*$", crd.read_text()))
+# CRDs owned outside virtfoundry-operator (e.g. virtfoundry/vks chart).
+plurals |= {"vksclusters"}
 if not plurals:
     fail(f"no CRD plurals found under {crd_dir}")
 missing = plurals - granted

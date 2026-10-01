@@ -9,7 +9,7 @@ virtfoundry.io resources are listed one by one instead of ["*"], so a new CRD ha
 to be granted deliberately. scripts/ci/security-gates.sh diffs this list against
 charts/virtfoundry-operator/crds and fails when they drift apart.
 */}}
-{{- $vfResources := list "apikeys" "disks" "disksnapshots" "instances" "instancesnapshots" "ipaddresses" "networks" "offerings" "roles" "securitygroups" "sshkeys" "templates" "tenants" "users" "vpcs" -}}
+{{- $vfResources := list "apikeys" "disks" "disksnapshots" "instances" "instancesnapshots" "ipaddresses" "networks" "offerings" "roles" "securitygroups" "sshkeys" "templates" "tenants" "users" "vpcs" "vksclusters" -}}
 apiVersion: v1
 kind: ServiceAccount
 metadata:
