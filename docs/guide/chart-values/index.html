@@ -1879,19 +1879,47 @@ helm<span class="w"> </span>upgrade<span class="w"> </span>--install<span class=
 
 <span class="nt">image</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">repository</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ghcr.io/virtfoundry/operator</span>
+<span class="w">  </span><span class="c1"># Prefer a release tag (semver / git SHA). Do not rely on floating `latest`.</span>
 <span class="w">  </span><span class="nt">tag</span><span class="p">:</span><span class="w"> </span><span class="s">"0.8.0"</span>
+<span class="w">  </span><span class="c1"># Production: set digest (sha256:…) so the chart ignores tag and pins the image.</span>
+<span class="w">  </span><span class="c1"># Leave empty only for local/dev when pulling by tag is acceptable.</span>
 <span class="w">  </span><span class="nt">digest</span><span class="p">:</span><span class="w"> </span><span class="s">""</span>
 <span class="w">  </span><span class="nt">pullPolicy</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">IfNotPresent</span>
+<span class="w">  </span><span class="c1"># When true, helm template/install fails unless image.digest is set (prod gate).</span>
+<span class="w">  </span><span class="nt">requireDigest</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
 
 <span class="nt">replicas</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
 
 <span class="nt">leaderElection</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+
+<span class="c1"># ContainerDisk image allowlist (issue #22). Empty → built-in</span>
+<span class="c1"># quay.io/containerdisks/ + quay.io/kubevirt/. Setting prefixes replaces the</span>
+<span class="c1"># built-in list (private registry mirrors).</span>
+<span class="nt">imageAllowlist</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">prefixes</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[]</span>
 
 <span class="c1"># Cluster-side guard rail: denies the operator ServiceAccount any Namespace</span>
 <span class="c1"># DELETE outside virtfoundry-tenant-* labelled virtfoundry.io/tenant. Rendered</span>
 <span class="c1"># only when the cluster serves ValidatingAdmissionPolicy (Kubernetes &gt;= 1.30).</span>
 <span class="nt">namespaceGuard</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+
+<span class="c1"># Cluster-side guard rail (issue #28): denies the operator ServiceAccount</span>
+<span class="c1"># CREATE/UPDATE/DELETE on kubevirt.io VirtualMachines/VMIs outside</span>
+<span class="c1"># virtfoundry-tenant-*. Complements ClusterRole (still cluster-wide for</span>
+<span class="c1"># informers); true Role/RoleBinding least privilege is residual on #28.</span>
+<span class="nt">kubevirtGuard</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+
+<span class="c1"># Cluster-side CR admission (issue #13 + #26 Template slice): Instance only in</span>
+<span class="c1"># virtfoundry-tenant-*, Offering CPU/memory bounds, Template container images</span>
+<span class="c1"># on the ContainerDisk allowlist (imageAllowlist.prefixes). Complements CRD</span>
+<span class="c1"># OpenAPI + reconciler guards. Tenant slug uniqueness is controller-enforced</span>
+<span class="c1"># (#15/#20); admission-time slug checks wait on webhooks (#26 residual:</span>
+<span class="c1"># cert-manager + Helm :9443 + ValidatingWebhookConfiguration).</span>
+<span class="nt">crAdmission</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+
 
 <span class="nt">resources</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">requests</span><span class="p">:</span>
@@ -1902,10 +1930,6 @@ helm<span class="w"> </span>upgrade<span class="w"> </span>--install<span class=
 <span class="w">    </span><span class="nt">memory</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">256Mi</span>
 
 <span class="c1"># Homelab sideload: set pullPolicy IfNotPresent after ctr import.</span>
-
-<span class="c1"># CR CREATE/UPDATE bounds (Instance tenant ns + Offering CPU/memory).</span>
-<span class="nt">crAdmission</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 </code></pre></div>
 
 
