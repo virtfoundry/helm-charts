@@ -214,6 +214,10 @@ platform:
       enabled: false
       bridge:
         name: virtfoundry-br0
+        # Optional host IPv4 on the isolated bridge (CIDR). Needed when tenant
+        # Multus IPAM advertises a default gateway (typically .1) so VMs can
+        # leave the L2 and virt-handler can dial guest SSH on Multus IPs.
+        address: ""
     # Default VM networking when no network_ids are set on deploy.
     vm:
       defaultNetwork: pod             # pod | public

@@ -259,7 +259,7 @@ data:
 
     ensure_all_bridges() {
       {{- if .Values.platform.networking.isolated.enabled }}
-      setup_bridge "{{ .Values.platform.networking.isolated.bridge.name }}" "" ""
+      setup_bridge "{{ .Values.platform.networking.isolated.bridge.name }}" "" "{{ .Values.platform.networking.isolated.bridge.address }}"
       {{- end }}
       {{- if .Values.platform.networking.public.enabled }}
       setup_bridge "{{ .Values.platform.networking.public.bridge.name }}" "{{ .Values.platform.networking.public.bridge.uplink }}" "{{ .Values.platform.networking.public.bridge.address }}"
