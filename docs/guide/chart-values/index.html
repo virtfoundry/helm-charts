@@ -1832,6 +1832,10 @@ helm<span class="w"> </span>upgrade<span class="w"> </span>--install<span class=
 <span class="w">      </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
 <span class="w">      </span><span class="nt">bridge</span><span class="p">:</span>
 <span class="w">        </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">virtfoundry-br0</span>
+<span class="w">        </span><span class="c1"># Optional host IPv4 on the isolated bridge (CIDR). Needed when tenant</span>
+<span class="w">        </span><span class="c1"># Multus IPAM advertises a default gateway (typically .1) so VMs can</span>
+<span class="w">        </span><span class="c1"># leave the L2 and virt-handler can dial guest SSH on Multus IPs.</span>
+<span class="w">        </span><span class="nt">address</span><span class="p">:</span><span class="w"> </span><span class="s">""</span>
 <span class="w">    </span><span class="c1"># Default VM networking when no network_ids are set on deploy.</span>
 <span class="w">    </span><span class="nt">vm</span><span class="p">:</span>
 <span class="w">      </span><span class="nt">defaultNetwork</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pod</span><span class="w">             </span><span class="c1"># pod | public</span>
