@@ -259,6 +259,7 @@ Identity: dedicated ServiceAccount with `automountServiceAccountToken: false` (n
 |-----|---------|-------------|
 | `isolated.enabled` | `false` | Tenant VPC L2 on an internal bridge (`virtfoundry-br0`) |
 | `isolated.bridge.name` | `virtfoundry-br0` | Linux bridge name (≤15 chars) |
+| `isolated.bridge.address` | `""` | Optional host IPv4/CIDR on the isolated bridge (e.g. `10.0.0.1/24` when Multus IPAM uses `.1` as gateway) |
 | `bridge.namespace` | `kube-system` | Namespace for the DaemonSet + scripts ConfigMap |
 | `bridge.image` | alpine@sha256:… | Pin / override (prefer a prebuilt image with dnsmasq) |
 | `bridge.nodeSelector` | `{}` | Optional node selection |
