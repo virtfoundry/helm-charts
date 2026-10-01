@@ -36,6 +36,11 @@ spec:
             {{- end }}
             - --health-probe-bind-address=:8081
             - --metrics-bind-address=0
+          {{- with .Values.imageAllowlist.prefixes }}
+          env:
+            - name: VIRTFOUNDRY_ALLOWED_CONTAINER_IMAGE_PREFIXES
+              value: {{ . | join "," | quote }}
+          {{- end }}
           ports:
             - name: health
               containerPort: 8081

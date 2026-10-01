@@ -21,7 +21,6 @@ leaderElection: true
 # ContainerDisk image allowlist (issue #22). Empty → built-in
 # quay.io/containerdisks/ + quay.io/kubevirt/. Setting prefixes replaces the
 # built-in list (private registry mirrors).
-
 imageAllowlist:
   prefixes: []
 
@@ -57,41 +56,3 @@ resources:
     memory: 256Mi
 
 # Homelab sideload: set pullPolicy IfNotPresent after ctr import.
-
-kubevirtGuard:
-  enabled: true
-
-# Cluster-side CR admission (issue #13 + #26 Template slice): Instance only in
-# virtfoundry-tenant-*, Offering CPU/memory bounds, Template container images
-# on the ContainerDisk allowlist (imageAllowlist.prefixes). Complements CRD
-# OpenAPI + reconciler guards. Tenant slug uniqueness is controller-enforced
-# (#15/#20); admission-time slug checks wait on webhooks (#26 residual:
-# cert-manager + Helm :9443 + ValidatingWebhookConfiguration).
-crAdmission:
-  enabled: true
-
-
-resources:
-  requests:
-    cpu: 50m
-    memory: 128Mi
-  limits:
-    cpu: 500m
-    memory: 256Mi
-
-# Homelab sideload: set pullPolicy IfNotPresent after ctr import.
-
-crAdmission:
-  enabled: true
-
-
-resources:
-  requests:
-    cpu: 50m
-    memory: 128Mi
-  limits:
-    cpu: 500m
-    memory: 256Mi
-
-# Homelab sideload: set pullPolicy IfNotPresent after ctr import.
-
