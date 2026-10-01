@@ -1898,8 +1898,8 @@ helm<span class="w"> </span>upgrade<span class="w"> </span>--install<span class=
 <span class="nt">leaderElection</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 
 <span class="c1"># ContainerDisk image allowlist (issue #22). Empty → built-in</span>
-<span class="c1"># quay.io/containerdisks/ + quay.io/kubevirt/. Setting prefixes replaces the</span>
-<span class="c1"># built-in list (private registry mirrors).</span>
+<span class="c1"># quay.io/containerdisks/ + quay.io/kubevirt/ + ghcr.io/virtfoundry/.</span>
+<span class="c1"># Setting prefixes replaces the built-in list (private registry mirrors).</span>
 <span class="nt">imageAllowlist</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">prefixes</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[]</span>
 
