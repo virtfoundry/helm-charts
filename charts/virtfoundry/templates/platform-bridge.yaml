@@ -133,6 +133,10 @@ spec:
               add:
                 - NET_ADMIN
                 - NET_RAW
+                # DHCP binds UDP/67 (privileged). Without NET_BIND_SERVICE,
+                # dnsmasq exits: "failed to bind DHCP server socket: Permission denied"
+                # and the DaemonSet stays Ready N-1 → Argo Application Progressing.
+                - NET_BIND_SERVICE
           command:
             - sh
             - -c
