@@ -5,19 +5,47 @@ namespace: virtfoundry-system
 
 image:
   repository: ghcr.io/virtfoundry/operator
+  # Prefer a release tag (semver / git SHA). Do not rely on floating `latest`.
   tag: "0.8.0"
+  # Production: set digest (sha256:…) so the chart ignores tag and pins the image.
+  # Leave empty only for local/dev when pulling by tag is acceptable.
   digest: ""
   pullPolicy: IfNotPresent
+  # When true, helm template/install fails unless image.digest is set (prod gate).
+  requireDigest: false
 
 replicas: 1
 
 leaderElection: true
+
+# ContainerDisk image allowlist (issue #22). Empty → built-in
+# quay.io/containerdisks/ + quay.io/kubevirt/. Setting prefixes replaces the
+# built-in list (private registry mirrors).
+imageAllowlist:
+  prefixes: []
 
 # Cluster-side guard rail: denies the operator ServiceAccount any Namespace
 # DELETE outside virtfoundry-tenant-* labelled virtfoundry.io/tenant. Rendered
 # only when the cluster serves ValidatingAdmissionPolicy (Kubernetes >= 1.30).
 namespaceGuard:
   enabled: true
+
+# Cluster-side guard rail (issue #28): denies the operator ServiceAccount
+# CREATE/UPDATE/DELETE on kubevirt.io VirtualMachines/VMIs outside
+# virtfoundry-tenant-*. Complements ClusterRole (still cluster-wide for
+# informers); true Role/RoleBinding least privilege is residual on #28.
+kubevirtGuard:
+  enabled: true
+
+# Cluster-side CR admission (issue #13 + #26 Template slice): Instance only in
+# virtfoundry-tenant-*, Offering CPU/memory bounds, Template container images
+# on the ContainerDisk allowlist (imageAllowlist.prefixes). Complements CRD
+# OpenAPI + reconciler guards. Tenant slug uniqueness is controller-enforced
+# (#15/#20); admission-time slug checks wait on webhooks (#26 residual:
+# cert-manager + Helm :9443 + ValidatingWebhookConfiguration).
+crAdmission:
+  enabled: true
+
 
 resources:
   requests:
@@ -28,7 +56,3 @@ resources:
     memory: 256Mi
 
 # Homelab sideload: set pullPolicy IfNotPresent after ctr import.
-
-# CR CREATE/UPDATE bounds (Instance tenant ns + Offering CPU/memory).
-crAdmission:
-  enabled: true

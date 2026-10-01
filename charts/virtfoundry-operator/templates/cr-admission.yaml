@@ -1,15 +1,20 @@
 {{- if and .Values.crAdmission.enabled (.Capabilities.APIVersions.Has "admissionregistration.k8s.io/v1/ValidatingAdmissionPolicy") }}
 {{- /*
-  Cluster-side admission for VirtFoundry CRs (issue #13 slice 1).
+  Cluster-side admission for VirtFoundry CRs (issue #13 + #26 Template slice).
 
   - Instance: CREATE/UPDATE only in virtfoundry-tenant-*
   - Offering: CPU/memory bounds (also enforced via CRD OpenAPI)
+  - Template: container sourceType images must match the ContainerDisk
+    allowlist (same prefixes as imageAllowlist / reconciler #22)
 
   Tenant slug uniqueness is controller-enforced (#15/#20); admission-time
-  uniqueness waits on validating webhooks (#26). Residual: cert-manager +
-  Helm :9443, Template CR admission (#26). ContainerDisk image allowlist is
-  enforced in the Instance reconciler (#22).
+  uniqueness waits on validating webhooks (#26 residual: cert-manager +
+  Helm :9443). Privileged KubeVirt feature rejection is still open.
 */ -}}
+{{- $prefixes := .Values.imageAllowlist.prefixes }}
+{{- if not $prefixes }}
+{{- $prefixes = list "quay.io/containerdisks/" "quay.io/kubevirt/" }}
+{{- end }}
 apiVersion: admissionregistration.k8s.io/v1
 kind: ValidatingAdmissionPolicy
 metadata:
@@ -23,7 +28,7 @@ spec:
       - apiGroups: ["virtfoundry.io"]
         apiVersions: ["v1alpha1"]
         operations: ["CREATE", "UPDATE"]
-        resources: ["instances", "offerings"]
+        resources: ["instances", "offerings", "templates"]
   validations:
     - expression: >-
         !(object.kind == 'Instance') ||
@@ -37,6 +42,20 @@ spec:
         (object.spec.cpu >= 1 && object.spec.cpu <= 256 &&
          object.spec.memoryMi >= 64 && object.spec.memoryMi <= 1048576)
       message: Offering cpu must be 1..256 and memoryMi 64..1048576
+      reason: Invalid
+    - expression: >-
+        !(object.kind == 'Template') ||
+        object.spec.sourceType.lowerAscii() != 'container' ||
+        (size(object.spec.image) > 0 &&
+         !object.spec.image.lowerAscii().startsWith('http://') &&
+         !object.spec.image.lowerAscii().startsWith('https://') &&
+         (
+{{- range $i, $p := $prefixes }}
+{{- if $i }} ||{{ end }}
+           object.spec.image.startsWith({{ $p | quote }})
+{{- end }}
+         ))
+      message: Template container image must match the ContainerDisk allowlist (chart imageAllowlist.prefixes)
       reason: Invalid
 ---
 apiVersion: admissionregistration.k8s.io/v1

@@ -43,6 +43,10 @@ rules:
   - apiGroups: ["networking.k8s.io"]
     resources: ["networkpolicies"]
     verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+  # Cluster-wide KubeVirt mutate stays for informers + reconcile. Namespace
+  # blast radius is constrained by kubevirtGuard ValidatingAdmissionPolicy
+  # (issue #28). Role/RoleBinding-per-tenant is residual (RBAC escalation
+  # prevents the operator SA from minting mutate Roles it does not hold).
   - apiGroups: ["kubevirt.io"]
     resources: ["virtualmachines", "virtualmachineinstances"]
     verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
