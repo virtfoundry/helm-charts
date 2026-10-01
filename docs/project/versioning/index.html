@@ -1616,7 +1616,7 @@ helm<span class="w"> </span>install<span class="w"> </span>virtfoundry<span clas
 <ol>
 <li>Finish feature branch → PR → integration testing → merge <code>main</code></li>
 <li>Update <code>CHANGELOG.md</code> (core, helm-charts, operator when touched)</li>
-<li><strong>Bump every version pin</strong> (same <code>X.Y.Z</code> everywhere — do not skip UI or values):</li>
+<li><strong>Bump every version pin</strong> (same <code>X.Y.Z</code> everywhere — do not skip UI, values, <strong>org landing</strong>, or <strong>GitHub Pages</strong>):</li>
 </ol>
 <table>
 <thead>
@@ -1632,11 +1632,15 @@ helm<span class="w"> </span>install<span class="w"> </span>virtfoundry<span clas
 </tr>
 <tr>
 <td><strong>helm-charts</strong></td>
-<td><code>charts/virtfoundry/Chart.yaml</code>, <code>charts/virtfoundry-operator/Chart.yaml</code>, <code>charts/virtfoundry/values.yaml</code> (<code>images.api</code> / <code>images.ui</code>), <code>charts/virtfoundry-operator/values.yaml</code> + <code>values-homelab.yaml</code> (<code>image.tag</code>), install docs (<code>quickstart</code>, <code>installation</code>, <code>kind</code>, <code>helm-repository</code>, <code>index</code>, <code>README</code>)</td>
+<td><code>charts/virtfoundry/Chart.yaml</code>, <code>charts/virtfoundry-operator/Chart.yaml</code>, <code>charts/virtfoundry/values.yaml</code> (<code>images.api</code> / <code>images.ui</code>), <code>charts/virtfoundry-operator/values.yaml</code> + <code>values-homelab.yaml</code> (<code>image.tag</code>), <strong>all</strong> install docs (<code>quickstart</code>, <code>installation</code>, <code>kind</code>, <code>helm-repository</code>, <code>chart-values</code>, <code>index</code>, <code>README</code>) — these feed <strong>GitHub Pages</strong></td>
 </tr>
 <tr>
 <td><strong>operator</strong></td>
 <td><code>charts/virtfoundry-operator/Chart.yaml</code>, <code>values.yaml</code>, <code>values-homelab.yaml</code></td>
+</tr>
+<tr>
+<td><strong><code>.github</code> (org profile)</strong></td>
+<td><a href="https://github.com/virtfoundry/.github/blob/main/profile/README.md"><code>profile/README.md</code></a> — org homepage “Current release” + helm <code>--version</code> snippets (<strong>routinely forgotten</strong>)</td>
 </tr>
 <tr>
 <td><strong>This doc</strong></td>
@@ -1645,6 +1649,7 @@ helm<span class="w"> </span>install<span class="w"> </span>virtfoundry<span clas
 </tbody>
 </table>
 <p>The UI sidebar/login label reads <strong><code>ui/package.json</code> at build time</strong> (<code>src/lib/version.ts</code>). A chart bump without rebuilding/publishing UI leaves users on an old label (e.g. <code>v0.5.0</code>).</p>
+<p>After merge to <code>helm-charts</code> <code>main</code>, confirm Pages shows the new badge/pins at https://virtfoundry.github.io/helm-charts/docs/ .</p>
 <ol>
 <li>Commit: <code>chore(release): v0.9.0</code></li>
 <li>Tag <strong>each</strong> repository that changed:</li>

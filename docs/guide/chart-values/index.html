@@ -1577,7 +1577,7 @@
 <p><code>--set secrets.rootPassword=…</code> and <code>--set secrets.jwtSecret=…</code> belong next to <code>helm install virtfoundry …</code> because those keys live in the <strong>chart</strong>. A later <code>kubectl set env</code> is not the source of truth.</p>
 <p>Prefer a file for anything larger than two secrets:</p>
 <div class="highlight"><pre><span></span><code>helm<span class="w"> </span>install<span class="w"> </span>virtfoundry<span class="w"> </span>virtfoundry/virtfoundry<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--version<span class="w"> </span><span class="m">0</span>.7.2<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--version<span class="w"> </span><span class="m">0</span>.9.0<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--namespace<span class="w"> </span>virtfoundry-system<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>-f<span class="w"> </span>my-values.yaml<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--set<span class="w"> </span>secrets.rootPassword<span class="o">=</span><span class="s1">'choose-a-strong-password'</span><span class="w"> </span><span class="se">\</span>
