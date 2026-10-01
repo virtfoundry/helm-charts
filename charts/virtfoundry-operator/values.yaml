@@ -19,8 +19,8 @@ replicas: 1
 leaderElection: true
 
 # ContainerDisk image allowlist (issue #22). Empty → built-in
-# quay.io/containerdisks/ + quay.io/kubevirt/. Setting prefixes replaces the
-# built-in list (private registry mirrors).
+# quay.io/containerdisks/ + quay.io/kubevirt/ + ghcr.io/virtfoundry/.
+# Setting prefixes replaces the built-in list (private registry mirrors).
 imageAllowlist:
   prefixes: []
 
