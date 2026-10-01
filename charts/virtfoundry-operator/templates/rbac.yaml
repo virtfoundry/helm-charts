@@ -6,6 +6,11 @@ metadata:
     {{- include "virtfoundry-operator.labels" . | nindent 4 }}
 # Keep in sync with kubebuilder markers on Tenant/Instance/Network reconcilers
 # and config/rbac/role.yaml (make manifests). Add permissions per controller when it lands.
+#
+# KubeVirt mutate is split into {{ include "virtfoundry-operator.fullname" . }}-kubevirt-mutate
+# (issue #28): this role is monitor-only (get/list/watch) for informers. Tenant
+# reconciler mints RoleBindings in virtfoundry-tenant-* that bind the mutate
+# ClusterRole via the bind verb below (avoids RBAC privilege-escalation chicken-egg).
 rules:
   - apiGroups: ["virtfoundry.io"]
     resources: ["tenants"]
@@ -43,13 +48,34 @@ rules:
   - apiGroups: ["networking.k8s.io"]
     resources: ["networkpolicies"]
     verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
-  # Cluster-wide KubeVirt mutate stays for informers + reconcile. Namespace
-  # blast radius is constrained by kubevirtGuard ValidatingAdmissionPolicy
-  # (issue #28). Role/RoleBinding-per-tenant is residual (RBAC escalation
-  # prevents the operator SA from minting mutate Roles it does not hold).
+  # Monitor-only cluster-wide for controller-runtime informers (issue #28).
   - apiGroups: ["kubevirt.io"]
     resources: ["virtualmachines", "virtualmachineinstances"]
+    verbs: ["get", "list", "watch"]
+  # Mint per-tenant RoleBindings to the kubevirt-mutate ClusterRole.
+  - apiGroups: ["rbac.authorization.k8s.io"]
+    resources: ["rolebindings"]
     verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+  - apiGroups: ["rbac.authorization.k8s.io"]
+    resources: ["clusterroles"]
+    resourceNames: ["{{ include "virtfoundry-operator.fullname" . }}-kubevirt-mutate"]
+    verbs: ["bind"]
+
+---
+# Mutate verbs are NOT bound cluster-wide. TenantReconciler creates a
+# RoleBinding in each virtfoundry-tenant-* namespace referencing this role.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: {{ include "virtfoundry-operator.fullname" . }}-kubevirt-mutate
+  labels:
+    {{- include "virtfoundry-operator.labels" . | nindent 4 }}
+    virtfoundry.io/rbac-slice: kubevirt-mutate
+rules:
+  - apiGroups: ["kubevirt.io"]
+    resources: ["virtualmachines", "virtualmachineinstances"]
+    verbs: ["create", "update", "patch", "delete"]
+
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
