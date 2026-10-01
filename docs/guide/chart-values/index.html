@@ -1793,6 +1793,11 @@ helm<span class="w"> </span>upgrade<span class="w"> </span>--install<span class=
 <span class="w">    </span><span class="c1"># Public/shared network for tenant VMs (Multus bridge or macvlan — configured per site).</span>
 <span class="w">    </span><span class="nt">public</span><span class="p">:</span>
 <span class="w">      </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+<span class="w">      </span><span class="c1"># In-cluster dnsmasq on the public bridge. Disable when an upstream</span>
+<span class="w">      </span><span class="c1"># router (e.g. MikroTik) already serves DHCP on the VLAN — otherwise</span>
+<span class="w">      </span><span class="c1"># dnsmasq often fails to bind UDP/67 and Argo stays Progressing.</span>
+<span class="w">      </span><span class="nt">dhcp</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 <span class="w">      </span><span class="c1"># When true, empty/"auto" cidr, gateway, and ipPool are filled from the first</span>
 <span class="w">      </span><span class="c1"># Node InternalIP (/24, gateway .1, pool .20–.80). Never sets uplink.</span>
 <span class="w">      </span><span class="nt">autoFromCluster</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
