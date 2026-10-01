@@ -4,6 +4,22 @@ See [docs/project/changelog.md](docs/project/changelog.md) for the full release 
 
 ## [Unreleased]
 
+## [0.9.0] - 2026-10-01
+
+### Added
+
+- Instance CRD: `spec.powerState` for CRD-first Start/Stop; `cloudInitUserData` / `cloudInitSecretRef` sync from operator.
+- Optional public bridge DHCP (`platform.networking.public.dhcp.enabled`); dnsmasq as root + `NET_BIND_SERVICE`.
+- Operator ClusterRole sync for Network NAD and sshkeys; VAP / kubevirt mutate RoleBinding security slices.
+
+### Changed
+
+- Chart / image pins aligned with core/operator **0.9.0**.
+
+### Security
+
+- Pin chart CI actions and CDI/Multus URLs.
+
 ## [0.8.0] - 2026-09-28
 
 ### Changed
