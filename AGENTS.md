@@ -19,7 +19,7 @@ Rules: `typescript-exhaustive-switch`, `no-inline-imports` quando houver TS.
 ## VirtFoundry
 
 - SemVer produto **0.8.x** (Chart.yaml / CHANGELOG alinhados ao core/operator).
-- Validar installs no **homelab** — nunca Kind como gate de produto.
+- Validar installs no **homelab Linux** (cluster real ou Kind/Linux com KubeVirt). Gate de produto = homelab; **não** Kind no macOS (KubeVirt não funciona).
 - Overlay homelab: digests pinados (sem `:latest` flutuante).
 - Preview sem commit só com pedido explícito.
 - Não taguear / mergear release sem OK do maintainer.
