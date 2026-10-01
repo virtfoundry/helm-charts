@@ -42,16 +42,19 @@ helm install virtfoundry virtfoundry/virtfoundry --version 0.9.0 \
 
 1. Finish feature branch → PR → integration testing → merge `main`
 2. Update `CHANGELOG.md` (core, helm-charts, operator when touched)
-3. **Bump every version pin** (same `X.Y.Z` everywhere — do not skip UI or values):
+3. **Bump every version pin** (same `X.Y.Z` everywhere — do not skip UI, values, **org landing**, or **GitHub Pages**):
 
    | Repo | Files |
    |------|-------|
    | **core** | `ui/package.json`, `ui/package-lock.json` (root + `"packages"` entry), `docs/PRODUCT.md` |
-   | **helm-charts** | `charts/virtfoundry/Chart.yaml`, `charts/virtfoundry-operator/Chart.yaml`, `charts/virtfoundry/values.yaml` (`images.api` / `images.ui`), `charts/virtfoundry-operator/values.yaml` + `values-homelab.yaml` (`image.tag`), install docs (`quickstart`, `installation`, `kind`, `helm-repository`, `index`, `README`) |
+   | **helm-charts** | `charts/virtfoundry/Chart.yaml`, `charts/virtfoundry-operator/Chart.yaml`, `charts/virtfoundry/values.yaml` (`images.api` / `images.ui`), `charts/virtfoundry-operator/values.yaml` + `values-homelab.yaml` (`image.tag`), **all** install docs (`quickstart`, `installation`, `kind`, `helm-repository`, `chart-values`, `index`, `README`) — these feed **GitHub Pages** |
    | **operator** | `charts/virtfoundry-operator/Chart.yaml`, `values.yaml`, `values-homelab.yaml` |
+   | **`.github` (org profile)** | [`profile/README.md`](https://github.com/virtfoundry/.github/blob/main/profile/README.md) — org homepage “Current release” + helm `--version` snippets (**routinely forgotten**) |
    | **This doc** | `docs/project/versioning.md` — current release line and examples |
 
    The UI sidebar/login label reads **`ui/package.json` at build time** (`src/lib/version.ts`). A chart bump without rebuilding/publishing UI leaves users on an old label (e.g. `v0.5.0`).
+
+   After merge to `helm-charts` `main`, confirm Pages shows the new badge/pins at https://virtfoundry.github.io/helm-charts/docs/ .
 
 4. Commit: `chore(release): v0.9.0`
 5. Tag **each** repository that changed:
