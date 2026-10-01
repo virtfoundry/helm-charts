@@ -122,7 +122,7 @@ spec:
             requests:
               cpu: 5m
               memory: 16Mi
-        {{- if .Values.platform.networking.public.enabled }}
+        {{- if and .Values.platform.networking.public.enabled (ne .Values.platform.networking.public.dhcp.enabled false) }}
         - name: dhcp
           image: {{ $bridgeImage }}
           securityContext:
@@ -179,7 +179,9 @@ spec:
                   fi
                 done
               ) &
-              exec dnsmasq --keep-in-foreground --log-dhcp
+              # Stay root: dropping to nobody loses ambient capabilities and
+              # re-triggers "Permission denied" on UDP/67 in many clusters.
+              exec dnsmasq --keep-in-foreground --log-dhcp --user=root --group=root
           volumeMounts:
             - name: bridge-scripts
               mountPath: /scripts
