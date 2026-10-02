@@ -85,3 +85,7 @@ Tags `latest` (on `main` builds) may also exist — pin explicitly in production
 ## Cross-repo features
 
 Use the **same branch name** in `virtfoundry` and `helm-charts`. Release with the **same version number** when both change.
+
+## Future: umbrella chart
+
+**0.9.x stays three charts and three Argo Applications.** A later **`virtfoundry-platform`** umbrella (Helm dependencies + nested `operator` / `core` / `vks` values) is design-only — see [Future platform umbrella chart](umbrella-chart.md).
