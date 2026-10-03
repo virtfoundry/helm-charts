@@ -36,11 +36,17 @@ spec:
             {{- end }}
             - --health-probe-bind-address=:8081
             - --metrics-bind-address=0
-          {{- with .Values.imageAllowlist.prefixes }}
           env:
+            - name: VIRTFOUNDRY_OPERATOR_SERVICE_ACCOUNT
+              value: {{ include "virtfoundry-operator.fullname" . | quote }}
+            - name: VIRTFOUNDRY_OPERATOR_NAMESPACE
+              value: {{ .Values.namespace | quote }}
+            - name: VIRTFOUNDRY_KUBEVIRT_MUTATE_CLUSTERROLE
+              value: {{ printf "%s-kubevirt-mutate" (include "virtfoundry-operator.fullname" .) | quote }}
+            {{- with .Values.imageAllowlist.prefixes }}
             - name: VIRTFOUNDRY_ALLOWED_CONTAINER_IMAGE_PREFIXES
               value: {{ . | join "," | quote }}
-          {{- end }}
+            {{- end }}
           ports:
             - name: health
               containerPort: 8081

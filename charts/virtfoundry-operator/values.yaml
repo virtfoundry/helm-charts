@@ -32,8 +32,8 @@ namespaceGuard:
 
 # Cluster-side guard rail (issue #28): denies the operator ServiceAccount
 # CREATE/UPDATE/DELETE on kubevirt.io VirtualMachines/VMIs outside
-# virtfoundry-tenant-*. Complements ClusterRole (still cluster-wide for
-# informers); true Role/RoleBinding least privilege is residual on #28.
+# virtfoundry-tenant-*. Defense-in-depth beside RBAC split (monitor ClusterRole
+# + per-tenant RoleBinding to *-kubevirt-mutate).
 kubevirtGuard:
   enabled: true
 
