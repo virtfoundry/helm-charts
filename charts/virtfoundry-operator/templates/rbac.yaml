@@ -5,7 +5,8 @@ metadata:
   labels:
     {{- include "virtfoundry-operator.labels" . | nindent 4 }}
 # Keep in sync with kubebuilder markers on Tenant/Instance/Network reconcilers
-# and config/rbac/role.yaml (make manifests). Add permissions per controller when it lands.
+# and config/rbac/role.yaml (make manifests). CI compares apiGroup/resource/verb
+# sets via hack/comparechart (operator#27). Add permissions per controller when it lands.
 #
 # KubeVirt mutate is split into {{ include "virtfoundry-operator.fullname" . }}-kubevirt-mutate
 # (issue #28): this role is monitor-only (get/list/watch) for informers. Tenant

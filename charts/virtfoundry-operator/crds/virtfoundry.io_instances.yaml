@@ -75,7 +75,11 @@ spec:
                   Prefer CloudInitSecretRef so passwords are not stored on the Instance CR.
                 type: string
               dedicatedCPU:
-                description: DedicatedCPU pins vCPU threads to host cores.
+                description: |-
+                  DedicatedCPU requests host CPU pinning. Applied only when the referenced
+                  Offering is platform-owned (label virtfoundry.io/platform-owned=true);
+                  otherwise ignored (issue #23). Prefer Offering.spec.dedicatedCPU on
+                  platform catalog Offerings.
                 type: boolean
               displayName:
                 description: DisplayName shown in UI/REST.
