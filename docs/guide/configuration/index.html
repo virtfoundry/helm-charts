@@ -2331,7 +2331,7 @@ rationale: <a href="https://github.com/virtfoundry/helm-charts/blob/main/charts/
 <tr>
 <td><code>public.bridge.address</code></td>
 <td><code>""</code></td>
-<td>Optional host IP on the public L2 (outside VM/LB pools)</td>
+<td>Optional host CIDR on the public L2 (outside VM/LB pools). The last octet is <strong>replaced per node</strong> (2–9) so two nodes never share the IP — required for MetalLB ARP.</td>
 </tr>
 <tr>
 <td><code>public.nad.name</code></td>

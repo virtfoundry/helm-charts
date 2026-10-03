@@ -1817,7 +1817,7 @@ helm<span class="w"> </span>upgrade<span class="w"> </span>--install<span class=
 <span class="w">        </span><span class="c1"># Linux IFNAMSIZ is 16 incl. NUL → max 15 chars. "virtfoundry-pub0" is 16 and fails.</span>
 <span class="w">        </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">vf-pub0</span>
 <span class="w">        </span><span class="nt">uplink</span><span class="p">:</span><span class="w"> </span><span class="s">""</span><span class="w">                    </span><span class="c1"># physical NIC or VLAN interface on the node</span>
-<span class="w">        </span><span class="nt">address</span><span class="p">:</span><span class="w"> </span><span class="s">""</span><span class="w">                   </span><span class="c1"># optional bridge IPv4 for dnsmasq (outside VM pool)</span>
+<span class="w">        </span><span class="nt">address</span><span class="p">:</span><span class="w"> </span><span class="s">""</span><span class="w">                   </span><span class="c1"># optional; last octet uniquified per node (2–9)</span>
 <span class="w">      </span><span class="nt">macvlan</span><span class="p">:</span>
 <span class="w">        </span><span class="nt">master</span><span class="p">:</span><span class="w"> </span><span class="s">""</span>
 <span class="w">        </span><span class="nt">mode</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">bridge</span>

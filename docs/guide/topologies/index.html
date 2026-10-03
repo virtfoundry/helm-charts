@@ -1638,7 +1638,7 @@
 <p>You can still have “public” IPs next to laptops/Wi-Fi:</p>
 <ol>
 <li><strong>Skip public</strong> — <code>public.enabled: false</code>. VMs on the pod network; expose the UI with NodePort or MetalLB on the node subnet.</li>
-<li><strong>Second NIC</strong> — untagged on the same LAN as the router. <code>uplink</code> = that NIC (same name on all nodes). <code>cidr</code> / <code>gateway</code> = the house subnet. Reserve <code>ipPool</code> (and MetalLB if used) in the router DHCP so nothing else takes those IPs. Put a single unused address on <code>vf-pub0</code> (<code>bridge.address</code>), not a node IP.</li>
+<li><strong>Second NIC</strong> — untagged on the same LAN as the router. <code>uplink</code> = that NIC (same name on all nodes). <code>cidr</code> / <code>gateway</code> = the house subnet. Reserve <code>ipPool</code> (and MetalLB if used) in the router DHCP so nothing else takes those IPs. Set <code>bridge.address</code> to a CIDR <strong>outside</strong> the guest/LB pools (e.g. <code>10.0.50.2/24</code>); the keeper assigns a <strong>unique</strong> last octet per node (2–9) so ARP/MetalLB L2 works.</li>
 <li><strong>Single NIC, already bridged</strong> — if NetworkManager already has <code>br0</code> (NIC enslaved, node IP on <code>br0</code>), set <code>public.bridge.name: br0</code>, <code>uplink: ""</code>, <code>address: ""</code>, and <code>cidr</code> = that LAN. Do <strong>not</strong> also create <code>vf-pub0</code> and enslave the same NIC.</li>
 </ol>
 <p>Carve pools so they never overlap: router, DHCP dynamic range, node IPs, <code>bridge.address</code>, VM pool, MetalLB.</p>
