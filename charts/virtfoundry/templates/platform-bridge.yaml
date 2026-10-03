@@ -54,6 +54,11 @@ spec:
                 - ALL
               add:
                 - NET_ADMIN
+          env:
+            - name: NODE_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: spec.nodeName
           command:
             - sh
             - -c
@@ -76,6 +81,11 @@ spec:
                 - ALL
               add:
                 - NET_ADMIN
+          env:
+            - name: NODE_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: spec.nodeName
           command:
             - sh
             - -c
@@ -213,6 +223,7 @@ data:
       name="$1"
       uplink="$2"
       addr="$3"
+      unique="$4"
       repaired=0
       # Linux IFNAMSIZ is 16 including NUL — names longer than 15 chars fail with
       # "invalid argument … to 'name'" / Multus "numerical result out of range".
@@ -246,8 +257,30 @@ data:
       elif [ -n "$uplink" ]; then
         echo "WARN: uplink $uplink missing on $(hostname) — bridge $name without uplink" >&2
       fi
+      if [ -n "$addr" ] && [ "$unique" = "per-node" ]; then
+        # Same CIDR on every node would duplicate the host IP and break ARP
+        # (MetalLB L2 + router). Pick 10.x.y.(2–9) from NODE_NAME, outside
+        # typical guest (.10+) and MetalLB (.100+) pools.
+        prefix="${addr%%/*}"
+        mask="${addr#*/}"
+        net="${prefix%.*}"
+        node="${NODE_NAME:-$(hostname)}"
+        h=$(printf '%s' "$node" | cksum | awk '{print $1}')
+        octet=$((2 + h % 8))
+        addr="${net}.${octet}/${mask}"
+      fi
       if [ -n "$addr" ]; then
         ip_only="${addr%%/*}"
+        # Drop leftover VIP /32s and the shared template address so only
+        # this node's unique IP remains on the public bridge.
+        ip -4 -o addr show dev "$name" 2>/dev/null | awk '{print $4}' | while read -r cidr; do
+          [ -z "$cidr" ] && continue
+          if [ "$cidr" != "$addr" ]; then
+            ip addr del "$cidr" dev "$name" 2>/dev/null || true
+            echo "REPAIR: removed leftover $cidr from $name on $(hostname)"
+            repaired=1
+          fi
+        done
         if ! ip addr show "$name" 2>/dev/null | grep -q "$ip_only"; then
           ip addr add "$addr" dev "$name" 2>/dev/null || true
           repaired=1
@@ -262,7 +295,7 @@ data:
       setup_bridge "{{ .Values.platform.networking.isolated.bridge.name }}" "" "{{ .Values.platform.networking.isolated.bridge.address }}"
       {{- end }}
       {{- if .Values.platform.networking.public.enabled }}
-      setup_bridge "{{ .Values.platform.networking.public.bridge.name }}" "{{ .Values.platform.networking.public.bridge.uplink }}" "{{ .Values.platform.networking.public.bridge.address }}"
+      setup_bridge "{{ .Values.platform.networking.public.bridge.name }}" "{{ .Values.platform.networking.public.bridge.uplink }}" "{{ .Values.platform.networking.public.bridge.address }}" "per-node"
       {{- if .Values.platform.networking.public.bridge.routePoolViaBridge }}
       for cidr in {{ .Values.platform.networking.public.bridge.routePoolViaBridge | join " " }}; do
         ip route replace "$cidr" dev "{{ .Values.platform.networking.public.bridge.name }}" metric 50 2>/dev/null || true

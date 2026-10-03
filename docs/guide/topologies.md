@@ -58,7 +58,7 @@ Site example (Kubespray): `vlan50` → `vf-pub0` `10.0.50.2/24`, VMs `.10–.99`
 You can still have “public” IPs next to laptops/Wi-Fi:
 
 1. **Skip public** — `public.enabled: false`. VMs on the pod network; expose the UI with NodePort or MetalLB on the node subnet.
-2. **Second NIC** — untagged on the same LAN as the router. `uplink` = that NIC (same name on all nodes). `cidr` / `gateway` = the house subnet. Reserve `ipPool` (and MetalLB if used) in the router DHCP so nothing else takes those IPs. Put a single unused address on `vf-pub0` (`bridge.address`), not a node IP.
+2. **Second NIC** — untagged on the same LAN as the router. `uplink` = that NIC (same name on all nodes). `cidr` / `gateway` = the house subnet. Reserve `ipPool` (and MetalLB if used) in the router DHCP so nothing else takes those IPs. Set `bridge.address` to a CIDR **outside** the guest/LB pools (e.g. `10.0.50.2/24`); the keeper assigns a **unique** last octet per node (2–9) so ARP/MetalLB L2 works.
 3. **Single NIC, already bridged** — if NetworkManager already has `br0` (NIC enslaved, node IP on `br0`), set `public.bridge.name: br0`, `uplink: ""`, `address: ""`, and `cidr` = that LAN. Do **not** also create `vf-pub0` and enslave the same NIC.
 
 Carve pools so they never overlap: router, DHCP dynamic range, node IPs, `bridge.address`, VM pool, MetalLB.

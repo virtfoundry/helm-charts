@@ -199,7 +199,7 @@ platform:
         # Linux IFNAMSIZ is 16 incl. NUL → max 15 chars. "virtfoundry-pub0" is 16 and fails.
         name: vf-pub0
         uplink: ""                    # physical NIC or VLAN interface on the node
-        address: ""                   # optional bridge IPv4 for dnsmasq (outside VM pool)
+        address: ""                   # optional; last octet uniquified per node (2–9)
       macvlan:
         master: ""
         mode: bridge

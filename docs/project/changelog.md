@@ -6,6 +6,10 @@ Format based on [Keep a Changelog](https://keepachangelog.com/). Versioning: [Se
 
 ## [Unreleased]
 
+### Fixed
+
+- Public `vf-pub0` host IP is unique per node (octets 2–9 from node name). The same `bridge.address` on every DaemonSet replica duplicated ARP and broke MetalLB L2 VIPs on the public VLAN.
+
 ## [0.9.0] - 2026-10-01
 
 ### Added
