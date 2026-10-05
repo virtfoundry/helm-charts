@@ -232,7 +232,7 @@ Same LAN as Kubernetes (typical small homelab): enable public only after a secon
 | `public.reservedRanges` | MetalLB example | IPs the VM pool must not use |
 | `public.bridge.name` | `vf-pub0` | Linux bridge (≤15 chars / IFNAMSIZ), or an existing host `br0` |
 | `public.bridge.uplink` | `""` | VLAN iface or **second** NIC enslaved into the bridge. Same name on every node. |
-| `public.bridge.address` | `""` | Optional host IP on the public L2 (outside VM/LB pools) |
+| `public.bridge.address` | `""` | Optional host CIDR on the public L2 (outside VM/LB pools). The last octet is **replaced per node** (2–9) so two nodes never share the IP — required for MetalLB ARP. |
 | `public.nad.name` | `virtfoundry-public` | Multus NAD (always CNI `bridge`) |
 | `vm.allowPodNetwork` | `true` | Pod masquerade + public secondary NIC |
 
