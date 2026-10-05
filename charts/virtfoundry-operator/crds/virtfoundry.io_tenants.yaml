@@ -64,7 +64,10 @@ spec:
                 minLength: 1
                 type: string
               slug:
-                description: DNS-1123 slug; drives Namespace virtfoundry-tenant-{slug}.
+                description: |-
+                  DNS-1123 slug; drives Namespace virtfoundry-tenant-{slug}.
+                  Must be unique across Tenants — the controller indexes and rejects
+                  collisions (admission webhook uniqueness is a follow-up; see issue #13).
                 maxLength: 63
                 pattern: ^[a-z0-9]([-a-z0-9]*[a-z0-9])?$
                 type: string
