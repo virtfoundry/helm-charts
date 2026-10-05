@@ -1915,8 +1915,8 @@ helm<span class="w"> </span>upgrade<span class="w"> </span>--install<span class=
 
 <span class="c1"># Cluster-side guard rail (issue #28): denies the operator ServiceAccount</span>
 <span class="c1"># CREATE/UPDATE/DELETE on kubevirt.io VirtualMachines/VMIs outside</span>
-<span class="c1"># virtfoundry-tenant-*. Complements ClusterRole (still cluster-wide for</span>
-<span class="c1"># informers); true Role/RoleBinding least privilege is residual on #28.</span>
+<span class="c1"># virtfoundry-tenant-*. Defense-in-depth beside RBAC split (monitor ClusterRole</span>
+<span class="c1"># + per-tenant RoleBinding to *-kubevirt-mutate).</span>
 <span class="nt">kubevirtGuard</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 
