@@ -1486,15 +1486,26 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#future-virtfoundry-platform" class="md-nav__link">
+  <a href="#decisions" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Future: virtfoundry-platform
+        Decisions
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Future: virtfoundry-platform">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#virtfoundry-platform" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        virtfoundry-platform
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="virtfoundry-platform">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -1684,15 +1695,26 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#future-virtfoundry-platform" class="md-nav__link">
+  <a href="#decisions" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Future: virtfoundry-platform
+        Decisions
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Future: virtfoundry-platform">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#virtfoundry-platform" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        virtfoundry-platform
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="virtfoundry-platform">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -1818,7 +1840,7 @@
 
 
 <h1 id="future-platform-umbrella-chart-virtfoundry-platform">Future platform umbrella chart (<code>virtfoundry-platform</code>)<a class="headerlink" href="#future-platform-umbrella-chart-virtfoundry-platform" title="Permanent link">¶</a></h1>
-<p><strong>Status:</strong> Design only — <strong>not shipped in 0.10.x</strong>. Install and GitOps paths stay unchanged until a dedicated release cuts the umbrella chart and migrates Argo Applications.</p>
+<p><strong>Status:</strong> Implemented in <code>charts/virtfoundry-platform</code>, <strong>not yet published</strong>. 0.10.x installs and GitOps paths stay on the three standalone charts until a release publishes the umbrella and the Argo Applications are migrated.</p>
 <h2 id="010x-current">0.10.x (current)<a class="headerlink" href="#010x-current" title="Permanent link">¶</a></h2>
 <p>VirtFoundry <strong>0.10.x</strong> ships and deploys as <strong>three independent Helm charts</strong> and <strong>three Argo CD Applications</strong> (homelab and docs assume this model):</p>
 <table>
@@ -1853,10 +1875,46 @@
 </table>
 <p>Install docs, <a href="../versioning/">Versioning</a>, and sync waves (operator before core before VKS) remain <strong>operator-first, three releases</strong>. No umbrella chart is published to the Helm index in 0.10.x.</p>
 <p>The VKS chart source today lives in the <a href="https://github.com/virtfoundry/vks"><code>virtfoundry/vks</code></a> repository (<code>charts/virtfoundry-vks</code>); operator and core charts live in <a href="https://github.com/virtfoundry/helm-charts"><code>virtfoundry/helm-charts</code></a>. A future umbrella release may vendor or depend on packaged charts from one or both repos — details TBD when the chart is implemented.</p>
-<h2 id="future-virtfoundry-platform">Future: <code>virtfoundry-platform</code><a class="headerlink" href="#future-virtfoundry-platform" title="Permanent link">¶</a></h2>
+<h2 id="decisions">Decisions<a class="headerlink" href="#decisions" title="Permanent link">¶</a></h2>
+<table>
+<thead>
+<tr>
+<th>Topic</th>
+<th>Decision</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Kamaji</td>
+<td><strong>Not a dependency.</strong> The homelab runs Kamaji <code>26.9.5-edge</code> from git, which is not in the Helm repository, and the stable chart there is <code>1.0.0</code>. VKS needs a Kamaji that accepts the node Kubernetes version, so it stays a documented prerequisite</td>
+</tr>
+<tr>
+<td>VKS chart</td>
+<td>Published by the <code>vks</code> repository as OCI (<code>oci://ghcr.io/virtfoundry/charts</code>) on tags. The repo that owns the code owns the chart</td>
+</tr>
+<tr>
+<td>Operator and core</td>
+<td><code>file://</code> dependencies inside this repo, so their versions cannot drift from the umbrella</td>
+</tr>
+<tr>
+<td>VKS default</td>
+<td><code>vks.enabled: false</code>, because it needs Kamaji</td>
+</tr>
+<tr>
+<td>Resource names</td>
+<td>Unchanged. Operator and core derive names from <code>fullnamePrefix</code>; with the <code>vks</code> alias the chart name becomes <code>vks</code>, so the umbrella sets <code>vks.nameOverride: virtfoundry-vks</code></td>
+</tr>
+<tr>
+<td>CRDs</td>
+<td>Separate <code>virtfoundry-crds</code> chart, installed first and not a dependency of the umbrella: the operator subchart's <code>crds/</code> is installed once by Helm and never upgraded (see <a href="../../guide/crds/">CRDs and upgrades</a>)</td>
+</tr>
+</tbody>
+</table>
+<p><code>make verify-platform-parity</code> renders the umbrella and the three standalone charts and fails if the set of resources (kind, namespace, name) differs. That is the guarantee that moving to one release does not rename or recreate anything.</p>
+<h2 id="virtfoundry-platform"><code>virtfoundry-platform</code><a class="headerlink" href="#virtfoundry-platform" title="Permanent link">¶</a></h2>
 <p><strong>Chart name (locked):</strong> <code>virtfoundry-platform</code></p>
 <p><strong>Type:</strong> Umbrella (<code>type: application</code>) with Helm <strong>dependencies</strong> on the three application charts, pinned to the <strong>same product version</strong> (e.g. <code>0.10.0</code> across operator, core, and VKS).</p>
-<p>Sketch of <code>Chart.yaml</code>:</p>
+<p>Sketch of <code>Chart.yaml</code> (the implemented file uses <code>file://</code> for operator and core and the OCI registry for VKS):</p>
 <div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v2</span>
 <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">virtfoundry-platform</span>
 <span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">VirtFoundry platform — operator, core, and VKS in one release</span>
