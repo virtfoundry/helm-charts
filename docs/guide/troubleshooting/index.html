@@ -429,6 +429,8 @@
       
         
       
+        
+      
     
     
     
@@ -772,6 +774,34 @@
     
   
     Helm repository
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../crds/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CRDs and upgrades
   
 
     
@@ -1806,7 +1836,7 @@
 <h2 id="tenant-api-keys-fail-to-authenticate">Tenant API keys fail to authenticate<a class="headerlink" href="#tenant-api-keys-fail-to-authenticate" title="Permanent link">¶</a></h2>
 <p>The tenant namespace is missing from <code>rbac.api.secretNamespaces</code>, so the API cannot store the key Secret. Add the namespace (<a href="../configuration/#rbac-api-permissions">Configuration</a>).</p>
 <h2 id="new-crd-field-is-ignored-after-a-chart-upgrade">New CRD field is ignored after a chart upgrade<a class="headerlink" href="#new-crd-field-is-ignored-after-a-chart-upgrade" title="Permanent link">¶</a></h2>
-<p>Helm does not upgrade CRDs on later installs. Apply them by hand:</p>
+<p>Helm does not upgrade CRDs on later installs (<a href="../crds/">CRDs and upgrades</a>). Apply them by hand:</p>
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>--server-side<span class="w"> </span>--force-conflicts<span class="w"> </span>-f<span class="w"> </span>charts/virtfoundry-operator/crds/
 </code></pre></div>
 <h2 id="vm-has-no-isolated-network-multus">VM has no isolated network (Multus)<a class="headerlink" href="#vm-has-no-isolated-network-multus" title="Permanent link">¶</a></h2>

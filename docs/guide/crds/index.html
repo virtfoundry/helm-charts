@@ -7,13 +7,13 @@
       
       
       
-        <link rel="canonical" href="https://virtfoundry.github.io/helm-charts/docs/guide/helm-repository/">
+        <link rel="canonical" href="https://virtfoundry.github.io/helm-charts/docs/guide/crds/">
       
       
-        <link rel="prev" href="../chart-values/">
+        <link rel="prev" href="../helm-repository/">
       
       
-        <link rel="next" href="../crds/">
+        <link rel="next" href="../terraform/">
       
       
         
@@ -24,7 +24,7 @@
     
     
       
-        <title>Helm repository - VirtFoundry</title>
+        <title>CRDs and upgrades - VirtFoundry</title>
       
     
     
@@ -87,7 +87,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#helm-repository" class="md-skip">
+        <a href="#crds-and-upgrades" class="md-skip">
           Skip to content
         </a>
       
@@ -122,7 +122,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Helm repository
+              CRDs and upgrades
             
           </span>
         </div>
@@ -763,6 +763,34 @@
                 
   
   
+  
+  
+    <li class="md-nav__item">
+      <a href="../helm-repository/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Helm repository
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
     
   
   
@@ -782,7 +810,7 @@
   <span class="md-ellipsis">
     
   
-    Helm repository
+    CRDs and upgrades
   
 
     
@@ -800,7 +828,7 @@
   <span class="md-ellipsis">
     
   
-    Helm repository
+    CRDs and upgrades
   
 
     
@@ -826,10 +854,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
       
         <li class="md-nav__item">
-  <a href="#user-install" class="md-nav__link">
+  <a href="#the-problem-with-helm" class="md-nav__link">
     <span class="md-ellipsis">
       
-        User install
+        The problem with Helm
       
     </span>
   </a>
@@ -837,10 +865,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#github-pages-layout" class="md-nav__link">
+  <a href="#the-virtfoundry-crds-chart" class="md-nav__link">
     <span class="md-ellipsis">
       
-        GitHub Pages layout
+        The virtfoundry-crds chart
       
     </span>
   </a>
@@ -848,10 +876,65 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#maintainer-publish-a-release" class="md-nav__link">
+  <a href="#install-order" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Maintainer: publish a release
+        Install order
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#upgrading-crds-today-operator-chart" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Upgrading CRDs today (operator chart)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#adopting-existing-crds-into-the-crd-chart" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Adopting existing CRDs into the CRD chart
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#rehearse-the-migration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Rehearse the migration
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#argo-cd" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Argo CD
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-this-does-not-solve" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What this does not solve
       
     </span>
   </a>
@@ -862,34 +945,6 @@
   
 </nav>
       
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../crds/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    CRDs and upgrades
-  
-
-    
-  </span>
-  
-  
-
-      </a>
     </li>
   
 
@@ -1634,10 +1689,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
       
         <li class="md-nav__item">
-  <a href="#user-install" class="md-nav__link">
+  <a href="#the-problem-with-helm" class="md-nav__link">
     <span class="md-ellipsis">
       
-        User install
+        The problem with Helm
       
     </span>
   </a>
@@ -1645,10 +1700,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#github-pages-layout" class="md-nav__link">
+  <a href="#the-virtfoundry-crds-chart" class="md-nav__link">
     <span class="md-ellipsis">
       
-        GitHub Pages layout
+        The virtfoundry-crds chart
       
     </span>
   </a>
@@ -1656,10 +1711,65 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#maintainer-publish-a-release" class="md-nav__link">
+  <a href="#install-order" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Maintainer: publish a release
+        Install order
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#upgrading-crds-today-operator-chart" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Upgrading CRDs today (operator chart)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#adopting-existing-crds-into-the-crd-chart" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Adopting existing CRDs into the CRD chart
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#rehearse-the-migration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Rehearse the migration
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#argo-cd" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Argo CD
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-this-does-not-solve" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What this does not solve
       
     </span>
   </a>
@@ -1731,7 +1841,7 @@
 
 
   
-    <a href="https://github.com/virtfoundry/helm-charts/edit/main/docs/guide/helm-repository.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+    <a href="https://github.com/virtfoundry/helm-charts/edit/main/docs/guide/crds.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"></path></svg>
     </a>
@@ -1739,79 +1849,169 @@
   
 
 
-<h1 id="helm-repository">Helm repository<a class="headerlink" href="#helm-repository" title="Permanent link">¶</a></h1>
-<p>The chart is published to <strong>GitHub Pages</strong> when a git tag <code>v*</code> is pushed.</p>
-<div class="admonition note">
-<p class="admonition-title">VKS chart</p>
-<p>The Helm repository publishes <code>virtfoundry</code> and <code>virtfoundry-operator</code>. The <code>virtfoundry-vks</code> chart is installed from the <a href="https://github.com/virtfoundry/vks"><code>virtfoundry/vks</code></a> repository (<a href="../installation/#install-vks-optional">Installation</a>).</p>
+<h1 id="crds-and-upgrades">CRDs and upgrades<a class="headerlink" href="#crds-and-upgrades" title="Permanent link">¶</a></h1>
+<p>VirtFoundry keeps its state in <code>virtfoundry.io</code> custom resources: tenants, instances, networks, templates, VKS clusters and more. The CRDs define those kinds, so how they are installed and upgraded matters.</p>
+<div class="admonition danger">
+<p class="admonition-title">Deleting a CRD deletes its data</p>
+<p>Removing a CRD removes every custom resource of that kind. Deleting <code>tenants.virtfoundry.io</code> deletes all tenants. Never delete these CRDs to "reset" an install.</p>
 </div>
-<h2 id="user-install">User install<a class="headerlink" href="#user-install" title="Permanent link">¶</a></h2>
-<div class="highlight"><pre><span></span><code>helm<span class="w"> </span>repo<span class="w"> </span>add<span class="w"> </span>virtfoundry<span class="w"> </span>https://virtfoundry.github.io/helm-charts
-helm<span class="w"> </span>repo<span class="w"> </span>update
-helm<span class="w"> </span>search<span class="w"> </span>repo<span class="w"> </span>virtfoundry/virtfoundry<span class="w"> </span>--versions
-</code></pre></div>
-<p><strong>Prerequisites on the cluster:</strong> KubeVirt, Multus, CDI (ISO/import), StorageClass, Ingress or Gateway API — see <a href="../installation/#prerequisites-overview">Installation</a>. Then install a specific chart version (operator first):</p>
-<div class="highlight"><pre><span></span><code>helm<span class="w"> </span>install<span class="w"> </span>virtfoundry-operator<span class="w"> </span>virtfoundry/virtfoundry-operator<span class="w"> </span>--version<span class="w"> </span><span class="m">0</span>.10.0<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--namespace<span class="w"> </span>virtfoundry-system<span class="w"> </span>--create-namespace
-
-helm<span class="w"> </span>install<span class="w"> </span>virtfoundry<span class="w"> </span>virtfoundry/virtfoundry<span class="w"> </span>--version<span class="w"> </span><span class="m">0</span>.10.0<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--namespace<span class="w"> </span>virtfoundry-system<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--set<span class="w"> </span>secrets.rootPassword<span class="o">=</span><span class="s1">'...'</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--set<span class="w"> </span>secrets.jwtSecret<span class="o">=</span><span class="s1">'...'</span>
-</code></pre></div>
-<p><code>--set</code> must be on this Helm command (chart values, not kubectl). Full defaults: <a href="../chart-values/">Chart values</a>.</p>
-<p>Optional values overlays (Gateway API, public networking, image tags) can be passed with <code>-f</code> on <code>helm upgrade --install</code>.</p>
-<h2 id="github-pages-layout">GitHub Pages layout<a class="headerlink" href="#github-pages-layout" title="Permanent link">¶</a></h2>
+<h2 id="the-problem-with-helm">The problem with Helm<a class="headerlink" href="#the-problem-with-helm" title="Permanent link">¶</a></h2>
+<p>Helm installs files in a chart's <code>crds/</code> directory on the <strong>first install only</strong>. It does not upgrade or delete them. A new field in a CRD never reaches a cluster through <code>helm upgrade</code>, and the API server then drops the field or rejects the resource.</p>
+<h2 id="the-virtfoundry-crds-chart">The <code>virtfoundry-crds</code> chart<a class="headerlink" href="#the-virtfoundry-crds-chart" title="Permanent link">¶</a></h2>
+<p>All 16 CRDs live in one chart, <code>charts/virtfoundry-crds</code>, in <code>templates/</code> so that <code>helm upgrade</code> updates them. Each one is protected:</p>
 <table>
 <thead>
 <tr>
-<th>Path</th>
-<th>Content</th>
+<th>Protection</th>
+<th>Stops</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>https://virtfoundry.github.io/helm-charts/</code></td>
-<td>Helm <code>index.yaml</code> (<code>.tgz</code> packages are GitHub Release assets)</td>
+<td><code>helm.sh/resource-policy: keep</code></td>
+<td><code>helm uninstall</code> deleting the CRD</td>
 </tr>
 <tr>
-<td><code>https://virtfoundry.github.io/helm-charts/docs/</code></td>
-<td>MkDocs documentation (this site)</td>
+<td><code>argocd.argoproj.io/sync-options: Prune=false,Delete=false</code></td>
+<td>Argo CD pruning the CRD, or deleting it with the Application</td>
 </tr>
 </tbody>
 </table>
-<p>Both live on the <strong><code>gh-pages</code></strong> branch: chart-releaser writes <code>index.yaml</code> at the root; the Docs workflow publishes MkDocs under <code>docs/</code>. Chart packages <code>1.x</code> were yanked from the index (git tags <code>v1.x</code> remain).</p>
-<div class="admonition warning">
-<p class="admonition-title">One-time setup: enable Pages</p>
-<p>If <code>/docs/</code> returns <strong>404</strong> but CI succeeded, GitHub Pages is probably disabled. Enable it once in the repo:</p>
-<p><strong>Settings → Pages → Build and deployment → Source:</strong> Deploy from a branch → <strong><code>gh-pages</code></strong> / <strong><code>/ (root)</code></strong></p>
-<p>Or via CLI (repo admin):</p>
-<div class="highlight"><pre><span></span><code>gh<span class="w"> </span>api<span class="w"> </span>repos/virtfoundry/helm-charts/pages<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span>--input<span class="w"> </span>-<span class="w"> </span><span class="s">&lt;&lt;'EOF'</span>
-<span class="s">{</span>
-<span class="s">  "build_type": "legacy",</span>
-<span class="s">  "source": { "branch": "gh-pages", "path": "/" }</span>
-<span class="s">}</span>
-<span class="s">EOF</span>
+<p>The CRD files are copied verbatim from their sources of truth, so they are never parsed as templates:</p>
+<table>
+<thead>
+<tr>
+<th>CRDs</th>
+<th>Source of truth</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>15 platform CRDs</td>
+<td><a href="https://github.com/virtfoundry/operator"><code>virtfoundry/operator</code></a>, <code>config/crd/bases</code> (generated by controller-gen)</td>
+</tr>
+<tr>
+<td><code>VKSCluster</code></td>
+<td><a href="https://github.com/virtfoundry/vks"><code>virtfoundry/vks</code></a></td>
+</tr>
+</tbody>
+</table>
+<p>CI fails when <code>charts/virtfoundry-crds/manifests</code> drifts from those sources (<code>make verify-crds-chart</code>). To refresh after a CRD change upstream:</p>
+<div class="highlight"><pre><span></span><code>make<span class="w"> </span>sync-crds-chart<span class="w">   </span><span class="c1"># copies from operator and vks main</span>
+git<span class="w"> </span>diff<span class="w"> </span>charts/virtfoundry-crds/manifests
 </code></pre></div>
-<p>First deploy can take 1–2 minutes after enabling.</p>
+<h2 id="install-order">Install order<a class="headerlink" href="#install-order" title="Permanent link">¶</a></h2>
+<p>With the CRD chart, CRDs come first and are a separate release:</p>
+<div class="highlight"><pre><span></span><code>helm<span class="w"> </span>install<span class="w"> </span>virtfoundry-crds<span class="w"> </span>virtfoundry/virtfoundry-crds<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--version<span class="w"> </span><span class="m">0</span>.10.0<span class="w"> </span>-n<span class="w"> </span>virtfoundry-system<span class="w"> </span>--create-namespace
+
+helm<span class="w"> </span>install<span class="w"> </span>virtfoundry-operator<span class="w"> </span>virtfoundry/virtfoundry-operator<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--version<span class="w"> </span><span class="m">0</span>.10.0<span class="w"> </span>-n<span class="w"> </span>virtfoundry-system<span class="w"> </span>--skip-crds
+</code></pre></div>
+<p><code>--skip-crds</code> is needed while the operator chart still ships its own <code>crds/</code> directory, otherwise Helm reports that the CRDs already exist.</p>
+<div class="admonition note">
+<p class="admonition-title">Status</p>
+<p>The CRD chart is in the repository and is published with the next release. Until the operator chart stops shipping <code>crds/</code>, <strong>the install in <a href="../installation/">Installation</a> is unchanged</strong>: the operator chart installs the CRDs and you upgrade them by hand (below).</p>
 </div>
-<h2 id="maintainer-publish-a-release">Maintainer: publish a release<a class="headerlink" href="#maintainer-publish-a-release" title="Permanent link">¶</a></h2>
-<ol>
-<li>Bump <code>version</code> and <code>appVersion</code> in <code>charts/virtfoundry/Chart.yaml</code></li>
-<li>Update <code>CHANGELOG.md</code> and default image tags in <code>values.yaml</code></li>
-<li>Merge to <code>main</code></li>
-<li>Tag both <strong>virtfoundry</strong> and <strong>helm-charts</strong>:</li>
-</ol>
-<div class="highlight"><pre><span></span><code>git<span class="w"> </span>tag<span class="w"> </span>v0.10.0
-git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>v0.10.0
+<h2 id="upgrading-crds-today-operator-chart">Upgrading CRDs today (operator chart)<a class="headerlink" href="#upgrading-crds-today-operator-chart" title="Permanent link">¶</a></h2>
+<p>Apply the CRDs from the new chart version before upgrading the releases. Server-side apply is required: the CRDs are too large for the client-side annotation.</p>
+<div class="highlight"><pre><span></span><code>helm<span class="w"> </span>pull<span class="w"> </span>virtfoundry/virtfoundry-operator<span class="w"> </span>--version<span class="w"> </span>&lt;new&gt;<span class="w"> </span>--untar
+kubectl<span class="w"> </span>apply<span class="w"> </span>--server-side<span class="w"> </span>--force-conflicts<span class="w"> </span>-f<span class="w"> </span>virtfoundry-operator/crds/
+helm<span class="w"> </span>upgrade<span class="w"> </span>virtfoundry-operator<span class="w"> </span>virtfoundry/virtfoundry-operator<span class="w"> </span>--version<span class="w"> </span>&lt;new&gt;<span class="w"> </span>-n<span class="w"> </span>virtfoundry-system
 </code></pre></div>
-<ol>
-<li>Workflows publish Helm packages (<code>virtfoundry</code>, <code>virtfoundry-operator</code>) + rebuild docs</li>
-</ol>
-<p>Verify:</p>
-<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-sL<span class="w"> </span>https://virtfoundry.github.io/helm-charts/index.yaml<span class="w"> </span><span class="p">|</span><span class="w"> </span>head
+<p>The <code>VKSCluster</code> CRD is part of the <code>virtfoundry-vks</code> chart templates, so <code>helm upgrade</code> of that chart updates it.</p>
+<h2 id="adopting-existing-crds-into-the-crd-chart">Adopting existing CRDs into the CRD chart<a class="headerlink" href="#adopting-existing-crds-into-the-crd-chart" title="Permanent link">¶</a></h2>
+<p>For a cluster that already has the CRDs (installed by the operator chart), tell Helm the new release owns them. Do this once, before the first <code>helm install</code> of <code>virtfoundry-crds</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="k">for</span><span class="w"> </span>crd<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="k">$(</span>kubectl<span class="w"> </span>get<span class="w"> </span>crd<span class="w"> </span>-o<span class="w"> </span>name<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span><span class="s1">'\.virtfoundry\.io$'</span><span class="k">)</span><span class="p">;</span><span class="w"> </span><span class="k">do</span>
+<span class="w">  </span>kubectl<span class="w"> </span>annotate<span class="w"> </span><span class="s2">"</span><span class="nv">$crd</span><span class="s2">"</span><span class="w"> </span>meta.helm.sh/release-name<span class="o">=</span>virtfoundry-crds<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>meta.helm.sh/release-namespace<span class="o">=</span>virtfoundry-system<span class="w"> </span>--overwrite
+<span class="w">  </span>kubectl<span class="w"> </span>label<span class="w"> </span><span class="s2">"</span><span class="nv">$crd</span><span class="s2">"</span><span class="w"> </span>app.kubernetes.io/managed-by<span class="o">=</span>Helm<span class="w"> </span>--overwrite
+<span class="k">done</span>
 </code></pre></div>
-<p>See <a href="../../project/versioning/">Versioning</a> for SemVer policy.</p>
+<p>This changes metadata only. No CRD content changes and no custom resource is touched. Then install <code>virtfoundry-crds</code> and the operator chart with <code>--skip-crds</code>.</p>
+<h2 id="rehearse-the-migration">Rehearse the migration<a class="headerlink" href="#rehearse-the-migration" title="Permanent link">¶</a></h2>
+<p>Rehearse on a throwaway cluster, never on one you care about. Only the CRDs and Helm are exercised, so KubeVirt is not needed.</p>
+<p><strong>Result (2026-10-06).</strong> Run against a real <code>kube-apiserver</code> 1.36.2 (envtest, local, no nodes) with the published operator chart 0.10.0, this repository's <code>virtfoundry-crds</code> and the operator chart without <code>crds/</code>:</p>
+<table>
+<thead>
+<tr>
+<th>Check</th>
+<th>Result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Operator chart 0.10.0 installs the CRDs</td>
+<td>15 CRDs (<code>VKSCluster</code> comes from the VKS chart)</td>
+</tr>
+<tr>
+<td><code>virtfoundry-crds</code> installed <strong>without</strong> adopting</td>
+<td>Fails: <code>exists and cannot be imported into the current release: invalid ownership</code></td>
+</tr>
+<tr>
+<td>After adopting, install <code>virtfoundry-crds</code></td>
+<td>16 CRDs, existing Tenant untouched</td>
+</tr>
+<tr>
+<td>Upgrade the operator to the chart without <code>crds/</code></td>
+<td>CRDs and Tenant untouched</td>
+</tr>
+<tr>
+<td><code>helm upgrade</code> of <code>virtfoundry-crds</code> with a changed schema</td>
+<td>New field appears, and reverts on the next upgrade (changes propagate)</td>
+</tr>
+<tr>
+<td><code>helm uninstall virtfoundry-crds</code></td>
+<td>All 16 CRDs and the Tenant remain</td>
+</tr>
+</tbody>
+</table>
+<p>Not covered by that run: the Argo CD behaviour (Prune/Delete options and sync waves), which needs an Argo instance, and a real KubeVirt install. Repeat the run on Kind before the operator chart drops <code>crds/</code> in a release.</p>
+<p>To repeat it on a <strong>Linux</strong> host with Kind:</p>
+<div class="highlight"><pre><span></span><code>kind<span class="w"> </span>create<span class="w"> </span>cluster<span class="w"> </span>--name<span class="w"> </span>crd-rehearsal
+
+<span class="c1"># 1. Today's layout: the operator chart (0.10.0) installs the CRDs</span>
+helm<span class="w"> </span>install<span class="w"> </span>virtfoundry-operator<span class="w"> </span>virtfoundry/virtfoundry-operator<span class="w"> </span>--version<span class="w"> </span><span class="m">0</span>.10.0<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-n<span class="w"> </span>virtfoundry-system<span class="w"> </span>--create-namespace
+kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>-<span class="w"> </span><span class="s">&lt;&lt;'EOF'</span>
+<span class="s">apiVersion: virtfoundry.io/v1alpha1</span>
+<span class="s">kind: Tenant</span>
+<span class="s">metadata: { name: rehearsal }</span>
+<span class="s">spec: { name: Rehearsal, slug: rehearsal }</span>
+<span class="s">EOF</span>
+kubectl<span class="w"> </span>get<span class="w"> </span>tenants.virtfoundry.io<span class="w"> </span>rehearsal
+
+<span class="c1"># 2. Adopt the CRDs (metadata only), then install the CRD chart</span>
+<span class="k">for</span><span class="w"> </span>crd<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="k">$(</span>kubectl<span class="w"> </span>get<span class="w"> </span>crd<span class="w"> </span>-o<span class="w"> </span>name<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span><span class="s1">'\.virtfoundry\.io$'</span><span class="k">)</span><span class="p">;</span><span class="w"> </span><span class="k">do</span>
+<span class="w">  </span>kubectl<span class="w"> </span>annotate<span class="w"> </span><span class="s2">"</span><span class="nv">$crd</span><span class="s2">"</span><span class="w"> </span>meta.helm.sh/release-name<span class="o">=</span>virtfoundry-crds<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>meta.helm.sh/release-namespace<span class="o">=</span>virtfoundry-system<span class="w"> </span>--overwrite
+<span class="w">  </span>kubectl<span class="w"> </span>label<span class="w"> </span><span class="s2">"</span><span class="nv">$crd</span><span class="s2">"</span><span class="w"> </span>app.kubernetes.io/managed-by<span class="o">=</span>Helm<span class="w"> </span>--overwrite
+<span class="k">done</span>
+helm<span class="w"> </span>install<span class="w"> </span>virtfoundry-crds<span class="w"> </span>./charts/virtfoundry-crds<span class="w"> </span>-n<span class="w"> </span>virtfoundry-system
+
+<span class="c1"># 3. Move the operator to the chart without crds/ (from the operator repository)</span>
+helm<span class="w"> </span>upgrade<span class="w"> </span>virtfoundry-operator<span class="w"> </span>./charts/virtfoundry-operator<span class="w"> </span>-n<span class="w"> </span>virtfoundry-system
+
+<span class="c1"># 4. Uninstalling the CRD release must keep the CRDs and the data</span>
+helm<span class="w"> </span>uninstall<span class="w"> </span>virtfoundry-crds<span class="w"> </span>-n<span class="w"> </span>virtfoundry-system
+kubectl<span class="w"> </span>get<span class="w"> </span>crd<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-c<span class="w"> </span><span class="s1">'\.virtfoundry\.io'</span><span class="w">      </span><span class="c1"># expect 16 (15 + VKSCluster)</span>
+kubectl<span class="w"> </span>get<span class="w"> </span>tenants.virtfoundry.io<span class="w"> </span>rehearsal<span class="w">         </span><span class="c1"># expect it to still exist</span>
+
+kind<span class="w"> </span>delete<span class="w"> </span>cluster<span class="w"> </span>--name<span class="w"> </span>crd-rehearsal
+</code></pre></div>
+<p>Pass criteria: the Tenant survives every step and all 16 CRDs remain after step 4. The Tenant <code>spec</code> needs <code>name</code> and <code>slug</code> (checked against the 0.10.0 CRD). Record the result in the pull request that removes <code>crds/</code>.</p>
+<h2 id="argo-cd">Argo CD<a class="headerlink" href="#argo-cd" title="Permanent link">¶</a></h2>
+<ul>
+<li>Set <code>ServerSideApply=true</code> on the Application that installs the CRDs (large CRDs overflow the client-side annotation).</li>
+<li>Install the CRD Application first, with an earlier sync wave than the operator.</li>
+<li>The <code>Prune=false,Delete=false</code> option is already on every CRD, so removing the Application leaves them in place.</li>
+</ul>
+<h2 id="what-this-does-not-solve">What this does not solve<a class="headerlink" href="#what-this-does-not-solve" title="Permanent link">¶</a></h2>
+<ul>
+<li><strong>Destructive schema changes</strong> (removing a field, changing a type) still need a migration plan and, for stored objects, a conversion step. The chart only delivers the new schema.</li>
+<li><strong>Order matters on upgrade:</strong> apply the CRDs first, then the controllers that use new fields.</li>
+</ul>
+<p>See also <a href="../troubleshooting/#new-crd-field-is-ignored-after-a-chart-upgrade">Troubleshooting</a>.</p>
 
 
 
@@ -1849,7 +2049,7 @@ git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </
       <nav class="md-footer__inner md-grid" aria-label="Footer">
         
           
-          <a href="../chart-values/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Chart values (defaults)">
+          <a href="../helm-repository/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Helm repository">
             <div class="md-footer__button md-icon">
               
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
@@ -1859,20 +2059,20 @@ git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </
                 Previous
               </span>
               <div class="md-ellipsis">
-                Chart values (defaults)
+                Helm repository
               </div>
             </div>
           </a>
         
         
           
-          <a href="../crds/" class="md-footer__link md-footer__link--next" aria-label="Next: CRDs and upgrades">
+          <a href="../terraform/" class="md-footer__link md-footer__link--next" aria-label="Next: Terraform provider">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 Next
               </span>
               <div class="md-ellipsis">
-                CRDs and upgrades
+                Terraform provider
               </div>
             </div>
             <div class="md-footer__button md-icon">

@@ -429,6 +429,8 @@
       
         
       
+        
+      
     
     
     
@@ -654,6 +656,17 @@
       Table of contents
     </label>
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+      
+        <li class="md-nav__item">
+  <a href="#install-everything-copy-and-paste" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Install everything (copy and paste)
+      
+    </span>
+  </a>
+  
+</li>
       
         <li class="md-nav__item">
   <a href="#prerequisites-overview" class="md-nav__link">
@@ -1007,6 +1020,34 @@
     
   
     Helm repository
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../crds/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CRDs and upgrades
   
 
     
@@ -1759,6 +1800,17 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
       
         <li class="md-nav__item">
+  <a href="#install-everything-copy-and-paste" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Install everything (copy and paste)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#prerequisites-overview" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2028,6 +2080,30 @@
 <p><strong>Recommended order:</strong> <a href="../prerequisites/">prerequisites</a> → <strong>virtfoundry-operator</strong> (CRDs + controller) → <strong>virtfoundry</strong> (API + UI) → optional <strong>virtfoundry-vks</strong> (<a href="../features/vks/">Kubernetes clusters</a>).</p>
 <p><strong>Want UI + first VM in under 30 minutes?</strong> Start with the <a href="../quickstart/">Quickstart</a>. On a laptop (Docker, no switch/VLAN), use <strong><a href="../kind/">Kind</a></strong>.</p>
 <p>For <strong>minimum vs production</strong> layouts (what works for VPC / public / snapshots on a home router), see <a href="../topologies/">Deployment topologies</a>.</p>
+<h2 id="install-everything-copy-and-paste">Install everything (copy and paste)<a class="headerlink" href="#install-everything-copy-and-paste" title="Permanent link">¶</a></h2>
+<p>For a fresh Kubernetes 1.28+ cluster that already has a <strong>StorageClass</strong> and a working <code>kubectl</code> context. It installs the platform prerequisites (Multus, KubeVirt, CDI), then VirtFoundry, and prints the login.</p>
+<div class="highlight"><pre><span></span><code>git<span class="w"> </span>clone<span class="w"> </span>--branch<span class="w"> </span>v0.10.0<span class="w"> </span>https://github.com/virtfoundry/helm-charts.git<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">cd</span><span class="w"> </span>helm-charts<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="o">&amp;&amp;</span><span class="w"> </span>./scripts/setup/multus.sh<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>./scripts/setup/kubevirt.sh<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>./scripts/setup/cdi.sh<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nv">ROOT_PASSWORD</span><span class="o">=</span><span class="s2">"</span><span class="k">$(</span>openssl<span class="w"> </span>rand<span class="w"> </span>-base64<span class="w"> </span><span class="m">18</span><span class="k">)</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="o">&amp;&amp;</span><span class="w"> </span>helm<span class="w"> </span>repo<span class="w"> </span>add<span class="w"> </span>virtfoundry<span class="w"> </span>https://virtfoundry.github.io/helm-charts<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>helm<span class="w"> </span>repo<span class="w"> </span>update<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="o">&amp;&amp;</span><span class="w"> </span>helm<span class="w"> </span>install<span class="w"> </span>virtfoundry-operator<span class="w"> </span>virtfoundry/virtfoundry-operator<span class="w"> </span>--version<span class="w"> </span><span class="m">0</span>.10.0<span class="w"> </span><span class="se">\</span>
+<span class="w">       </span>-n<span class="w"> </span>virtfoundry-system<span class="w"> </span>--create-namespace<span class="w"> </span>--wait<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="o">&amp;&amp;</span><span class="w"> </span>helm<span class="w"> </span>install<span class="w"> </span>virtfoundry<span class="w"> </span>virtfoundry/virtfoundry<span class="w"> </span>--version<span class="w"> </span><span class="m">0</span>.10.0<span class="w"> </span><span class="se">\</span>
+<span class="w">       </span>-n<span class="w"> </span>virtfoundry-system<span class="w"> </span>--wait<span class="w"> </span><span class="se">\</span>
+<span class="w">       </span>--set-string<span class="w"> </span>secrets.rootPassword<span class="o">=</span><span class="s2">"</span><span class="nv">$ROOT_PASSWORD</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">       </span>--set-string<span class="w"> </span>secrets.jwtSecret<span class="o">=</span><span class="s2">"</span><span class="k">$(</span>openssl<span class="w"> </span>rand<span class="w"> </span>-hex<span class="w"> </span><span class="m">32</span><span class="k">)</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">"Login: root / </span><span class="nv">$ROOT_PASSWORD</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="o">&amp;&amp;</span><span class="w"> </span>kubectl<span class="w"> </span>-n<span class="w"> </span>virtfoundry-system<span class="w"> </span>port-forward<span class="w"> </span>svc/virtfoundry-ui<span class="w"> </span><span class="m">8080</span>:80
+</code></pre></div>
+<p>Then open <a href="http://127.0.0.1:8080">http://127.0.0.1:8080</a>.</p>
+<ul>
+<li>The root password is shown <strong>once</strong>, in that terminal. Save it, or set <code>secrets.existingSecret</code> instead (<a href="../configuration/#secrets">Secrets</a>).</li>
+<li>Run it <strong>once</strong>. A second run would generate new credentials. Use <code>helm upgrade</code> afterwards (<a href="../crds/">CRDs and upgrades</a>).</li>
+<li>The setup scripts install Multus, KubeVirt and CDI <strong>cluster-wide</strong>. Skip that line if you already run them.</li>
+<li>Not included: Ingress or Gateway API, Longhorn, and <a href="../features/vks/">VKS</a> (needs Kamaji). On a laptop use <a href="../kind/">Kind</a> instead.</li>
+</ul>
+<hr>
 <h2 id="prerequisites-overview">Prerequisites overview<a class="headerlink" href="#prerequisites-overview" title="Permanent link">¶</a></h2>
 <table>
 <thead>
@@ -2349,7 +2425,7 @@ kubectl<span class="w"> </span>get<span class="w"> </span>tenants.virtfoundry.io
 <li><a href="../configuration/">Configuration</a> — Helm values and networking (includes <code>platform.storage.snapshotClass</code>)</li>
 <li><a href="../chart-values/">Chart values (defaults)</a> — full <code>values.yaml</code>, why <code>--set</code>, Longhorn and public IP</li>
 <li><a href="../helm-repository/">Helm repository</a> — publishing and consuming chart releases</li>
-<li><a href="../features/vks/">Kubernetes clusters (VKS)</a> · <a href="../terraform/">Terraform provider</a> · <a href="../troubleshooting/">Troubleshooting</a></li>
+<li><a href="../crds/">CRDs and upgrades</a> · <a href="../features/vks/">Kubernetes clusters (VKS)</a> · <a href="../terraform/">Terraform provider</a> · <a href="../troubleshooting/">Troubleshooting</a></li>
 </ul>
 
 
