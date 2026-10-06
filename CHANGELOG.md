@@ -7,6 +7,7 @@ See [docs/project/changelog.md](docs/project/changelog.md) for the full release 
 ### Added
 
 - `charts/virtfoundry-crds`: the 16 `virtfoundry.io` CRDs in one chart, upgraded by `helm upgrade` and protected from `helm uninstall` and Argo prune. `make verify-crds-chart` gate. See [CRDs and upgrades](docs/guide/crds.md).
+- `charts/virtfoundry-platform`: umbrella chart for the operator, core and optional VKS in one release (not published yet). `make verify-platform-parity` gate.
 
 ## [0.10.0] - 2026-10-06
 
