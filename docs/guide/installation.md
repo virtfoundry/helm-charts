@@ -11,6 +11,35 @@ VirtFoundry installs the **control plane** (API, UI). Platform state is stored i
 
 For **minimum vs production** layouts (what works for VPC / public / snapshots on a home router), see [Deployment topologies](topologies.md).
 
+## Install everything (copy and paste)
+
+For a fresh Kubernetes 1.28+ cluster that already has a **StorageClass** and a working `kubectl` context. It installs the platform prerequisites (Multus, KubeVirt, CDI), then VirtFoundry, and prints the login.
+
+```bash
+git clone --branch v@@VERSION@@ https://github.com/virtfoundry/helm-charts.git \
+  && cd helm-charts \
+  && ./scripts/setup/multus.sh && ./scripts/setup/kubevirt.sh && ./scripts/setup/cdi.sh \
+  && ROOT_PASSWORD="$(openssl rand -base64 18)" \
+  && helm repo add virtfoundry https://virtfoundry.github.io/helm-charts && helm repo update \
+  && helm install virtfoundry-operator virtfoundry/virtfoundry-operator --version @@VERSION@@ \
+       -n virtfoundry-system --create-namespace --wait \
+  && helm install virtfoundry virtfoundry/virtfoundry --version @@VERSION@@ \
+       -n virtfoundry-system --wait \
+       --set-string secrets.rootPassword="$ROOT_PASSWORD" \
+       --set-string secrets.jwtSecret="$(openssl rand -hex 32)" \
+  && echo "Login: root / $ROOT_PASSWORD" \
+  && kubectl -n virtfoundry-system port-forward svc/virtfoundry-ui 8080:80
+```
+
+Then open <http://127.0.0.1:8080>.
+
+- The root password is shown **once**, in that terminal. Save it, or set `secrets.existingSecret` instead ([Secrets](configuration.md#secrets)).
+- Run it **once**. A second run would generate new credentials. Use `helm upgrade` afterwards ([CRDs and upgrades](crds.md)).
+- The setup scripts install Multus, KubeVirt and CDI **cluster-wide**. Skip that line if you already run them.
+- Not included: Ingress or Gateway API, Longhorn, and [VKS](features/vks.md) (needs Kamaji). On a laptop use [Kind](kind.md) instead.
+
+---
+
 ## Prerequisites overview
 
 | Component | Required? | Role in VirtFoundry |
