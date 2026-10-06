@@ -33,12 +33,12 @@ helm repo update
 
 # CRDs + operator (required)
 helm install virtfoundry-operator virtfoundry/virtfoundry-operator \
-  --version 0.9.0 \
+  --version 0.10.0 \
   --namespace virtfoundry-system --create-namespace
 
 # API + UI
 helm install virtfoundry virtfoundry/virtfoundry \
-  --version 0.9.0 \
+  --version 0.10.0 \
   --namespace virtfoundry-system \
   --set secrets.rootPassword='choose-a-strong-password' \
   --set secrets.jwtSecret="$(openssl rand -hex 32)"

@@ -6,9 +6,24 @@ Format based on [Keep a Changelog](https://keepachangelog.com/). Versioning: [Se
 
 ## [Unreleased]
 
-### Fixed
+## [0.10.0] - 2026-10-06
 
-- Public `vf-pub0` host IP is unique per node (octets 2–9 from node name). The same `bridge.address` on every DaemonSet replica duplicated ARP and broke MetalLB L2 VIPs on the public VLAN.
+### Added
+
+- Isolated bridge host address (`platform.networking.isolated.bridge.address`) and a unique public bridge IP per node.
+- API ClusterRole can manage `vksclusters`.
+- Operator VAP allowlist includes `ghcr.io/virtfoundry/` (VKS node image).
+- Docs: operator recovery for legacy tenant namespaces; future umbrella chart design.
+- CI: API roles checked against core's RBAC contract; operator chart drift check; `requireDigest` gate restored.
+
+### Changed
+
+- Operator chart synced from the upstream source of truth.
+- Chart / image pins aligned with core/operator **0.10.0**.
+
+### Security
+
+- CodeQL, Scorecard, Dependabot (grouped monthly) and dependency review.
 
 ## [0.9.0] - 2026-10-01
 
