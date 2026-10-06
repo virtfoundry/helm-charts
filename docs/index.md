@@ -7,7 +7,7 @@ title: Home
 
 <div class="vf-hero" markdown="1">
 
-<span class="vf-badge">v0.10.0 · CRD store</span>
+<span class="vf-badge">v@@VERSION@@ · CRD store</span>
 
 # VirtFoundry
 

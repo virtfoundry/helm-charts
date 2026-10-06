@@ -2,7 +2,7 @@
 
 Install these **before** `virtfoundry-operator` and `virtfoundry`. VirtFoundry does not bundle hypervisor or CNI operators — pin versions to match your Kubernetes distro.
 
-**Recommended order:** Kubernetes → storage → KubeVirt → Multus → CDI → (optional) MetalLB / snapshot CRDs → **virtfoundry-operator** → **virtfoundry**.
+**Recommended order:** Kubernetes → storage → KubeVirt → Multus → CDI → (optional) MetalLB / snapshot CRDs → **virtfoundry-operator** → **virtfoundry** → (optional) Kamaji + **virtfoundry-vks**.
 
 ## Required
 
@@ -22,6 +22,18 @@ Install these **before** `virtfoundry-operator` and `virtfoundry`. VirtFoundry d
 | **[CSI external-snapshotter](https://github.com/kubernetes-csi/external-snapshotter)** | [Installation](https://github.com/kubernetes-csi/external-snapshotter#installation) | Volume snapshots (Longhorn includes snapshot class) |
 | **[MetalLB](https://metallb.universe.tf/)** | [Installation](https://metallb.universe.tf/installation/) | Bare-metal LoadBalancer Services / tenant L4 VIPs |
 | **Ingress** or **[Gateway API](https://gateway-api.sigs.k8s.io/)** | [Ingress-NGINX](https://kubernetes.github.io/ingress-nginx/deploy/) · [Gateway API guides](https://gateway-api.sigs.k8s.io/guides/) | Expose UI + API on a hostname |
+
+## Optional: Kubernetes clusters (VKS)
+
+Only needed if tenants will create managed Kubernetes clusters ([VKS](features/vks.md)).
+
+| Component | Docs | Notes |
+|-----------|------|-------|
+| **[Kamaji](https://kamaji.clastix.io/)** | [Getting started](https://kamaji.clastix.io/getting-started/) | Hosts each tenant control plane. Apply its CRDs with server-side apply and create a `DataStore`; without it `.status.ready` never appears |
+| **MetalLB** (or cloud LB) | [Installation](https://metallb.universe.tf/installation/) | Default control-plane Service is `LoadBalancer`; needs an address pool |
+| **Node image reachable** | [VKS node image](features/vks.md#node-image) | Nodes pull `ghcr.io/virtfoundry/node-ubuntu` (or your mirror) |
+
+Kubernetes version of tenant clusters is capped by the Kamaji release (for example Kamaji `26.9.5-edge` accepts up to `v1.37.0`).
 
 ## Not used
 

@@ -28,22 +28,34 @@ theme:
         icon: material/brightness-4
         name: Switch to light mode
   features:
+    - navigation.instant
     - navigation.tabs
     - navigation.tabs.sticky
     - navigation.sections
     - navigation.expand
+    - navigation.path
     - navigation.top
     - navigation.footer
     - navigation.indexes
     - search.suggest
     - search.highlight
+    - search.share
     - content.code.copy
     - content.code.annotate
+    - content.tabs.link
     - content.action.edit
     - toc.follow
 
+hooks:
+  - hooks/version.py
+
+validation:
+  links:
+    anchors: warn
+
 plugins:
   - search
+  - glightbox
 
 extra_css:
   - stylesheets/extra.css
@@ -56,7 +68,11 @@ markdown_extensions:
   - attr_list
   - md_in_html
   - pymdownx.details
-  - pymdownx.superfences
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
   - pymdownx.snippets:
       check_paths: true
       base_path:
@@ -80,8 +96,12 @@ nav:
       - Installation: guide/installation.md
       - Topologies: guide/topologies.md
       - Configuration: guide/configuration.md
+      - Networking config: guide/networking-config.md
+      - Storage config: guide/storage-config.md
       - Chart values (defaults): guide/chart-values.md
       - Helm repository: guide/helm-repository.md
+      - Terraform provider: guide/terraform.md
+      - Troubleshooting: guide/troubleshooting.md
   - Features:
       - Overview: guide/features/index.md
       - Concepts and tenancy: guide/features/concepts.md
@@ -93,10 +113,12 @@ nav:
       - Volumes and snapshots: guide/features/storage.md
       - VPCs and networks: guide/features/networking.md
       - Security groups: guide/features/security-groups.md
+      - Kubernetes clusters (VKS): guide/features/vks.md
       - API quick reference: guide/features/api.md
   - Project:
       - Website / front door: project/website.md
       - Versioning: project/versioning.md
+      - Umbrella chart (design): project/umbrella-chart.md
       - Changelog: project/changelog.md
       - Governance: project/governance.md
       - Sponsorship: project/sponsorship.md

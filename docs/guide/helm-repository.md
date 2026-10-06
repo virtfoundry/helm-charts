@@ -2,6 +2,9 @@
 
 The chart is published to **GitHub Pages** when a git tag `v*` is pushed.
 
+!!! note "VKS chart"
+    The Helm repository publishes `virtfoundry` and `virtfoundry-operator`. The `virtfoundry-vks` chart is installed from the [`virtfoundry/vks`](https://github.com/virtfoundry/vks) repository ([Installation](installation.md#install-vks-optional)).
+
 ## User install
 
 ```bash

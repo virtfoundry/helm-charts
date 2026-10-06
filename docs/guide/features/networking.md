@@ -20,7 +20,7 @@ The CIDR planner helps pick a non-overlapping VPC CIDR.
 
 Isolated L2 networks attached to a VPC; VMs join via Multus NICs.
 
-Helm `platform.networking.isolated.enabled` defaults to **`false`** (API+UI-only). Turn it on (and accept the host bridge DaemonSet privileges) when you need tenant VPC bridges on the nodes — see [Host bridges](../configuration.md#host-bridges-isolated--public).
+Helm `platform.networking.isolated.enabled` defaults to **`false`** (API+UI-only). Turn it on (and accept the host bridge DaemonSet privileges) when you need tenant VPC bridges on the nodes — see [Host bridges](../networking-config.md#host-bridges-isolated-public).
 
 **UI:** Network → **Networks** (`/networks`)
 
@@ -46,7 +46,7 @@ When Helm enables `platform.networking.public`, the cluster exposes a shared pub
 
 The NAD is CNI **bridge** onto `public.bridge.name`. Do not set `uplink` to the Kubernetes mgmt NIC (bridge-keeper will enslave it and drop the node IP). `public.mode: macvlan` does not change the NAD yet.
 
-See [Configuration](../configuration.md#public-networking) and [Topologies — public underlay](../topologies.md#public-network-underlay) for values and MetalLB reserved ranges.
+See [Configuration](../networking-config.md#public-networking) and [Topologies — public underlay](../topologies.md#public-network-underlay) for values and MetalLB reserved ranges.
 
 !!! note "Lab without Multus bridges"
     You can still deploy container-disk VMs on the pod network to validate the control plane. Full L2 demos need host bridges as described in topologies.

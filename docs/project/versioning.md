@@ -25,6 +25,10 @@ helm install virtfoundry virtfoundry/virtfoundry --version 0.10.0 \
 |----------|----------------|-----|----------------|
 | Application | Git tag | `vX.Y.Z` | `ghcr.io/virtfoundry/core`, `ui` |
 | Helm chart | `Chart.yaml` `version` | `vX.Y.Z` (same) | `https://virtfoundry.github.io/helm-charts` |
+| Operator | Git tag | `vX.Y.Z` | `ghcr.io/virtfoundry/operator` |
+| VKS operator + chart `virtfoundry-vks` | Git tag (`Chart.yaml` matches) | `vX.Y.Z` | `ghcr.io/virtfoundry/vks`; chart from the `virtfoundry/vks` repo |
+| Terraform provider | Git tag (own line) | `vX.Y.Z` | [Terraform Registry](https://registry.terraform.io/providers/virtfoundry/virtfoundry/latest) |
+| VKS node image | Kubernetes version | `node-ubuntu-*` | `ghcr.io/virtfoundry/node-ubuntu:<k8s>@sha256:...` |
 | Documentation | Built from chart repo `main` / tags | — | `.../helm-charts/docs/` |
 
 `Chart.yaml` **`appVersion`** matches the application release the chart defaults target.
@@ -48,6 +52,8 @@ helm install virtfoundry virtfoundry/virtfoundry --version 0.10.0 \
    |------|-------|
    | **core** | `ui/package.json`, `ui/package-lock.json` (root + `"packages"` entry), `docs/PRODUCT.md` |
    | **helm-charts** | `charts/virtfoundry/Chart.yaml`, `charts/virtfoundry-operator/Chart.yaml`, `charts/virtfoundry/values.yaml` (`images.api` / `images.ui`), `charts/virtfoundry-operator/values.yaml` + `values-homelab.yaml` (`image.tag`), **all** install docs (`quickstart`, `installation`, `kind`, `helm-repository`, `chart-values`, `index`, `README`) — these feed **GitHub Pages** |
+   | **vks** | `charts/virtfoundry-vks/Chart.yaml` (`version`, `appVersion`), `CHANGELOG.md` |
+   | **terraform-provider** | `CHANGELOG.md`, `version = "~> X.Y"` in README and examples (own line, see below) |
    | **operator** | `charts/virtfoundry-operator/Chart.yaml`, `values.yaml`, `values-homelab.yaml` |
    | **`.github` (org profile)** | [`profile/README.md`](https://github.com/virtfoundry/.github/blob/main/profile/README.md) — org homepage “Current release” + helm `--version` snippets (**routinely forgotten**) |
    | **This doc** | `docs/project/versioning.md` — current release line and examples |
@@ -66,6 +72,15 @@ helm install virtfoundry virtfoundry/virtfoundry --version 0.10.0 \
 
 6. CI publishes container images and Helm package; docs site rebuilds; homelab digest write-back updates Argo overlay
 
+## Compatibility
+
+| VirtFoundry | operator | vks | Terraform provider | Node image (K8s) |
+|-------------|----------|-----|--------------------|------------------|
+| 0.10.0 | 0.10.0 | 0.10.0 | 0.4.0 | `node-ubuntu:1.36.5` |
+| 0.9.0 | 0.9.0 | — | 0.3.1 | — |
+
+The Terraform provider keeps its own 0.x line. It needs a VirtFoundry release that has the API it calls: `virtfoundry_vks_cluster` needs 0.10.0 or newer. The VKS chart and image share the product version from 0.10.0 on (earlier it was an untagged `0.1.0`).
+
 ## Consuming versions
 
 ```bash
@@ -78,6 +93,7 @@ helm install virtfoundry virtfoundry/virtfoundry --version 0.10.0 \
 ghcr.io/virtfoundry/core:0.10.0
 ghcr.io/virtfoundry/ui:0.10.0
 ghcr.io/virtfoundry/operator:0.10.0
+ghcr.io/virtfoundry/vks:0.10.0
 ```
 
 Tags `latest` (on `main` builds) may also exist — pin explicitly in production.
@@ -88,4 +104,4 @@ Use the **same branch name** in `virtfoundry` and `helm-charts`. Release with th
 
 ## Future: umbrella chart
 
-**0.9.x stays three charts and three Argo Applications.** A later **`virtfoundry-platform`** umbrella (Helm dependencies + nested `operator` / `core` / `vks` values) is design-only — see [Future platform umbrella chart](umbrella-chart.md).
+**0.10.x stays three charts and three Argo Applications.** A later **`virtfoundry-platform`** umbrella (Helm dependencies + nested `operator` / `core` / `vks` values) is design-only — see [Future platform umbrella chart](umbrella-chart.md).
