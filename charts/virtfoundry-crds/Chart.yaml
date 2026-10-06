@@ -1,0 +1,6 @@
+apiVersion: v2
+name: virtfoundry-crds
+description: virtfoundry.io CustomResourceDefinitions (kept on uninstall, upgraded by helm upgrade)
+type: application
+version: 0.10.0
+appVersion: "0.10.0"

@@ -37,6 +37,12 @@ verify-operator-chart-drift: ## PR gate: operator chart mirror matches virtfound
 verify-api-rbac-contract: ## PR gate: API RBAC satisfies core's docs/rbac-contract.yaml (needs network)
 	bash ./scripts/ci/verify-api-rbac-contract.sh
 
+verify-crds-chart: ## PR gate: CRD chart matches operator/vks and keeps CRDs on uninstall (needs network)
+	bash ./scripts/ci/verify-crds-chart.sh
+
+sync-crds-chart: ## Refresh charts/virtfoundry-crds/manifests from operator and vks
+	bash ./scripts/crds/sync-crds-chart.sh
+
 setup-kubevirt: ## Optional: install KubeVirt prerequisite
 	./scripts/setup/kubevirt.sh
 

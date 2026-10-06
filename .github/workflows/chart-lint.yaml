@@ -72,5 +72,8 @@ jobs:
       - name: API RBAC contract gate (core docs/rbac-contract.yaml)
         run: bash ./scripts/ci/verify-api-rbac-contract.sh
 
+      - name: CRD chart gate (matches operator/vks, keeps CRDs on uninstall)
+        run: bash ./scripts/ci/verify-crds-chart.sh
+
       - name: MkDocs build (strict)
         run: mkdocs build --strict
