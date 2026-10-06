@@ -1837,7 +1837,7 @@
 <p>The tenant namespace is missing from <code>rbac.api.secretNamespaces</code>, so the API cannot store the key Secret. Add the namespace (<a href="../configuration/#rbac-api-permissions">Configuration</a>).</p>
 <h2 id="new-crd-field-is-ignored-after-a-chart-upgrade">New CRD field is ignored after a chart upgrade<a class="headerlink" href="#new-crd-field-is-ignored-after-a-chart-upgrade" title="Permanent link">¶</a></h2>
 <p>Helm does not upgrade CRDs on later installs (<a href="../crds/">CRDs and upgrades</a>). Apply them by hand:</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>--server-side<span class="w"> </span>--force-conflicts<span class="w"> </span>-f<span class="w"> </span>charts/virtfoundry-operator/crds/
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>--server-side<span class="w"> </span>--force-conflicts<span class="w"> </span>-f<span class="w"> </span>charts/virtfoundry-crds/manifests/<span class="w">   </span><span class="c1"># charts/virtfoundry-operator/crds/ on 0.10.x</span>
 </code></pre></div>
 <h2 id="vm-has-no-isolated-network-multus">VM has no isolated network (Multus)<a class="headerlink" href="#vm-has-no-isolated-network-multus" title="Permanent link">¶</a></h2>
 <ul>

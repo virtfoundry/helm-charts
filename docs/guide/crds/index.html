@@ -887,10 +887,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#upgrading-crds-today-operator-chart" class="md-nav__link">
+  <a href="#upgrading-crds-with-the-010x-operator-chart" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Upgrading CRDs today (operator chart)
+        Upgrading CRDs with the 0.10.x operator chart
       
     </span>
   </a>
@@ -1722,10 +1722,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#upgrading-crds-today-operator-chart" class="md-nav__link">
+  <a href="#upgrading-crds-with-the-010x-operator-chart" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Upgrading CRDs today (operator chart)
+        Upgrading CRDs with the 0.10.x operator chart
       
     </span>
   </a>
@@ -1901,19 +1901,18 @@
 git<span class="w"> </span>diff<span class="w"> </span>charts/virtfoundry-crds/manifests
 </code></pre></div>
 <h2 id="install-order">Install order<a class="headerlink" href="#install-order" title="Permanent link">¶</a></h2>
-<p>With the CRD chart, CRDs come first and are a separate release:</p>
+<p>From the next release, the operator and VKS charts no longer ship CRDs. Install the CRD chart first, as a separate release:</p>
 <div class="highlight"><pre><span></span><code>helm<span class="w"> </span>install<span class="w"> </span>virtfoundry-crds<span class="w"> </span>virtfoundry/virtfoundry-crds<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--version<span class="w"> </span><span class="m">0</span>.10.0<span class="w"> </span>-n<span class="w"> </span>virtfoundry-system<span class="w"> </span>--create-namespace
+<span class="w">  </span>--version<span class="w"> </span>&lt;next&gt;<span class="w"> </span>-n<span class="w"> </span>virtfoundry-system<span class="w"> </span>--create-namespace
 
 helm<span class="w"> </span>install<span class="w"> </span>virtfoundry-operator<span class="w"> </span>virtfoundry/virtfoundry-operator<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--version<span class="w"> </span><span class="m">0</span>.10.0<span class="w"> </span>-n<span class="w"> </span>virtfoundry-system<span class="w"> </span>--skip-crds
+<span class="w">  </span>--version<span class="w"> </span>&lt;next&gt;<span class="w"> </span>-n<span class="w"> </span>virtfoundry-system
 </code></pre></div>
-<p><code>--skip-crds</code> is needed while the operator chart still ships its own <code>crds/</code> directory, otherwise Helm reports that the CRDs already exist.</p>
 <div class="admonition note">
-<p class="admonition-title">Status</p>
-<p>The CRD chart is in the repository and is published with the next release. Until the operator chart stops shipping <code>crds/</code>, <strong>the install in <a href="../installation/">Installation</a> is unchanged</strong>: the operator chart installs the CRDs and you upgrade them by hand (below).</p>
+<p class="admonition-title">Releases up to 0.10.x</p>
+<p>The published 0.10.0 operator chart still ships its own <code>crds/</code> directory, so with 0.10.x <strong>the install in <a href="../installation/">Installation</a> is unchanged</strong>: the operator chart installs the CRDs and you upgrade them by hand (below). If you want the CRD chart with a 0.10.x operator chart, install it with <code>--skip-crds</code>, otherwise Helm reports that the CRDs already exist.</p>
 </div>
-<h2 id="upgrading-crds-today-operator-chart">Upgrading CRDs today (operator chart)<a class="headerlink" href="#upgrading-crds-today-operator-chart" title="Permanent link">¶</a></h2>
+<h2 id="upgrading-crds-with-the-010x-operator-chart">Upgrading CRDs with the 0.10.x operator chart<a class="headerlink" href="#upgrading-crds-with-the-010x-operator-chart" title="Permanent link">¶</a></h2>
 <p>Apply the CRDs from the new chart version before upgrading the releases. Server-side apply is required: the CRDs are too large for the client-side annotation.</p>
 <div class="highlight"><pre><span></span><code>helm<span class="w"> </span>pull<span class="w"> </span>virtfoundry/virtfoundry-operator<span class="w"> </span>--version<span class="w"> </span>&lt;new&gt;<span class="w"> </span>--untar
 kubectl<span class="w"> </span>apply<span class="w"> </span>--server-side<span class="w"> </span>--force-conflicts<span class="w"> </span>-f<span class="w"> </span>virtfoundry-operator/crds/
