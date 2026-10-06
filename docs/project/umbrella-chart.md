@@ -1,10 +1,10 @@
 # Future platform umbrella chart (`virtfoundry-platform`)
 
-**Status:** Design only — **not shipped in 0.9.x**. Install and GitOps paths stay unchanged until a dedicated release cuts the umbrella chart and migrates Argo Applications.
+**Status:** Design only — **not shipped in 0.10.x**. Install and GitOps paths stay unchanged until a dedicated release cuts the umbrella chart and migrates Argo Applications.
 
-## 0.9.x (current)
+## 0.10.x (current)
 
-VirtFoundry **0.9.x** ships and deploys as **three independent Helm charts** and **three Argo CD Applications** (homelab and docs assume this model):
+VirtFoundry **0.10.x** ships and deploys as **three independent Helm charts** and **three Argo CD Applications** (homelab and docs assume this model):
 
 | Order | Helm chart | Typical Argo Application | Namespace |
 |-------|------------|--------------------------|-----------|
@@ -12,7 +12,7 @@ VirtFoundry **0.9.x** ships and deploys as **three independent Helm charts** and
 | 2 | `virtfoundry` (core API + UI) | `virtfoundry` | `virtfoundry-system` |
 | 3 | `virtfoundry-vks` | `virtfoundry-vks` | `virtfoundry-system` |
 
-Install docs, [Versioning](versioning.md), and sync waves (operator before core before VKS) remain **operator-first, three releases**. No umbrella chart is published to the Helm index in 0.9.x.
+Install docs, [Versioning](versioning.md), and sync waves (operator before core before VKS) remain **operator-first, three releases**. No umbrella chart is published to the Helm index in 0.10.x.
 
 The VKS chart source today lives in the [`virtfoundry/vks`](https://github.com/virtfoundry/vks) repository (`charts/virtfoundry-vks`); operator and core charts live in [`virtfoundry/helm-charts`](https://github.com/virtfoundry/helm-charts). A future umbrella release may vendor or depend on packaged charts from one or both repos — details TBD when the chart is implemented.
 
@@ -86,7 +86,7 @@ Target: **one Argo CD Application** (e.g. `virtfoundry-platform`) instead of thr
 4. **Cut over** traffic and ops runbooks to the single Application; disable auto-sync on the legacy Apps.
 5. **Retire** Applications `virtfoundry-operator`, `virtfoundry`, and `virtfoundry-vks` after a soak period; remove duplicate releases only when sure Helm history and ownership do not fight (same release name / namespace strategy must be planned to avoid double-install).
 
-Until step 5 completes, **0.9.x documentation and support** continue to describe three separate `helm install` / three Applications.
+Until step 5 completes, **0.10.x documentation and support** continue to describe three separate `helm install` / three Applications.
 
 ## Related
 

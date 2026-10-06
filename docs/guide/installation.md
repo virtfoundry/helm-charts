@@ -5,7 +5,7 @@ VirtFoundry installs the **control plane** (API, UI). Platform state is stored i
 !!! tip "Install prerequisites first"
     See **[Platform prerequisites](prerequisites.md)** for official install links to [KubeVirt](https://kubevirt.io/), [Multus](https://github.com/k8snetworkplumbingwg/multus-cni), [CDI](https://github.com/kubevirt/containerized-data-importer), storage, and optional MetalLB / CSI snapshots.
 
-**Recommended order:** [prerequisites](prerequisites.md) → **virtfoundry-operator** (CRDs + controller) → **virtfoundry** (API + UI).
+**Recommended order:** [prerequisites](prerequisites.md) → **virtfoundry-operator** (CRDs + controller) → **virtfoundry** (API + UI) → optional **virtfoundry-vks** ([Kubernetes clusters](features/vks.md)).
 
 **Want UI + first VM in under 30 minutes?** Start with the [Quickstart](quickstart.md). On a laptop (Docker, no switch/VLAN), use **[Kind](kind.md)**.
 
@@ -24,7 +24,8 @@ For **minimum vs production** layouts (what works for VPC / public / snapshots o
 | Ingress **or** Gateway API + controller | One of them | Exposes UI and API on a hostname |
 | StorageClass — **prefer [Longhorn](https://longhorn.io/)** | **Yes** for disks | PVCs for VM volumes, ISO storage; `local-path` only for quick labs |
 | CSI snapshotter + snapshot-capable CSI (Longhorn includes this) | **Recommended**; required for **volume** snapshots UI | `VolumeSnapshot` CRDs + `VolumeSnapshotClass`; **not** provided by `local-path` |
-| MetalLB (or cloud LB) | Bare metal only | When Services need external IPs |
+| MetalLB (or cloud LB) | Bare metal only | When Services need external IPs (also the default VKS control-plane VIP) |
+| Kamaji + **virtfoundry-vks** | Optional | Managed Kubernetes clusters for tenants ([VKS](features/vks.md)) |
 
 !!! note "Not bundled in the Helm chart by default"
     KubeVirt, Multus, and CDI are **cluster-scoped platform operators**. They are installed separately so you can pin versions, align with your distro, and upgrade them independently of VirtFoundry releases.
@@ -217,6 +218,39 @@ make lint
 
 ---
 
+## Install VKS (optional)
+
+VKS adds the `VKSCluster` resource. Install it **after** the operator and core. The `virtfoundry-vks` chart is not in the Helm repository yet, so install it from the [`virtfoundry/vks`](https://github.com/virtfoundry/vks) repository.
+
+Prerequisites: [Kamaji](prerequisites.md#optional-kubernetes-clusters-vks) with its CRDs and a `DataStore`, and a LoadBalancer implementation (MetalLB) unless you use `NodePort`.
+
+```bash
+git clone --branch v@@VERSION@@ https://github.com/virtfoundry/vks.git
+cd vks
+
+helm install virtfoundry-vks ./charts/virtfoundry-vks \
+  --namespace virtfoundry-system
+```
+
+The image defaults to `ghcr.io/virtfoundry/vks:@@VERSION@@` (the chart `appVersion`). Pin by digest with `--set image.digest=sha256:...` for GitOps.
+
+| Value | Default | Description |
+|-------|---------|-------------|
+| `loadBalancerAddressPool` | `""` | Default MetalLB pool for control planes. Empty means cluster autoAssign. A cluster can override it with `spec.controlPlane.addressPool` |
+| `nodeAddress` / `nodePort` | `""` / `30443` | Only for `NodePort` control planes (lab) |
+| `image.tag` / `image.digest` | `""` | Tag defaults to `appVersion`; digest wins when set |
+
+The `virtfoundry` chart's API ClusterRole already grants access to `vksclusters`, and the operator chart's template allowlist includes `ghcr.io/virtfoundry/`, so the node image is accepted. Verify:
+
+```bash
+kubectl get crd vksclusters.virtfoundry.io
+kubectl -n virtfoundry-system get pods | grep vks
+```
+
+Then create a cluster: [Kubernetes clusters (VKS)](features/vks.md).
+
+---
+
 ## First login
 
 Bootstrap credentials come from the chart — there is no built-in default password:
@@ -280,3 +314,4 @@ Namespaces created by the current API already carry both labels, so new tenants 
 - [Configuration](configuration.md) — Helm values and networking (includes `platform.storage.snapshotClass`)
 - [Chart values (defaults)](chart-values.md) — full `values.yaml`, why `--set`, Longhorn and public IP
 - [Helm repository](helm-repository.md) — publishing and consuming chart releases
+- [Kubernetes clusters (VKS)](features/vks.md) · [Terraform provider](terraform.md) · [Troubleshooting](troubleshooting.md)
