@@ -19,7 +19,7 @@ The tenant namespace is missing from `rbac.api.secretNamespaces`, so the API can
 Helm does not upgrade CRDs on later installs ([CRDs and upgrades](crds.md)). Apply them by hand:
 
 ```bash
-kubectl apply --server-side --force-conflicts -f charts/virtfoundry-operator/crds/
+kubectl apply --server-side --force-conflicts -f charts/virtfoundry-crds/manifests/   # charts/virtfoundry-operator/crds/ on 0.10.x
 ```
 
 ## VM has no isolated network (Multus)
