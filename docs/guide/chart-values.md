@@ -45,7 +45,7 @@ VirtFoundry does **not** install a disk backend. VM disks are Kubernetes PVCs on
 
 ## Host bridges (isolated / public)
 
-`platform.networking.isolated.enabled` and `platform.networking.public.enabled` both default to **`false`**. A default install does **not** schedule the hostNetwork bridge DaemonSet. Set either flag only when you need Multus host bridges — that opt-in documents the host privileges in [Configuration — host bridges](configuration.md#host-bridges-isolated--public).
+`platform.networking.isolated.enabled` and `platform.networking.public.enabled` both default to **`false`**. A default install does **not** schedule the hostNetwork bridge DaemonSet. Set either flag only when you need Multus host bridges — that opt-in documents the host privileges in [Configuration — host bridges](networking-config.md#host-bridges-isolated-public).
 
 Kind and full L2 overlays set `isolated.enabled: true` (and often `bridge.tolerations: [{operator: Exists}]` so the DaemonSet can run on a tainted control-plane).
 
@@ -72,7 +72,7 @@ helm upgrade --install virtfoundry virtfoundry/virtfoundry -n virtfoundry-system
   --set secrets.jwtSecret='…'
 ```
 
-Details: [Configuration — public networking](configuration.md#public-networking), [Topologies](topologies.md#public-network-underlay).
+Details: [Configuration — public networking](networking-config.md#public-networking), [Topologies](topologies.md#public-network-underlay).
 
 ## Default values — `virtfoundry` (API + UI)
 

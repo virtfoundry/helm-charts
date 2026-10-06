@@ -2,6 +2,11 @@
 
 VMs are KubeVirt `VirtualMachine` objects in the tenant namespace, managed through the VirtFoundry UI/API.
 
+<figure markdown="span">
+  ![VMs list in the VirtFoundry console](../../assets/screenshots/03-vms.png)
+  <figcaption>Compute → VMs. Click to zoom.</figcaption>
+</figure>
+
 ## Deploy
 
 **UI:** Compute → **VMs** → create/deploy.

@@ -63,6 +63,6 @@ You can still have “public” IPs next to laptops/Wi-Fi:
 
 Carve pools so they never overlap: router, DHCP dynamic range, node IPs, `bridge.address`, VM pool, MetalLB.
 
-See [Configuration](configuration.md#public-networking) and [VPCs and networks](features/networking.md).
+See [Configuration](networking-config.md#public-networking) and [VPCs and networks](features/networking.md).
 
-See also: [Installation](installation.md), [Configuration — Snapshots](configuration.md#snapshots-vm-vs-volume).
+See also: [Installation](installation.md), [Configuration — Snapshots](storage-config.md#snapshots-vm-vs-volume).

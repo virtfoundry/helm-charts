@@ -186,6 +186,6 @@ docker network rm virtfoundry-pub   # if you created it
 | Goal | Doc |
 |------|-----|
 | First VM clicks | [Quickstart](quickstart.md) |
-| Helm keys | [Configuration — public networking](configuration.md#public-networking) |
+| Helm keys | [Configuration — public networking](networking-config.md#public-networking) |
 | VLAN vs house LAN on real nodes | [Topologies](topologies.md#public-network-underlay) |
 | Why KubeVirt / Multus / CDI | [Prerequisites](prerequisites.md) · [Installation](installation.md) |

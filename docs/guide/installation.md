@@ -44,7 +44,7 @@ VirtFoundry does **not** embed a hypervisor. The API talks to KubeVirt CRDs (and
 Without KubeVirt, deploy and lifecycle operations fail immediately (`kubevirt.enabled` assumes the KubeVirt API is reachable).
 
 !!! warning "Volume snapshots ≠ VM snapshots"
-    The **Volume Snapshots** page creates Kubernetes `VolumeSnapshot` objects (`snapshot.storage.k8s.io`). That API is **not** installed by KubeVirt and is **not** available with only `local-path`. Without CSI external-snapshotter + a snapshot-capable StorageClass (Longhorn, Ceph RBD, cloud CSI, …), the UI returns `the server could not find the requested resource`. Use **VM Snapshots** on lab/`local-path` clusters, or install a CSI snapshot stack for volume snapshots. Details: [Configuration — Snapshots](configuration.md#snapshots-vm-vs-volume).
+    The **Volume Snapshots** page creates Kubernetes `VolumeSnapshot` objects (`snapshot.storage.k8s.io`). That API is **not** installed by KubeVirt and is **not** available with only `local-path`. Without CSI external-snapshotter + a snapshot-capable StorageClass (Longhorn, Ceph RBD, cloud CSI, …), the UI returns `the server could not find the requested resource`. Use **VM Snapshots** on lab/`local-path` clusters, or install a CSI snapshot stack for volume snapshots. Details: [Configuration — Snapshots](storage-config.md#snapshots-vm-vs-volume).
 
 **Verify:**
 

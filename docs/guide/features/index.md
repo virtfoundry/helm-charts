@@ -6,18 +6,97 @@ VirtFoundry is a **multi-tenant IaaS control plane** on Kubernetes: tenants get 
 
 ## Capability map
 
-| Area | What you get | Guide |
-|------|----------------|-------|
-| Tenancy | Isolated tenants, root impersonation, delete (non-default) | [Concepts](concepts.md) |
-| IAM | Users, roles, permissions, API keys (`vfd_live_...`) | [Auth & IAM](iam.md) |
-| Offerings | CPU/memory catalog; shared vs dedicated CPU | [Service offerings](offerings.md) |
-| Templates | Container disks + ISO (CDI) images | [Images & templates](templates.md) |
-| Compute | Deploy, start/stop, attach volumes, logs, snapshots | [Virtual machines](vms.md) |
-| Access | noVNC console, SSH keys, expose SSH | [Console & SSH](access.md) |
-| Storage | Volumes; VM snapshots vs CSI volume snapshots | [Volumes & snapshots](storage.md) |
-| Network | VPCs, private nets, CIDR planners, public profile | [VPCs & networks](networking.md) |
-| Security | Security groups → NetworkPolicy | [Security groups](security-groups.md) |
-| API | JWT / API keys, `X-Tenant-ID`, route map | [API quick reference](api.md) |
+<div class="grid cards" markdown>
+
+-   :material-domain:{ .lg .middle } **Tenancy**
+
+    ---
+
+    Isolated tenants, root impersonation, delete (non-default).
+
+    [:octicons-arrow-right-24: Read](concepts.md)
+
+-   :material-shield-account:{ .lg .middle } **Auth & IAM**
+
+    ---
+
+    Users, roles, permissions, API keys (`vfd_live_...`).
+
+    [:octicons-arrow-right-24: Read](iam.md)
+
+-   :material-tag-multiple:{ .lg .middle } **Service offerings**
+
+    ---
+
+    CPU/memory catalog; shared vs dedicated CPU.
+
+    [:octicons-arrow-right-24: Read](offerings.md)
+
+-   :material-disc:{ .lg .middle } **Images & templates**
+
+    ---
+
+    Container disks and ISO (CDI) images.
+
+    [:octicons-arrow-right-24: Read](templates.md)
+
+-   :material-server:{ .lg .middle } **Virtual machines**
+
+    ---
+
+    Deploy, start/stop, attach volumes, logs, snapshots.
+
+    [:octicons-arrow-right-24: Read](vms.md)
+
+-   :material-console:{ .lg .middle } **Console & SSH**
+
+    ---
+
+    noVNC console, SSH keys, expose SSH.
+
+    [:octicons-arrow-right-24: Read](access.md)
+
+-   :material-harddisk:{ .lg .middle } **Volumes & snapshots**
+
+    ---
+
+    Volumes; VM snapshots vs CSI volume snapshots.
+
+    [:octicons-arrow-right-24: Read](storage.md)
+
+-   :material-lan:{ .lg .middle } **VPCs & networks**
+
+    ---
+
+    VPCs, private nets, CIDR planners, public profile.
+
+    [:octicons-arrow-right-24: Read](networking.md)
+
+-   :material-shield-lock:{ .lg .middle } **Security groups**
+
+    ---
+
+    Security groups become NetworkPolicy.
+
+    [:octicons-arrow-right-24: Read](security-groups.md)
+
+-   :material-kubernetes:{ .lg .middle } **Kubernetes clusters (VKS)**
+
+    ---
+
+    Managed Kubernetes: Kamaji control plane, VM workers.
+
+    [:octicons-arrow-right-24: Read](vks.md)
+
+-   :material-api:{ .lg .middle } **API quick reference**
+
+    ---
+
+    JWT / API keys, `X-Tenant-ID`, route map.
+
+    [:octicons-arrow-right-24: Read](api.md)
+
+</div>
 
 ## Domain model
 

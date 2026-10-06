@@ -70,17 +70,17 @@ Empty `snapshotClass` uses Longhorn when that is the resolved default class, oth
 
 Pick **one** path.
 
-### A. Port-forward (fastest)
+=== "Port-forward (fastest)"
 
-```bash
-kubectl -n virtfoundry-system port-forward svc/virtfoundry-ui 8080:80
-```
+    ```bash
+    kubectl -n virtfoundry-system port-forward svc/virtfoundry-ui 8080:80
+    ```
 
-Open http://127.0.0.1:8080
+    Open http://127.0.0.1:8080
 
-### B. Ingress / Gateway API
+=== "Ingress / Gateway API"
 
-Use your cluster’s IngressClass or Gateway + HTTPRoute. Example values and Gateway notes: [Configuration](configuration.md), [Topologies](topologies.md).
+    Use your cluster’s IngressClass or Gateway + HTTPRoute. Example values and Gateway notes: [Configuration](configuration.md), [Topologies](topologies.md).
 
 ---
 

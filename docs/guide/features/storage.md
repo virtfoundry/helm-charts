@@ -57,7 +57,7 @@ CSI snapshot of a PVC.
 | List / create | `GET`/`POST /api/v1/snapshots` |
 | Delete | **Not exposed yet** |
 
-Set `platform.storage.snapshotClass` (e.g. `longhorn`) or rely on a default `VolumeSnapshotClass`. Details and prerequisites: [Configuration — Snapshots](../configuration.md#snapshots-vm-vs-volume).
+Set `platform.storage.snapshotClass` (e.g. `longhorn`) or rely on a default `VolumeSnapshotClass`. Details and prerequisites: [Configuration — Snapshots](../storage-config.md#snapshots-vm-vs-volume).
 
 !!! warning "`local-path`"
     Volume snapshots **fail** without CSI external-snapshotter + a capable driver. Use **VM snapshots** on pure `local-path` labs.
