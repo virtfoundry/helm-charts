@@ -242,6 +242,38 @@ You should see `virtfoundry-operator` and `virtfoundry-api` Running, Instance CR
 
 ---
 
+## Operator recovery: legacy tenant namespace
+
+The operator adopts a tenant namespace only when it carries both
+`app.kubernetes.io/part-of=virtfoundry` and `virtfoundry.io/tenant=<slug>`. A namespace
+created by an older API (before that contract) lacks them. Symptoms:
+
+- `kubectl get tenants.virtfoundry.io` shows the Tenant as `Failed`.
+- Operator log: `Refused to adopt Namespace for Tenant`.
+- Instances in that namespace are rejected with `namespace ... is missing label app.kubernetes.io/part-of=virtfoundry`.
+- API log: `tenant namespace is missing operator ownership labels and the API cannot patch namespaces`.
+
+The API deliberately has no `patch` permission on namespaces (least privilege; the operator
+owns tenant namespaces), so label the namespace once by hand. Replace `<slug>` with the
+Tenant's `spec.slug`:
+
+```bash
+kubectl label namespace virtfoundry-tenant-<slug> \
+  app.kubernetes.io/part-of=virtfoundry virtfoundry.io/tenant=<slug>
+```
+
+A `Failed` Tenant is a terminal error and is not retried on its own. Restart the operator so
+it reconciles again:
+
+```bash
+kubectl -n virtfoundry-system rollout restart deploy/virtfoundry-operator
+kubectl get tenants.virtfoundry.io   # PHASE should become Ready
+```
+
+Namespaces created by the current API already carry both labels, so new tenants need nothing.
+
+---
+
 ## Next steps
 
 - [Quickstart](quickstart.md) — under-30-minute UI + first VM path
