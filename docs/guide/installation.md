@@ -314,4 +314,4 @@ Namespaces created by the current API already carry both labels, so new tenants 
 - [Configuration](configuration.md) — Helm values and networking (includes `platform.storage.snapshotClass`)
 - [Chart values (defaults)](chart-values.md) — full `values.yaml`, why `--set`, Longhorn and public IP
 - [Helm repository](helm-repository.md) — publishing and consuming chart releases
-- [Kubernetes clusters (VKS)](features/vks.md) · [Terraform provider](terraform.md) · [Troubleshooting](troubleshooting.md)
+- [CRDs and upgrades](crds.md) · [Kubernetes clusters (VKS)](features/vks.md) · [Terraform provider](terraform.md) · [Troubleshooting](troubleshooting.md)

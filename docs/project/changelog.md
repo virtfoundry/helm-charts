@@ -6,6 +6,10 @@ Format based on [Keep a Changelog](https://keepachangelog.com/). Versioning: [Se
 
 ## [Unreleased]
 
+### Added
+
+- `charts/virtfoundry-crds`: the 16 `virtfoundry.io` CRDs in one chart, upgraded by `helm upgrade` and protected from `helm uninstall` and Argo prune. `make verify-crds-chart` gate. See [CRDs and upgrades](../guide/crds.md).
+
 ## [0.10.0] - 2026-10-06
 
 ### Added

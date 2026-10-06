@@ -16,7 +16,7 @@ The tenant namespace is missing from `rbac.api.secretNamespaces`, so the API can
 
 ## New CRD field is ignored after a chart upgrade
 
-Helm does not upgrade CRDs on later installs. Apply them by hand:
+Helm does not upgrade CRDs on later installs ([CRDs and upgrades](crds.md)). Apply them by hand:
 
 ```bash
 kubectl apply --server-side --force-conflicts -f charts/virtfoundry-operator/crds/
