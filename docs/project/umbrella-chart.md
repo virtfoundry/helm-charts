@@ -25,7 +25,7 @@ The VKS chart source today lives in the [`virtfoundry/vks`](https://github.com/v
 | Operator and core | `file://` dependencies inside this repo, so their versions cannot drift from the umbrella |
 | VKS default | `vks.enabled: false`, because it needs Kamaji |
 | Resource names | Unchanged. Operator and core derive names from `fullnamePrefix`; with the `vks` alias the chart name becomes `vks`, so the umbrella sets `vks.nameOverride: virtfoundry-vks` |
-| CRDs | Same Helm limitation as before (see below) |
+| CRDs | Separate `virtfoundry-crds` chart, installed first and not a dependency of the umbrella: the operator subchart's `crds/` is installed once by Helm and never upgraded (see [CRDs and upgrades](../guide/crds.md)) |
 
 `make verify-platform-parity` renders the umbrella and the three standalone charts and fails if the set of resources (kind, namespace, name) differs. That is the guarantee that moving to one release does not rename or recreate anything.
 
