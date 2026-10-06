@@ -105,7 +105,7 @@ def main() -> None:
     tenant_lines = ["$ kubectl get vf-tenant", "NAME              PHASE   NAMESPACE"]
     for row in tenants.splitlines():
         parts = row.split()
-        if len(parts) >= 3:
+        if len(parts) >= 3 and not parts[0].startswith("e2e-tenant-"):  # skip test debris
             tenant_lines.append(f"{parts[0]:<17} {parts[1]:<7} {parts[2]}")
 
     instances = k(
@@ -121,6 +121,20 @@ def main() -> None:
         parts = row.split()
         if len(parts) >= 4:
             inst_lines.append(f"{parts[0]:<28} {parts[1]:<8} {parts[2]:<9} {parts[3]}")
+
+    vks = k(
+        "get",
+        "vksclusters.virtfoundry.io",
+        "-A",
+        "-o",
+        "custom-columns=NAMESPACE:.metadata.namespace,NAME:.metadata.name,PHASE:.status.phase,VERSION:.spec.kubernetesVersion",
+        "--no-headers",
+    )
+    vks_lines = ["$ kubectl get vksc -A", "NAMESPACE                    NAME      PHASE   VERSION"]
+    for row in vks.splitlines():
+        parts = row.split()
+        if len(parts) >= 4:
+            vks_lines.append(f"{parts[0]:<28} {parts[1]:<9} {parts[2]:<7} {parts[3]}")
 
     snaps = k(
         "get",
@@ -157,7 +171,7 @@ def main() -> None:
             pod_lines.append(f"{parts[0]:<33} {ready:<7} {parts[2]}")
 
     out = Path(args.out)
-    all_lines = crd_lines + [""] + tenant_lines + [""] + inst_lines + [""] + snap_lines + [""] + pod_lines
+    all_lines = crd_lines + [""] + tenant_lines + [""] + inst_lines + [""] + vks_lines + [""] + snap_lines + [""] + pod_lines
     render("virtfoundry.io CRD store — homelab", all_lines, out)
 
 
