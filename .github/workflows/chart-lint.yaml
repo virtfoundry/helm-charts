@@ -62,6 +62,9 @@ jobs:
       - name: Operator chart RBAC gate (#43 least privilege)
         run: bash ./scripts/ci/verify-operator-chart-rbac.sh
 
+      - name: Operator chart drift gate (mirror of virtfoundry/operator)
+        run: bash ./scripts/ci/verify-operator-chart-drift.sh
+
       - name: Install MkDocs
         run: pip install -r requirements-docs.txt
 

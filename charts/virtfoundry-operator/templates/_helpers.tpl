@@ -14,6 +14,9 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- end -}}
 
 {{- define "virtfoundry-operator.image" -}}
+{{- if and .Values.image.requireDigest (not .Values.image.digest) -}}
+{{- fail "image.digest is required when image.requireDigest=true (pin production installs by digest)" -}}
+{{- end -}}
 {{- if .Values.image.digest -}}
 {{ .Values.image.repository }}@{{ .Values.image.digest }}
 {{- else -}}

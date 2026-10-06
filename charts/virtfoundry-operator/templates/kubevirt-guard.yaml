@@ -1,16 +1,12 @@
 {{- if and .Values.kubevirtGuard.enabled (.Capabilities.APIVersions.Has "admissionregistration.k8s.io/v1/ValidatingAdmissionPolicy") }}
 {{- /*
-  Cluster-side guard for KubeVirt mutate (issue #28 slice).
+  Cluster-side guard for KubeVirt mutate (issue #28).
 
-  Operator ClusterRole still grants cluster-wide VM/VMI verbs so
-  controller-runtime informers and Tenant-driven Role bootstrap stay
-  possible (RBAC privilege-escalation rules block the operator from
-  creating a Role that grants mutate rights it does not already hold).
-  This VAP denies the operator ServiceAccount CREATE/UPDATE/DELETE on
-  VirtualMachines and VirtualMachineInstances outside virtfoundry-tenant-*.
-
-  Residual: true Role/RoleBinding least privilege needs a privileged
-  installer bootstrap or a dual ServiceAccount split — tracked on #28.
+  RBAC split: manager ClusterRole is monitor-only (get/list/watch) on
+  VirtualMachines/VMIs; mutate lives in *-kubevirt-mutate and is granted
+  per tenant via RoleBinding. This VAP is defense-in-depth if a stolen SA
+  mints RoleBindings outside virtfoundry-tenant-* (bind + rolebindings
+  create remain cluster-scoped — residual on #28).
 */ -}}
 apiVersion: admissionregistration.k8s.io/v1
 kind: ValidatingAdmissionPolicy
