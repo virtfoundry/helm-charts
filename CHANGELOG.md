@@ -4,6 +4,10 @@ See [docs/project/changelog.md](docs/project/changelog.md) for the full release 
 
 ## [Unreleased]
 
+### Changed
+
+- **Breaking:** the `virtfoundry-operator` chart (mirror of virtfoundry/operator) no longer ships `crds/`. Install the CRDs with `virtfoundry-crds` first. See [CRDs and upgrades](docs/guide/crds.md).
+
 ### Added
 
 - `charts/virtfoundry-crds`: the 16 `virtfoundry.io` CRDs in one chart, upgraded by `helm upgrade` and protected from `helm uninstall` and Argo prune. `make verify-crds-chart` gate. See [CRDs and upgrades](docs/guide/crds.md).
