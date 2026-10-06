@@ -8,6 +8,7 @@
 #
 # API_RBAC_CONTRACT points at a local copy of the contract; otherwise core main is fetched.
 # Verbs the chart grants beyond the contract are reported as warnings, not failures.
+# Needs python3 with PyYAML (installed from requirements-docs.txt in CI).
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
