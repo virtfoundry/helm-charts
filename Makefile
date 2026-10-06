@@ -1,4 +1,4 @@
-.PHONY: help lint template security-gates verify-operator-chart-rbac verify-operator-chart-drift setup-kubevirt setup-multus setup-cdi render-local-config docs-build docs-serve
+.PHONY: help lint template security-gates verify-operator-chart-rbac verify-operator-chart-drift verify-api-rbac-contract setup-kubevirt setup-multus setup-cdi render-local-config docs-build docs-serve
 
 CHART := ./charts/virtfoundry
 OPERATOR_CHART := ./charts/virtfoundry-operator
@@ -33,6 +33,9 @@ verify-operator-chart-rbac: ## PR gate for least-privilege operator ClusterRole 
 
 verify-operator-chart-drift: ## PR gate: operator chart mirror matches virtfoundry/operator (needs network)
 	bash ./scripts/ci/verify-operator-chart-drift.sh
+
+verify-api-rbac-contract: ## PR gate: API RBAC satisfies core's docs/rbac-contract.yaml (needs network)
+	bash ./scripts/ci/verify-api-rbac-contract.sh
 
 setup-kubevirt: ## Optional: install KubeVirt prerequisite
 	./scripts/setup/kubevirt.sh
