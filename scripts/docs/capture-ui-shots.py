@@ -3,17 +3,22 @@
 
 from __future__ import annotations
 
+import os
 import sys
 from pathlib import Path
 
 from playwright.sync_api import sync_playwright
 
-BASE = "http://127.0.0.1:18080"
+BASE = os.environ.get("VF_UI_URL", "http://virtfoundry.homelab")
 OUT = Path(__file__).resolve().parents[2] / "docs" / "assets" / "screenshots"
 PAGES = [
     ("02-dashboard.png", "/dashboard"),
     ("03-vms.png", "/vms"),
+    ("04-templates.png", "/templates"),
+    ("05-volumes.png", "/volumes"),
+    ("07-networks.png", "/networks"),
     ("08-vm-snapshots.png", "/vm-snapshots"),
+    ("09-clusters.png", "/clusters"),
 ]
 
 
@@ -21,9 +26,12 @@ def main() -> None:
     OUT.mkdir(parents=True, exist_ok=True)
     with sync_playwright() as p:
         browser = p.chromium.launch(headless=True)
-        page = browser.new_page(viewport={"width": 1440, "height": 900}, device_scale_factor=2)
+        page = browser.new_page(viewport={"width": 1440, "height": 900}, device_scale_factor=2, color_scheme="dark")
+        page.add_init_script("localStorage.setItem('virtfoundry_theme', 'dark')")
         page.goto(f"{BASE}/login", wait_until="networkidle")
         page.get_by_role("button", name="EN", exact=True).click()
+        page.screenshot(path=str(OUT / "01-login.png"), full_page=False)
+        print(f"wrote {OUT / '01-login.png'}")
         page.get_by_placeholder("root or tenant-admin").fill("root")
         page.get_by_placeholder("••••••••").fill("virtfoundry")
         page.get_by_role("button", name="Sign in").click()

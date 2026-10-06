@@ -25,6 +25,11 @@ flowchart LR
 | IaaS operator | Turns each worker `Instance` into a KubeVirt VM |
 | Kamaji | Hosts the Kubernetes API server and etcd for the tenant cluster |
 
+<figure markdown="span">
+  ![VKS clusters list in the VirtFoundry console](../../assets/screenshots/09-clusters.png)
+  <figcaption>Compute → VKS Clusters. Click to zoom.</figcaption>
+</figure>
+
 ## Create a cluster
 
 ```yaml
