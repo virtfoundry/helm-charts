@@ -75,5 +75,8 @@ jobs:
       - name: CRD chart gate (matches operator/vks, keeps CRDs on uninstall)
         run: bash ./scripts/ci/verify-crds-chart.sh
 
+      - name: Platform umbrella parity gate (same resources as the standalone charts)
+        run: bash ./scripts/ci/verify-platform-parity.sh
+
       - name: MkDocs build (strict)
         run: mkdocs build --strict

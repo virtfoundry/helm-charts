@@ -1,4 +1,4 @@
-.PHONY: help lint template security-gates verify-operator-chart-rbac verify-operator-chart-drift verify-api-rbac-contract setup-kubevirt setup-multus setup-cdi render-local-config docs-build docs-serve
+.PHONY: help lint template security-gates verify-operator-chart-rbac verify-operator-chart-drift verify-api-rbac-contract verify-crds-chart sync-crds-chart verify-platform-parity setup-kubevirt setup-multus setup-cdi render-local-config docs-build docs-serve
 
 CHART := ./charts/virtfoundry
 OPERATOR_CHART := ./charts/virtfoundry-operator
@@ -42,6 +42,9 @@ verify-crds-chart: ## PR gate: CRD chart matches operator/vks and keeps CRDs on 
 
 sync-crds-chart: ## Refresh charts/virtfoundry-crds/manifests from operator and vks
 	bash ./scripts/crds/sync-crds-chart.sh
+
+verify-platform-parity: ## PR gate: umbrella chart renders the same resources as the standalone charts (needs network)
+	bash ./scripts/ci/verify-platform-parity.sh
 
 setup-kubevirt: ## Optional: install KubeVirt prerequisite
 	./scripts/setup/kubevirt.sh

@@ -1,6 +1,6 @@
 # Future platform umbrella chart (`virtfoundry-platform`)
 
-**Status:** Design only — **not shipped in 0.10.x**. Install and GitOps paths stay unchanged until a dedicated release cuts the umbrella chart and migrates Argo Applications.
+**Status:** Implemented in `charts/virtfoundry-platform`, **not yet published**. 0.10.x installs and GitOps paths stay on the three standalone charts until a release publishes the umbrella and the Argo Applications are migrated.
 
 ## 0.10.x (current)
 
@@ -16,13 +16,26 @@ Install docs, [Versioning](versioning.md), and sync waves (operator before core 
 
 The VKS chart source today lives in the [`virtfoundry/vks`](https://github.com/virtfoundry/vks) repository (`charts/virtfoundry-vks`); operator and core charts live in [`virtfoundry/helm-charts`](https://github.com/virtfoundry/helm-charts). A future umbrella release may vendor or depend on packaged charts from one or both repos — details TBD when the chart is implemented.
 
-## Future: `virtfoundry-platform`
+## Decisions
+
+| Topic | Decision |
+|-------|----------|
+| Kamaji | **Not a dependency.** The homelab runs Kamaji `26.9.5-edge` from git, which is not in the Helm repository, and the stable chart there is `1.0.0`. VKS needs a Kamaji that accepts the node Kubernetes version, so it stays a documented prerequisite |
+| VKS chart | Published by the `vks` repository as OCI (`oci://ghcr.io/virtfoundry/charts`) on tags. The repo that owns the code owns the chart |
+| Operator and core | `file://` dependencies inside this repo, so their versions cannot drift from the umbrella |
+| VKS default | `vks.enabled: false`, because it needs Kamaji |
+| Resource names | Unchanged. Operator and core derive names from `fullnamePrefix`; with the `vks` alias the chart name becomes `vks`, so the umbrella sets `vks.nameOverride: virtfoundry-vks` |
+| CRDs | Same Helm limitation as before (see below) |
+
+`make verify-platform-parity` renders the umbrella and the three standalone charts and fails if the set of resources (kind, namespace, name) differs. That is the guarantee that moving to one release does not rename or recreate anything.
+
+## `virtfoundry-platform`
 
 **Chart name (locked):** `virtfoundry-platform`
 
 **Type:** Umbrella (`type: application`) with Helm **dependencies** on the three application charts, pinned to the **same product version** (e.g. `0.10.0` across operator, core, and VKS).
 
-Sketch of `Chart.yaml`:
+Sketch of `Chart.yaml` (the implemented file uses `file://` for operator and core and the OCI registry for VKS):
 
 ```yaml
 apiVersion: v2

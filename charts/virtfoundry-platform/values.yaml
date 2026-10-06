@@ -1,0 +1,19 @@
+# Umbrella values. Each key below is passed to one subchart; see that chart's values.yaml.
+#
+# Kamaji is NOT part of this chart. VKS needs it installed first
+# (docs/guide/prerequisites.md#optional-kubernetes-clusters-vks).
+
+operator:
+  enabled: true
+  # virtfoundry-operator values (CRDs, controller image, watch scope, ...)
+
+core:
+  enabled: true
+  # virtfoundry values (API/UI images, secrets, store, ingress, ...)
+  # secrets.rootPassword / secrets.jwtSecret (or secrets.existingSecret) are required, as in the standalone chart.
+
+vks:
+  enabled: false # needs Kamaji; set true once it is installed
+  # Keeps resource names identical to the standalone chart (an alias would rename them to vks-*).
+  nameOverride: virtfoundry-vks
+  # virtfoundry-vks values
