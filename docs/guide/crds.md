@@ -75,9 +75,24 @@ done
 
 This changes metadata only. No CRD content changes and no custom resource is touched. Then install `virtfoundry-crds` and the operator chart with `--skip-crds`.
 
-## Rehearse the migration on Kind
+## Rehearse the migration
 
-Run this on a **Linux** host (KubeVirt is not needed; only the CRDs and the operator are exercised). It has **not** been run yet. Run it before the operator chart drops `crds/`, and never on a cluster you care about.
+Rehearse on a throwaway cluster, never on one you care about. Only the CRDs and Helm are exercised, so KubeVirt is not needed.
+
+**Result (2026-10-06).** Run against a real `kube-apiserver` 1.36.2 (envtest, local, no nodes) with the published operator chart 0.10.0, this repository's `virtfoundry-crds` and the operator chart without `crds/`:
+
+| Check | Result |
+|-------|--------|
+| Operator chart 0.10.0 installs the CRDs | 15 CRDs (`VKSCluster` comes from the VKS chart) |
+| `virtfoundry-crds` installed **without** adopting | Fails: `exists and cannot be imported into the current release: invalid ownership` |
+| After adopting, install `virtfoundry-crds` | 16 CRDs, existing Tenant untouched |
+| Upgrade the operator to the chart without `crds/` | CRDs and Tenant untouched |
+| `helm upgrade` of `virtfoundry-crds` with a changed schema | New field appears, and reverts on the next upgrade (changes propagate) |
+| `helm uninstall virtfoundry-crds` | All 16 CRDs and the Tenant remain |
+
+Not covered by that run: the Argo CD behaviour (Prune/Delete options and sync waves), which needs an Argo instance, and a real KubeVirt install. Repeat the run on Kind before the operator chart drops `crds/` in a release.
+
+To repeat it on a **Linux** host with Kind:
 
 ```bash
 kind create cluster --name crd-rehearsal
@@ -106,7 +121,7 @@ helm upgrade virtfoundry-operator ./charts/virtfoundry-operator -n virtfoundry-s
 
 # 4. Uninstalling the CRD release must keep the CRDs and the data
 helm uninstall virtfoundry-crds -n virtfoundry-system
-kubectl get crd | grep -c '\.virtfoundry\.io'      # expect 16
+kubectl get crd | grep -c '\.virtfoundry\.io'      # expect 16 (15 + VKSCluster)
 kubectl get tenants.virtfoundry.io rehearsal         # expect it to still exist
 
 kind delete cluster --name crd-rehearsal
