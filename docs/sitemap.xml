@@ -25,6 +25,10 @@
          <lastmod>2026-10-06</lastmod>
     </url>
     <url>
+         <loc>https://virtfoundry.github.io/helm-charts/docs/guide/networking-config/</loc>
+         <lastmod>2026-10-06</lastmod>
+    </url>
+    <url>
          <loc>https://virtfoundry.github.io/helm-charts/docs/guide/prerequisites/</loc>
          <lastmod>2026-10-06</lastmod>
     </url>
@@ -33,7 +37,19 @@
          <lastmod>2026-10-06</lastmod>
     </url>
     <url>
+         <loc>https://virtfoundry.github.io/helm-charts/docs/guide/storage-config/</loc>
+         <lastmod>2026-10-06</lastmod>
+    </url>
+    <url>
+         <loc>https://virtfoundry.github.io/helm-charts/docs/guide/terraform/</loc>
+         <lastmod>2026-10-06</lastmod>
+    </url>
+    <url>
          <loc>https://virtfoundry.github.io/helm-charts/docs/guide/topologies/</loc>
+         <lastmod>2026-10-06</lastmod>
+    </url>
+    <url>
+         <loc>https://virtfoundry.github.io/helm-charts/docs/guide/troubleshooting/</loc>
          <lastmod>2026-10-06</lastmod>
     </url>
     <url>
@@ -78,6 +94,10 @@
     </url>
     <url>
          <loc>https://virtfoundry.github.io/helm-charts/docs/guide/features/templates/</loc>
+         <lastmod>2026-10-06</lastmod>
+    </url>
+    <url>
+         <loc>https://virtfoundry.github.io/helm-charts/docs/guide/features/vks/</loc>
          <lastmod>2026-10-06</lastmod>
     </url>
     <url>

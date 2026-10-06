@@ -7,13 +7,13 @@
       
       
       
-        <link rel="canonical" href="https://virtfoundry.github.io/helm-charts/docs/guide/configuration/">
+        <link rel="canonical" href="https://virtfoundry.github.io/helm-charts/docs/guide/storage-config/">
       
       
-        <link rel="prev" href="../topologies/">
+        <link rel="prev" href="../networking-config/">
       
       
-        <link rel="next" href="../networking-config/">
+        <link rel="next" href="../chart-values/">
       
       
         
@@ -24,7 +24,7 @@
     
     
       
-        <title>Configuration - VirtFoundry</title>
+        <title>Storage config - VirtFoundry</title>
       
     
     
@@ -87,7 +87,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#configuration" class="md-skip">
+        <a href="#storage-configuration" class="md-skip">
           Skip to content
         </a>
       
@@ -122,7 +122,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Configuration
+              Storage config
             
           </span>
         </div>
@@ -649,37 +649,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Configuration
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../configuration/" class="md-nav__link">
         
   
   
@@ -695,203 +668,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
-      
-        <li class="md-nav__item">
-  <a href="#values-configmap" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Values → ConfigMap
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#pod-hardening-api-ui" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Pod hardening (API / UI)
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#allowed-origins-cors-websockets" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Allowed origins (CORS / WebSockets)
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#secrets" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Secrets
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Secrets">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#option-a-pass-the-values-simplest" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Option A — pass the values (simplest)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#option-b-existingsecret-recommended-for-gitops" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Option B — existingSecret (recommended for GitOps)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#upgrades-do-not-reset-credentials" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Upgrades do not reset credentials
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#gitops-argo-cd" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        GitOps / Argo CD
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#ingress-and-tls" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Ingress and TLS
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Ingress and TLS">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#gateway-api-https" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Gateway API HTTPS
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#platform-store" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Platform store
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#rbac-api-permissions" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        RBAC (API permissions)
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#networking-and-storage" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Networking and storage
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#profiles" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Profiles
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#local-dev" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Local dev
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -929,10 +705,37 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../storage-config/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Storage config
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -948,6 +751,70 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+      
+        <li class="md-nav__item">
+  <a href="#default-storageclass-platformstorage" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Default StorageClass (platform.storage)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-uses-which-storageclass" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What uses which StorageClass
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#snapshots-vm-vs-volume" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Snapshots: VM vs volume
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#per-template-override-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Per-template override (API)
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -1748,10 +1615,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
       
         <li class="md-nav__item">
-  <a href="#values-configmap" class="md-nav__link">
+  <a href="#default-storageclass-platformstorage" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Values → ConfigMap
+        Default StorageClass (platform.storage)
       
     </span>
   </a>
@@ -1759,10 +1626,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#pod-hardening-api-ui" class="md-nav__link">
+  <a href="#what-uses-which-storageclass" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Pod hardening (API / UI)
+        What uses which StorageClass
       
     </span>
   </a>
@@ -1770,10 +1637,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#allowed-origins-cors-websockets" class="md-nav__link">
+  <a href="#snapshots-vm-vs-volume" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Allowed origins (CORS / WebSockets)
+        Snapshots: VM vs volume
       
     </span>
   </a>
@@ -1781,143 +1648,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#secrets" class="md-nav__link">
+  <a href="#per-template-override-api" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Secrets
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Secrets">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#option-a-pass-the-values-simplest" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Option A — pass the values (simplest)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#option-b-existingsecret-recommended-for-gitops" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Option B — existingSecret (recommended for GitOps)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#upgrades-do-not-reset-credentials" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Upgrades do not reset credentials
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#gitops-argo-cd" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        GitOps / Argo CD
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#ingress-and-tls" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Ingress and TLS
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Ingress and TLS">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#gateway-api-https" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Gateway API HTTPS
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#platform-store" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Platform store
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#rbac-api-permissions" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        RBAC (API permissions)
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#networking-and-storage" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Networking and storage
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#profiles" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Profiles
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#local-dev" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Local dev
+        Per-template override (API)
       
     </span>
   </a>
@@ -1989,7 +1723,7 @@
 
 
   
-    <a href="https://github.com/virtfoundry/helm-charts/edit/main/docs/guide/configuration.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+    <a href="https://github.com/virtfoundry/helm-charts/edit/main/docs/guide/storage-config.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"></path></svg>
     </a>
@@ -1997,160 +1731,14 @@
   
 
 
-<h1 id="configuration">Configuration<a class="headerlink" href="#configuration" title="Permanent link">¶</a></h1>
-<p>VirtFoundry runtime configuration is YAML rendered by Helm into a ConfigMap. <strong>Helm values are the source of truth in Kubernetes.</strong></p>
-<h2 id="values-configmap">Values → ConfigMap<a class="headerlink" href="#values-configmap" title="Permanent link">¶</a></h2>
-<table>
-<thead>
-<tr>
-<th>Helm value</th>
-<th>Config field</th>
-<th>Notes</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>store.driver</code></td>
-<td><code>database.driver</code></td>
-<td>Default <code>kubernetes</code> (<code>virtfoundry.io</code> CRDs)</td>
-</tr>
-<tr>
-<td><code>config.logLevel</code></td>
-<td><code>logger.level</code></td>
-<td></td>
-</tr>
-<tr>
-<td><code>config.jwtExpire</code></td>
-<td><code>security.jwt_expire</code></td>
-<td></td>
-</tr>
-<tr>
-<td><code>config.kubevirtEnabled</code></td>
-<td><code>kubevirt.enabled</code></td>
-<td></td>
-</tr>
-<tr>
-<td><code>api.security.allowedOrigins</code></td>
-<td><code>security.allowed_origins</code></td>
-<td>CORS / WS Origin allowlist — see <a href="#allowed-origins-cors-websockets">Allowed origins</a></td>
-</tr>
-<tr>
-<td><code>platform.networking.public.*</code></td>
-<td><code>networking.public.*</code></td>
-<td>Shared VM network (off by default)</td>
-</tr>
-<tr>
-<td><code>platform.networking.isolated.enabled</code></td>
-<td>—</td>
-<td>Host bridge DaemonSet for tenant VPCs (off by default; see <a href="../networking-config/#host-bridges-isolated-public">Host bridges</a>)</td>
-</tr>
-<tr>
-<td><code>platform.networking.isolated.bridge.name</code></td>
-<td><code>networking.isolated.bridge_name</code></td>
-<td>Tenant VPC bridge</td>
-</tr>
-<tr>
-<td><code>platform.networking.vm.*</code></td>
-<td><code>networking.vm.*</code></td>
-<td>Default VM networking</td>
-</tr>
-<tr>
-<td><code>platform.storage.*</code></td>
-<td><code>storage.*</code></td>
-<td>Default StorageClass for CDI/ISO disks</td>
-</tr>
-<tr>
-<td><code>secrets.jwtSecret</code></td>
-<td>—</td>
-<td>Env <code>JWT_SECRET</code> on API (not in ConfigMap) — see <a href="#secrets">Secrets</a></td>
-</tr>
-<tr>
-<td><code>secrets.rootPassword</code></td>
-<td>—</td>
-<td>Env <code>ROOT_PASSWORD</code> on API — see <a href="#secrets">Secrets</a></td>
-</tr>
-</tbody>
-</table>
-<h2 id="pod-hardening-api-ui">Pod hardening (API / UI)<a class="headerlink" href="#pod-hardening-api-ui" title="Permanent link">¶</a></h2>
-<p>API and UI Deployments match the operator chart pattern: <code>runAsNonRoot</code>, drop <code>ALL</code> capabilities, <code>seccompProfile: RuntimeDefault</code>, <code>readOnlyRootFilesystem</code> with emptyDir mounts, and resource requests/limits (<a href="https://github.com/virtfoundry/helm-charts/issues/42">#42</a>).</p>
-<table>
-<thead>
-<tr>
-<th>Key</th>
-<th>Default</th>
-<th>Notes</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>ui.containerPort</code></td>
-<td><code>8080</code></td>
-<td>Non-root listen; Service stays <code>port: 80</code> → targetPort 8080</td>
-</tr>
-<tr>
-<td><code>ui</code> / <code>api</code> <code>resources</code></td>
-<td>set</td>
-<td>Override per environment</td>
-</tr>
-<tr>
-<td><code>ui</code> SA</td>
-<td>dedicated</td>
-<td><code>automountServiceAccountToken: false</code></td>
-</tr>
-<tr>
-<td><code>api</code> SA</td>
-<td><code>-api</code></td>
-<td>Token mounted (kube-apiserver client)</td>
-</tr>
-<tr>
-<td><code>networkPolicy.enabled</code></td>
-<td><code>true</code></td>
-<td>Control-plane NetworkPolicy; set <code>false</code> if the CNI does not enforce NP</td>
-</tr>
-<tr>
-<td><code>networkPolicy.allowedIngressNamespaces</code></td>
-<td><code>[]</code></td>
-<td>Empty = any namespace may hit UI/API HTTP ports; list Ingress/Gateway namespaces to restrict</td>
-</tr>
-</tbody>
-</table>
-<p>The chart mounts an nginx ConfigMap so the UI works as UID 101 even when the image still ships a port-80 default. Prefer UI images that listen on 8080 (core <code>docker/Dockerfile.ui</code>). Residual: bootstrap secrets remain env vars (<code>ROOT_PASSWORD</code> / <code>JWT_SECRET</code>); file mounts need an API change.</p>
-<h2 id="allowed-origins-cors-websockets">Allowed origins (CORS / WebSockets)<a class="headerlink" href="#allowed-origins-cors-websockets" title="Permanent link">¶</a></h2>
-<p>After <a href="https://github.com/virtfoundry/core/issues/98">core#98</a> / <a href="https://github.com/virtfoundry/core/pull/113">PR #113</a>, the API never emits <code>Access-Control-Allow-Origin: *</code>. CORS and the <code>/ws/events</code> / <code>/ws/console</code> Origin checks accept:</p>
-<ol>
-<li>The <strong>request host</strong> itself (same-origin), and</li>
-<li>Any origin listed in <code>security.allowed_origins</code></li>
-</ol>
-<table>
-<thead>
-<tr>
-<th>Deploy layout</th>
-<th>Set <code>api.security.allowedOrigins</code>?</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>Default chart</strong> — Ingress or Gateway fronts the UI; UI nginx proxies <code>/api/</code> and <code>/ws/</code> on the same host</td>
-<td><strong>No</strong> — leave <code>[]</code>. Same-origin proxy needs nothing.</td>
-</tr>
-<tr>
-<td><strong>Split UI/API</strong> — browser loads the UI from a different origin than the API (e.g. <code>https://console.example.com</code> calling <code>https://api.example.com</code>)</td>
-<td><strong>Yes</strong> — list every UI origin the browser will send</td>
-</tr>
-</tbody>
-</table>
-<div class="highlight"><pre><span></span><code><span class="nt">api</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">security</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">allowedOrigins</span><span class="p">:</span>
-<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">"https://console.example.com"</span>
-</code></pre></div>
-<p>Empty means fail closed for cross-origin traffic (no <code>*</code>). Operators can also override via env <code>VIRTFOUNDRY_ALLOWED_ORIGINS</code> (comma-separated) on the API pod; the chart writes the YAML list into the ConfigMap.</p>
-<h2 id="secrets">Secrets<a class="headerlink" href="#secrets" title="Permanent link">¶</a></h2>
-<p>The chart ships <strong>no</strong> credential defaults. A root password or HMAC key published in a
-public repository is a cluster-compromise path, so the chart refuses to render instead
-of installing one. <code>helm install</code> / <code>helm template</code> with plain defaults fails with an
-explicit error, and the sentinels <code>virtfoundry</code> and <code>change-me-in-production</code> are
-rejected even if you pass them by hand.</p>
+<h1 id="storage-configuration">Storage configuration<a class="headerlink" href="#storage-configuration" title="Permanent link">¶</a></h1>
+<p>Helm values for StorageClasses and snapshots. Overview of every other value: <a href="../configuration/">Configuration</a>.</p>
+<p>VirtFoundry does <strong>not</strong> ship a storage backend. It uses <strong>StorageClasses already present on your cluster</strong> (Longhorn, Ceph RBD, NFS, OpenEBS, <code>local-path</code>, cloud provider disks, etc.).</p>
+<div class="admonition tip">
+<p class="admonition-title">Preferred: Longhorn</p>
+<p><strong><a href="https://longhorn.io/">Longhorn</a></strong> is the recommended StorageClass for VirtFoundry beyond a single-node throwaway lab: replicated block volumes, CSI volume snapshots, and disks that survive a worker loss. Keep <code>local-path</code> only for quick demos; set <code>platform.storage.defaultClass=longhorn</code> (and make <code>longhorn</code> the cluster default) as soon as you have two or more workers.</p>
+</div>
+<h2 id="default-storageclass-platformstorage">Default StorageClass (<code>platform.storage</code>)<a class="headerlink" href="#default-storageclass-platformstorage" title="Permanent link">¶</a></h2>
 <table>
 <thead>
 <tr>
@@ -2161,230 +1749,130 @@ rejected even if you pass them by hand.</p>
 </thead>
 <tbody>
 <tr>
-<td><code>secrets.rootPassword</code></td>
+<td><code>storage.defaultClass</code></td>
+<td><code>auto</code></td>
+<td>Longhorn if present, else cluster default, else <code>local-path</code></td>
+</tr>
+<tr>
+<td><code>storage.snapshotClass</code></td>
 <td><code>""</code></td>
-<td>Bootstrap <code>root</code> password. Required unless <code>existingSecret</code>. Min <strong>12</strong> chars</td>
+<td>CSI <code>VolumeSnapshotClass</code> for volume snapshots; empty uses cluster default</td>
 </tr>
 <tr>
-<td><code>secrets.jwtSecret</code></td>
-<td><code>""</code></td>
-<td>HMAC key for API tokens. Required unless <code>existingSecret</code>. Min <strong>32</strong> chars</td>
+<td><code>storage.windowsBootSizeGi</code></td>
+<td><code>32</code></td>
+<td>Boot disk size when deploying from an ISO template</td>
 </tr>
 <tr>
-<td><code>secrets.existingSecret</code></td>
-<td><code>""</code></td>
-<td>Name of a Secret you manage; the chart then renders no Secret of its own</td>
-</tr>
-<tr>
-<td><code>secrets.rootPasswordKey</code></td>
-<td><code>ROOT_PASSWORD</code></td>
-<td>Key read from that Secret</td>
-</tr>
-<tr>
-<td><code>secrets.jwtSecretKey</code></td>
-<td><code>JWT_SECRET</code></td>
-<td>Key read from that Secret</td>
-</tr>
-<tr>
-<td><code>secrets.autoGenerateJwtSecret</code></td>
-<td><code>false</code></td>
-<td>Generate a random 48-char JWT secret on first install</td>
-</tr>
-<tr>
-<td><code>secrets.allowInsecureDefaults</code></td>
-<td><code>false</code></td>
-<td>Local development only — skips every check and sets <code>VF_ALLOW_INSECURE_DEFAULTS=1</code> on the API</td>
+<td><code>storage.windowsISOSizeGi</code></td>
+<td><code>8</code></td>
+<td>ISO import PVC size</td>
 </tr>
 </tbody>
 </table>
-<p>The thresholds match the API, which exits non-zero on an empty, short, or known-default
-credential (<a href="https://github.com/virtfoundry/core/issues/93">core#93</a>). A chart that
-rendered such a value would only move the failure to the first pod start.</p>
-<h3 id="option-a-pass-the-values-simplest">Option A — pass the values (simplest)<a class="headerlink" href="#option-a-pass-the-values-simplest" title="Permanent link">¶</a></h3>
+<p>List classes on the cluster, then point VirtFoundry at Longhorn (or another replicated CSI):</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>storageclass
+kubectl<span class="w"> </span>get<span class="w"> </span>volumesnapshotclass
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="nt">platform</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">storage</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">defaultClass</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">auto</span><span class="w">       </span><span class="c1"># or longhorn / ceph-rbd / local-path</span>
+<span class="w">    </span><span class="nt">snapshotClass</span><span class="p">:</span><span class="w"> </span><span class="s">""</span><span class="w">        </span><span class="c1"># empty → longhorn when default resolves to longhorn</span>
+<span class="w">    </span><span class="nt">windowsBootSizeGi</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">32</span>
+<span class="w">    </span><span class="nt">windowsISOSizeGi</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">8</span>
+</code></pre></div>
+<p>Helm one-liner:</p>
 <div class="highlight"><pre><span></span><code>helm<span class="w"> </span>upgrade<span class="w"> </span>--install<span class="w"> </span>virtfoundry<span class="w"> </span>virtfoundry/virtfoundry<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--namespace<span class="w"> </span>virtfoundry-system<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--set<span class="w"> </span>secrets.rootPassword<span class="o">=</span><span class="s1">'choose-a-strong-password'</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--set<span class="w"> </span>secrets.jwtSecret<span class="o">=</span><span class="s2">"</span><span class="k">$(</span>openssl<span class="w"> </span>rand<span class="w"> </span>-hex<span class="w"> </span><span class="m">32</span><span class="k">)</span><span class="s2">"</span>
+<span class="w">  </span>--set<span class="w"> </span>platform.storage.defaultClass<span class="o">=</span>longhorn<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--set<span class="w"> </span>platform.storage.snapshotClass<span class="o">=</span>longhorn<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>...
 </code></pre></div>
-<h3 id="option-b-existingsecret-recommended-for-gitops">Option B — <code>existingSecret</code> (recommended for GitOps)<a class="headerlink" href="#option-b-existingsecret-recommended-for-gitops" title="Permanent link">¶</a></h3>
-<p>Create the Secret with whatever tool owns your secrets (Sealed Secrets, External
-Secrets, SOPS, <code>kubectl</code> for a one-off), then reference it:</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>-n<span class="w"> </span>virtfoundry-system<span class="w"> </span>create<span class="w"> </span>secret<span class="w"> </span>generic<span class="w"> </span>virtfoundry-credentials<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--from-literal<span class="o">=</span><span class="nv">ROOT_PASSWORD</span><span class="o">=</span><span class="s1">'choose-a-strong-password'</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--from-literal<span class="o">=</span><span class="nv">JWT_SECRET</span><span class="o">=</span><span class="s2">"</span><span class="k">$(</span>openssl<span class="w"> </span>rand<span class="w"> </span>-hex<span class="w"> </span><span class="m">32</span><span class="k">)</span><span class="s2">"</span>
-
-helm<span class="w"> </span>upgrade<span class="w"> </span>--install<span class="w"> </span>virtfoundry<span class="w"> </span>virtfoundry/virtfoundry<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--namespace<span class="w"> </span>virtfoundry-system<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--set<span class="w"> </span>secrets.existingSecret<span class="o">=</span>virtfoundry-credentials
-</code></pre></div>
-<p>The API reads <code>ROOT_PASSWORD</code> and <code>JWT_SECRET</code> from that Secret. Rename the keys with
-<code>secrets.rootPasswordKey</code> / <code>secrets.jwtSecretKey</code>. When the chart can read the Secret
-(a real install or <code>--dry-run=server</code>), it also verifies the stored values are present
-and not sentinels — a Secret missing <code>JWT_SECRET</code> fails the install instead of producing
-a crash-looping API.</p>
-<h3 id="upgrades-do-not-reset-credentials">Upgrades do not reset credentials<a class="headerlink" href="#upgrades-do-not-reset-credentials" title="Permanent link">¶</a></h3>
-<p><code>helm upgrade</code> without <code>--set secrets.*</code> reads the current values back from the live
-Secret, so the root password stays valid and issued tokens keep verifying. Credentials
-change only when you pass a new value explicitly.</p>
-<p><code>secrets.autoGenerateJwtSecret: true</code> extends that to the first install: the chart
-generates a 48-char secret, and later upgrades reuse the stored one. If the live Secret
-cannot be read during an upgrade, the render <strong>fails</strong> rather than silently rotating the
-key.</p>
-<h3 id="gitops-argo-cd">GitOps / Argo CD<a class="headerlink" href="#gitops-argo-cd" title="Permanent link">¶</a></h3>
-<p><code>lookup</code> needs an API connection. It returns nothing during <code>helm template</code> and
-client-side dry-runs, which is why <code>autoGenerateJwtSecret</code> is off by default:</p>
-<ul>
-<li><strong>Argo CD and similar:</strong> use <code>secrets.existingSecret</code> and let your secrets operator own
-  the value. Do not rely on generation — a dry-run that cannot see the Secret would
-  otherwise produce a different key on each render.</li>
-<li><strong>Overlay values files must carry real credentials.</strong> An overlay still holding
-  <code>rootPassword: virtfoundry</code> or <code>jwtSecret: change-me-in-production</code> now fails to sync,
-  which is the intended outcome.</li>
-<li>CI that only renders templates should pass throwaway values that satisfy the length
-  rules (see <code>.github/workflows/chart-lint.yaml</code>).</li>
-</ul>
-<h2 id="ingress-and-tls">Ingress and TLS<a class="headerlink" href="#ingress-and-tls" title="Permanent link">¶</a></h2>
-<p>The chart does <strong>not</strong> expose a cleartext HTTP control plane by default.</p>
+<h2 id="what-uses-which-storageclass">What uses which StorageClass<a class="headerlink" href="#what-uses-which-storageclass" title="Permanent link">¶</a></h2>
 <table>
 <thead>
 <tr>
-<th>Key</th>
-<th>Default</th>
+<th>Workload</th>
+<th>Controlled by</th>
 <th>Notes</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>ingress.enabled</code></td>
-<td><code>false</code></td>
-<td>Opt in. When <code>true</code>, you must set <code>ingress.tls</code> <strong>or</strong> <code>ingress.allowCleartext: true</code></td>
+<td>ISO import / install-from-ISO (CDI)</td>
+<td><code>platform.storage.defaultClass</code></td>
+<td>Blank boot disk + HTTP ISO <code>DataVolume</code></td>
 </tr>
 <tr>
-<td><code>ingress.tls</code></td>
-<td><code>[]</code></td>
-<td>Standard Ingress <code>spec.tls</code> entries (<code>secretName</code> + <code>hosts</code>)</td>
+<td>VM template (API)</td>
+<td><code>storage_class</code> on template <strong>or</strong> default above</td>
+<td>Per-template override in <code>POST /vm-templates</code></td>
 </tr>
 <tr>
-<td><code>ingress.allowCleartext</code></td>
-<td><code>false</code></td>
-<td>Lab-only escape hatch for HTTP without TLS</td>
+<td>Container-disk templates</td>
+<td>—</td>
+<td>Image pulled as <code>containerDisk</code>; no PVC for the OS image</td>
 </tr>
 <tr>
-<td><code>ingress.annotations</code></td>
-<td>nginx timeouts</td>
-<td>Add cert-manager keys here (<code>cert-manager.io/cluster-issuer</code>, <code>ssl-redirect</code>, …)</td>
-</tr>
-<tr>
-<td><code>gateway.enabled</code></td>
-<td><code>false</code></td>
-<td>Mutually exclusive with Ingress</td>
-</tr>
-<tr>
-<td><code>gateway.parentRefs[].sectionName</code></td>
-<td><code>websecure</code></td>
-<td>Bind the HTTPS Gateway listener; use <code>web</code> only for redirect</td>
+<td>Tenant volumes (<code>/volumes</code> UI)</td>
+<td>Cluster / app default</td>
+<td>Uses Kubernetes PVC creation; wire to <code>defaultClass</code> in a future release</td>
 </tr>
 </tbody>
 </table>
-<p>Example with cert-manager (also shipped as <code>charts/virtfoundry/values-ingress-tls.yaml</code>):</p>
-<div class="highlight"><pre><span></span><code><span class="nt">ingress</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
-<span class="w">  </span><span class="nt">host</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">iaas.example.com</span>
-<span class="w">  </span><span class="nt">annotations</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">cert-manager.io/cluster-issuer</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">letsencrypt-prod</span>
-<span class="w">    </span><span class="nt">nginx.ingress.kubernetes.io/ssl-redirect</span><span class="p">:</span><span class="w"> </span><span class="s">"true"</span>
-<span class="w">  </span><span class="nt">tls</span><span class="p">:</span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">secretName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">virtfoundry-tls</span>
-<span class="w">      </span><span class="nt">hosts</span><span class="p">:</span>
-<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">iaas.example.com</span>
-</code></pre></div>
-<h3 id="gateway-api-https">Gateway API HTTPS<a class="headerlink" href="#gateway-api-https" title="Permanent link">¶</a></h3>
-<p><code>values-gateway.yaml</code> binds <code>sectionName: websecure</code>. Your Gateway must expose an HTTPS listener with that name (TLS cert on the Gateway/Listener, not in the chart).</p>
-<p>For HTTP→HTTPS redirect, apply a second HTTPRoute on the cleartext listener (<code>sectionName: web</code>) with a <code>RequestRedirect</code> filter — see <a href="../../examples/httproute-https-redirect.yaml">httproute-https-redirect.yaml</a>.</p>
-<p>Homelab overlays that still use <code>sectionName: web</code> alone keep cleartext HTTP until the Gateway gains <code>websecure</code> and a redirect route.</p>
-<h2 id="platform-store">Platform store<a class="headerlink" href="#platform-store" title="Permanent link">¶</a></h2>
-<p>Platform state lives in <strong><code>virtfoundry.io</code> CRDs</strong>. Install <strong><code>virtfoundry-operator</code></strong> before the API chart.</p>
-<div class="highlight"><pre><span></span><code><span class="nt">store</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">driver</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">kubernetes</span><span class="w">   </span><span class="c1"># default in values.yaml</span>
-</code></pre></div>
-<p>Verify:</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>crd<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>virtfoundry.io
-kubectl<span class="w"> </span>get<span class="w"> </span>vf-tenant
-kubectl<span class="w"> </span>get<span class="w"> </span>vf-instance<span class="w"> </span>-A
-</code></pre></div>
-<h2 id="rbac-api-permissions">RBAC (API permissions)<a class="headerlink" href="#rbac-api-permissions" title="Permanent link">¶</a></h2>
-<p>The API ClusterRole grants only the verbs the API calls: <code>nodes</code> and <code>pods</code> are read
-only, <code>secrets</code> never gets <code>list</code>, <code>watch</code> or <code>delete</code>, and <code>virtfoundry.io</code> resources
-are enumerated one by one instead of <code>*</code>.</p>
-<p>Tenant workloads live in namespaces the API creates at runtime
-(<code>virtfoundry-tenant-{slug}</code>), and RBAC matches neither name prefixes nor labels, so
-those rules stay cluster scoped. Two settings narrow what is left:</p>
+<h2 id="snapshots-vm-vs-volume">Snapshots: VM vs volume<a class="headerlink" href="#snapshots-vm-vs-volume" title="Permanent link">¶</a></h2>
+<p>VirtFoundry exposes <strong>two different</strong> snapshot features. They use different Kubernetes APIs and have different cluster prerequisites.</p>
 <table>
 <thead>
 <tr>
-<th>Key</th>
-<th>Default</th>
-<th>Effect</th>
+<th>Feature</th>
+<th>UI / API</th>
+<th>Kubernetes API</th>
+<th>Requires</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>rbac.api.secretNamespaces</code></td>
-<td><code>[]</code></td>
-<td>List your tenant namespaces to replace the cluster-scoped Secret rule with a <code>Role</code> per namespace</td>
+<td><strong>VM snapshot</strong></td>
+<td><code>/vm-snapshots</code>, VM detail → Snapshots</td>
+<td><code>VirtualMachineSnapshot</code> (<code>snapshot.kubevirt.io</code>)</td>
+<td>KubeVirt (already required)</td>
 </tr>
 <tr>
-<td><code>namespaceGuard.enabled</code></td>
-<td><code>true</code></td>
-<td><code>ValidatingAdmissionPolicy</code> denying the API ServiceAccount any Namespace <code>DELETE</code> outside <code>virtfoundry-tenant-*</code> / <code>virtfoundry-vpc-*</code> (Kubernetes 1.30+)</td>
+<td><strong>Volume snapshot</strong></td>
+<td><code>/snapshots</code></td>
+<td><code>VolumeSnapshot</code> (<code>snapshot.storage.k8s.io</code>)</td>
+<td>CSI snapshot stack + a StorageClass whose CSI driver supports snapshots</td>
 </tr>
 </tbody>
 </table>
-<div class="highlight"><pre><span></span><code>helm<span class="w"> </span>upgrade<span class="w"> </span>virtfoundry<span class="w"> </span>virtfoundry/virtfoundry<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--reuse-values<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--set<span class="w"> </span><span class="s1">'rbac.api.secretNamespaces={virtfoundry-tenant-acme,virtfoundry-tenant-globex}'</span>
+<p><strong>Volume snapshots do not work with <code>local-path</code>.</strong><br>
+<code>rancher.io/local-path</code> is not a CSI driver with snapshot support. Creating a volume snapshot on a lab cluster that only has <code>local-path</code> fails with:</p>
+<div class="highlight"><pre><span></span><code>create volumesnapshot: the server could not find the requested resource
 </code></pre></div>
-<p>A tenant namespace missing from that list cannot store API-key Secrets, so
-tenant-scoped API keys created there fail to authenticate. Full rule-by-rule
-rationale: <a href="https://github.com/virtfoundry/helm-charts/blob/main/charts/virtfoundry/README.md#api-permissions">chart README — API permissions</a>.</p>
-<h2 id="networking-and-storage">Networking and storage<a class="headerlink" href="#networking-and-storage" title="Permanent link">¶</a></h2>
-<ul>
-<li><a href="../networking-config/">Networking configuration</a> — public networking, host bridges</li>
-<li><a href="../storage-config/">Storage configuration</a> — StorageClasses, snapshots, per-template override</li>
-</ul>
-<h2 id="profiles">Profiles<a class="headerlink" href="#profiles" title="Permanent link">¶</a></h2>
-<table>
-<thead>
-<tr>
-<th>File</th>
-<th>Use case</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>values.yaml</code></td>
-<td>Generic defaults (Ingress off)</td>
-</tr>
-<tr>
-<td><code>values-ingress-tls.yaml</code></td>
-<td>Ingress + TLS / cert-manager</td>
-</tr>
-<tr>
-<td><code>values-gateway.yaml</code></td>
-<td>Gateway API HTTPS (<code>websecure</code>)</td>
-</tr>
-<tr>
-<td><code>values-kind.yaml</code></td>
-<td>Kind / NodePort</td>
-</tr>
-</tbody>
-</table>
-<p>Additional value overlays can set Gateway API hostnames, image tags, and platform networking for your cluster. Homelab GitOps values live in the Argo CD values repo (not published with the chart).</p>
-<h2 id="local-dev">Local dev<a class="headerlink" href="#local-dev" title="Permanent link">¶</a></h2>
-<p>Generate <code>virtfoundry/config/config.yaml</code> from Helm values:</p>
-<div class="highlight"><pre><span></span><code>make<span class="w"> </span>render-local-config
-make<span class="w"> </span>render-local-config<span class="w"> </span><span class="nv">VALUES</span><span class="o">=</span>./charts/virtfoundry/values.yaml
+<p>That error means the cluster is missing the VolumeSnapshot CRDs (<code>snapshot.storage.k8s.io</code>), and even after installing them you still need a CSI backend that can actually take snapshots.</p>
+<p><strong>To enable volume snapshots</strong>, install all of the following on the cluster (VirtFoundry does not bundle them):</p>
+<ol>
+<li><strong>CSI external-snapshotter</strong> — CRDs + snapshot-controller<br>
+   (<a href="https://github.com/kubernetes-csi/external-snapshotter">kubernetes-csi/external-snapshotter</a>)</li>
+<li><strong>A CSI StorageClass with snapshot support</strong> — for example <a href="https://longhorn.io/">Longhorn</a> (CNCF, Apache 2.0), Rook/Ceph RBD, or a cloud-provider CSI</li>
+<li><strong>A <code>VolumeSnapshotClass</code></strong> for that driver — either a cluster default (<code>snapshot.storage.kubernetes.io/is-default-class: "true"</code>) or set <code>platform.storage.snapshotClass</code> (e.g. <code>longhorn</code>). Empty config omits <code>volumeSnapshotClassName</code> so Kubernetes uses the default class.</li>
+</ol>
+<p>Verify before using the UI:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>api-resources<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>volumesnapshot
+kubectl<span class="w"> </span>get<span class="w"> </span>volumesnapshotclass
+kubectl<span class="w"> </span>get<span class="w"> </span>storageclass
 </code></pre></div>
+<p>For point-in-time backup of a whole guest on a <code>local-path</code> / lab cluster, use <strong>VM snapshots</strong> instead of volume snapshots.</p>
+<h2 id="per-template-override-api">Per-template override (API)<a class="headerlink" href="#per-template-override-api" title="Permanent link">¶</a></h2>
+<p>When registering a template, set <code>storage_class</code> to use a different class for that image only:</p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"win2022-eval"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"source_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"iso"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"image"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://example.com/win.iso"</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">"storage_class"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ceph-rbd"</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>If omitted, the API falls back to <code>platform.storage.defaultClass</code> from Helm.</p>
 
 
 
@@ -2422,7 +1910,7 @@ make<span class="w"> </span>render-local-config<span class="w"> </span><span cla
       <nav class="md-footer__inner md-grid" aria-label="Footer">
         
           
-          <a href="../topologies/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Topologies">
+          <a href="../networking-config/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Networking config">
             <div class="md-footer__button md-icon">
               
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
@@ -2432,20 +1920,20 @@ make<span class="w"> </span>render-local-config<span class="w"> </span><span cla
                 Previous
               </span>
               <div class="md-ellipsis">
-                Topologies
+                Networking config
               </div>
             </div>
           </a>
         
         
           
-          <a href="../networking-config/" class="md-footer__link md-footer__link--next" aria-label="Next: Networking config">
+          <a href="../chart-values/" class="md-footer__link md-footer__link--next" aria-label="Next: Chart values (defaults)">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 Next
               </span>
               <div class="md-ellipsis">
-                Networking config
+                Chart values (defaults)
               </div>
             </div>
             <div class="md-footer__button md-icon">
