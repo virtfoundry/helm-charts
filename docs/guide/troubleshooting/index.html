@@ -932,6 +932,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#helm-install-virtfoundry-fails-with-failed-post-install-timed-out-waiting-for-the-condition" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        helm install virtfoundry fails with failed post-install: timed out waiting for the condition
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#tenant-api-keys-fail-to-authenticate" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1700,6 +1711,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#helm-install-virtfoundry-fails-with-failed-post-install-timed-out-waiting-for-the-condition" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        helm install virtfoundry fails with failed post-install: timed out waiting for the condition
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#tenant-api-keys-fail-to-authenticate" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1833,6 +1855,15 @@
 <p>The cluster has no <code>VolumeSnapshot</code> CRDs, or its StorageClass cannot snapshot (<code>local-path</code> cannot). Install the CSI external-snapshotter and a snapshot-capable class such as Longhorn, or use VM snapshots instead. Details: <a href="../storage-config/#snapshots-vm-vs-volume">Storage configuration</a>.</p>
 <h2 id="chart-install-fails-to-render">Chart install fails to render<a class="headerlink" href="#chart-install-fails-to-render" title="Permanent link">¶</a></h2>
 <p><code>secrets.rootPassword</code> (12+ chars) and <code>secrets.jwtSecret</code> (32+ chars) have no defaults. Pass both on the same <code>helm</code> command, or use <code>secrets.existingSecret</code>. See <a href="../configuration/#secrets">Secrets</a>.</p>
+<h2 id="helm-install-virtfoundry-fails-with-failed-post-install-timed-out-waiting-for-the-condition"><code>helm install virtfoundry</code> fails with <code>failed post-install: timed out waiting for the condition</code><a class="headerlink" href="#helm-install-virtfoundry-fails-with-failed-post-install-timed-out-waiting-for-the-condition" title="Permanent link">¶</a></h2>
+<p>The <code>virtfoundry</code> chart runs a post-install Job (<code>virtfoundry-kubevirt-config</code>) that patches the KubeVirt CR (CPU allocation ratio, feature gates). Without KubeVirt installed, the Job never succeeds and Helm gives up after about five minutes.</p>
+<p>Install KubeVirt first (<a href="../prerequisites/">Platform prerequisites</a>), or skip the Job on a cluster where you manage KubeVirt yourself:</p>
+<div class="highlight"><pre><span></span><code>helm<span class="w"> </span>upgrade<span class="w"> </span>--install<span class="w"> </span>virtfoundry<span class="w"> </span>virtfoundry/virtfoundry<span class="w"> </span>-n<span class="w"> </span>virtfoundry-system<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--set<span class="w"> </span>platform.kubevirt.cpuAllocationRatio<span class="o">=</span><span class="m">0</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--set<span class="w"> </span>platform.kubevirt.featureGates.enabled<span class="o">=</span><span class="nb">false</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--set-string<span class="w"> </span>secrets.rootPassword<span class="o">=</span><span class="s1">'...'</span><span class="w"> </span>--set-string<span class="w"> </span>secrets.jwtSecret<span class="o">=</span><span class="s1">'...'</span>
+</code></pre></div>
+<p>A failed install leaves a <code>failed</code> release; run <code>helm uninstall virtfoundry -n virtfoundry-system</code> before installing again.</p>
 <h2 id="tenant-api-keys-fail-to-authenticate">Tenant API keys fail to authenticate<a class="headerlink" href="#tenant-api-keys-fail-to-authenticate" title="Permanent link">¶</a></h2>
 <p>The tenant namespace is missing from <code>rbac.api.secretNamespaces</code>, so the API cannot store the key Secret. Add the namespace (<a href="../configuration/#rbac-api-permissions">Configuration</a>).</p>
 <h2 id="new-crd-field-is-ignored-after-a-chart-upgrade">New CRD field is ignored after a chart upgrade<a class="headerlink" href="#new-crd-field-is-ignored-after-a-chart-upgrade" title="Permanent link">¶</a></h2>
