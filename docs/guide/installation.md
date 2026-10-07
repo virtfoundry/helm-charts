@@ -187,20 +187,20 @@ Pin a release (same CRD store flags):
 
 ```bash
 helm install virtfoundry-crds virtfoundry/virtfoundry-crds \
-  --version 0.11.0 \
+  --version 0.11.1 \
   --namespace virtfoundry-system \
   --create-namespace
 helm install virtfoundry-operator virtfoundry/virtfoundry-operator \
-  --version 0.11.0 \
+  --version 0.11.1 \
   --namespace virtfoundry-system
 
-helm install virtfoundry virtfoundry/virtfoundry --version 0.11.0 \
+helm install virtfoundry virtfoundry/virtfoundry --version 0.11.1 \
   --namespace virtfoundry-system \
   --set secrets.rootPassword='choose-a-strong-password' \
   --set secrets.jwtSecret="$(openssl rand -hex 32)"
 ```
 
-Images default to `ghcr.io/virtfoundry/core:0.11.0`, `ui:0.11.0`, and `operator:0.11.0`.
+Images default to `ghcr.io/virtfoundry/core:0.11.1`, `ui:0.11.1`, and `operator:0.11.1`.
 
 ---
 
