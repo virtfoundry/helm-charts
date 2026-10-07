@@ -10,8 +10,8 @@ store:
   driver: kubernetes
 
 images:
-  api: ghcr.io/virtfoundry/core:0.11.1
-  ui: ghcr.io/virtfoundry/ui:0.11.1
+  api: ghcr.io/virtfoundry/core:0.11.2
+  ui: ghcr.io/virtfoundry/ui:0.11.2
   pullPolicy: IfNotPresent
   # Optional: ["ghcr-pull"] for private GHCR packages
   pullSecrets: []

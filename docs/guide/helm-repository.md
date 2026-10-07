@@ -16,12 +16,12 @@ helm search repo virtfoundry/virtfoundry --versions
 **Prerequisites on the cluster:** KubeVirt, Multus, CDI (ISO/import), StorageClass, Ingress or Gateway API — see [Installation](installation.md#prerequisites-overview). Then install a specific chart version (operator first):
 
 ```bash
-helm install virtfoundry-crds virtfoundry/virtfoundry-crds --version 0.11.1 \
+helm install virtfoundry-crds virtfoundry/virtfoundry-crds --version 0.11.2 \
   --namespace virtfoundry-system --create-namespace
-helm install virtfoundry-operator virtfoundry/virtfoundry-operator --version 0.11.1 \
+helm install virtfoundry-operator virtfoundry/virtfoundry-operator --version 0.11.2 \
   --namespace virtfoundry-system
 
-helm install virtfoundry virtfoundry/virtfoundry --version 0.11.1 \
+helm install virtfoundry virtfoundry/virtfoundry --version 0.11.2 \
   --namespace virtfoundry-system \
   --set secrets.rootPassword='...' \
   --set secrets.jwtSecret='...'
@@ -66,8 +66,8 @@ Both live on the **`gh-pages`** branch: chart-releaser writes `index.yaml` at th
 4. Tag both **virtfoundry** and **helm-charts**:
 
    ```bash
-   git tag v0.11.1
-   git push origin v0.11.1
+   git tag v0.11.2
+   git push origin v0.11.2
    ```
 
 5. Workflows publish Helm packages (`virtfoundry`, `virtfoundry-operator`) + rebuild docs

@@ -6,21 +6,21 @@ Format based on [Keep a Changelog](https://keepachangelog.com/). Versioning: [Se
 
 ## [Unreleased]
 
+## [0.11.2] - 2026-10-07
+
 ### Added
 
 - `scripts/e2e/homelab-ui.py`: UI end-to-end on a live install (wizard deploy, post-deploy panel, Open VM, cleanup). It found that Copy ssh did nothing over plain HTTP (fixed in core 0.11.2).
-
-### Added
-
 - `scripts/ops/wait-settled.sh`: waits until pods, Deployments and (when installed) Argo CD Applications are ready, quiet for a minimum time. The release process now says to release one repository at a time and run it in between ([Versioning](versioning.md)).
+
+### Changed
+
+- `scripts/setup/multus.sh` pins the Multus image to the immutable `v4.3.1-thick` digest instead of the moving `snapshot-thick` tag (override with `MULTUS_IMAGE`). [Troubleshooting](../guide/troubleshooting.md) explains how to pin an existing install.
+- Chart / image pins aligned with core/operator/vks **0.11.2** (core: honest login page and Copy ssh over HTTP).
 
 ### Security
 
 - `scripts/deploy/homelab.sh` no longer prints a fixed login and `scripts/docs/capture-ui-shots.py` reads the password from `VF_PASSWORD` instead of embedding one. The old value is in the Git history, so treat it as exposed and rotate it on any install that used it.
-
-### Changed
-
-- `scripts/setup/multus.sh` pins the Multus image to the immutable `v4.3.1-thick` digest instead of the moving `snapshot-thick` tag (override with `MULTUS_IMAGE`). Troubleshooting explains how to pin an existing install.
 
 ## [0.11.1] - 2026-10-07
 
