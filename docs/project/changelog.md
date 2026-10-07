@@ -6,6 +6,18 @@ Format based on [Keep a Changelog](https://keepachangelog.com/). Versioning: [Se
 
 ## [Unreleased]
 
+## [0.11.1] - 2026-10-07
+
+### Added
+
+- **Chart e2e** workflow: fresh install, umbrella install and the CRD migration from the 0.10.x operator chart on a Kind cluster (`scripts/ci/e2e-charts.sh`).
+- Troubleshooting: the `helm install virtfoundry` post-install timeout without KubeVirt, and pods stuck in `ContainerCreating` from Multus throttling ([Troubleshooting](../guide/troubleshooting.md)).
+
+### Changed
+
+- UI screenshots refreshed for 0.11.0; dependency updates (GitHub Actions, mkdocs-material).
+- Chart / image pins aligned with core/operator/vks **0.11.1**.
+
 ## [0.11.0] - 2026-10-07
 
 ### Added
