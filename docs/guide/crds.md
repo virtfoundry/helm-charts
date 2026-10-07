@@ -88,9 +88,9 @@ Rehearse on a throwaway cluster, never on one you care about. Only the CRDs and 
 | `helm upgrade` of `virtfoundry-crds` with a changed schema | New field appears, and reverts on the next upgrade (changes propagate) |
 | `helm uninstall virtfoundry-crds` | All 16 CRDs and the Tenant remain |
 
-Not covered by that run: the Argo CD behaviour (Prune/Delete options and sync waves), which needs an Argo instance, and a real KubeVirt install. Repeat the run on Kind before the operator chart drops `crds/` in a release.
+This is now automated: the **Chart e2e** workflow (`.github/workflows/chart-e2e.yaml`, script `scripts/ci/e2e-charts.sh`) runs the fresh install, the umbrella install and this migration on a Kind cluster for every change to `charts/`. It covers the same checks, and the install flow with the new chart layout. Not covered: the Argo CD behaviour (Prune/Delete options and sync waves), which needs an Argo instance, and a real KubeVirt install.
 
-To repeat it on a **Linux** host with Kind:
+To repeat the migration by hand on a **Linux** host with Kind:
 
 ```bash
 kind create cluster --name crd-rehearsal
