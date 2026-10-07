@@ -2,7 +2,7 @@
 
 Install these **before** `virtfoundry-operator` and `virtfoundry`. VirtFoundry does not bundle hypervisor or CNI operators — pin versions to match your Kubernetes distro.
 
-**Recommended order:** Kubernetes → storage → KubeVirt → Multus → CDI → (optional) MetalLB / snapshot CRDs → **virtfoundry-operator** → **virtfoundry** → (optional) Kamaji + **virtfoundry-vks**.
+**Recommended order:** Kubernetes → storage → KubeVirt → Multus → CDI → (optional) MetalLB / snapshot CRDs → **virtfoundry-crds** → **virtfoundry-operator** → **virtfoundry** → (optional) Kamaji + **virtfoundry-vks**.
 
 ## Required
 

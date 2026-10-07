@@ -112,7 +112,7 @@ check_api_clusterrole() {
   local file="$1"
   local label="$2"
   local secrets_mode="$3" # "fallback" (get/create/update) or "none"
-  python3 - "$file" "$label" "$secrets_mode" "${CHART}/../virtfoundry-operator/crds" <<'PY'
+  python3 - "$file" "$label" "$secrets_mode" "${CHART}/../virtfoundry-crds/manifests" <<'PY'
 import re
 import sys
 from pathlib import Path

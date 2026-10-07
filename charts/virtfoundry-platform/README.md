@@ -10,10 +10,13 @@ One Helm release for the VirtFoundry control plane: the operator, core (API + UI
 
 Kamaji and the platform prerequisites (KubeVirt, Multus, CDI, storage) are **not** part of this chart. See [Platform prerequisites](https://virtfoundry.github.io/helm-charts/docs/guide/prerequisites/).
 
+Install the CRDs first ([CRDs and upgrades](https://virtfoundry.github.io/helm-charts/docs/guide/crds/)); this chart does not include them.
+
 ```bash
 helm repo add virtfoundry https://virtfoundry.github.io/helm-charts
+helm install virtfoundry-crds virtfoundry/virtfoundry-crds --version 0.11.0 -n virtfoundry-system --create-namespace
 helm install virtfoundry virtfoundry/virtfoundry-platform \
-  --version 0.10.0 -n virtfoundry-system --create-namespace \
+  --version 0.11.0 -n virtfoundry-system \
   --set-string core.secrets.rootPassword='...' \
   --set-string core.secrets.jwtSecret="$(openssl rand -hex 32)"
 ```

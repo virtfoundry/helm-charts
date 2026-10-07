@@ -31,14 +31,17 @@ You need at least one **default** or known StorageClass. Prefer [Longhorn](https
 helm repo add virtfoundry https://virtfoundry.github.io/helm-charts
 helm repo update
 
-# CRDs + operator (required)
-helm install virtfoundry-operator virtfoundry/virtfoundry-operator \
-  --version 0.10.0 \
+# CRDs, then the operator (required)
+helm install virtfoundry-crds virtfoundry/virtfoundry-crds \
+  --version 0.11.0 \
   --namespace virtfoundry-system --create-namespace
+helm install virtfoundry-operator virtfoundry/virtfoundry-operator \
+  --version 0.11.0 \
+  --namespace virtfoundry-system
 
 # API + UI
 helm install virtfoundry virtfoundry/virtfoundry \
-  --version 0.10.0 \
+  --version 0.11.0 \
   --namespace virtfoundry-system \
   --set secrets.rootPassword='choose-a-strong-password' \
   --set secrets.jwtSecret="$(openssl rand -hex 32)"

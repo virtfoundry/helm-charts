@@ -5,7 +5,7 @@ VirtFoundry installs the **control plane** (API, UI). Platform state is stored i
 !!! tip "Install prerequisites first"
     See **[Platform prerequisites](prerequisites.md)** for official install links to [KubeVirt](https://kubevirt.io/), [Multus](https://github.com/k8snetworkplumbingwg/multus-cni), [CDI](https://github.com/kubevirt/containerized-data-importer), storage, and optional MetalLB / CSI snapshots.
 
-**Recommended order:** [prerequisites](prerequisites.md) → **virtfoundry-operator** (CRDs + controller) → **virtfoundry** (API + UI) → optional **virtfoundry-vks** ([Kubernetes clusters](features/vks.md)).
+**Recommended order:** [prerequisites](prerequisites.md) → **virtfoundry-crds** → **virtfoundry-operator** (controller) → **virtfoundry** (API + UI) → optional **virtfoundry-vks** ([Kubernetes clusters](features/vks.md)).
 
 **Want UI + first VM in under 30 minutes?** Start with the [Quickstart](quickstart.md). On a laptop (Docker, no switch/VLAN), use **[Kind](kind.md)**.
 
@@ -21,8 +21,10 @@ git clone --branch v@@VERSION@@ https://github.com/virtfoundry/helm-charts.git \
   && ./scripts/setup/multus.sh && ./scripts/setup/kubevirt.sh && ./scripts/setup/cdi.sh \
   && ROOT_PASSWORD="$(openssl rand -base64 18)" \
   && helm repo add virtfoundry https://virtfoundry.github.io/helm-charts && helm repo update \
-  && helm install virtfoundry-operator virtfoundry/virtfoundry-operator --version @@VERSION@@ \
+  && helm install virtfoundry-crds virtfoundry/virtfoundry-crds --version @@VERSION@@ \
        -n virtfoundry-system --create-namespace --wait \
+  && helm install virtfoundry-operator virtfoundry/virtfoundry-operator --version @@VERSION@@ \
+       -n virtfoundry-system --wait \
   && helm install virtfoundry virtfoundry/virtfoundry --version @@VERSION@@ \
        -n virtfoundry-system --wait \
        --set-string secrets.rootPassword="$ROOT_PASSWORD" \
@@ -46,7 +48,8 @@ Then open <http://127.0.0.1:8080>.
 |-----------|-----------|-------------------|
 | Kubernetes 1.28+ | **Yes** | Runs all workloads |
 | Helm 3.x | **Yes** | Installs the charts |
-| **virtfoundry-operator** | **Yes** (CRD store) | Installs `virtfoundry.io` CRDs and reconciles Tenant/Instance status |
+| **virtfoundry-crds** | **Yes** (CRD store) | The `virtfoundry.io` CRDs, upgraded by Helm and kept on uninstall ([CRDs and upgrades](crds.md)) |
+| **virtfoundry-operator** | **Yes** | Controller: reconciles Tenant/Instance status |
 | [KubeVirt](https://kubevirt.io/) | **Yes** | Hypervisor — VMs, start/stop, console, **VM** snapshots |
 | [Multus CNI](https://github.com/k8snetworkplumbingwg/multus-cni) | **Yes** | Secondary NICs — tenant VPCs, isolated L2, public VM network |
 | [CDI](https://github.com/kubevirt/containerized-data-importer) | **Yes** for ISO/import templates; optional for container-disk-only | Imports ISOs and blank boot disks via `DataVolume` |
@@ -163,10 +166,12 @@ After platform prerequisites are healthy:
 helm repo add virtfoundry https://virtfoundry.github.io/helm-charts
 helm repo update
 
-# 1. CRDs + operator (required)
-helm install virtfoundry-operator virtfoundry/virtfoundry-operator \
+# 1. CRDs, then the operator (required)
+helm install virtfoundry-crds virtfoundry/virtfoundry-crds \
   --namespace virtfoundry-system \
   --create-namespace
+helm install virtfoundry-operator virtfoundry/virtfoundry-operator \
+  --namespace virtfoundry-system
 
 # 2. API + UI
 helm install virtfoundry virtfoundry/virtfoundry \
@@ -181,18 +186,21 @@ rules and for the `secrets.existingSecret` path.
 Pin a release (same CRD store flags):
 
 ```bash
-helm install virtfoundry-operator virtfoundry/virtfoundry-operator \
-  --version 0.10.0 \
+helm install virtfoundry-crds virtfoundry/virtfoundry-crds \
+  --version 0.11.0 \
   --namespace virtfoundry-system \
   --create-namespace
+helm install virtfoundry-operator virtfoundry/virtfoundry-operator \
+  --version 0.11.0 \
+  --namespace virtfoundry-system
 
-helm install virtfoundry virtfoundry/virtfoundry --version 0.10.0 \
+helm install virtfoundry virtfoundry/virtfoundry --version 0.11.0 \
   --namespace virtfoundry-system \
   --set secrets.rootPassword='choose-a-strong-password' \
   --set secrets.jwtSecret="$(openssl rand -hex 32)"
 ```
 
-Images default to `ghcr.io/virtfoundry/core:0.10.0`, `ui:0.10.0`, and `operator:0.10.0`.
+Images default to `ghcr.io/virtfoundry/core:0.11.0`, `ui:0.11.0`, and `operator:0.11.0`.
 
 ---
 
@@ -230,8 +238,10 @@ Script: `scripts/detect-host-public-net.sh`. Full values: [Chart values](chart-v
 git clone https://github.com/virtfoundry/helm-charts.git
 cd helm-charts
 
-helm install virtfoundry-operator ./charts/virtfoundry-operator \
+helm install virtfoundry-crds ./charts/virtfoundry-crds \
   --namespace virtfoundry-system --create-namespace
+helm install virtfoundry-operator ./charts/virtfoundry-operator \
+  --namespace virtfoundry-system
 
 helm install virtfoundry ./charts/virtfoundry \
   --namespace virtfoundry-system \

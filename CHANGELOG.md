@@ -4,10 +4,18 @@ See [docs/project/changelog.md](docs/project/changelog.md) for the full release 
 
 ## [Unreleased]
 
+## [0.11.0] - 2026-10-07
+
 ### Added
 
-- `charts/virtfoundry-crds`: the 16 `virtfoundry.io` CRDs in one chart, upgraded by `helm upgrade` and protected from `helm uninstall` and Argo prune. `make verify-crds-chart` gate. See [CRDs and upgrades](docs/guide/crds.md).
-- `charts/virtfoundry-platform`: umbrella chart for the operator, core and optional VKS in one release (not published yet). `make verify-platform-parity` gate.
+- `charts/virtfoundry-crds`: the 16 `virtfoundry.io` CRDs in one chart, upgraded by `helm upgrade` and protected from `helm uninstall` and Argo CD prune. `make verify-crds-chart` gate. See [CRDs and upgrades](docs/guide/crds.md).
+- `charts/virtfoundry-platform`: umbrella chart for the operator, core and optional VKS in one release. Kamaji is not a dependency. `make verify-platform-parity` gate.
+- Docs: Kubernetes clusters (VKS), Terraform provider, Troubleshooting, CRDs and upgrades, split Networking/Storage configuration, copy-paste install; refreshed UI screenshots; mermaid, glightbox, breadcrumbs and cards.
+
+### Changed
+
+- **Breaking:** the `virtfoundry-operator` chart (mirror of virtfoundry/operator) and the VKS chart no longer ship CRDs. **Install `virtfoundry-crds` first**, then the operator. Existing installs adopt their CRDs once: see [CRDs and upgrades](docs/guide/crds.md).
+- Chart / image pins aligned with core/operator/vks **0.11.0**.
 
 ## [0.10.0] - 2026-10-06
 

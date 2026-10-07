@@ -4,16 +4,18 @@ VirtFoundry follows [Semantic Versioning 2.0.0](https://semver.org/).
 
 ## Pre-1.0
 
-The project is **not 1.0 yet**. The current release line is **0.10.0**.
+The project is **not 1.0 yet**. The current release line is **0.11.0**.
 
 Premature product tags `v1.0.0`–`v1.5.0` and chart tags `virtfoundry-1.x` were cut too early and were **deleted** (2026-09-27) — they are **not** a SemVer 1.0 stability promise. Breaking changes may still land in **0.x MINOR** bumps until a real `1.0.0` is declared.
 
-The Helm index must not list `1.x` packages; a bare `helm install` resolves **0.10.0**. Pin anyway and install **operator first**:
+The Helm index must not list `1.x` packages; a bare `helm install` resolves **0.11.0**. Pin anyway and install the **CRDs first**, then the operator:
 
 ```bash
-helm install virtfoundry-operator virtfoundry/virtfoundry-operator --version 0.10.0 \
+helm install virtfoundry-crds virtfoundry/virtfoundry-crds --version 0.11.0 \
   -n virtfoundry-system --create-namespace
-helm install virtfoundry virtfoundry/virtfoundry --version 0.10.0 \
+helm install virtfoundry-operator virtfoundry/virtfoundry-operator --version 0.11.0 \
+  -n virtfoundry-system
+helm install virtfoundry virtfoundry/virtfoundry --version 0.11.0 \
   -n virtfoundry-system \
   --set secrets.rootPassword='...' \
   --set secrets.jwtSecret='...'
@@ -37,9 +39,9 @@ helm install virtfoundry virtfoundry/virtfoundry --version 0.10.0 \
 
 | Change | Version bump | Example |
 |--------|--------------|---------|
-| Bug fix, doc fix, security patch (non-breaking) | PATCH | `0.10.0` → `0.10.1` |
-| New feature, chart profile change | MINOR | `0.10.0` → `0.11.0` |
-| Breaking API or chart contract | MINOR while on 0.x | `0.10.0` → `0.11.0` (document in CHANGELOG) |
+| Bug fix, doc fix, security patch (non-breaking) | PATCH | `0.11.0` → `0.11.1` |
+| New feature, chart profile change | MINOR | `0.11.0` → `0.12.0` |
+| Breaking API or chart contract | MINOR while on 0.x | `0.11.0` → `0.12.0` (document in CHANGELOG) |
 | First stable contract | MAJOR | `0.x` → `1.0.0` (explicit declaration) |
 
 ## Release process
@@ -62,12 +64,12 @@ helm install virtfoundry virtfoundry/virtfoundry --version 0.10.0 \
 
    After merge to `helm-charts` `main`, confirm Pages shows the new badge/pins at https://virtfoundry.github.io/helm-charts/docs/ .
 
-4. Commit: `chore(release): v0.10.0`
+4. Commit: `chore(release): v0.11.0`
 5. Tag **each** repository that changed:
 
    ```bash
-   git tag v0.10.0
-   git push origin v0.10.0
+   git tag v0.11.0
+   git push origin v0.11.0
    ```
 
 6. CI publishes container images and Helm package; docs site rebuilds; homelab digest write-back updates Argo overlay
@@ -77,6 +79,7 @@ helm install virtfoundry virtfoundry/virtfoundry --version 0.10.0 \
 
 | VirtFoundry | operator | vks | Terraform provider | Node image (K8s) |
 |-------------|----------|-----|--------------------|------------------|
+| 0.11.0 | 0.11.0 | 0.11.0 | 0.4.0 | `node-ubuntu:1.36.5` |
 | 0.10.0 | 0.10.0 | 0.10.0 | 0.4.0 | `node-ubuntu:1.36.5` |
 | 0.9.0 | 0.9.0 | — | 0.3.1 | — |
 
@@ -85,16 +88,17 @@ The Terraform provider keeps its own 0.x line. It needs a VirtFoundry release th
 ## Consuming versions
 
 ```bash
-# Helm — pin 0.10.0; install operator first (see Installation guide)
-helm install virtfoundry-operator virtfoundry/virtfoundry-operator --version 0.10.0 ...
-helm install virtfoundry virtfoundry/virtfoundry --version 0.10.0 \
+# Helm — pin 0.11.0; CRDs first, then the operator (see Installation guide)
+helm install virtfoundry-crds virtfoundry/virtfoundry-crds --version 0.11.0 ...
+helm install virtfoundry-operator virtfoundry/virtfoundry-operator --version 0.11.0 ...
+helm install virtfoundry virtfoundry/virtfoundry --version 0.11.0 \
   --set secrets.rootPassword='...' --set secrets.jwtSecret='...' ...
 
 # Container images
-ghcr.io/virtfoundry/core:0.10.0
-ghcr.io/virtfoundry/ui:0.10.0
-ghcr.io/virtfoundry/operator:0.10.0
-ghcr.io/virtfoundry/vks:0.10.0
+ghcr.io/virtfoundry/core:0.11.0
+ghcr.io/virtfoundry/ui:0.11.0
+ghcr.io/virtfoundry/operator:0.11.0
+ghcr.io/virtfoundry/vks:0.11.0
 ```
 
 Tags `latest` (on `main` builds) may also exist — pin explicitly in production.

@@ -34,22 +34,20 @@ git diff charts/virtfoundry-crds/manifests
 
 ## Install order
 
-With the CRD chart, CRDs come first and are a separate release:
+From **0.11.0**, the operator and VKS charts no longer ship CRDs. Install the CRD chart first, as a separate release:
 
 ```bash
 helm install virtfoundry-crds virtfoundry/virtfoundry-crds \
-  --version 0.10.0 -n virtfoundry-system --create-namespace
+  --version @@VERSION@@ -n virtfoundry-system --create-namespace
 
 helm install virtfoundry-operator virtfoundry/virtfoundry-operator \
-  --version 0.10.0 -n virtfoundry-system --skip-crds
+  --version @@VERSION@@ -n virtfoundry-system
 ```
 
-`--skip-crds` is needed while the operator chart still ships its own `crds/` directory, otherwise Helm reports that the CRDs already exist.
+!!! note "Releases up to 0.10.x"
+    The 0.10.x operator and VKS charts still ships its own `crds/` directory, so with 0.10.x **the install in [Installation](installation.md) is unchanged**: the operator chart installs the CRDs and you upgrade them by hand (below). If you want the CRD chart with a 0.10.x operator chart, install it with `--skip-crds`, otherwise Helm reports that the CRDs already exist.
 
-!!! note "Status"
-    The CRD chart is in the repository and is published with the next release. Until the operator chart stops shipping `crds/`, **the install in [Installation](installation.md) is unchanged**: the operator chart installs the CRDs and you upgrade them by hand (below).
-
-## Upgrading CRDs today (operator chart)
+## Upgrading CRDs with the 0.10.x operator chart
 
 Apply the CRDs from the new chart version before upgrading the releases. Server-side apply is required: the CRDs are too large for the client-side annotation.
 
@@ -90,9 +88,9 @@ Rehearse on a throwaway cluster, never on one you care about. Only the CRDs and 
 | `helm upgrade` of `virtfoundry-crds` with a changed schema | New field appears, and reverts on the next upgrade (changes propagate) |
 | `helm uninstall virtfoundry-crds` | All 16 CRDs and the Tenant remain |
 
-Not covered by that run: the Argo CD behaviour (Prune/Delete options and sync waves), which needs an Argo instance, and a real KubeVirt install. Repeat the run on Kind before the operator chart drops `crds/` in a release.
+This is now automated: the **Chart e2e** workflow (`.github/workflows/chart-e2e.yaml`, script `scripts/ci/e2e-charts.sh`) runs the fresh install, the umbrella install and this migration on a Kind cluster for every change to `charts/`. It covers the same checks, and the install flow with the new chart layout. Not covered: the Argo CD behaviour (Prune/Delete options and sync waves), which needs an Argo instance, and a real KubeVirt install.
 
-To repeat it on a **Linux** host with Kind:
+To repeat the migration by hand on a **Linux** host with Kind:
 
 ```bash
 kind create cluster --name crd-rehearsal

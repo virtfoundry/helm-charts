@@ -77,7 +77,7 @@ Wait until `kubectl get kubevirt -n kubevirt` shows `Available`.
 
 ## 3. Install VirtFoundry (public off)
 
-Install the **operator** first, then the control plane with the CRD store profile.
+Install the **CRDs** and the **operator** first, then the control plane with the CRD store profile.
 
 Overlay [`values-kind.yaml`](https://github.com/virtfoundry/helm-charts/blob/main/charts/virtfoundry/values-kind.yaml): NodePort **30880** (mapped to host **8080**), `public.enabled: false`.
 
@@ -88,12 +88,15 @@ curl -fsSL https://raw.githubusercontent.com/virtfoundry/helm-charts/main/charts
 helm repo add virtfoundry https://virtfoundry.github.io/helm-charts
 helm repo update
 
-helm install virtfoundry-operator virtfoundry/virtfoundry-operator \
-  --version 0.10.0 \
+helm install virtfoundry-crds virtfoundry/virtfoundry-crds \
+  --version 0.11.0 \
   --namespace virtfoundry-system --create-namespace
+helm install virtfoundry-operator virtfoundry/virtfoundry-operator \
+  --version 0.11.0 \
+  --namespace virtfoundry-system
 
 helm install virtfoundry virtfoundry/virtfoundry \
-  --version 0.10.0 \
+  --version 0.11.0 \
   --namespace virtfoundry-system \
   -f values-kind.yaml \
   --set secrets.rootPassword='kind-lab-password' \
@@ -154,7 +157,7 @@ platform:
 
 ```bash
 helm upgrade virtfoundry virtfoundry/virtfoundry \
-  --version 0.10.0 \
+  --version 0.11.0 \
   -n virtfoundry-system \
   -f values-kind.yaml \
   -f values-kind-public.yaml \
