@@ -6,7 +6,7 @@ namespace: virtfoundry-system
 image:
   repository: ghcr.io/virtfoundry/operator
   # Prefer a release tag (semver / git SHA). Do not rely on floating `latest`.
-  tag: "0.10.0"
+  tag: "0.11.0"
   # Production: set digest (sha256:…) so the chart ignores tag and pins the image.
   # Leave empty only for local/dev when pulling by tag is acceptable.
   digest: ""

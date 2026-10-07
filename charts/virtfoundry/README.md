@@ -2,7 +2,7 @@
 
 Helm chart for the VirtFoundry control plane (**API + UI**).
 
-Platform state lives in **`virtfoundry.io` CRDs** (install **virtfoundry-operator** first).
+Platform state lives in **`virtfoundry.io` CRDs** (install **virtfoundry-crds** and **virtfoundry-operator** first).
 
 ## Prerequisites (cluster)
 
@@ -20,8 +20,10 @@ helm repo add virtfoundry https://virtfoundry.github.io/helm-charts
 helm repo update
 
 # After platform prerequisites (see Installation guide)
-helm install virtfoundry-operator virtfoundry/virtfoundry-operator \
+helm install virtfoundry-crds virtfoundry/virtfoundry-crds \
   --namespace virtfoundry-system --create-namespace
+helm install virtfoundry-operator virtfoundry/virtfoundry-operator \
+  --namespace virtfoundry-system
 
 helm install virtfoundry virtfoundry/virtfoundry \
   --namespace virtfoundry-system \

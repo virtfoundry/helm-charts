@@ -1,6 +1,6 @@
 # virtfoundry-operator
 
-Helm chart for the [VirtFoundry operator](https://github.com/virtfoundry/operator) — installs `virtfoundry.io/v1alpha1` CRDs and the controller Deployment.
+Helm chart for the [VirtFoundry operator](https://github.com/virtfoundry/operator) — installs the controller Deployment. The `virtfoundry.io/v1alpha1` CRDs come from the `virtfoundry-crds` chart: install it first.
 
 Install **before** the `virtfoundry` chart.
 
@@ -15,17 +15,21 @@ Install **before** the `virtfoundry` chart.
 helm repo add virtfoundry https://virtfoundry.github.io/helm-charts
 helm repo update
 
-helm install virtfoundry-operator virtfoundry/virtfoundry-operator \
+helm install virtfoundry-crds virtfoundry/virtfoundry-crds \
   --namespace virtfoundry-system \
   --create-namespace
+helm install virtfoundry-operator virtfoundry/virtfoundry-operator \
+  --namespace virtfoundry-system
 ```
 
 From a git clone:
 
 ```bash
-helm install virtfoundry-operator ./charts/virtfoundry-operator \
+helm install virtfoundry-crds ./charts/virtfoundry-crds \
   --namespace virtfoundry-system \
   --create-namespace
+helm install virtfoundry-operator ./charts/virtfoundry-operator \
+  --namespace virtfoundry-system
 ```
 
 Then install the API/UI chart (`virtfoundry`).
@@ -45,7 +49,7 @@ kubectl get pods -n virtfoundry-system -l app.kubernetes.io/part-of=virtfoundry
 | Tenant | Namespace + Ready status |
 | Instance | KubeVirt VM/VMI → `status.phase`, `status.ip` |
 
-Other CRDs are installed for API/GitOps use; additional controllers are tracked in the [core design spec](https://github.com/virtfoundry/core/blob/main/docs/superpowers/specs/2026-09-01-crd-operator-design.md).
+Other CRDs (from `virtfoundry-crds`) exist for API/GitOps use; additional controllers are tracked in the [core design spec](https://github.com/virtfoundry/core/blob/main/docs/superpowers/specs/2026-09-01-crd-operator-design.md).
 
 ## Permissions
 

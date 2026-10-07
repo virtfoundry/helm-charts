@@ -1,4 +1,4 @@
-.PHONY: help lint template security-gates verify-operator-chart-rbac verify-operator-chart-drift verify-api-rbac-contract setup-kubevirt setup-multus setup-cdi render-local-config docs-build docs-serve
+.PHONY: help lint template security-gates verify-operator-chart-rbac verify-operator-chart-drift verify-api-rbac-contract verify-crds-chart sync-crds-chart verify-platform-parity e2e-charts setup-kubevirt setup-multus setup-cdi render-local-config docs-build docs-serve
 
 CHART := ./charts/virtfoundry
 OPERATOR_CHART := ./charts/virtfoundry-operator
@@ -36,6 +36,18 @@ verify-operator-chart-drift: ## PR gate: operator chart mirror matches virtfound
 
 verify-api-rbac-contract: ## PR gate: API RBAC satisfies core's docs/rbac-contract.yaml (needs network)
 	bash ./scripts/ci/verify-api-rbac-contract.sh
+
+verify-crds-chart: ## PR gate: CRD chart matches operator/vks and keeps CRDs on uninstall (needs network)
+	bash ./scripts/ci/verify-crds-chart.sh
+
+sync-crds-chart: ## Refresh charts/virtfoundry-crds/manifests from operator and vks
+	bash ./scripts/crds/sync-crds-chart.sh
+
+verify-platform-parity: ## PR gate: umbrella chart renders the same resources as the standalone charts (needs network)
+	bash ./scripts/ci/verify-platform-parity.sh
+
+e2e-charts: ## Chart e2e on a throwaway local cluster: make e2e-charts SCENARIO=fresh|umbrella|migrate (deletes CRDs; refuses non-local clusters)
+	bash ./scripts/ci/e2e-charts.sh $(SCENARIO)
 
 setup-kubevirt: ## Optional: install KubeVirt prerequisite
 	./scripts/setup/kubevirt.sh

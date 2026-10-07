@@ -13,3 +13,5 @@ site/
 charts/virtfoundry/values-homelab.yaml
 mkdocs.local.yml
 __pycache__/
+charts/virtfoundry-platform/Chart.lock
+charts/virtfoundry-platform/charts/

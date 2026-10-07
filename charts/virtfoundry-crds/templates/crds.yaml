@@ -1,0 +1,12 @@
+{{- /*
+  Manifests are plain files so their content is never parsed as a template.
+  Deleting a CRD deletes every custom resource of that kind (tenants, instances, VMs), so:
+  - helm.sh/resource-policy: keep stops `helm uninstall` from deleting it;
+  - the Argo CD sync option stops Argo from pruning it or deleting it with the Application.
+*/ -}}
+{{- range $path, $_ := .Files.Glob "manifests/*.yaml" }}
+{{- $crd := $.Files.Get $path | fromYaml }}
+{{- $_ := set $crd.metadata "annotations" (merge (dict "helm.sh/resource-policy" "keep" "argocd.argoproj.io/sync-options" "Prune=false,Delete=false") ($crd.metadata.annotations | default dict)) }}
+---
+{{ toYaml $crd }}
+{{- end }}
