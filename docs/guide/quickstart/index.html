@@ -1928,7 +1928,7 @@ kubectl<span class="w"> </span>get<span class="w"> </span>vm<span class="w"> </s
 </code></pre></div>
 <div class="admonition note">
 <p class="admonition-title"><code>/health</code> on the UI address is not the API</p>
-<p>The UI proxy forwards only <code>/api/</code> and <code>/ws/</code>. Any other path, including <code>/health</code>, falls back to the UI page and returns 200 without testing anything. Use <code>/api/v1/healthz</code> (0.11.3 and newer). On 0.11.3, port-forward the API service instead: <code>kubectl -n virtfoundry-system port-forward svc/virtfoundry-api 8081:8080</code> and <code>curl http://127.0.0.1:8081/health</code>.</p>
+<p>The UI proxy forwards only <code>/api/</code> and <code>/ws/</code>. Any other path, including <code>/health</code>, falls back to the UI page and returns 200 without testing anything. Use <code>/api/v1/healthz</code> (0.11.3 and newer). On 0.11.2 and older, port-forward the API service instead: <code>kubectl -n virtfoundry-system port-forward svc/virtfoundry-api 8081:8080</code> and <code>curl http://127.0.0.1:8081/health</code>.</p>
 </div>
 <hr>
 <h2 id="next">Next<a class="headerlink" href="#next" title="Permanent link">¶</a></h2>
