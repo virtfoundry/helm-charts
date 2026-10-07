@@ -44,7 +44,16 @@ kubectl -n kube-system delete pod <kube-multus-ds-pod-on-that-node>
 
 Pending pods start on the kubelet's next retry, within a couple of minutes.
 
-To avoid it: do not roll many Deployments at the same time on a single worker (for example, merging several dependency updates in a row), and pin the Multus image by digest. The upstream manifest used by `scripts/setup/multus.sh` references the moving tag `snapshot-thick`.
+To avoid it, do not roll many Deployments at the same time on a single worker (for example, merging several dependency updates in a row).
+
+Also pin the Multus image. The upstream manifest references the moving tag `snapshot-thick`, so a node that pulls it later can get a different image than the one you validated. `scripts/setup/multus.sh` pins the immutable `v4.3.1-thick` image by digest (override with `MULTUS_IMAGE`). On a cluster that already runs Multus, pin the digest it runs today. The rollout restarts one node at a time:
+
+```bash
+kubectl -n kube-system get pods -l name=multus \
+  -o jsonpath='{.items[0].status.containerStatuses[0].imageID}{"\n"}'
+kubectl -n kube-system set image ds/kube-multus-ds \
+  kube-multus=<that image@sha256:...> install-multus-binary=<that image@sha256:...>
+```
 
 ## Tenant API keys fail to authenticate
 

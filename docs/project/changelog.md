@@ -6,6 +6,10 @@ Format based on [Keep a Changelog](https://keepachangelog.com/). Versioning: [Se
 
 ## [Unreleased]
 
+### Changed
+
+- `scripts/setup/multus.sh` pins the Multus image to the immutable `v4.3.1-thick` digest instead of the moving `snapshot-thick` tag (override with `MULTUS_IMAGE`). Troubleshooting explains how to pin an existing install.
+
 ## [0.11.1] - 2026-10-07
 
 ### Added
