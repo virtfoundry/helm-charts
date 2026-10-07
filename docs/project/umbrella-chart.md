@@ -33,7 +33,7 @@ The VKS chart source today lives in the [`virtfoundry/vks`](https://github.com/v
 
 **Chart name (locked):** `virtfoundry-platform`
 
-**Type:** Umbrella (`type: application`) with Helm **dependencies** on the three application charts, pinned to the **same product version** (e.g. `0.11.2` across operator, core, and VKS).
+**Type:** Umbrella (`type: application`) with Helm **dependencies** on the three application charts, pinned to the **same product version** (e.g. `0.11.3` across operator, core, and VKS).
 
 Sketch of `Chart.yaml` (the implemented file uses `file://` for operator and core and the OCI registry for VKS):
 
@@ -42,19 +42,19 @@ apiVersion: v2
 name: virtfoundry-platform
 description: VirtFoundry platform — operator, core, and VKS in one release
 type: application
-version: 0.11.2
-appVersion: "0.11.2"
+version: 0.11.3
+appVersion: "0.11.3"
 dependencies:
   - name: virtfoundry-operator
-    version: 0.11.2
+    version: 0.11.3
     repository: https://virtfoundry.github.io/helm-charts
     alias: operator
   - name: virtfoundry
-    version: 0.11.2
+    version: 0.11.3
     repository: https://virtfoundry.github.io/helm-charts
     alias: core
   - name: virtfoundry-vks
-    version: 0.11.2
+    version: 0.11.3
     repository: https://virtfoundry.github.io/helm-charts  # or OCI/repo TBD
     alias: vks
 ```

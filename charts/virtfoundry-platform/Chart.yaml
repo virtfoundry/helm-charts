@@ -2,21 +2,21 @@ apiVersion: v2
 name: virtfoundry-platform
 description: VirtFoundry platform in one release — operator, core (API + UI) and optional VKS
 type: application
-version: 0.11.2
-appVersion: "0.11.2"
+version: 0.11.3
+appVersion: "0.11.3"
 dependencies:
   - name: virtfoundry-operator
-    version: 0.11.2
+    version: 0.11.3
     repository: file://../virtfoundry-operator
     alias: operator
     condition: operator.enabled
   - name: virtfoundry
-    version: 0.11.2
+    version: 0.11.3
     repository: file://../virtfoundry
     alias: core
     condition: core.enabled
   - name: virtfoundry-vks
-    version: 0.11.2
+    version: 0.11.3
     repository: oci://ghcr.io/virtfoundry/charts
     alias: vks
     condition: vks.enabled
