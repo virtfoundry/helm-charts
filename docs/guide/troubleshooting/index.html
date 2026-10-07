@@ -943,6 +943,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#pods-stay-in-containercreating-with-failedcreatepodsandbox" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pods stay in ContainerCreating with FailedCreatePodSandBox
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#tenant-api-keys-fail-to-authenticate" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1722,6 +1733,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#pods-stay-in-containercreating-with-failedcreatepodsandbox" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pods stay in ContainerCreating with FailedCreatePodSandBox
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#tenant-api-keys-fail-to-authenticate" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1864,6 +1886,17 @@
 <span class="w">  </span>--set-string<span class="w"> </span>secrets.rootPassword<span class="o">=</span><span class="s1">'...'</span><span class="w"> </span>--set-string<span class="w"> </span>secrets.jwtSecret<span class="o">=</span><span class="s1">'...'</span>
 </code></pre></div>
 <p>A failed install leaves a <code>failed</code> release; run <code>helm uninstall virtfoundry -n virtfoundry-system</code> before installing again.</p>
+<h2 id="pods-stay-in-containercreating-with-failedcreatepodsandbox">Pods stay in <code>ContainerCreating</code> with <code>FailedCreatePodSandBox</code><a class="headerlink" href="#pods-stay-in-containercreating-with-failedcreatepodsandbox" title="Permanent link">¶</a></h2>
+<p>Events on the pod read <code>Failed to create pod sandbox: ... DeadlineExceeded</code> or <code>failed to reserve sandbox name ... is reserved for ...</code>, and <strong>any</strong> new pod on the node hangs, including a plain <code>pause</code> pod. Running pods are not affected.</p>
+<p>The usual cause is the <strong>Multus thick daemon</strong> (<code>kube-multus-ds</code>) being throttled by its own API client. Every CNI request waits for a pod lookup; the kubelet keeps resending the request for each pod it cannot start, and the backlog never drains. Check the daemon on the affected node:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>-n<span class="w"> </span>kube-system<span class="w"> </span>logs<span class="w"> </span>&lt;kube-multus-ds-pod-on-that-node&gt;<span class="w"> </span>--since<span class="o">=</span>10m<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-E<span class="w"> </span><span class="s2">"client-side throttling|error waiting for pod|rate limiter"</span>
+</code></pre></div>
+<p>Restart that one pod. It runs with <code>hostNetwork</code>, so it comes back even while the CNI is broken, and running workloads keep their network:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>-n<span class="w"> </span>kube-system<span class="w"> </span>delete<span class="w"> </span>pod<span class="w"> </span>&lt;kube-multus-ds-pod-on-that-node&gt;
+</code></pre></div>
+<p>Pending pods start on the kubelet's next retry, within a couple of minutes.</p>
+<p>To avoid it: do not roll many Deployments at the same time on a single worker (for example, merging several dependency updates in a row), and pin the Multus image by digest. The upstream manifest used by <code>scripts/setup/multus.sh</code> references the moving tag <code>snapshot-thick</code>.</p>
 <h2 id="tenant-api-keys-fail-to-authenticate">Tenant API keys fail to authenticate<a class="headerlink" href="#tenant-api-keys-fail-to-authenticate" title="Permanent link">¶</a></h2>
 <p>The tenant namespace is missing from <code>rbac.api.secretNamespaces</code>, so the API cannot store the key Secret. Add the namespace (<a href="../configuration/#rbac-api-permissions">Configuration</a>).</p>
 <h2 id="new-crd-field-is-ignored-after-a-chart-upgrade">New CRD field is ignored after a chart upgrade<a class="headerlink" href="#new-crd-field-is-ignored-after-a-chart-upgrade" title="Permanent link">¶</a></h2>
