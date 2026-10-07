@@ -1853,15 +1853,15 @@ helm<span class="w"> </span>repo<span class="w"> </span>update
 
 <span class="c1"># CRDs, then the operator (required)</span>
 helm<span class="w"> </span>install<span class="w"> </span>virtfoundry-crds<span class="w"> </span>virtfoundry/virtfoundry-crds<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--version<span class="w"> </span><span class="m">0</span>.11.2<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--version<span class="w"> </span><span class="m">0</span>.11.3<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--namespace<span class="w"> </span>virtfoundry-system<span class="w"> </span>--create-namespace
 helm<span class="w"> </span>install<span class="w"> </span>virtfoundry-operator<span class="w"> </span>virtfoundry/virtfoundry-operator<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--version<span class="w"> </span><span class="m">0</span>.11.2<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--version<span class="w"> </span><span class="m">0</span>.11.3<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--namespace<span class="w"> </span>virtfoundry-system
 
 <span class="c1"># API + UI</span>
 helm<span class="w"> </span>install<span class="w"> </span>virtfoundry<span class="w"> </span>virtfoundry/virtfoundry<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--version<span class="w"> </span><span class="m">0</span>.11.2<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--version<span class="w"> </span><span class="m">0</span>.11.3<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--namespace<span class="w"> </span>virtfoundry-system<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--set<span class="w"> </span>secrets.rootPassword<span class="o">=</span><span class="s1">'choose-a-strong-password'</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--set<span class="w"> </span>secrets.jwtSecret<span class="o">=</span><span class="s2">"</span><span class="k">$(</span>openssl<span class="w"> </span>rand<span class="w"> </span>-hex<span class="w"> </span><span class="m">32</span><span class="k">)</span><span class="s2">"</span>
@@ -1928,7 +1928,7 @@ kubectl<span class="w"> </span>get<span class="w"> </span>vm<span class="w"> </s
 </code></pre></div>
 <div class="admonition note">
 <p class="admonition-title"><code>/health</code> on the UI address is not the API</p>
-<p>The UI proxy forwards only <code>/api/</code> and <code>/ws/</code>. Any other path, including <code>/health</code>, falls back to the UI page and returns 200 without testing anything. Use <code>/api/v1/healthz</code> (0.11.3 and newer). On 0.11.2, port-forward the API service instead: <code>kubectl -n virtfoundry-system port-forward svc/virtfoundry-api 8081:8080</code> and <code>curl http://127.0.0.1:8081/health</code>.</p>
+<p>The UI proxy forwards only <code>/api/</code> and <code>/ws/</code>. Any other path, including <code>/health</code>, falls back to the UI page and returns 200 without testing anything. Use <code>/api/v1/healthz</code> (0.11.3 and newer). On 0.11.3, port-forward the API service instead: <code>kubectl -n virtfoundry-system port-forward svc/virtfoundry-api 8081:8080</code> and <code>curl http://127.0.0.1:8081/health</code>.</p>
 </div>
 <hr>
 <h2 id="next">Next<a class="headerlink" href="#next" title="Permanent link">¶</a></h2>

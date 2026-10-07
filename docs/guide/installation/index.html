@@ -2082,16 +2082,16 @@
 <p>For <strong>minimum vs production</strong> layouts (what works for VPC / public / snapshots on a home router), see <a href="../topologies/">Deployment topologies</a>.</p>
 <h2 id="install-everything-copy-and-paste">Install everything (copy and paste)<a class="headerlink" href="#install-everything-copy-and-paste" title="Permanent link">¶</a></h2>
 <p>For a fresh Kubernetes 1.28+ cluster that already has a <strong>StorageClass</strong> and a working <code>kubectl</code> context. It installs the platform prerequisites (Multus, KubeVirt, CDI), then VirtFoundry, and prints the login.</p>
-<div class="highlight"><pre><span></span><code>git<span class="w"> </span>clone<span class="w"> </span>--branch<span class="w"> </span>v0.11.2<span class="w"> </span>https://github.com/virtfoundry/helm-charts.git<span class="w"> </span><span class="se">\</span>
+<div class="highlight"><pre><span></span><code>git<span class="w"> </span>clone<span class="w"> </span>--branch<span class="w"> </span>v0.11.3<span class="w"> </span>https://github.com/virtfoundry/helm-charts.git<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">cd</span><span class="w"> </span>helm-charts<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span><span class="o">&amp;&amp;</span><span class="w"> </span>./scripts/setup/multus.sh<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>./scripts/setup/kubevirt.sh<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>./scripts/setup/cdi.sh<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nv">ROOT_PASSWORD</span><span class="o">=</span><span class="s2">"</span><span class="k">$(</span>openssl<span class="w"> </span>rand<span class="w"> </span>-base64<span class="w"> </span><span class="m">18</span><span class="k">)</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span><span class="o">&amp;&amp;</span><span class="w"> </span>helm<span class="w"> </span>repo<span class="w"> </span>add<span class="w"> </span>virtfoundry<span class="w"> </span>https://virtfoundry.github.io/helm-charts<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>helm<span class="w"> </span>repo<span class="w"> </span>update<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span><span class="o">&amp;&amp;</span><span class="w"> </span>helm<span class="w"> </span>install<span class="w"> </span>virtfoundry-crds<span class="w"> </span>virtfoundry/virtfoundry-crds<span class="w"> </span>--version<span class="w"> </span><span class="m">0</span>.11.2<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="o">&amp;&amp;</span><span class="w"> </span>helm<span class="w"> </span>install<span class="w"> </span>virtfoundry-crds<span class="w"> </span>virtfoundry/virtfoundry-crds<span class="w"> </span>--version<span class="w"> </span><span class="m">0</span>.11.3<span class="w"> </span><span class="se">\</span>
 <span class="w">       </span>-n<span class="w"> </span>virtfoundry-system<span class="w"> </span>--create-namespace<span class="w"> </span>--wait<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span><span class="o">&amp;&amp;</span><span class="w"> </span>helm<span class="w"> </span>install<span class="w"> </span>virtfoundry-operator<span class="w"> </span>virtfoundry/virtfoundry-operator<span class="w"> </span>--version<span class="w"> </span><span class="m">0</span>.11.2<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="o">&amp;&amp;</span><span class="w"> </span>helm<span class="w"> </span>install<span class="w"> </span>virtfoundry-operator<span class="w"> </span>virtfoundry/virtfoundry-operator<span class="w"> </span>--version<span class="w"> </span><span class="m">0</span>.11.3<span class="w"> </span><span class="se">\</span>
 <span class="w">       </span>-n<span class="w"> </span>virtfoundry-system<span class="w"> </span>--wait<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span><span class="o">&amp;&amp;</span><span class="w"> </span>helm<span class="w"> </span>install<span class="w"> </span>virtfoundry<span class="w"> </span>virtfoundry/virtfoundry<span class="w"> </span>--version<span class="w"> </span><span class="m">0</span>.11.2<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="o">&amp;&amp;</span><span class="w"> </span>helm<span class="w"> </span>install<span class="w"> </span>virtfoundry<span class="w"> </span>virtfoundry/virtfoundry<span class="w"> </span>--version<span class="w"> </span><span class="m">0</span>.11.3<span class="w"> </span><span class="se">\</span>
 <span class="w">       </span>-n<span class="w"> </span>virtfoundry-system<span class="w"> </span>--wait<span class="w"> </span><span class="se">\</span>
 <span class="w">       </span>--set-string<span class="w"> </span>secrets.rootPassword<span class="o">=</span><span class="s2">"</span><span class="nv">$ROOT_PASSWORD</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
 <span class="w">       </span>--set-string<span class="w"> </span>secrets.jwtSecret<span class="o">=</span><span class="s2">"</span><span class="k">$(</span>openssl<span class="w"> </span>rand<span class="w"> </span>-hex<span class="w"> </span><span class="m">32</span><span class="k">)</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
@@ -2302,19 +2302,19 @@ helm<span class="w"> </span>install<span class="w"> </span>virtfoundry<span clas
 rules and for the <code>secrets.existingSecret</code> path.</p>
 <p>Pin a release (same CRD store flags):</p>
 <div class="highlight"><pre><span></span><code>helm<span class="w"> </span>install<span class="w"> </span>virtfoundry-crds<span class="w"> </span>virtfoundry/virtfoundry-crds<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--version<span class="w"> </span><span class="m">0</span>.11.2<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--version<span class="w"> </span><span class="m">0</span>.11.3<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--namespace<span class="w"> </span>virtfoundry-system<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--create-namespace
 helm<span class="w"> </span>install<span class="w"> </span>virtfoundry-operator<span class="w"> </span>virtfoundry/virtfoundry-operator<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--version<span class="w"> </span><span class="m">0</span>.11.2<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--version<span class="w"> </span><span class="m">0</span>.11.3<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--namespace<span class="w"> </span>virtfoundry-system
 
-helm<span class="w"> </span>install<span class="w"> </span>virtfoundry<span class="w"> </span>virtfoundry/virtfoundry<span class="w"> </span>--version<span class="w"> </span><span class="m">0</span>.11.2<span class="w"> </span><span class="se">\</span>
+helm<span class="w"> </span>install<span class="w"> </span>virtfoundry<span class="w"> </span>virtfoundry/virtfoundry<span class="w"> </span>--version<span class="w"> </span><span class="m">0</span>.11.3<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--namespace<span class="w"> </span>virtfoundry-system<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--set<span class="w"> </span>secrets.rootPassword<span class="o">=</span><span class="s1">'choose-a-strong-password'</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--set<span class="w"> </span>secrets.jwtSecret<span class="o">=</span><span class="s2">"</span><span class="k">$(</span>openssl<span class="w"> </span>rand<span class="w"> </span>-hex<span class="w"> </span><span class="m">32</span><span class="k">)</span><span class="s2">"</span>
 </code></pre></div>
-<p>Images default to <code>ghcr.io/virtfoundry/core:0.11.2</code>, <code>ui:0.11.2</code>, and <code>operator:0.11.2</code>.</p>
+<p>Images default to <code>ghcr.io/virtfoundry/core:0.11.3</code>, <code>ui:0.11.3</code>, and <code>operator:0.11.3</code>.</p>
 <hr>
 <h2 id="why-set-is-on-the-helm-command">Why <code>--set</code> is on the Helm command<a class="headerlink" href="#why-set-is-on-the-helm-command" title="Permanent link">¶</a></h2>
 <p><code>--set</code> is a <strong>Helm</strong> flag. It must appear on the same <code>helm install</code> / <code>helm upgrade</code> line as the chart. It does not work as a follow-up kubectl command.</p>
@@ -2354,13 +2354,13 @@ helm<span class="w"> </span>install<span class="w"> </span>virtfoundry<span clas
 <h2 id="install-vks-optional">Install VKS (optional)<a class="headerlink" href="#install-vks-optional" title="Permanent link">¶</a></h2>
 <p>VKS adds the <code>VKSCluster</code> resource. Install it <strong>after</strong> the operator and core. The <code>virtfoundry-vks</code> chart is not in the Helm repository yet, so install it from the <a href="https://github.com/virtfoundry/vks"><code>virtfoundry/vks</code></a> repository.</p>
 <p>Prerequisites: <a href="../prerequisites/#optional-kubernetes-clusters-vks">Kamaji</a> with its CRDs and a <code>DataStore</code>, and a LoadBalancer implementation (MetalLB) unless you use <code>NodePort</code>.</p>
-<div class="highlight"><pre><span></span><code>git<span class="w"> </span>clone<span class="w"> </span>--branch<span class="w"> </span>v0.11.2<span class="w"> </span>https://github.com/virtfoundry/vks.git
+<div class="highlight"><pre><span></span><code>git<span class="w"> </span>clone<span class="w"> </span>--branch<span class="w"> </span>v0.11.3<span class="w"> </span>https://github.com/virtfoundry/vks.git
 <span class="nb">cd</span><span class="w"> </span>vks
 
 helm<span class="w"> </span>install<span class="w"> </span>virtfoundry-vks<span class="w"> </span>./charts/virtfoundry-vks<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--namespace<span class="w"> </span>virtfoundry-system
 </code></pre></div>
-<p>The image defaults to <code>ghcr.io/virtfoundry/vks:0.11.2</code> (the chart <code>appVersion</code>). Pin by digest with <code>--set image.digest=sha256:...</code> for GitOps.</p>
+<p>The image defaults to <code>ghcr.io/virtfoundry/vks:0.11.3</code> (the chart <code>appVersion</code>). Pin by digest with <code>--set image.digest=sha256:...</code> for GitOps.</p>
 <table>
 <thead>
 <tr>
