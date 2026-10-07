@@ -1999,7 +1999,12 @@ helm<span class="w"> </span>install<span class="w"> </span>virtfoundry<span clas
 <p>The UI sidebar/login label reads <strong><code>ui/package.json</code> at build time</strong> (<code>src/lib/version.ts</code>). A chart bump without rebuilding/publishing UI leaves users on an old label (e.g. <code>v0.5.0</code>).</p>
 <p>After merge to <code>helm-charts</code> <code>main</code>, confirm Pages shows the new badge/pins at https://virtfoundry.github.io/helm-charts/docs/ .</p>
 <ol>
-<li>Commit: <code>chore(release): v0.11.1</code></li>
+<li>Commit: <code>chore(release): v0.11.1</code>
+   <strong>Go one repository at a time.</strong> Each merge to <code>main</code> and each tag makes CI write a new image digest, so the cluster rolls that Deployment. Several rollouts at once can overload the node's CNI (<a href="../../guide/troubleshooting/#pods-stay-in-containercreating-with-failedcreatepodsandbox">Troubleshooting</a>). After each merge and each tag, wait until the cluster has settled:</li>
+</ol>
+<div class="highlight"><pre><span></span><code>scripts/ops/wait-settled.sh<span class="w">   </span><span class="c1"># NS, TIMEOUT and MIN_QUIET are configurable</span>
+</code></pre></div>
+<ol>
 <li>Tag <strong>each</strong> repository that changed:</li>
 </ol>
 <div class="highlight"><pre><span></span><code>git<span class="w"> </span>tag<span class="w"> </span>v0.11.1
