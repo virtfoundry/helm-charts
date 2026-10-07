@@ -1913,25 +1913,25 @@
 <p><code>make verify-platform-parity</code> renders the umbrella and the three standalone charts and fails if the set of resources (kind, namespace, name) differs. That is the guarantee that moving to one release does not rename or recreate anything.</p>
 <h2 id="virtfoundry-platform"><code>virtfoundry-platform</code><a class="headerlink" href="#virtfoundry-platform" title="Permanent link">¶</a></h2>
 <p><strong>Chart name (locked):</strong> <code>virtfoundry-platform</code></p>
-<p><strong>Type:</strong> Umbrella (<code>type: application</code>) with Helm <strong>dependencies</strong> on the three application charts, pinned to the <strong>same product version</strong> (e.g. <code>0.10.0</code> across operator, core, and VKS).</p>
+<p><strong>Type:</strong> Umbrella (<code>type: application</code>) with Helm <strong>dependencies</strong> on the three application charts, pinned to the <strong>same product version</strong> (e.g. <code>0.11.0</code> across operator, core, and VKS).</p>
 <p>Sketch of <code>Chart.yaml</code> (the implemented file uses <code>file://</code> for operator and core and the OCI registry for VKS):</p>
 <div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v2</span>
 <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">virtfoundry-platform</span>
 <span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">VirtFoundry platform — operator, core, and VKS in one release</span>
 <span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">application</span>
-<span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.10.0</span>
-<span class="nt">appVersion</span><span class="p">:</span><span class="w"> </span><span class="s">"0.10.0"</span>
+<span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.11.0</span>
+<span class="nt">appVersion</span><span class="p">:</span><span class="w"> </span><span class="s">"0.11.0"</span>
 <span class="nt">dependencies</span><span class="p">:</span>
 <span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">virtfoundry-operator</span>
-<span class="w">    </span><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.10.0</span>
+<span class="w">    </span><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.11.0</span>
 <span class="w">    </span><span class="nt">repository</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://virtfoundry.github.io/helm-charts</span>
 <span class="w">    </span><span class="nt">alias</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">operator</span>
 <span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">virtfoundry</span>
-<span class="w">    </span><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.10.0</span>
+<span class="w">    </span><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.11.0</span>
 <span class="w">    </span><span class="nt">repository</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://virtfoundry.github.io/helm-charts</span>
 <span class="w">    </span><span class="nt">alias</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">core</span>
 <span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">virtfoundry-vks</span>
-<span class="w">    </span><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.10.0</span>
+<span class="w">    </span><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.11.0</span>
 <span class="w">    </span><span class="nt">repository</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://virtfoundry.github.io/helm-charts</span><span class="w">  </span><span class="c1"># or OCI/repo TBD</span>
 <span class="w">    </span><span class="nt">alias</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">vks</span>
 </code></pre></div>

@@ -1511,14 +1511,25 @@
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="[Unreleased]">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#0110-2026-10-07" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        [0.11.0] - 2026-10-07
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="[0.11.0] - 2026-10-07">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#changed" class="md-nav__link">
+  <a href="#added" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Changed
+        Added
       
     </span>
   </a>
@@ -1526,10 +1537,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#added" class="md-nav__link">
+  <a href="#changed" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Added
+        Changed
       
     </span>
   </a>
@@ -2071,14 +2082,25 @@
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="[Unreleased]">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#0110-2026-10-07" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        [0.11.0] - 2026-10-07
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="[0.11.0] - 2026-10-07">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#changed" class="md-nav__link">
+  <a href="#added" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Changed
+        Added
       
     </span>
   </a>
@@ -2086,10 +2108,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#added" class="md-nav__link">
+  <a href="#changed" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Added
+        Changed
       
     </span>
   </a>
@@ -2601,14 +2623,17 @@
 <p>All notable changes to the <strong>Helm chart and deploy tooling</strong> are documented here.</p>
 <p>Format based on <a href="https://keepachangelog.com/">Keep a Changelog</a>. Versioning: <a href="../versioning/">SemVer</a>.</p>
 <h2 id="unreleased">[Unreleased]<a class="headerlink" href="#unreleased" title="Permanent link">¶</a></h2>
-<h3 id="changed">Changed<a class="headerlink" href="#changed" title="Permanent link">¶</a></h3>
-<ul>
-<li><strong>Breaking:</strong> the <code>virtfoundry-operator</code> chart (mirror of virtfoundry/operator) no longer ships <code>crds/</code>. Install the CRDs with <code>virtfoundry-crds</code> first. See <a href="../../guide/crds/">CRDs and upgrades</a>.</li>
-</ul>
+<h2 id="0110-2026-10-07">[0.11.0] - 2026-10-07<a class="headerlink" href="#0110-2026-10-07" title="Permanent link">¶</a></h2>
 <h3 id="added">Added<a class="headerlink" href="#added" title="Permanent link">¶</a></h3>
 <ul>
-<li><code>charts/virtfoundry-crds</code>: the 16 <code>virtfoundry.io</code> CRDs in one chart, upgraded by <code>helm upgrade</code> and protected from <code>helm uninstall</code> and Argo prune. <code>make verify-crds-chart</code> gate. See <a href="../../guide/crds/">CRDs and upgrades</a>.</li>
-<li><code>charts/virtfoundry-platform</code>: umbrella chart for the operator, core and optional VKS in one release (not published yet). <code>make verify-platform-parity</code> gate.</li>
+<li><code>charts/virtfoundry-crds</code>: the 16 <code>virtfoundry.io</code> CRDs in one chart, upgraded by <code>helm upgrade</code> and protected from <code>helm uninstall</code> and Argo CD prune. <code>make verify-crds-chart</code> gate. See <a href="../../guide/crds/">CRDs and upgrades</a>.</li>
+<li><code>charts/virtfoundry-platform</code>: umbrella chart for the operator, core and optional VKS in one release. Kamaji is not a dependency. <code>make verify-platform-parity</code> gate.</li>
+<li>Docs: Kubernetes clusters (VKS), Terraform provider, Troubleshooting, CRDs and upgrades, split Networking/Storage configuration, copy-paste install; refreshed UI screenshots; mermaid, glightbox, breadcrumbs and cards.</li>
+</ul>
+<h3 id="changed">Changed<a class="headerlink" href="#changed" title="Permanent link">¶</a></h3>
+<ul>
+<li><strong>Breaking:</strong> the <code>virtfoundry-operator</code> chart (mirror of virtfoundry/operator) and the VKS chart no longer ship CRDs. <strong>Install <code>virtfoundry-crds</code> first</strong>, then the operator. Existing installs adopt their CRDs once: see <a href="../../guide/crds/">CRDs and upgrades</a>.</li>
+<li>Chart / image pins aligned with core/operator/vks <strong>0.11.0</strong>.</li>
 </ul>
 <h2 id="0100-2026-10-06">[0.10.0] - 2026-10-06<a class="headerlink" href="#0100-2026-10-06" title="Permanent link">¶</a></h2>
 <h3 id="added_1">Added<a class="headerlink" href="#added_1" title="Permanent link">¶</a></h3>

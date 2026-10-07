@@ -1900,7 +1900,7 @@ kubectl<span class="w"> </span>cluster-info<span class="w"> </span>--context<spa
 <p>Wait until <code>kubectl get kubevirt -n kubevirt</code> shows <code>Available</code>.</p>
 <hr>
 <h2 id="3-install-virtfoundry-public-off">3. Install VirtFoundry (public off)<a class="headerlink" href="#3-install-virtfoundry-public-off" title="Permanent link">¶</a></h2>
-<p>Install the <strong>operator</strong> first, then the control plane with the CRD store profile.</p>
+<p>Install the <strong>CRDs</strong> and the <strong>operator</strong> first, then the control plane with the CRD store profile.</p>
 <p>Overlay <a href="https://github.com/virtfoundry/helm-charts/blob/main/charts/virtfoundry/values-kind.yaml"><code>values-kind.yaml</code></a>: NodePort <strong>30880</strong> (mapped to host <strong>8080</strong>), <code>public.enabled: false</code>.</p>
 <div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-fsSL<span class="w"> </span>https://raw.githubusercontent.com/virtfoundry/helm-charts/main/charts/virtfoundry/values-kind.yaml<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>-o<span class="w"> </span>values-kind.yaml
@@ -1908,12 +1908,15 @@ kubectl<span class="w"> </span>cluster-info<span class="w"> </span>--context<spa
 helm<span class="w"> </span>repo<span class="w"> </span>add<span class="w"> </span>virtfoundry<span class="w"> </span>https://virtfoundry.github.io/helm-charts
 helm<span class="w"> </span>repo<span class="w"> </span>update
 
-helm<span class="w"> </span>install<span class="w"> </span>virtfoundry-operator<span class="w"> </span>virtfoundry/virtfoundry-operator<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--version<span class="w"> </span><span class="m">0</span>.10.0<span class="w"> </span><span class="se">\</span>
+helm<span class="w"> </span>install<span class="w"> </span>virtfoundry-crds<span class="w"> </span>virtfoundry/virtfoundry-crds<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--version<span class="w"> </span><span class="m">0</span>.11.0<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--namespace<span class="w"> </span>virtfoundry-system<span class="w"> </span>--create-namespace
+helm<span class="w"> </span>install<span class="w"> </span>virtfoundry-operator<span class="w"> </span>virtfoundry/virtfoundry-operator<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--version<span class="w"> </span><span class="m">0</span>.11.0<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--namespace<span class="w"> </span>virtfoundry-system
 
 helm<span class="w"> </span>install<span class="w"> </span>virtfoundry<span class="w"> </span>virtfoundry/virtfoundry<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--version<span class="w"> </span><span class="m">0</span>.10.0<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--version<span class="w"> </span><span class="m">0</span>.11.0<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--namespace<span class="w"> </span>virtfoundry-system<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>-f<span class="w"> </span>values-kind.yaml<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--set<span class="w"> </span>secrets.rootPassword<span class="o">=</span><span class="s1">'kind-lab-password'</span><span class="w"> </span><span class="se">\</span>
@@ -1958,7 +1961,7 @@ docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </spa
 <span class="w">        </span><span class="nt">address</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.0.50.2/24</span><span class="w">     </span><span class="c1"># host side of vf-pub0; not in the VM pool</span>
 </code></pre></div>
 <div class="highlight"><pre><span></span><code>helm<span class="w"> </span>upgrade<span class="w"> </span>virtfoundry<span class="w"> </span>virtfoundry/virtfoundry<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--version<span class="w"> </span><span class="m">0</span>.10.0<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--version<span class="w"> </span><span class="m">0</span>.11.0<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>-n<span class="w"> </span>virtfoundry-system<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>-f<span class="w"> </span>values-kind.yaml<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>-f<span class="w"> </span>values-kind-public.yaml<span class="w"> </span><span class="se">\</span>
