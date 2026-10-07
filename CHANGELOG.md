@@ -6,6 +6,10 @@ See [docs/project/changelog.md](docs/project/changelog.md) for the full release 
 
 ### Added
 
+- `scripts/e2e/homelab-ui.py`: UI end-to-end on a live install (wizard deploy, post-deploy panel, Open VM, cleanup). It found that Copy ssh did nothing over plain HTTP (fixed in core 0.11.2).
+
+### Added
+
 - `scripts/ops/wait-settled.sh`: waits until pods, Deployments and (when installed) Argo CD Applications are ready, quiet for a minimum time. The release process now says to release one repository at a time and run it in between ([Versioning](docs/project/versioning.md)).
 
 ### Security

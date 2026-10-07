@@ -79,7 +79,14 @@ helm install virtfoundry virtfoundry/virtfoundry --version 0.11.1 \
    ```
 
 6. CI publishes container images and Helm package; docs site rebuilds; homelab digest write-back updates Argo overlay
-7. **After the homelab syncs, refresh the docs screenshots** in a docs-only PR: `python scripts/docs/capture-ui-shots.py` writes `docs/assets/screenshots/` in the dark theme (set `VF_PASSWORD`, and `VF_USER` and `VF_UI_URL` if they differ; the script has no default password). Check that the login footer shows the new version and that no secrets are visible.
+7. **After the homelab syncs, run the UI end-to-end**, then refresh the docs screenshots. The UI end-to-end deploys a VM through the wizard, checks the post-deploy panel (IP, Copy ssh, console, Open VM) and deletes the VM:
+
+   ```bash
+   pip install playwright && playwright install chromium
+   VF_PASSWORD=... python scripts/e2e/homelab-ui.py   # VF_USER, VF_UI_URL, VF_TEMPLATE, VF_SSH_KEY are optional
+   ```
+
+   Then **refresh the docs screenshots** in a docs-only PR: `python scripts/docs/capture-ui-shots.py` writes `docs/assets/screenshots/` in the dark theme (set `VF_PASSWORD`, and `VF_USER` and `VF_UI_URL` if they differ; the script has no default password). Check that the login footer shows the new version and that no secrets are visible.
 
 ## Compatibility
 
