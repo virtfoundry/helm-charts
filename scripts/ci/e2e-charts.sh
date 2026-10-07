@@ -1,0 +1,131 @@
+#!/usr/bin/env bash
+# End-to-end checks of the chart install flow on a THROWAWAY cluster (Kind in CI).
+# Only Helm and the API server are exercised: no KubeVirt, no nodes needed, so
+# workloads are never waited for.
+#
+#   e2e-charts.sh fresh     crds -> operator -> core from the local charts
+#   e2e-charts.sh umbrella  crds -> virtfoundry-platform (local, pulls the VKS OCI chart)
+#   e2e-charts.sh migrate   0.10.x operator chart owns the CRDs -> adopt -> CRD chart -> operator
+#                           without crds/ -> uninstall the CRD release; data must survive
+#
+# Safety: refuses any API server that is not on localhost.
+set -euo pipefail
+cd "$(dirname "${BASH_SOURCE[0]}")/../.."
+
+NS=virtfoundry-system
+OLD_OPERATOR_VERSION="${OLD_OPERATOR_VERSION:-0.10.0}"
+ROOT=e2e-render-only-password
+JWT=e2e-render-only-jwt-secret-0123456789abcdef
+EXPECTED_CRDS=16
+
+server="$(kubectl config view --minify -o jsonpath='{.clusters[0].cluster.server}')"
+case "$server" in
+  https://127.0.0.1:*|https://localhost:*|https://\[::1\]:*) ;;
+  *) echo "REFUSING: API server $server is not local. This script deletes CRDs." >&2; exit 2 ;;
+esac
+
+fail() { echo "FAIL: $*" >&2; exit 1; }
+ok()   { echo "OK: $*"; }
+crd_count() { kubectl get crd -o name | grep -c '\.virtfoundry\.io$' || true; }
+secrets=(--set-string "secrets.rootPassword=$ROOT" --set-string "secrets.jwtSecret=$JWT")
+# The core chart patches the KubeVirt CR in a post-install Job by default; there is no KubeVirt here.
+no_kubevirt=(--set platform.kubevirt.cpuAllocationRatio=0 --set platform.kubevirt.featureGates.enabled=false)
+
+reset() { # no releases and no CRDs (the namespace stays: Kind jobs start on a fresh cluster)
+  helm list -n "$NS" -q 2>/dev/null | xargs -r -n1 helm uninstall -n "$NS" >/dev/null 2>&1 || true
+  kubectl get crd -o name | grep '\.virtfoundry\.io$' | xargs -r kubectl delete --wait=false >/dev/null 2>&1 || true
+  for _ in $(seq 1 30); do [ "$(crd_count)" = 0 ] && break; sleep 2; done
+}
+
+new_tenant() {
+  kubectl apply -f - >/dev/null <<EOF
+apiVersion: virtfoundry.io/v1alpha1
+kind: Tenant
+metadata: { name: e2e }
+spec: { name: E2E, slug: e2e }
+EOF
+}
+
+scenario_fresh() {
+  helm install virtfoundry-crds charts/virtfoundry-crds -n "$NS" --create-namespace >/dev/null
+  [ "$(crd_count)" = "$EXPECTED_CRDS" ] || fail "expected $EXPECTED_CRDS CRDs after the CRD chart, got $(crd_count)"
+  ok "CRD chart installs $EXPECTED_CRDS CRDs"
+  helm install virtfoundry-operator charts/virtfoundry-operator -n "$NS" >/dev/null
+  helm install virtfoundry charts/virtfoundry -n "$NS" "${secrets[@]}" "${no_kubevirt[@]}" >/dev/null
+  [ "$(helm list -n "$NS" --deployed -q | wc -l | tr -d ' ')" = 3 ] || fail "expected 3 deployed releases"
+  ok "crds, operator and core releases deployed"
+  [ "$(helm get manifest virtfoundry-operator -n "$NS" | grep -c '^kind: CustomResourceDefinition')" = 0 ] \
+    || fail "the operator chart must not ship CRDs"
+  ok "operator chart ships no CRDs"
+  new_tenant && kubectl get tenants.virtfoundry.io e2e >/dev/null && ok "a Tenant can be created"
+  helm uninstall virtfoundry-crds -n "$NS" >/dev/null
+  [ "$(crd_count)" = "$EXPECTED_CRDS" ] || fail "helm uninstall removed CRDs"
+  kubectl get tenants.virtfoundry.io e2e >/dev/null || fail "helm uninstall removed data"
+  ok "helm uninstall of the CRD release keeps the CRDs and the Tenant"
+}
+
+scenario_umbrella() {
+  helm install virtfoundry-crds charts/virtfoundry-crds -n "$NS" --create-namespace >/dev/null
+  helm dependency update charts/virtfoundry-platform >/dev/null
+  helm install platform charts/virtfoundry-platform -n "$NS" \
+    --set-string "core.secrets.rootPassword=$ROOT" --set-string "core.secrets.jwtSecret=$JWT" \
+    --set core.platform.kubevirt.cpuAllocationRatio=0 --set core.platform.kubevirt.featureGates.enabled=false >/dev/null
+  [ "$(helm get manifest platform -n "$NS" | grep -c '^kind: CustomResourceDefinition')" = 0 ] \
+    || fail "the umbrella chart must not ship CRDs"
+  [ "$(crd_count)" = "$EXPECTED_CRDS" ] || fail "expected $EXPECTED_CRDS CRDs, got $(crd_count)"
+  ok "umbrella chart installs on top of the CRD chart, ships no CRDs"
+}
+
+scenario_migrate() {
+  helm repo add virtfoundry https://virtfoundry.github.io/helm-charts --force-update >/dev/null
+  helm repo update virtfoundry >/dev/null
+  helm install virtfoundry-operator virtfoundry/virtfoundry-operator --version "$OLD_OPERATOR_VERSION" \
+    -n "$NS" --create-namespace >/dev/null
+  old="$(crd_count)"; [ "$old" -ge 15 ] || fail "the old operator chart should install CRDs, got $old"
+  ok "operator $OLD_OPERATOR_VERSION installed $old CRDs"
+  new_tenant; kubectl get tenants.virtfoundry.io e2e >/dev/null
+
+  if helm install virtfoundry-crds charts/virtfoundry-crds -n "$NS" >/dev/null 2>&1; then
+    fail "the CRD chart must refuse CRDs it does not own"
+  fi
+  ok "CRD chart refuses to take over un-adopted CRDs"
+
+  for crd in $(kubectl get crd -o name | grep '\.virtfoundry\.io$'); do
+    kubectl annotate "$crd" meta.helm.sh/release-name=virtfoundry-crds meta.helm.sh/release-namespace="$NS" --overwrite >/dev/null
+    kubectl label "$crd" app.kubernetes.io/managed-by=Helm --overwrite >/dev/null
+  done
+  helm install virtfoundry-crds charts/virtfoundry-crds -n "$NS" >/dev/null
+  [ "$(crd_count)" = "$EXPECTED_CRDS" ] || fail "expected $EXPECTED_CRDS CRDs after adoption"
+  ok "adoption + CRD chart: $EXPECTED_CRDS CRDs"
+
+  helm upgrade virtfoundry-operator charts/virtfoundry-operator -n "$NS" >/dev/null
+  [ "$(crd_count)" = "$EXPECTED_CRDS" ] || fail "operator upgrade changed the CRDs"
+  kubectl get tenants.virtfoundry.io e2e >/dev/null || fail "operator upgrade lost data"
+  ok "operator moved to the chart without crds/; CRDs and Tenant intact"
+
+  # A schema change in the CRD chart must reach the cluster through helm upgrade.
+  tmp="$(mktemp -d)"; trap 'rm -rf "$tmp"' EXIT
+  cp -R charts/virtfoundry-crds "$tmp/crds"
+  python3 - "$tmp/crds/manifests/virtfoundry.io_tenants.yaml" <<'PY'
+import sys, yaml
+p = sys.argv[1]
+d = yaml.safe_load(open(p))
+d["spec"]["versions"][0]["schema"]["openAPIV3Schema"]["properties"]["spec"]["properties"]["e2eField"] = {"type": "string"}
+open(p, "w").write(yaml.safe_dump(d))
+PY
+  helm upgrade virtfoundry-crds "$tmp/crds" -n "$NS" >/dev/null
+  kubectl get crd tenants.virtfoundry.io -o jsonpath='{.spec.versions[0].schema.openAPIV3Schema.properties.spec.properties}' \
+    | grep -q e2eField || fail "helm upgrade did not propagate the CRD schema change"
+  helm upgrade virtfoundry-crds charts/virtfoundry-crds -n "$NS" >/dev/null
+  ok "helm upgrade propagates CRD schema changes"
+
+  helm uninstall virtfoundry-crds -n "$NS" >/dev/null
+  [ "$(crd_count)" = "$EXPECTED_CRDS" ] || fail "helm uninstall removed CRDs"
+  kubectl get tenants.virtfoundry.io e2e >/dev/null || fail "helm uninstall removed data"
+  ok "helm uninstall of the CRD release keeps the CRDs and the Tenant"
+}
+
+case "${1:-}" in
+  fresh|umbrella|migrate) reset; "scenario_$1"; echo "PASS: $1" ;;
+  *) echo "usage: $0 fresh|umbrella|migrate" >&2; exit 64 ;;
+esac

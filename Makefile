@@ -1,4 +1,4 @@
-.PHONY: help lint template security-gates verify-operator-chart-rbac verify-operator-chart-drift verify-api-rbac-contract verify-crds-chart sync-crds-chart verify-platform-parity setup-kubevirt setup-multus setup-cdi render-local-config docs-build docs-serve
+.PHONY: help lint template security-gates verify-operator-chart-rbac verify-operator-chart-drift verify-api-rbac-contract verify-crds-chart sync-crds-chart verify-platform-parity e2e-charts setup-kubevirt setup-multus setup-cdi render-local-config docs-build docs-serve
 
 CHART := ./charts/virtfoundry
 OPERATOR_CHART := ./charts/virtfoundry-operator
@@ -45,6 +45,9 @@ sync-crds-chart: ## Refresh charts/virtfoundry-crds/manifests from operator and 
 
 verify-platform-parity: ## PR gate: umbrella chart renders the same resources as the standalone charts (needs network)
 	bash ./scripts/ci/verify-platform-parity.sh
+
+e2e-charts: ## Chart e2e on a throwaway local cluster: make e2e-charts SCENARIO=fresh|umbrella|migrate (deletes CRDs; refuses non-local clusters)
+	bash ./scripts/ci/e2e-charts.sh $(SCENARIO)
 
 setup-kubevirt: ## Optional: install KubeVirt prerequisite
 	./scripts/setup/kubevirt.sh
