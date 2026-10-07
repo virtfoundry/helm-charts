@@ -1515,6 +1515,17 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#security" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Security
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#changed" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1643,7 +1654,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#security" class="md-nav__link">
+  <a href="#security_1" class="md-nav__link">
     <span class="md-ellipsis">
       
         Security
@@ -1693,7 +1704,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#security_1" class="md-nav__link">
+  <a href="#security_2" class="md-nav__link">
     <span class="md-ellipsis">
       
         Security
@@ -1777,7 +1788,7 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#security_2" class="md-nav__link">
+  <a href="#security_3" class="md-nav__link">
     <span class="md-ellipsis">
       
         Security
@@ -2142,6 +2153,17 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#security" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Security
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#changed" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2270,7 +2292,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#security" class="md-nav__link">
+  <a href="#security_1" class="md-nav__link">
     <span class="md-ellipsis">
       
         Security
@@ -2320,7 +2342,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#security_1" class="md-nav__link">
+  <a href="#security_2" class="md-nav__link">
     <span class="md-ellipsis">
       
         Security
@@ -2404,7 +2426,7 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#security_2" class="md-nav__link">
+  <a href="#security_3" class="md-nav__link">
     <span class="md-ellipsis">
       
         Security
@@ -2735,6 +2757,10 @@
 <p>All notable changes to the <strong>Helm chart and deploy tooling</strong> are documented here.</p>
 <p>Format based on <a href="https://keepachangelog.com/">Keep a Changelog</a>. Versioning: <a href="../versioning/">SemVer</a>.</p>
 <h2 id="unreleased">[Unreleased]<a class="headerlink" href="#unreleased" title="Permanent link">¶</a></h2>
+<h3 id="security">Security<a class="headerlink" href="#security" title="Permanent link">¶</a></h3>
+<ul>
+<li><code>scripts/deploy/homelab.sh</code> no longer prints a fixed login and <code>scripts/docs/capture-ui-shots.py</code> reads the password from <code>VF_PASSWORD</code> instead of embedding one. The old value is in the Git history, so treat it as exposed and rotate it on any install that used it.</li>
+</ul>
 <h3 id="changed">Changed<a class="headerlink" href="#changed" title="Permanent link">¶</a></h3>
 <ul>
 <li><code>scripts/setup/multus.sh</code> pins the Multus image to the immutable <code>v4.3.1-thick</code> digest instead of the moving <code>snapshot-thick</code> tag (override with <code>MULTUS_IMAGE</code>). Troubleshooting explains how to pin an existing install.</li>
@@ -2776,7 +2802,7 @@
 <li>Operator chart synced from the upstream source of truth.</li>
 <li>Chart / image pins aligned with core/operator <strong>0.10.0</strong>.</li>
 </ul>
-<h3 id="security">Security<a class="headerlink" href="#security" title="Permanent link">¶</a></h3>
+<h3 id="security_1">Security<a class="headerlink" href="#security_1" title="Permanent link">¶</a></h3>
 <ul>
 <li>CodeQL, Scorecard, Dependabot (grouped monthly) and dependency review.</li>
 </ul>
@@ -2791,7 +2817,7 @@
 <ul>
 <li>Chart / image pins aligned with core/operator <strong>0.9.0</strong>.</li>
 </ul>
-<h3 id="security_1">Security<a class="headerlink" href="#security_1" title="Permanent link">¶</a></h3>
+<h3 id="security_2">Security<a class="headerlink" href="#security_2" title="Permanent link">¶</a></h3>
 <ul>
 <li>Pin chart CI actions and CDI/Multus URLs.</li>
 </ul>
@@ -2807,7 +2833,7 @@
 </ul>
 <h2 id="072-2026-09-25"><a href="https://github.com/virtfoundry/helm-charts/compare/v0.7.1...v0.7.2">0.7.2</a> - 2026-09-25<a class="headerlink" href="#072-2026-09-25" title="Permanent link">¶</a></h2>
 <p>Security release aligning charts with core/operator 0.7.2 (PSS hardening, networking/Ingress defaults, secrets fail-closed).</p>
-<h3 id="security_2">Security<a class="headerlink" href="#security_2" title="Permanent link">¶</a></h3>
+<h3 id="security_3">Security<a class="headerlink" href="#security_3" title="Permanent link">¶</a></h3>
 <ul>
 <li>Harden API/UI Deployments (closes <a href="https://github.com/virtfoundry/helm-charts/issues/42">#42</a>): non-root + drop ALL + RuntimeDefault seccomp + readOnlyRootFilesystem, requests/limits, UI SA without token automount, Service <code>80→8080</code> via nginx ConfigMap. Default NetworkPolicy for control plane (<code>networkPolicy.enabled</code>); set <code>allowedIngressNamespaces</code> to restrict. Residuals: env-injected secrets; API egress open — follow-ups on the issue. Core images: UI listens on 8080 / API UID 65532.</li>
 <li><strong>Breaking:</strong> <code>platform.networking.isolated.enabled</code> defaults to <code>false</code> so a default install is API+UI-only (no hostNetwork bridge DaemonSet). Enabling isolated or public opts into host bridges with documented caps — closes <a href="https://github.com/virtfoundry/helm-charts/issues/40">#40</a>. See <a href="../../guide/networking-config/#host-bridges-isolated-public">Host bridges</a>. Kind / homelab overlays that need Multus L2 must set <code>isolated.enabled: true</code> (and usually <code>bridge.tolerations: [{operator: Exists}]</code>).</li>

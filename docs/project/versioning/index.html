@@ -2007,7 +2007,7 @@ git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </
 </code></pre></div>
 <ol>
 <li>CI publishes container images and Helm package; docs site rebuilds; homelab digest write-back updates Argo overlay</li>
-<li><strong>After the homelab syncs, refresh the docs screenshots</strong> in a docs-only PR: <code>python scripts/docs/capture-ui-shots.py</code> writes <code>docs/assets/screenshots/</code> in the dark theme (set <code>VF_UI_URL</code> to override the homelab URL). Check that the login footer shows the new version and that no secrets are visible.</li>
+<li><strong>After the homelab syncs, refresh the docs screenshots</strong> in a docs-only PR: <code>python scripts/docs/capture-ui-shots.py</code> writes <code>docs/assets/screenshots/</code> in the dark theme (set <code>VF_PASSWORD</code>, and <code>VF_USER</code> and <code>VF_UI_URL</code> if they differ; the script has no default password). Check that the login footer shows the new version and that no secrets are visible.</li>
 </ol>
 <h2 id="compatibility">Compatibility<a class="headerlink" href="#compatibility" title="Permanent link">¶</a></h2>
 <table>
