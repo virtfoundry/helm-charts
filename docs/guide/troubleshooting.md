@@ -25,6 +25,27 @@ helm upgrade --install virtfoundry virtfoundry/virtfoundry -n virtfoundry-system
 
 A failed install leaves a `failed` release; run `helm uninstall virtfoundry -n virtfoundry-system` before installing again.
 
+## Pods stay in `ContainerCreating` with `FailedCreatePodSandBox`
+
+Events on the pod read `Failed to create pod sandbox: ... DeadlineExceeded` or `failed to reserve sandbox name ... is reserved for ...`, and **any** new pod on the node hangs, including a plain `pause` pod. Running pods are not affected.
+
+The usual cause is the **Multus thick daemon** (`kube-multus-ds`) being throttled by its own API client. Every CNI request waits for a pod lookup; the kubelet keeps resending the request for each pod it cannot start, and the backlog never drains. Check the daemon on the affected node:
+
+```bash
+kubectl -n kube-system logs <kube-multus-ds-pod-on-that-node> --since=10m \
+  | grep -E "client-side throttling|error waiting for pod|rate limiter"
+```
+
+Restart that one pod. It runs with `hostNetwork`, so it comes back even while the CNI is broken, and running workloads keep their network:
+
+```bash
+kubectl -n kube-system delete pod <kube-multus-ds-pod-on-that-node>
+```
+
+Pending pods start on the kubelet's next retry, within a couple of minutes.
+
+To avoid it: do not roll many Deployments at the same time on a single worker (for example, merging several dependency updates in a row), and pin the Multus image by digest. The upstream manifest used by `scripts/setup/multus.sh` references the moving tag `snapshot-thick`.
+
 ## Tenant API keys fail to authenticate
 
 The tenant namespace is missing from `rbac.api.secretNamespaces`, so the API cannot store the key Secret. Add the namespace ([Configuration](configuration.md#rbac-api-permissions)).
