@@ -954,6 +954,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#browser-console-shows-websocket-connection-to-wswsevents-failed-0112-and-older" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Browser console shows WebSocket connection to 'ws://…/ws/events' failed (0.11.2 and older)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#tenant-api-keys-fail-to-authenticate" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1744,6 +1755,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#browser-console-shows-websocket-connection-to-wswsevents-failed-0112-and-older" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Browser console shows WebSocket connection to 'ws://…/ws/events' failed (0.11.2 and older)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#tenant-api-keys-fail-to-authenticate" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1903,6 +1925,10 @@
 kubectl<span class="w"> </span>-n<span class="w"> </span>kube-system<span class="w"> </span><span class="nb">set</span><span class="w"> </span>image<span class="w"> </span>ds/kube-multus-ds<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>kube-multus<span class="o">=</span>&lt;that<span class="w"> </span>image@sha256:...&gt;<span class="w"> </span>install-multus-binary<span class="o">=</span>&lt;that<span class="w"> </span>image@sha256:...&gt;
 </code></pre></div>
+<h2 id="browser-console-shows-websocket-connection-to-wswsevents-failed-0112-and-older">Browser console shows <code>WebSocket connection to 'ws://…/ws/events' failed</code> (0.11.2 and older)<a class="headerlink" href="#browser-console-shows-websocket-connection-to-wswsevents-failed-0112-and-older" title="Permanent link">¶</a></h2>
+<p>Realtime updates do not work when the UI is served on a <strong>non-default port</strong>, for example through <code>kubectl port-forward svc/virtfoundry-ui 8080:80</code> or a NodePort. The UI keeps working through polling. The API compares the browser <code>Origin</code> (<code>host:port</code>) with the request <code>Host</code>, and the UI nginx sent <code>Host</code> without the port, so every upgrade got a 403. Fixed in 0.11.3: the chart keeps the port in <code>Host</code>.</p>
+<p>On 0.11.2, either serve the UI on port 80/443 (Ingress or Gateway), or list the origin: <code>--set api.security.allowedOrigins='{http://127.0.0.1:8080}'</code>.</p>
+<p>A related fix in 0.11.3: the chart now rolls the UI and API pods when their ConfigMaps change. Before, <code>helm upgrade</code> changed the ConfigMap but left the pod running with the old file; restart the pods after changing nginx or API config on older versions.</p>
 <h2 id="tenant-api-keys-fail-to-authenticate">Tenant API keys fail to authenticate<a class="headerlink" href="#tenant-api-keys-fail-to-authenticate" title="Permanent link">¶</a></h2>
 <p>The tenant namespace is missing from <code>rbac.api.secretNamespaces</code>, so the API cannot store the key Secret. Add the namespace (<a href="../configuration/#rbac-api-permissions">Configuration</a>).</p>
 <h2 id="new-crd-field-is-ignored-after-a-chart-upgrade">New CRD field is ignored after a chart upgrade<a class="headerlink" href="#new-crd-field-is-ignored-after-a-chart-upgrade" title="Permanent link">¶</a></h2>

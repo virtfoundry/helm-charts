@@ -1905,10 +1905,11 @@ kubectl<span class="w"> </span>get<span class="w"> </span>crd<span class="w"> </
 <h2 id="4-deploy-a-first-vm-10-min">4. Deploy a first VM (~10 min)<a class="headerlink" href="#4-deploy-a-first-vm-10-min" title="Permanent link">¶</a></h2>
 <p>In the UI (or API):</p>
 <ol>
-<li>Open <strong>Templates</strong> — use a <strong>container disk</strong> template (no ISO download).</li>
+<li>Open <strong>SSH Keys</strong> and generate a key. Linux VMs need one, and a fresh install has none. The private key is shown <strong>once</strong>: save it.</li>
+<li>Open <strong>Templates</strong> — use a <strong>container disk</strong> template such as <code>cirros</code> (no ISO download).</li>
 <li>Open <strong>Service offerings</strong> — pick a small offering (or create one).</li>
-<li>Create a <strong>VM</strong> from that template + offering.</li>
-<li>Wait until the VM is <strong>Running</strong>, then open <strong>Console</strong> (noVNC).</li>
+<li>Create a <strong>VM</strong> from that template + offering, with your SSH key and the default isolated network.</li>
+<li>Wait until the VM is <strong>Running</strong> (the panel shows its IP), then open <strong>Console</strong> (noVNC).</li>
 </ol>
 <div class="admonition note">
 <p class="admonition-title">Networking</p>
@@ -1922,8 +1923,13 @@ kubectl<span class="w"> </span>get<span class="w"> </span>vmsnapshot<span class=
 kubectl<span class="w"> </span>get<span class="w"> </span>vm<span class="w"> </span>-A
 </code></pre></div>
 <p>API health (with port-forward or your hostname):</p>
-<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-sS<span class="w"> </span>http://127.0.0.1:8080/api/v1/healthz<span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="nb">true</span>
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-fsS<span class="w"> </span>http://127.0.0.1:8080/api/v1/healthz
+<span class="c1"># {"status":"ok","service":"virtfoundry-iaas","hypervisor":"kubevirt"}</span>
 </code></pre></div>
+<div class="admonition note">
+<p class="admonition-title"><code>/health</code> on the UI address is not the API</p>
+<p>The UI proxy forwards only <code>/api/</code> and <code>/ws/</code>. Any other path, including <code>/health</code>, falls back to the UI page and returns 200 without testing anything. Use <code>/api/v1/healthz</code> (0.11.3 and newer). On 0.11.2, port-forward the API service instead: <code>kubectl -n virtfoundry-system port-forward svc/virtfoundry-api 8081:8080</code> and <code>curl http://127.0.0.1:8081/health</code>.</p>
+</div>
 <hr>
 <h2 id="next">Next<a class="headerlink" href="#next" title="Permanent link">¶</a></h2>
 <table>
