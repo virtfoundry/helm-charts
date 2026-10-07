@@ -44,7 +44,7 @@ spec:
     count: 1
     templateRef: { name: ubuntu-node-1-36-5 }
     offeringRef: { name: medium }
-    networkRef:  { name: default }
+    networkRef:  { name: default-default }   # Network CR name: <vpc>-<network>
 ```
 
 ```bash
