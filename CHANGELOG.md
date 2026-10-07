@@ -4,6 +4,10 @@ See [docs/project/changelog.md](docs/project/changelog.md) for the full release 
 
 ## [Unreleased]
 
+### Added
+
+- `scripts/ops/wait-settled.sh`: waits until pods, Deployments and (when installed) Argo CD Applications are ready, quiet for a minimum time. The release process now says to release one repository at a time and run it in between ([Versioning](docs/project/versioning.md)).
+
 ### Security
 
 - `scripts/deploy/homelab.sh` no longer prints a fixed login and `scripts/docs/capture-ui-shots.py` reads the password from `VF_PASSWORD` instead of embedding one. The old value is in the Git history, so treat it as exposed and rotate it on any install that used it.
