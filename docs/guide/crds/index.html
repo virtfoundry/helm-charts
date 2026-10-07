@@ -1903,10 +1903,10 @@ git<span class="w"> </span>diff<span class="w"> </span>charts/virtfoundry-crds/m
 <h2 id="install-order">Install order<a class="headerlink" href="#install-order" title="Permanent link">¶</a></h2>
 <p>From <strong>0.11.0</strong>, the operator and VKS charts no longer ship CRDs. Install the CRD chart first, as a separate release:</p>
 <div class="highlight"><pre><span></span><code>helm<span class="w"> </span>install<span class="w"> </span>virtfoundry-crds<span class="w"> </span>virtfoundry/virtfoundry-crds<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--version<span class="w"> </span><span class="m">0</span>.11.0<span class="w"> </span>-n<span class="w"> </span>virtfoundry-system<span class="w"> </span>--create-namespace
+<span class="w">  </span>--version<span class="w"> </span><span class="m">0</span>.11.1<span class="w"> </span>-n<span class="w"> </span>virtfoundry-system<span class="w"> </span>--create-namespace
 
 helm<span class="w"> </span>install<span class="w"> </span>virtfoundry-operator<span class="w"> </span>virtfoundry/virtfoundry-operator<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--version<span class="w"> </span><span class="m">0</span>.11.0<span class="w"> </span>-n<span class="w"> </span>virtfoundry-system
+<span class="w">  </span>--version<span class="w"> </span><span class="m">0</span>.11.1<span class="w"> </span>-n<span class="w"> </span>virtfoundry-system
 </code></pre></div>
 <div class="admonition note">
 <p class="admonition-title">Releases up to 0.10.x</p>
