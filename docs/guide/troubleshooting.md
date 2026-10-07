@@ -10,6 +10,21 @@ The cluster has no `VolumeSnapshot` CRDs, or its StorageClass cannot snapshot (`
 
 `secrets.rootPassword` (12+ chars) and `secrets.jwtSecret` (32+ chars) have no defaults. Pass both on the same `helm` command, or use `secrets.existingSecret`. See [Secrets](configuration.md#secrets).
 
+## `helm install virtfoundry` fails with `failed post-install: timed out waiting for the condition`
+
+The `virtfoundry` chart runs a post-install Job (`virtfoundry-kubevirt-config`) that patches the KubeVirt CR (CPU allocation ratio, feature gates). Without KubeVirt installed, the Job never succeeds and Helm gives up after about five minutes.
+
+Install KubeVirt first ([Platform prerequisites](prerequisites.md)), or skip the Job on a cluster where you manage KubeVirt yourself:
+
+```bash
+helm upgrade --install virtfoundry virtfoundry/virtfoundry -n virtfoundry-system \
+  --set platform.kubevirt.cpuAllocationRatio=0 \
+  --set platform.kubevirt.featureGates.enabled=false \
+  --set-string secrets.rootPassword='...' --set-string secrets.jwtSecret='...'
+```
+
+A failed install leaves a `failed` release; run `helm uninstall virtfoundry -n virtfoundry-system` before installing again.
+
 ## Tenant API keys fail to authenticate
 
 The tenant namespace is missing from `rbac.api.secretNamespaces`, so the API cannot store the key Secret. Add the namespace ([Configuration](configuration.md#rbac-api-permissions)).
