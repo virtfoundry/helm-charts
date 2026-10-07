@@ -33,15 +33,15 @@ helm repo update
 
 # CRDs, then the operator (required)
 helm install virtfoundry-crds virtfoundry/virtfoundry-crds \
-  --version 0.11.2 \
+  --version 0.11.3 \
   --namespace virtfoundry-system --create-namespace
 helm install virtfoundry-operator virtfoundry/virtfoundry-operator \
-  --version 0.11.2 \
+  --version 0.11.3 \
   --namespace virtfoundry-system
 
 # API + UI
 helm install virtfoundry virtfoundry/virtfoundry \
-  --version 0.11.2 \
+  --version 0.11.3 \
   --namespace virtfoundry-system \
   --set secrets.rootPassword='choose-a-strong-password' \
   --set secrets.jwtSecret="$(openssl rand -hex 32)"
@@ -126,7 +126,7 @@ curl -fsS http://127.0.0.1:8080/api/v1/healthz
 ```
 
 !!! note "`/health` on the UI address is not the API"
-    The UI proxy forwards only `/api/` and `/ws/`. Any other path, including `/health`, falls back to the UI page and returns 200 without testing anything. Use `/api/v1/healthz` (0.11.3 and newer). On 0.11.2, port-forward the API service instead: `kubectl -n virtfoundry-system port-forward svc/virtfoundry-api 8081:8080` and `curl http://127.0.0.1:8081/health`.
+    The UI proxy forwards only `/api/` and `/ws/`. Any other path, including `/health`, falls back to the UI page and returns 200 without testing anything. Use `/api/v1/healthz` (0.11.3 and newer). On 0.11.3, port-forward the API service instead: `kubectl -n virtfoundry-system port-forward svc/virtfoundry-api 8081:8080` and `curl http://127.0.0.1:8081/health`.
 
 ---
 

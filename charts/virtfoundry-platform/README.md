@@ -14,9 +14,9 @@ Install the CRDs first ([CRDs and upgrades](https://virtfoundry.github.io/helm-c
 
 ```bash
 helm repo add virtfoundry https://virtfoundry.github.io/helm-charts
-helm install virtfoundry-crds virtfoundry/virtfoundry-crds --version 0.11.2 -n virtfoundry-system --create-namespace
+helm install virtfoundry-crds virtfoundry/virtfoundry-crds --version 0.11.3 -n virtfoundry-system --create-namespace
 helm install virtfoundry virtfoundry/virtfoundry-platform \
-  --version 0.11.2 -n virtfoundry-system \
+  --version 0.11.3 -n virtfoundry-system \
   --set-string core.secrets.rootPassword='...' \
   --set-string core.secrets.jwtSecret="$(openssl rand -hex 32)"
 ```

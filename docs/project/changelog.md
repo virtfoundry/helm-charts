@@ -13,6 +13,13 @@ Format based on [Keep a Changelog](https://keepachangelog.com/). Versioning: [Se
 - Quickstart: the health check URL is `/api/v1/healthz` (needs 0.11.3 or newer; `/health` on the UI address only returned the UI page), and the first-VM steps now say to create an SSH key first.
 - `scripts/e2e/homelab-ui.py` works on a fresh install (creates a throwaway SSH key) and fails on WebSocket errors in the browser console.
 
+## [0.11.3] - 2026-10-07
+
+### Changed
+
+- Chart / image pins aligned with core/operator/vks **0.11.3** (core: VKS accepts the network display name, `/api/v1/healthz`).
+- `virtfoundry-vks` sample and VKS guide use the Network CR name (`default-default`) in `networkRef`.
+
 ## [0.11.2] - 2026-10-07
 
 ### Added
