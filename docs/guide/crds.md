@@ -34,18 +34,18 @@ git diff charts/virtfoundry-crds/manifests
 
 ## Install order
 
-From the next release, the operator and VKS charts no longer ship CRDs. Install the CRD chart first, as a separate release:
+From **0.11.0**, the operator and VKS charts no longer ship CRDs. Install the CRD chart first, as a separate release:
 
 ```bash
 helm install virtfoundry-crds virtfoundry/virtfoundry-crds \
-  --version <next> -n virtfoundry-system --create-namespace
+  --version @@VERSION@@ -n virtfoundry-system --create-namespace
 
 helm install virtfoundry-operator virtfoundry/virtfoundry-operator \
-  --version <next> -n virtfoundry-system
+  --version @@VERSION@@ -n virtfoundry-system
 ```
 
 !!! note "Releases up to 0.10.x"
-    The published 0.10.0 operator chart still ships its own `crds/` directory, so with 0.10.x **the install in [Installation](installation.md) is unchanged**: the operator chart installs the CRDs and you upgrade them by hand (below). If you want the CRD chart with a 0.10.x operator chart, install it with `--skip-crds`, otherwise Helm reports that the CRDs already exist.
+    The 0.10.x operator and VKS charts still ships its own `crds/` directory, so with 0.10.x **the install in [Installation](installation.md) is unchanged**: the operator chart installs the CRDs and you upgrade them by hand (below). If you want the CRD chart with a 0.10.x operator chart, install it with `--skip-crds`, otherwise Helm reports that the CRDs already exist.
 
 ## Upgrading CRDs with the 0.10.x operator chart
 
