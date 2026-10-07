@@ -2012,8 +2012,12 @@ git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </
 </code></pre></div>
 <ol>
 <li>CI publishes container images and Helm package; docs site rebuilds; homelab digest write-back updates Argo overlay</li>
-<li><strong>After the homelab syncs, refresh the docs screenshots</strong> in a docs-only PR: <code>python scripts/docs/capture-ui-shots.py</code> writes <code>docs/assets/screenshots/</code> in the dark theme (set <code>VF_PASSWORD</code>, and <code>VF_USER</code> and <code>VF_UI_URL</code> if they differ; the script has no default password). Check that the login footer shows the new version and that no secrets are visible.</li>
+<li><strong>After the homelab syncs, run the UI end-to-end</strong>, then refresh the docs screenshots. The UI end-to-end deploys a VM through the wizard, checks the post-deploy panel (IP, Copy ssh, console, Open VM) and deletes the VM:</li>
 </ol>
+<div class="highlight"><pre><span></span><code>pip<span class="w"> </span>install<span class="w"> </span>playwright<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>playwright<span class="w"> </span>install<span class="w"> </span>chromium
+<span class="nv">VF_PASSWORD</span><span class="o">=</span>...<span class="w"> </span>python<span class="w"> </span>scripts/e2e/homelab-ui.py<span class="w">   </span><span class="c1"># VF_USER, VF_UI_URL, VF_TEMPLATE, VF_SSH_KEY are optional</span>
+</code></pre></div>
+<p>Then <strong>refresh the docs screenshots</strong> in a docs-only PR: <code>python scripts/docs/capture-ui-shots.py</code> writes <code>docs/assets/screenshots/</code> in the dark theme (set <code>VF_PASSWORD</code>, and <code>VF_USER</code> and <code>VF_UI_URL</code> if they differ; the script has no default password). Check that the login footer shows the new version and that no secrets are visible.</p>
 <h2 id="compatibility">Compatibility<a class="headerlink" href="#compatibility" title="Permanent link">¶</a></h2>
 <table>
 <thead>
