@@ -12,6 +12,9 @@ spec:
       app: {{ .Values.fullnamePrefix }}-api
   template:
     metadata:
+      annotations:
+        # The API reads its config file at start: roll the pod when the ConfigMap changes.
+        checksum/config: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
       labels:
         app: {{ .Values.fullnamePrefix }}-api
     spec:

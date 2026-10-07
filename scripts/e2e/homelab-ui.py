@@ -32,6 +32,8 @@ NAME = f"vf-ui-e2e-{random.randint(10000, 99999)}"
 IP_RE = re.compile(r"\b\d{1,3}(?:\.\d{1,3}){3}\b")
 
 results: list[tuple[bool, str]] = []
+ws_errors: list[str] = []  # WebSocket failures seen in the browser console
+created_key_id = ""  # SSH key created by this run (a fresh install has none); removed in cleanup
 
 
 def check(ok: bool, what: str) -> bool:
@@ -58,11 +60,26 @@ def login_token() -> str:
         return json.load(r)["token"]
 
 
+def ensure_ssh_key() -> None:
+    """The wizard needs an SSH key for Linux VMs and a fresh install has none: create a throwaway one."""
+    global created_key_id
+    if SSH_KEY:
+        return
+    token = login_token()
+    tenant = next(t["id"] for t in api("GET", "/tenants", token)["tenants"] if t["slug"] == "default")
+    if api("GET", "/ssh-keys", token, tenant=tenant).get("ssh_keys"):
+        return
+    created_key_id = api("POST", "/ssh-keys", token, {"name": f"{NAME}-key"}, tenant)["key"]["id"]
+    check(bool(created_key_id), "setup: no SSH key on this install, created a throwaway one")
+
+
 def cleanup() -> None:
     try:
         token = login_token()
         tenant = next(t["id"] for t in api("GET", "/tenants", token)["tenants"] if t["slug"] == "default")
         api("POST", "/vms/delete", token, {"name": NAME}, tenant)
+        if created_key_id:
+            api("DELETE", f"/ssh-keys/{created_key_id}", token, tenant=tenant)
         for _ in range(40):
             names = [v["name"] for v in api("GET", "/vms", token, tenant=tenant).get("vms", [])]
             if NAME not in names:
@@ -79,10 +96,12 @@ def body_text(page) -> str:
 
 
 def run() -> None:
+    ensure_ssh_key()
     with sync_playwright() as pw:
         browser = pw.chromium.launch(headless=True)
         ctx = browser.new_context(viewport={"width": 1440, "height": 900})
         page = ctx.new_page()
+        page.on("console", lambda m: ws_errors.append(m.text[:120]) if m.type == "error" and "WebSocket" in m.text else None)
         try:
             page.goto(f"{BASE}/login", wait_until="networkidle")
             page.get_by_role("button", name="EN", exact=True).click()
@@ -156,6 +175,7 @@ def run() -> None:
         except Exception as exc:  # noqa: BLE001
             check(False, f"unexpected error: {type(exc).__name__}: {str(exc).splitlines()[0]}")
         finally:
+            check(not ws_errors, "no WebSocket errors in the browser console" + (f" ({ws_errors[0]})" if ws_errors else ""))
             browser.close()
 
 

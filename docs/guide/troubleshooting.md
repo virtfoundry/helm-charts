@@ -55,6 +55,14 @@ kubectl -n kube-system set image ds/kube-multus-ds \
   kube-multus=<that image@sha256:...> install-multus-binary=<that image@sha256:...>
 ```
 
+## Browser console shows `WebSocket connection to 'ws://…/ws/events' failed` (0.11.2 and older)
+
+Realtime updates do not work when the UI is served on a **non-default port**, for example through `kubectl port-forward svc/virtfoundry-ui 8080:80` or a NodePort. The UI keeps working through polling. The API compares the browser `Origin` (`host:port`) with the request `Host`, and the UI nginx sent `Host` without the port, so every upgrade got a 403. Fixed in 0.11.3: the chart keeps the port in `Host`.
+
+On 0.11.2, either serve the UI on port 80/443 (Ingress or Gateway), or list the origin: `--set api.security.allowedOrigins='{http://127.0.0.1:8080}'`.
+
+A related fix in 0.11.3: the chart now rolls the UI and API pods when their ConfigMaps change. Before, `helm upgrade` changed the ConfigMap but left the pod running with the old file; restart the pods after changing nginx or API config on older versions.
+
 ## Tenant API keys fail to authenticate
 
 The tenant namespace is missing from `rbac.api.secretNamespaces`, so the API cannot store the key Secret. Add the namespace ([Configuration](configuration.md#rbac-api-permissions)).

@@ -98,10 +98,11 @@ Pick **one** path.
 
 In the UI (or API):
 
-1. Open **Templates** — use a **container disk** template (no ISO download).
-2. Open **Service offerings** — pick a small offering (or create one).
-3. Create a **VM** from that template + offering.
-4. Wait until the VM is **Running**, then open **Console** (noVNC).
+1. Open **SSH Keys** and generate a key. Linux VMs need one, and a fresh install has none. The private key is shown **once**: save it.
+2. Open **Templates** — use a **container disk** template such as `cirros` (no ISO download).
+3. Open **Service offerings** — pick a small offering (or create one).
+4. Create a **VM** from that template + offering, with your SSH key and the default isolated network.
+5. Wait until the VM is **Running** (the panel shows its IP), then open **Console** (noVNC).
 
 !!! note "Networking"
     Full tenant VPC / Multus bridge demos need host bridges and often a public pool — [Kind](kind.md) for a laptop, [Topologies](topologies.md) on real nodes. Container-disk VMs can still prove the control plane without a full L2 lab.
@@ -120,8 +121,12 @@ kubectl get vm -A
 API health (with port-forward or your hostname):
 
 ```bash
-curl -sS http://127.0.0.1:8080/api/v1/healthz || true
+curl -fsS http://127.0.0.1:8080/api/v1/healthz
+# {"status":"ok","service":"virtfoundry-iaas","hypervisor":"kubevirt"}
 ```
+
+!!! note "`/health` on the UI address is not the API"
+    The UI proxy forwards only `/api/` and `/ws/`. Any other path, including `/health`, falls back to the UI page and returns 200 without testing anything. Use `/api/v1/healthz` (0.11.3 and newer). On 0.11.2, port-forward the API service instead: `kubectl -n virtfoundry-system port-forward svc/virtfoundry-api 8081:8080` and `curl http://127.0.0.1:8081/health`.
 
 ---
 

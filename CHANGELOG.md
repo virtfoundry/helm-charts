@@ -4,6 +4,13 @@ See [docs/project/changelog.md](docs/project/changelog.md) for the full release 
 
 ## [Unreleased]
 
+### Fixed
+
+- The UI nginx sent `Host` without the port, so WebSocket upgrades (`/ws/events`, `/ws/console`) were rejected with 403 when the UI was served on a non-default port, such as the quickstart's `kubectl port-forward 8080:80`. It now keeps the port (`$http_host`); `scripts/ci/assert-ui-nginx-host.sh` guards it ([Troubleshooting](docs/guide/troubleshooting.md)).
+- The UI and API pods now roll when their ConfigMaps change (checksum annotations). Before, `helm upgrade` changed the ConfigMap and left the pod running with the old file, because the nginx config is mounted with `subPath`.
+- Quickstart: the health check URL is `/api/v1/healthz` (needs 0.11.3 or newer; `/health` on the UI address only returned the UI page), and the first-VM steps now say to create an SSH key first.
+- `scripts/e2e/homelab-ui.py` works on a fresh install (creates a throwaway SSH key) and fails on WebSocket errors in the browser console.
+
 ## [0.11.2] - 2026-10-07
 
 ### Added

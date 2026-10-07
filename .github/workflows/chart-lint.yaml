@@ -29,6 +29,9 @@ jobs:
       - name: Reject sentinel credentials (must fail)
         run: ./scripts/ci/assert-secrets-fail-closed.sh
 
+      - name: UI nginx keeps the port in the Host header (WebSocket origin check)
+        run: ./scripts/ci/assert-ui-nginx-host.sh
+
       - name: Render default values
         run: helm template virtfoundry ./charts/virtfoundry --set-string secrets.rootPassword="$CI_ROOT_PASSWORD" --set-string secrets.jwtSecret="$CI_JWT_SECRET"
 
