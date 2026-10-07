@@ -10,6 +10,8 @@ from pathlib import Path
 from playwright.sync_api import sync_playwright
 
 BASE = os.environ.get("VF_UI_URL", "http://virtfoundry.homelab")
+USER = os.environ.get("VF_USER", "root")
+PASSWORD = os.environ.get("VF_PASSWORD", "")
 OUT = Path(__file__).resolve().parents[2] / "docs" / "assets" / "screenshots"
 PAGES = [
     ("02-dashboard.png", "/dashboard"),
@@ -23,6 +25,8 @@ PAGES = [
 
 
 def main() -> None:
+    if not PASSWORD:
+        sys.exit("set VF_PASSWORD (and VF_USER, VF_UI_URL if needed) before capturing")
     OUT.mkdir(parents=True, exist_ok=True)
     with sync_playwright() as p:
         browser = p.chromium.launch(headless=True)
@@ -32,8 +36,8 @@ def main() -> None:
         page.get_by_role("button", name="EN", exact=True).click()
         page.screenshot(path=str(OUT / "01-login.png"), full_page=False)
         print(f"wrote {OUT / '01-login.png'}")
-        page.get_by_placeholder("root or tenant-admin").fill("root")
-        page.get_by_placeholder("••••••••").fill("virtfoundry")
+        page.get_by_placeholder("root or tenant-admin").fill(USER)
+        page.get_by_placeholder("••••••••").fill(PASSWORD)
         page.get_by_role("button", name="Sign in").click()
         page.wait_for_url("**/dashboard", timeout=30000)
         for filename, path in PAGES:

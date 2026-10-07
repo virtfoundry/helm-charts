@@ -73,7 +73,7 @@ helm install virtfoundry virtfoundry/virtfoundry --version 0.11.1 \
    ```
 
 6. CI publishes container images and Helm package; docs site rebuilds; homelab digest write-back updates Argo overlay
-7. **After the homelab syncs, refresh the docs screenshots** in a docs-only PR: `python scripts/docs/capture-ui-shots.py` writes `docs/assets/screenshots/` in the dark theme (set `VF_UI_URL` to override the homelab URL). Check that the login footer shows the new version and that no secrets are visible.
+7. **After the homelab syncs, refresh the docs screenshots** in a docs-only PR: `python scripts/docs/capture-ui-shots.py` writes `docs/assets/screenshots/` in the dark theme (set `VF_PASSWORD`, and `VF_USER` and `VF_UI_URL` if they differ; the script has no default password). Check that the login footer shows the new version and that no secrets are visible.
 
 ## Compatibility
 

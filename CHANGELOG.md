@@ -4,6 +4,10 @@ See [docs/project/changelog.md](docs/project/changelog.md) for the full release 
 
 ## [Unreleased]
 
+### Security
+
+- `scripts/deploy/homelab.sh` no longer prints a fixed login and `scripts/docs/capture-ui-shots.py` reads the password from `VF_PASSWORD` instead of embedding one. The old value is in the Git history, so treat it as exposed and rotate it on any install that used it.
+
 ### Changed
 
 - `scripts/setup/multus.sh` pins the Multus image to the immutable `v4.3.1-thick` digest instead of the moving `snapshot-thick` tag (override with `MULTUS_IMAGE`). Troubleshooting explains how to pin an existing install.
