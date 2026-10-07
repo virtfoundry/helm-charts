@@ -125,7 +125,8 @@ JWT login, API keys, roles, tenant namespaces, and Kubernetes NetworkPolicy.
 | [CDI](https://github.com/kubevirt/containerized-data-importer) | **Yes** for ISO/import templates | `DataVolume` imports; optional for container-disk-only |
 | StorageClass | **Yes** for disks | PVCs for VM volumes ([Longhorn](https://longhorn.io/) recommended) |
 | Ingress or Gateway API | One of them | Hostname for UI + API |
-| **virtfoundry-operator** chart | **Yes** | `virtfoundry.io` CRDs + controller |
+| **virtfoundry-crds** chart | **Yes** | `virtfoundry.io` CRDs ([details](guide/crds.md)) |
+| **virtfoundry-operator** chart | **Yes** | Controller |
 | **virtfoundry** chart | **Yes** | Control plane (API + UI only) |
 
 KubeVirt, Multus, and CDI are **not** bundled — install them separately (or use [Kind](guide/kind.md) on a laptop). Details: [Installation → Prerequisites](guide/installation.md#prerequisites-overview).
@@ -134,14 +135,17 @@ KubeVirt, Multus, and CDI are **not** bundled — install them separately (or us
 helm repo add virtfoundry https://virtfoundry.github.io/helm-charts
 helm repo update
 
-# 1. CRDs + operator (after KubeVirt, Multus, CDI)
-helm install virtfoundry-operator virtfoundry/virtfoundry-operator \
-  --version 0.10.0 \
+# 1. CRDs, then the operator (after KubeVirt, Multus, CDI)
+helm install virtfoundry-crds virtfoundry/virtfoundry-crds \
+  --version 0.11.0 \
   --namespace virtfoundry-system --create-namespace
+helm install virtfoundry-operator virtfoundry/virtfoundry-operator \
+  --version 0.11.0 \
+  --namespace virtfoundry-system
 
 # 2. API + UI
 helm install virtfoundry virtfoundry/virtfoundry \
-  --version 0.10.0 \
+  --version 0.11.0 \
   --namespace virtfoundry-system \
   --set secrets.rootPassword='choose-a-strong-password' \
   --set secrets.jwtSecret="$(openssl rand -hex 32)"

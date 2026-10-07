@@ -6,7 +6,7 @@ Official Helm charts for [VirtFoundry](https://github.com/virtfoundry/core) — 
 
 ## Quick install
 
-**Install order:** **KubeVirt** + **Multus** + **CDI** on the cluster → **virtfoundry-operator** (CRDs) → **virtfoundry** (API + UI).
+**Install order:** **KubeVirt** + **Multus** + **CDI** on the cluster → **virtfoundry-crds** → **virtfoundry-operator** → **virtfoundry** (API + UI).
 
 | Prerequisite | Required |
 |--------------|----------|
@@ -23,12 +23,15 @@ helm repo add virtfoundry https://virtfoundry.github.io/helm-charts
 helm repo update
 
 # After KubeVirt, Multus, CDI
-helm install virtfoundry-operator virtfoundry/virtfoundry-operator \
-  --version 0.10.0 \
+helm install virtfoundry-crds virtfoundry/virtfoundry-crds \
+  --version 0.11.0 \
   -n virtfoundry-system --create-namespace
+helm install virtfoundry-operator virtfoundry/virtfoundry-operator \
+  --version 0.11.0 \
+  -n virtfoundry-system
 
 helm install virtfoundry virtfoundry/virtfoundry \
-  --version 0.10.0 \
+  --version 0.11.0 \
   -n virtfoundry-system --create-namespace \
   --set secrets.rootPassword='choose-a-strong-password' \
   --set secrets.jwtSecret="$(openssl rand -hex 32)"
@@ -49,7 +52,9 @@ make lint
 
 ```
 charts/virtfoundry/           # Control plane (API, UI)
-charts/virtfoundry-operator/  # CRDs + operator
+charts/virtfoundry-crds/      # virtfoundry.io CRDs
+charts/virtfoundry-operator/  # operator
+charts/virtfoundry-platform/  # operator + core + optional VKS in one release
 docs/                         # MkDocs site (GitHub Pages)
 scripts/                      # Optional setup and sideload helpers
 ```
