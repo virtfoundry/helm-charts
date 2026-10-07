@@ -65,6 +65,12 @@ helm install virtfoundry virtfoundry/virtfoundry --version 0.11.1 \
    After merge to `helm-charts` `main`, confirm Pages shows the new badge/pins at https://virtfoundry.github.io/helm-charts/docs/ .
 
 4. Commit: `chore(release): v0.11.1`
+   **Go one repository at a time.** Each merge to `main` and each tag makes CI write a new image digest, so the cluster rolls that Deployment. Several rollouts at once can overload the node's CNI ([Troubleshooting](../guide/troubleshooting.md#pods-stay-in-containercreating-with-failedcreatepodsandbox)). After each merge and each tag, wait until the cluster has settled:
+
+   ```bash
+   scripts/ops/wait-settled.sh   # NS, TIMEOUT and MIN_QUIET are configurable
+   ```
+
 5. Tag **each** repository that changed:
 
    ```bash
