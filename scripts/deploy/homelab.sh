@@ -154,6 +154,6 @@ echo ""
 echo "=== VirtFoundry deployed ==="
 echo "URL: http://${DNS_HOST}/"
 echo "API: http://${DNS_HOST}/api/v1"
-echo "Login: root / virtfoundry"
+echo "Login: root / the password you set in secrets.rootPassword (or ROOT_PASSWORD in your existingSecret)"
 echo ""
 kubectl -n virtfoundry-system get pods,svc,httproute 2>/dev/null || kubectl -n virtfoundry-system get pods,svc
