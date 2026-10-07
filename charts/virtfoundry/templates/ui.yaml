@@ -21,6 +21,9 @@ spec:
       app: {{ .Values.fullnamePrefix }}-ui
   template:
     metadata:
+      annotations:
+        # The nginx config is mounted with subPath, which never updates in a running pod: roll the pod when it changes.
+        checksum/ui-nginx: {{ include (print $.Template.BasePath "/ui-nginx-configmap.yaml") . | sha256sum }}
       labels:
         app: {{ .Values.fullnamePrefix }}-ui
     spec:

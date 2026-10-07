@@ -18,6 +18,7 @@ template: ## Render Helm templates locally
 	helm lint $(CHART) $(RENDER_SECRETS)
 	helm lint $(OPERATOR_CHART)
 	./scripts/ci/assert-secrets-fail-closed.sh
+	./scripts/ci/assert-ui-nginx-host.sh
 	helm template virtfoundry $(CHART) $(RENDER_SECRETS)
 	helm template virtfoundry $(CHART) --set secrets.existingSecret=virtfoundry-credentials
 	helm template virtfoundry $(CHART) -f $(CHART)/values-gateway.yaml $(RENDER_SECRETS)

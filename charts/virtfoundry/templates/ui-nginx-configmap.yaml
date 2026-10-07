@@ -54,7 +54,7 @@ data:
       location /api/ {
         proxy_pass http://{{ .Values.fullnamePrefix }}-api:{{ .Values.api.service.port }};
         proxy_http_version 1.1;
-        proxy_set_header Host $host;
+        proxy_set_header Host $http_host;
         proxy_set_header X-Real-IP $remote_addr;
       }
       location /ws/ {
@@ -62,7 +62,7 @@ data:
         proxy_http_version 1.1;
         proxy_set_header Upgrade $http_upgrade;
         proxy_set_header Connection "upgrade";
-        proxy_set_header Host $host;
+        proxy_set_header Host $http_host;
         proxy_buffering off;
         proxy_read_timeout 3600s;
         proxy_send_timeout 3600s;
