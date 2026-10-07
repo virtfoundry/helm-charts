@@ -1965,8 +1965,8 @@ helm<span class="w"> </span>upgrade<span class="w"> </span>virtfoundry-operator<
 </tr>
 </tbody>
 </table>
-<p>Not covered by that run: the Argo CD behaviour (Prune/Delete options and sync waves), which needs an Argo instance, and a real KubeVirt install. Repeat the run on Kind before the operator chart drops <code>crds/</code> in a release.</p>
-<p>To repeat it on a <strong>Linux</strong> host with Kind:</p>
+<p>This is now automated: the <strong>Chart e2e</strong> workflow (<code>.github/workflows/chart-e2e.yaml</code>, script <code>scripts/ci/e2e-charts.sh</code>) runs the fresh install, the umbrella install and this migration on a Kind cluster for every change to <code>charts/</code>. It covers the same checks, and the install flow with the new chart layout. Not covered: the Argo CD behaviour (Prune/Delete options and sync waves), which needs an Argo instance, and a real KubeVirt install.</p>
+<p>To repeat the migration by hand on a <strong>Linux</strong> host with Kind:</p>
 <div class="highlight"><pre><span></span><code>kind<span class="w"> </span>create<span class="w"> </span>cluster<span class="w"> </span>--name<span class="w"> </span>crd-rehearsal
 
 <span class="c1"># 1. Today's layout: the operator chart (0.10.0) installs the CRDs</span>
