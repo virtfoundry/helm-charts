@@ -2,6 +2,33 @@ apiVersion: v1
 entries:
   virtfoundry:
   - apiVersion: v2
+    appVersion: 0.11.2
+    created: "2026-10-07T19:06:45.878331439Z"
+    description: VirtFoundry control plane — API and UI (virtfoundry.io CRD store)
+    digest: 5a4d52b3f076ce4506e3f4199ef8309c14ed492079608f46416e2533026d7a40
+    home: https://github.com/virtfoundry/core
+    icon: https://raw.githubusercontent.com/virtfoundry/core/main/ui/public/favicon.svg
+    keywords:
+    - iaas
+    - kubevirt
+    - kubernetes
+    - multus
+    - cloudstack
+    kubeVersion: '>=1.28.0-0'
+    maintainers:
+    - name: Matheus Thurler
+      url: https://github.com/Matheus-Thurler
+    - name: virtfoundry
+      url: https://github.com/virtfoundry
+    name: virtfoundry
+    sources:
+    - https://github.com/virtfoundry/core
+    - https://github.com/virtfoundry/helm-charts
+    type: application
+    urls:
+    - https://github.com/virtfoundry/helm-charts/releases/download/virtfoundry-0.11.2/virtfoundry-0.11.2.tgz
+    version: 0.11.2
+  - apiVersion: v2
     appVersion: 0.11.1
     created: "2026-10-07T16:20:23.697478903Z"
     description: VirtFoundry control plane — API and UI (virtfoundry.io CRD store)
@@ -273,6 +300,17 @@ entries:
     version: 0.5.0
   virtfoundry-crds:
   - apiVersion: v2
+    appVersion: 0.11.2
+    created: "2026-10-07T19:06:46.080144246Z"
+    description: virtfoundry.io CustomResourceDefinitions (kept on uninstall, upgraded
+      by helm upgrade)
+    digest: 1a3d641808eb170c42ba374a07d871936a58cf66f79776191892fe35a5edd66b
+    name: virtfoundry-crds
+    type: application
+    urls:
+    - https://github.com/virtfoundry/helm-charts/releases/download/virtfoundry-crds-0.11.2/virtfoundry-crds-0.11.2.tgz
+    version: 0.11.2
+  - apiVersion: v2
     appVersion: 0.11.1
     created: "2026-10-07T16:20:23.902242721Z"
     description: virtfoundry.io CustomResourceDefinitions (kept on uninstall, upgraded
@@ -295,6 +333,28 @@ entries:
     - https://github.com/virtfoundry/helm-charts/releases/download/virtfoundry-crds-0.11.0/virtfoundry-crds-0.11.0.tgz
     version: 0.11.0
   virtfoundry-operator:
+  - apiVersion: v2
+    appVersion: 0.11.2
+    created: "2026-10-07T19:06:46.27081151Z"
+    description: VirtFoundry operator — virtfoundry.io CRDs and controllers
+    digest: 25edfdda9d59d698eb35684adffbe2dcade6ef64cd33c7f826217bc3260d379b
+    home: https://github.com/virtfoundry/operator
+    keywords:
+    - iaas
+    - kubevirt
+    - operator
+    - crd
+    kubeVersion: '>=1.28.0-0'
+    maintainers:
+    - name: virtfoundry
+      url: https://github.com/virtfoundry
+    name: virtfoundry-operator
+    sources:
+    - https://github.com/virtfoundry/operator
+    type: application
+    urls:
+    - https://github.com/virtfoundry/helm-charts/releases/download/virtfoundry-operator-0.11.2/virtfoundry-operator-0.11.2.tgz
+    version: 0.11.2
   - apiVersion: v2
     appVersion: 0.11.1
     created: "2026-10-07T16:20:24.087426144Z"
@@ -495,6 +555,33 @@ entries:
     version: 0.7.0
   virtfoundry-platform:
   - apiVersion: v2
+    appVersion: 0.11.2
+    created: "2026-10-07T19:06:46.47982575Z"
+    dependencies:
+    - alias: operator
+      condition: operator.enabled
+      name: virtfoundry-operator
+      repository: file://../virtfoundry-operator
+      version: 0.11.2
+    - alias: core
+      condition: core.enabled
+      name: virtfoundry
+      repository: file://../virtfoundry
+      version: 0.11.2
+    - alias: vks
+      condition: vks.enabled
+      name: virtfoundry-vks
+      repository: oci://ghcr.io/virtfoundry/charts
+      version: 0.11.2
+    description: VirtFoundry platform in one release — operator, core (API + UI) and
+      optional VKS
+    digest: b81d6a00e055cd2b5e7f5387a78377f63570ea46c9bd88dc2fc951aa44a09084
+    name: virtfoundry-platform
+    type: application
+    urls:
+    - https://github.com/virtfoundry/helm-charts/releases/download/virtfoundry-platform-0.11.2/virtfoundry-platform-0.11.2.tgz
+    version: 0.11.2
+  - apiVersion: v2
     appVersion: 0.11.1
     created: "2026-10-07T16:20:24.305869414Z"
     dependencies:
@@ -548,4 +635,4 @@ entries:
     urls:
     - https://github.com/virtfoundry/helm-charts/releases/download/virtfoundry-platform-0.11.0/virtfoundry-platform-0.11.0.tgz
     version: 0.11.0
-generated: "2026-10-07T16:20:24.305923074Z"
+generated: "2026-10-07T19:06:46.479903487Z"
