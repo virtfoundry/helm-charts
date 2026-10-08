@@ -259,17 +259,24 @@ make lint
 
 ## Install VKS (optional)
 
-VKS adds the `VKSCluster` resource. Install it **after** the operator and core. The `virtfoundry-vks` chart is not in the Helm repository yet, so install it from the [`virtfoundry/vks`](https://github.com/virtfoundry/vks) repository.
+VKS adds managed Kubernetes clusters for tenants. Install it **after** the operator and core.
 
-Prerequisites: [Kamaji](prerequisites.md#optional-kubernetes-clusters-vks) with its CRDs and a `DataStore`, and a LoadBalancer implementation (MetalLB) unless you use `NodePort`.
+Prerequisites: [Kamaji](prerequisites.md#optional-kubernetes-clusters-vks) with its CRDs and a `DataStore`, and a LoadBalancer implementation (MetalLB) unless you use `NodePort`. Check them first:
 
 ```bash
-git clone --branch v@@VERSION@@ https://github.com/virtfoundry/vks.git
-cd vks
+kubectl get crd tenantcontrolplanes.kamaji.clastix.io vksclusters.virtfoundry.io
+kubectl get datastore          # at least one, READY true
+```
 
-helm install virtfoundry-vks ./charts/virtfoundry-vks \
+The chart is published as an OCI artifact (it is not in the Helm repository index):
+
+```bash
+helm install virtfoundry-vks oci://ghcr.io/virtfoundry/charts/virtfoundry-vks \
+  --version @@VERSION@@ \
   --namespace virtfoundry-system
 ```
+
+With the one-release install, turn it on in the platform chart instead: `helm upgrade virtfoundry virtfoundry/virtfoundry-platform -n virtfoundry-system --reuse-values --set vks.enabled=true`.
 
 The image defaults to `ghcr.io/virtfoundry/vks:@@VERSION@@` (the chart `appVersion`). Pin by digest with `--set image.digest=sha256:...` for GitOps.
 

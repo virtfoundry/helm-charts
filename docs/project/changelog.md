@@ -18,6 +18,7 @@ Format based on [Keep a Changelog](https://keepachangelog.com/). Versioning: [Se
 
 ### Changed
 
+- VKS docs: the chart installs from OCI (`oci://ghcr.io/virtfoundry/charts/virtfoundry-vks`) instead of a git clone, with a prerequisite checklist, how to get the kubeconfig and use the cluster, what `networkRef` must be, and when the control-plane address is reachable.
 - Quickstart: starts with who it is for and what you need (cluster, KubeVirt, Multus, CDI, StorageClass, `/dev/kvm`), a table of what was tested and what was not, and installs with one `virtfoundry-platform` release after the CRDs. The three separate releases are kept as an advanced option.
 
 ## [0.11.3] - 2026-10-07
