@@ -1480,6 +1480,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#release-automation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Release automation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#release-process" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1722,6 +1733,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#release-automation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Release automation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#release-process" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1952,6 +1974,15 @@ helm<span class="w"> </span>install<span class="w"> </span>virtfoundry<span clas
 </tr>
 </tbody>
 </table>
+<h2 id="release-automation">Release automation<a class="headerlink" href="#release-automation" title="Permanent link">¶</a></h2>
+<p><code>scripts/release/release.sh</code> does steps 2 to 5 below. Run it from a checkout of <code>helm-charts</code> that has the other repositories cloned next to it (<code>core</code>, <code>operator</code>, <code>vks</code>, <code>.github</code>):</p>
+<div class="highlight"><pre><span></span><code><span class="nv">DRY_RUN</span><span class="o">=</span><span class="m">1</span><span class="w"> </span><span class="nv">VERBOSE</span><span class="o">=</span><span class="m">1</span><span class="w"> </span>scripts/release/release.sh<span class="w"> </span>bump<span class="w"> </span>X.Y.Z<span class="w"> </span><span class="s2">"one line for core docs/PRODUCT.md"</span><span class="w">   </span><span class="c1"># look first</span>
+scripts/release/release.sh<span class="w"> </span>bump<span class="w"> </span>X.Y.Z<span class="w"> </span><span class="s2">"one line for core docs/PRODUCT.md"</span><span class="w">   </span><span class="c1"># opens one PR per repository</span>
+<span class="c1"># merge the five PRs, one at a time, when CI is green</span>
+scripts/release/release.sh<span class="w"> </span>tag<span class="w"> </span>X.Y.Z<span class="w">   </span><span class="c1"># tags core, operator, vks, helm-charts in order and waits for each</span>
+</code></pre></div>
+<p><code>bump</code> rewrites only known pin shapes (<code>--version</code>, chart <code>version</code>/<code>appVersion</code>, image tags, <code>vX.Y.Z</code> in commands, "current release" statements), moves the <code>Unreleased</code> changelog notes under a dated heading and adds the row to the compatibility table. Sentences about one specific release ("X.Y.Z and newer", "tested on X.Y.Z") are left as they are and printed under <code>kept in &lt;repo&gt;</code>: read that list and fix by hand what needs it. <code>tag</code> refuses to tag a repository whose <code>main</code> does not declare the version yet.</p>
+<p>Not automated: the Terraform provider (own version line), the Terraform provider version in the compatibility table (copied from the previous row), merging the PRs, and the screenshots (step 7).</p>
 <h2 id="release-process">Release process<a class="headerlink" href="#release-process" title="Permanent link">¶</a></h2>
 <ol>
 <li>Finish feature branch → PR → integration testing → merge <code>main</code></li>
