@@ -95,6 +95,8 @@ nav:
       - Kind (laptop): guide/kind.md
       - Installation: guide/installation.md
       - Topologies: guide/topologies.md
+      - Expose the UI and API: guide/expose.md
+      - Security and credentials: guide/security.md
       - Configuration: guide/configuration.md
       - Networking config: guide/networking-config.md
       - Storage config: guide/storage-config.md

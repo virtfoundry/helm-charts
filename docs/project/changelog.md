@@ -8,18 +8,16 @@ Format based on [Keep a Changelog](https://keepachangelog.com/). Versioning: [Se
 
 ### Added
 
+- Docs: [Expose the UI and API](../guide/expose.md) (port-forward, Ingress, Gateway API, what the proxy must pass through) and [Security and credentials](../guide/security.md) (where the credentials live, how to change the root password, signing key rotation).
 - `scripts/release/release.sh`: `bump X.Y.Z` opens the release PR in core, operator, vks, helm-charts and the org profile; `tag X.Y.Z` tags them in order and waits for each tag's workflows. It only rewrites known pin shapes and lists the other mentions of the old version for review ([Versioning](versioning.md)).
+
+### Fixed
+
+- Configuration said credentials change when a new value is passed. A new `secrets.rootPassword` does not change the login password after the first start: the API only uses it to create `root`.
 
 ### Changed
 
 - Quickstart: starts with who it is for and what you need (cluster, KubeVirt, Multus, CDI, StorageClass, `/dev/kvm`), a table of what was tested and what was not, and installs with one `virtfoundry-platform` release after the CRDs. The three separate releases are kept as an advanced option.
-
-### Fixed
-
-- The UI nginx sent `Host` without the port, so WebSocket upgrades (`/ws/events`, `/ws/console`) were rejected with 403 when the UI was served on a non-default port, such as the quickstart's `kubectl port-forward 8080:80`. It now keeps the port (`$http_host`); `scripts/ci/assert-ui-nginx-host.sh` guards it ([Troubleshooting](../guide/troubleshooting.md)).
-- The UI and API pods now roll when their ConfigMaps change (checksum annotations). Before, `helm upgrade` changed the ConfigMap and left the pod running with the old file, because the nginx config is mounted with `subPath`.
-- Quickstart: the health check URL is `/api/v1/healthz` (needs 0.11.3 or newer; `/health` on the UI address only returned the UI page), and the first-VM steps now say to create an SSH key first.
-- `scripts/e2e/homelab-ui.py` works on a fresh install (creates a throwaway SSH key) and fails on WebSocket errors in the browser console.
 
 ## [0.11.3] - 2026-10-07
 
@@ -27,6 +25,13 @@ Format based on [Keep a Changelog](https://keepachangelog.com/). Versioning: [Se
 
 - Chart / image pins aligned with core/operator/vks **0.11.3** (core: VKS accepts the network display name, `/api/v1/healthz`).
 - `virtfoundry-vks` sample and VKS guide use the Network CR name (`default-default`) in `networkRef`.
+
+### Fixed
+
+- The UI nginx sent `Host` without the port, so WebSocket upgrades (`/ws/events`, `/ws/console`) were rejected with 403 when the UI was served on a non-default port, such as the quickstart's `kubectl port-forward 8080:80`. It now keeps the port (`$http_host`); `scripts/ci/assert-ui-nginx-host.sh` guards it ([Troubleshooting](../guide/troubleshooting.md)).
+- The UI and API pods now roll when their ConfigMaps change (checksum annotations). Before, `helm upgrade` changed the ConfigMap and left the pod running with the old file, because the nginx config is mounted with `subPath`.
+- Quickstart: the health check URL is `/api/v1/healthz` (needs 0.11.3 or newer; `/health` on the UI address only returned the UI page), and the first-VM steps now say to create an SSH key first.
+- `scripts/e2e/homelab-ui.py` works on a fresh install (creates a throwaway SSH key) and fails on WebSocket errors in the browser console.
 
 ## [0.11.2] - 2026-10-07
 
