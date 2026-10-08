@@ -3029,6 +3029,7 @@
 </ul>
 <h3 id="changed">Changed<a class="headerlink" href="#changed" title="Permanent link">¶</a></h3>
 <ul>
+<li><code>charts/virtfoundry-operator</code> is now the only copy of the operator chart: the operator repository no longer carries one, and the drift gate is gone. The RBAC gate runs the operator's own check (ClusterRole against the kubebuilder markers) on this chart; the copy of that check kept here had fallen behind.</li>
 <li>VKS docs: the chart installs from OCI (<code>oci://ghcr.io/virtfoundry/charts/virtfoundry-vks</code>) instead of a git clone, with a prerequisite checklist, how to get the kubeconfig and use the cluster, what <code>networkRef</code> must be, and when the control-plane address is reachable.</li>
 <li>Quickstart: starts with who it is for and what you need (cluster, KubeVirt, Multus, CDI, StorageClass, <code>/dev/kvm</code>), a table of what was tested and what was not, and installs with one <code>virtfoundry-platform</code> release after the CRDs. The three separate releases are kept as an advanced option.</li>
 </ul>
