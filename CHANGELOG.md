@@ -4,6 +4,10 @@ See [docs/project/changelog.md](docs/project/changelog.md) for the full release 
 
 ## [Unreleased]
 
+### Added
+
+- `scripts/release/release.sh`: `bump X.Y.Z` opens the release PR in core, operator, vks, helm-charts and the org profile; `tag X.Y.Z` tags them in order and waits for each tag's workflows. It only rewrites known pin shapes and lists the other mentions of the old version for review ([Versioning](docs/project/versioning.md)).
+
 ### Changed
 
 - Quickstart: starts with who it is for and what you need (cluster, KubeVirt, Multus, CDI, StorageClass, `/dev/kvm`), a table of what was tested and what was not, and installs with one `virtfoundry-platform` release after the CRDs. The three separate releases are kept as an advanced option.
