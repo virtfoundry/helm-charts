@@ -62,11 +62,23 @@ jobs:
       - name: Security gates (#37 secrets, #38 platform RBAC)
         run: bash ./scripts/ci/security-gates.sh
 
-      - name: Operator chart RBAC gate (#43 least privilege)
-        run: bash ./scripts/ci/verify-operator-chart-rbac.sh
+      # The chart lives here; the RBAC check lives in the operator repository, next to the
+      # ClusterRole generated from the kubebuilder markers.
+      - name: Checkout operator (RBAC check)
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          repository: virtfoundry/operator
+          path: .operator
+          persist-credentials: false
 
-      - name: Operator chart drift gate (mirror of virtfoundry/operator)
-        run: bash ./scripts/ci/verify-operator-chart-drift.sh
+      - name: Setup Go
+        uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
+        with:
+          go-version-file: .operator/go.mod
+          cache-dependency-path: .operator/go.sum
+
+      - name: Operator chart RBAC gate (#43 least privilege, matches the controllers)
+        run: OPERATOR_DIR=.operator bash ./scripts/ci/verify-operator-chart-rbac.sh
 
       - name: Install MkDocs
         run: pip install -r requirements-docs.txt

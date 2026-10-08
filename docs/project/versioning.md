@@ -71,7 +71,7 @@ Not automated: the Terraform provider (own version line), the Terraform provider
    | **helm-charts** | `charts/virtfoundry/Chart.yaml`, `charts/virtfoundry-operator/Chart.yaml`, `charts/virtfoundry/values.yaml` (`images.api` / `images.ui`), `charts/virtfoundry-operator/values.yaml` + `values-homelab.yaml` (`image.tag`), **all** install docs (`quickstart`, `installation`, `kind`, `helm-repository`, `chart-values`, `index`, `README`) — these feed **GitHub Pages** |
    | **vks** | `charts/virtfoundry-vks/Chart.yaml` (`version`, `appVersion`), `CHANGELOG.md` |
    | **terraform-provider** | `CHANGELOG.md`, `version = "~> X.Y"` in README and examples (own line, see below) |
-   | **operator** | `charts/virtfoundry-operator/Chart.yaml`, `values.yaml`, `values-homelab.yaml` |
+   | **operator** | `CHANGELOG.md` only. Its chart lives in `helm-charts` (`charts/virtfoundry-operator`) and is bumped there |
    | **`.github` (org profile)** | [`profile/README.md`](https://github.com/virtfoundry/.github/blob/main/profile/README.md) — org homepage “Current release” + helm `--version` snippets (**routinely forgotten**) |
    | **This doc** | `docs/project/versioning.md` — current release line and examples |
 
