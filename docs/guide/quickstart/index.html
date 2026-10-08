@@ -602,6 +602,34 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
       
         <li class="md-nav__item">
+  <a href="#who-this-is-for-and-what-you-need" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Who this is for, and what you need
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Who this is for, and what you need">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-has-been-tested" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What has been tested
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#0-check-prerequisites-2-min" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1678,6 +1706,34 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
       
         <li class="md-nav__item">
+  <a href="#who-this-is-for-and-what-you-need" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Who this is for, and what you need
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Who this is for, and what you need">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-has-been-tested" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What has been tested
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#0-check-prerequisites-2-min" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1828,7 +1884,45 @@
 
 
 <h1 id="quickstart-under-30-minutes">Quickstart (under 30 minutes)<a class="headerlink" href="#quickstart-under-30-minutes" title="Permanent link">¶</a></h1>
-<p>Goal: <strong>UI login + first VM</strong>. On a laptop, start with <strong><a href="../kind/">Kind</a></strong> (Docker, no VLAN). On a cluster that already has Kubernetes, KubeVirt, Multus, and CDI, continue below.</p>
+<p>Goal: <strong>UI login + first VM</strong>.</p>
+<h2 id="who-this-is-for-and-what-you-need">Who this is for, and what you need<a class="headerlink" href="#who-this-is-for-and-what-you-need" title="Permanent link">¶</a></h2>
+<p>VirtFoundry is a control plane <strong>on top of an existing Kubernetes cluster</strong>. It does not install Kubernetes, KubeVirt, Multus, CDI or storage for you. Before you start you need:</p>
+<ul>
+<li>A Kubernetes cluster you can <code>kubectl</code> into as cluster admin.</li>
+<li><strong>KubeVirt, Multus and CDI</strong> installed, and a default <strong>StorageClass</strong> (see <a href="../prerequisites/">Platform prerequisites</a>).</li>
+<li>Linux nodes with <code>/dev/kvm</code> (nested virtualization when the nodes are VMs).</li>
+<li>Room for the control plane plus your VMs. The reference cluster has 2 nodes; give each a few CPU cores and several GB of RAM.</li>
+<li><code>helm</code> 3 and <code>kubectl</code> on your machine.</li>
+</ul>
+<p>No cluster? Use <strong><a href="../kind/">Kind</a></strong> on a Linux host (Docker, no VLAN). Kind does not work on macOS.</p>
+<h3 id="what-has-been-tested">What has been tested<a class="headerlink" href="#what-has-been-tested" title="Permanent link">¶</a></h3>
+<table>
+<thead>
+<tr>
+<th>Area</th>
+<th>Verified</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Cluster</td>
+<td>2 nodes, Cilium (kube-proxy replacement), Longhorn, MetalLB</td>
+</tr>
+<tr>
+<td>Install</td>
+<td>Quickstart below, clean cluster, release 0.11.3; Kind end-to-end in CI</td>
+</tr>
+<tr>
+<td>Features</td>
+<td>VM deploy, stop/start, console, snapshots, volumes, security groups, VKS cluster, Terraform provider</td>
+</tr>
+<tr>
+<td><strong>Not tested</strong></td>
+<td>EKS/GKE/AKS, k3s, Talos, other CNIs or storage, ARM nodes</td>
+</tr>
+</tbody>
+</table>
+<p>Anything in the "not tested" row may work, but nobody has checked. Report what you find. On a laptop, start with <strong><a href="../kind/">Kind</a></strong> (Docker, no VLAN). On a cluster that already has Kubernetes, KubeVirt, Multus, and CDI, continue below.</p>
 <p>If you still need to install those platform components, see <strong><a href="../prerequisites/">Platform prerequisites</a></strong> (official KubeVirt, Multus, CDI links) or the full <a href="../installation/">Installation</a> guide.</p>
 <div class="admonition tip">
 <p class="admonition-title">Homelab with Argo / Longhorn</p>
@@ -1851,33 +1945,42 @@ kubectl<span class="w"> </span>get<span class="w"> </span>storageclass
 <div class="highlight"><pre><span></span><code>helm<span class="w"> </span>repo<span class="w"> </span>add<span class="w"> </span>virtfoundry<span class="w"> </span>https://virtfoundry.github.io/helm-charts
 helm<span class="w"> </span>repo<span class="w"> </span>update
 
-<span class="c1"># CRDs, then the operator (required)</span>
+<span class="c1"># 1. CRDs (separate release: they hold your data, Helm never deletes them)</span>
 helm<span class="w"> </span>install<span class="w"> </span>virtfoundry-crds<span class="w"> </span>virtfoundry/virtfoundry-crds<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--version<span class="w"> </span><span class="m">0</span>.11.3<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--namespace<span class="w"> </span>virtfoundry-system<span class="w"> </span>--create-namespace
-helm<span class="w"> </span>install<span class="w"> </span>virtfoundry-operator<span class="w"> </span>virtfoundry/virtfoundry-operator<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--version<span class="w"> </span><span class="m">0</span>.11.3<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--namespace<span class="w"> </span>virtfoundry-system
 
-<span class="c1"># API + UI</span>
-helm<span class="w"> </span>install<span class="w"> </span>virtfoundry<span class="w"> </span>virtfoundry/virtfoundry<span class="w"> </span><span class="se">\</span>
+<span class="c1"># 2. Operator + API + UI in one release</span>
+helm<span class="w"> </span>install<span class="w"> </span>virtfoundry<span class="w"> </span>virtfoundry/virtfoundry-platform<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--version<span class="w"> </span><span class="m">0</span>.11.3<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--namespace<span class="w"> </span>virtfoundry-system<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--set-string<span class="w"> </span>core.secrets.rootPassword<span class="o">=</span><span class="s1">'choose-a-strong-password'</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--set-string<span class="w"> </span>core.secrets.jwtSecret<span class="o">=</span><span class="s2">"</span><span class="k">$(</span>openssl<span class="w"> </span>rand<span class="w"> </span>-hex<span class="w"> </span><span class="m">32</span><span class="k">)</span><span class="s2">"</span>
+</code></pre></div>
+<details class="note">
+<summary>Advanced: three separate releases</summary>
+<p>Install the operator and the API/UI as their own releases when you want to upgrade them independently:</p>
+<div class="highlight"><pre><span></span><code>helm<span class="w"> </span>install<span class="w"> </span>virtfoundry-operator<span class="w"> </span>virtfoundry/virtfoundry-operator<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--version<span class="w"> </span><span class="m">0</span>.11.3<span class="w"> </span>--namespace<span class="w"> </span>virtfoundry-system
+helm<span class="w"> </span>install<span class="w"> </span>virtfoundry<span class="w"> </span>virtfoundry/virtfoundry<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--version<span class="w"> </span><span class="m">0</span>.11.3<span class="w"> </span>--namespace<span class="w"> </span>virtfoundry-system<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--set<span class="w"> </span>secrets.rootPassword<span class="o">=</span><span class="s1">'choose-a-strong-password'</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--set<span class="w"> </span>secrets.jwtSecret<span class="o">=</span><span class="s2">"</span><span class="k">$(</span>openssl<span class="w"> </span>rand<span class="w"> </span>-hex<span class="w"> </span><span class="m">32</span><span class="k">)</span><span class="s2">"</span>
 </code></pre></div>
+<p>Values then sit at the top level (<code>secrets.*</code>) instead of under <code>core.*</code>.</p>
+</details>
 <p>Wait until pods are ready:</p>
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>-n<span class="w"> </span>virtfoundry-system<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span>-w
 kubectl<span class="w"> </span>get<span class="w"> </span>crd<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>virtfoundry.io
 </code></pre></div>
 <div class="admonition note">
 <p class="admonition-title">Helm <code>--set</code> is not optional for secrets</p>
-<p><code>secrets.rootPassword</code> (12+ chars) and <code>secrets.jwtSecret</code> (32+ chars) must be passed on <strong>this same</strong> <code>helm install</code> (or via <code>-f</code>, or replaced by <code>secrets.existingSecret</code>). The chart has no defaults for them and the install fails without them — see <a href="../configuration/#secrets">Secrets</a>. They are chart values, not extra kubectl steps. Public CIDR and StorageClass do <strong>not</strong> need <code>--set</code> on a typical homelab: storage <code>auto</code> selects Longhorn when present; public stays off unless you enable it. Details: <a href="../chart-values/">Chart values</a>.</p>
+<p><code>core.secrets.rootPassword</code> (12+ chars) and <code>core.secrets.jwtSecret</code> (32+ chars) (<code>secrets.*</code> with the three separate releases) must be passed on <strong>this same</strong> <code>helm install</code> (or via <code>-f</code>, or replaced by <code>secrets.existingSecret</code>). The chart has no defaults for them and the install fails without them — see <a href="../configuration/#secrets">Secrets</a>. They are chart values, not extra kubectl steps. Public CIDR and StorageClass do <strong>not</strong> need <code>--set</code> on a typical homelab: storage <code>auto</code> selects Longhorn when present; public stays off unless you enable it. Details: <a href="../chart-values/">Chart values</a>.</p>
 </div>
 <p>Optional — pin the CSI snapshot class (only if auto did not pick Longhorn):</p>
-<div class="highlight"><pre><span></span><code>helm<span class="w"> </span>upgrade<span class="w"> </span>virtfoundry<span class="w"> </span>virtfoundry/virtfoundry<span class="w"> </span>-n<span class="w"> </span>virtfoundry-system<span class="w"> </span><span class="se">\</span>
+<div class="highlight"><pre><span></span><code>helm<span class="w"> </span>upgrade<span class="w"> </span>virtfoundry<span class="w"> </span>virtfoundry/virtfoundry-platform<span class="w"> </span>-n<span class="w"> </span>virtfoundry-system<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--reuse-values<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--set<span class="w"> </span>platform.storage.snapshotClass<span class="o">=</span>longhorn
+<span class="w">  </span>--set<span class="w"> </span>core.platform.storage.snapshotClass<span class="o">=</span>longhorn
 </code></pre></div>
 <p>Empty <code>snapshotClass</code> uses Longhorn when that is the resolved default class, otherwise the cluster default <code>VolumeSnapshotClass</code>.</p>
 <hr>
