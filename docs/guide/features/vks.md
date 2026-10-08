@@ -30,6 +30,18 @@ flowchart LR
   <figcaption>Compute → VKS Clusters. Click to zoom.</figcaption>
 </figure>
 
+## Before you start
+
+VKS is optional and has its own prerequisites, on top of the platform ones:
+
+| You need | Check | Why |
+|----------|-------|-----|
+| The VKS controller | `kubectl -n virtfoundry-system get pods \| grep vks` | [Install VKS](../installation.md#install-vks-optional) |
+| Kamaji with a ready `DataStore` | `kubectl get datastore` shows `READY true` | Runs each cluster's API server and etcd |
+| A LoadBalancer implementation (MetalLB) | `kubectl -n metallb-system get ipaddresspool` | Gives each control plane its address |
+| The control-plane address reachable from where you run `kubectl` | See [Control plane address](#control-plane-address) | The kubeconfig points at that address |
+| The node template | `kubectl -n virtfoundry-system get templates.virtfoundry.io \| grep node` | Seeded by core at startup (`ubuntu-node-1-36-5`) |
+
 ## Create a cluster
 
 ```yaml
@@ -49,10 +61,30 @@ spec:
 
 ```bash
 kubectl apply -f vkscluster.yaml
-kubectl get vksc -A
+kubectl get vksc -A --watch     # PHASE goes to Ready in one to two minutes
 ```
 
 The Kubernetes version must match the node image template (`ubuntu-node-1-36-5` pairs with `v1.36.5`).
+
+`networkRef` is the name of the Network **resource**, which is `<vpc>-<network>`: the network shown as `default` in the console is `default-default`. List them with `kubectl -n virtfoundry-tenant-default get networks.virtfoundry.io`. The REST API, the console and Terraform also accept the display name (from 0.11.3).
+
+## Use the cluster
+
+The admin kubeconfig is a Secret in the tenant namespace, named `<cluster>-admin-kubeconfig`:
+
+```bash
+kubectl -n virtfoundry-tenant-default get secret demo-admin-kubeconfig \
+  -o jsonpath='{.data.admin\.conf}' | base64 -d > demo.kubeconfig
+
+kubectl --kubeconfig demo.kubeconfig get nodes
+# demo-worker-0   Ready   <none>   36s   v1.36.5
+```
+
+From the API: `GET /api/v1/vks/clusters/demo/kubeconfig` returns the same file. The console has a download button on the cluster page.
+
+Checked on the reference cluster with 0.11.3: this manifest reaches `Ready` in about 70 seconds and the worker node joins as `Ready`.
+
+Delete the cluster with `kubectl delete vksc demo -n virtfoundry-tenant-default`. The control plane, the worker VMs and the kubeconfig go with it.
 
 ## Node image
 
@@ -68,6 +100,8 @@ The worker image is not embedded in the platform. Core seeds a VM template (`ubu
 | `address` | unset | Advertised address (used with `NodePort`) |
 
 With the defaults, the VIP comes from the cluster load balancer (MetalLB autoAssign) and no pool is pinned. Pin a pool only when you need a specific range. `NodePort` is a lab escape hatch.
+
+The address has to be reachable from two places: the worker VMs (to join) and wherever you run `kubectl`. With MetalLB in layer 2 mode that means the same L2 network as the pool. With BGP, your router must accept the `/32` and the node that receives the traffic must deliver it to the Service. If `kubectl` times out while the cluster is `Ready`, the address is not routed to you: test with `curl -k https://<address>:443/version`.
 
 ## Kubeconfig and API
 
