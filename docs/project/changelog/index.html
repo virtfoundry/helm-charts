@@ -3019,6 +3019,7 @@
 <h2 id="unreleased">[Unreleased]<a class="headerlink" href="#unreleased" title="Permanent link">¶</a></h2>
 <h3 id="added">Added<a class="headerlink" href="#added" title="Permanent link">¶</a></h3>
 <ul>
+<li>Chart e2e has a <code>quickstart</code> scenario: it runs the install commands taken from <a href="../../guide/quickstart/">the quickstart</a> on Kind, waits for the control plane, then runs the documented health check and logs in as <code>root</code>. A change to the docs or the charts that breaks the first-time path now fails CI.</li>
 <li>Docs: <a href="../../guide/expose/">Expose the UI and API</a> (port-forward, Ingress, Gateway API, what the proxy must pass through) and <a href="../../guide/security/">Security and credentials</a> (where the credentials live, how to change the root password, signing key rotation).</li>
 <li><code>scripts/release/release.sh</code>: <code>bump X.Y.Z</code> opens the release PR in core, operator, vks, helm-charts and the org profile; <code>tag X.Y.Z</code> tags them in order and waits for each tag's workflows. It only rewrites known pin shapes and lists the other mentions of the old version for review (<a href="../versioning/">Versioning</a>).</li>
 </ul>
