@@ -9,6 +9,7 @@ Operational helpers for bare-metal and air-gapped installs. **Not required** for
 | **Most users** | `helm install` / `helm upgrade` only — see root [README.md](../README.md) |
 | **No registry (sideload)** | [`sideload/`](sideload/) |
 | **Pre-install prerequisites** | [`setup/kubevirt.sh`](setup/kubevirt.sh) — or install KubeVirt yourself |
+| **Maintainers cutting a release** | [`release/release.sh`](release/release.sh) — see [Versioning](../docs/project/versioning.md#release-automation) |
 | **Multus / CDI** | Prefer Helm values `platform.multus.install` / `platform.cdi.install`, or run [`setup/multus.sh`](setup/multus.sh) / [`setup/cdi.sh`](setup/cdi.sh) manually before helm |
 
 ## Layout

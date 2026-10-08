@@ -44,6 +44,21 @@ helm install virtfoundry virtfoundry/virtfoundry --version 0.11.3 \
 | Breaking API or chart contract | MINOR while on 0.x | `0.11.2` → `0.12.0` (document in CHANGELOG) |
 | First stable contract | MAJOR | `0.x` → `1.0.0` (explicit declaration) |
 
+## Release automation
+
+`scripts/release/release.sh` does steps 2 to 5 below. Run it from a checkout of `helm-charts` that has the other repositories cloned next to it (`core`, `operator`, `vks`, `.github`):
+
+```bash
+DRY_RUN=1 VERBOSE=1 scripts/release/release.sh bump X.Y.Z "one line for core docs/PRODUCT.md"   # look first
+scripts/release/release.sh bump X.Y.Z "one line for core docs/PRODUCT.md"   # opens one PR per repository
+# merge the five PRs, one at a time, when CI is green
+scripts/release/release.sh tag X.Y.Z   # tags core, operator, vks, helm-charts in order and waits for each
+```
+
+`bump` rewrites only known pin shapes (`--version`, chart `version`/`appVersion`, image tags, `vX.Y.Z` in commands, "current release" statements), moves the `Unreleased` changelog notes under a dated heading and adds the row to the compatibility table. Sentences about one specific release ("X.Y.Z and newer", "tested on X.Y.Z") are left as they are and printed under `kept in <repo>`: read that list and fix by hand what needs it. `tag` refuses to tag a repository whose `main` does not declare the version yet.
+
+Not automated: the Terraform provider (own version line), the Terraform provider version in the compatibility table (copied from the previous row), merging the PRs, and the screenshots (step 7).
+
 ## Release process
 
 1. Finish feature branch → PR → integration testing → merge `main`
