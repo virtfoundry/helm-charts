@@ -17,6 +17,10 @@
          <lastmod>2026-10-08</lastmod>
     </url>
     <url>
+         <loc>https://virtfoundry.github.io/helm-charts/docs/guide/expose/</loc>
+         <lastmod>2026-10-08</lastmod>
+    </url>
+    <url>
          <loc>https://virtfoundry.github.io/helm-charts/docs/guide/helm-repository/</loc>
          <lastmod>2026-10-08</lastmod>
     </url>
@@ -38,6 +42,10 @@
     </url>
     <url>
          <loc>https://virtfoundry.github.io/helm-charts/docs/guide/quickstart/</loc>
+         <lastmod>2026-10-08</lastmod>
+    </url>
+    <url>
+         <loc>https://virtfoundry.github.io/helm-charts/docs/guide/security/</loc>
          <lastmod>2026-10-08</lastmod>
     </url>
     <url>

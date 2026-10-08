@@ -431,6 +431,10 @@
       
         
       
+        
+      
+        
+      
     
     
     
@@ -786,6 +790,62 @@
     
   
     Topologies
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../expose/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Expose the UI and API
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../security/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Security and credentials
   
 
     
@@ -1994,7 +2054,7 @@ kubectl<span class="w"> </span>get<span class="w"> </span>crd<span class="w"> </
 <p>Open http://127.0.0.1:8080</p>
 </div>
 <div class="tabbed-block">
-<p>Use your cluster’s IngressClass or Gateway + HTTPRoute. Example values and Gateway notes: <a href="../configuration/">Configuration</a>, <a href="../topologies/">Topologies</a>.</p>
+<p>Copy-paste commands for both, and what your proxy must pass through: <a href="../expose/">Expose the UI and API</a>.</p>
 </div>
 </div>
 </div>
@@ -2004,6 +2064,7 @@ kubectl<span class="w"> </span>get<span class="w"> </span>crd<span class="w"> </
 <li><strong>User:</strong> <code>root</code></li>
 <li><strong>Password:</strong> the <code>secrets.rootPassword</code> you set (<code>choose-a-strong-password</code> above)</li>
 </ul>
+<p>Before other people use it, read <a href="../security/">Security and credentials</a>: HTTPS, how to change the root password, and why daily work should not use <code>root</code>.</p>
 <hr>
 <h2 id="4-deploy-a-first-vm-10-min">4. Deploy a first VM (~10 min)<a class="headerlink" href="#4-deploy-a-first-vm-10-min" title="Permanent link">¶</a></h2>
 <p>In the UI (or API):</p>
@@ -2046,6 +2107,14 @@ kubectl<span class="w"> </span>get<span class="w"> </span>vm<span class="w"> </s
 <tr>
 <td>What you can do after login</td>
 <td><a href="../features/">Features overview</a></td>
+</tr>
+<tr>
+<td>Reach the console from outside the cluster</td>
+<td><a href="../expose/">Expose the UI and API</a></td>
+</tr>
+<tr>
+<td>Passwords, HTTPS, who can do what</td>
+<td><a href="../security/">Security and credentials</a></td>
 </tr>
 <tr>
 <td>Full install + why each dependency</td>

@@ -7,31 +7,31 @@
       
       
       
-        <link rel="canonical" href="https://virtfoundry.github.io/helm-charts/docs/guide/features/networking/">
+        <link rel="canonical" href="https://virtfoundry.github.io/helm-charts/docs/guide/expose/">
       
       
-        <link rel="prev" href="../storage/">
+        <link rel="prev" href="../topologies/">
       
       
-        <link rel="next" href="../security-groups/">
+        <link rel="next" href="../security/">
       
       
         
       
       
-      <link rel="icon" href="../../../assets/favicon.svg">
+      <link rel="icon" href="../../assets/favicon.svg">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
-        <title>VPCs and networks - VirtFoundry</title>
+        <title>Expose the UI and API - VirtFoundry</title>
       
     
     
-      <link rel="stylesheet" href="../../../assets/stylesheets/main.ec1eaa64.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
-        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
       
       
 
@@ -50,15 +50,15 @@
       
     
     
-      <link rel="stylesheet" href="../../../stylesheets/extra.css">
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
     
-    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
     
     
-  <link href="../../../assets/stylesheets/glightbox.min.css" rel="stylesheet"><script src="../../../assets/javascripts/glightbox.min.js"></script><style id="glightbox-style">
+  <link href="../../assets/stylesheets/glightbox.min.css" rel="stylesheet"><script src="../../assets/javascripts/glightbox.min.js"></script><style id="glightbox-style">
             html.glightbox-open { overflow: initial; height: 100%; }
             .gslide-title { margin-top: 0px; user-select: text; }
             .gslide-desc { color: #666; user-select: text; }
@@ -87,7 +87,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#vpcs-and-networks" class="md-skip">
+        <a href="#expose-the-ui-and-api" class="md-skip">
           Skip to content
         </a>
       
@@ -103,9 +103,9 @@
 
 <header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="../../.." title="VirtFoundry" class="md-header__button md-logo" aria-label="VirtFoundry" data-md-component="logo">
+    <a href="../.." title="VirtFoundry" class="md-header__button md-logo" aria-label="VirtFoundry" data-md-component="logo">
       
-  <img src="../../../assets/logo.svg" alt="logo">
+  <img src="../../assets/logo.svg" alt="logo">
 
     </a>
     <label class="md-header__button md-icon" for="__drawer">
@@ -122,7 +122,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              VPCs and networks
+              Expose the UI and API
             
           </span>
         </div>
@@ -234,7 +234,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../../.." class="md-tabs__link">
+      <a href="../.." class="md-tabs__link">
         
   
   
@@ -251,11 +251,13 @@
   
   
   
+    
+  
   
     
     
-      <li class="md-tabs__item">
-        <a href="../../prerequisites/" class="md-tabs__link">
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../prerequisites/" class="md-tabs__link">
           
   
   
@@ -273,13 +275,11 @@
   
   
   
-    
-  
   
     
     
-      <li class="md-tabs__item md-tabs__item--active">
-        <a href="../" class="md-tabs__link">
+      <li class="md-tabs__item">
+        <a href="../features/" class="md-tabs__link">
           
   
   
@@ -301,7 +301,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../../project/website/" class="md-tabs__link">
+        <a href="../../project/website/" class="md-tabs__link">
           
   
   
@@ -343,9 +343,9 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../../.." title="VirtFoundry" class="md-nav__button md-logo" aria-label="VirtFoundry" data-md-component="logo">
+    <a href="../.." title="VirtFoundry" class="md-nav__button md-logo" aria-label="VirtFoundry" data-md-component="logo">
       
-  <img src="../../../assets/logo.svg" alt="logo">
+  <img src="../../assets/logo.svg" alt="logo">
 
     </a>
     VirtFoundry
@@ -372,7 +372,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../.." class="md-nav__link">
+      <a href="../.." class="md-nav__link">
         
   
   
@@ -396,20 +396,12 @@
       
   
   
+    
+  
   
   
     
     
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
       
         
       
@@ -419,535 +411,6 @@
       
         
       
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-    
-    
-    
-      
-      
-        
-      
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-          
-        
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2">
-        
-          
-          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
-            
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Getting started
-  
-
-    
-  </span>
-  
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_2">
-            <span class="md-nav__icon md-icon"></span>
-            
-  
-    Getting started
-  
-
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix="">
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../prerequisites/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Platform prerequisites
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../why/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Why VirtFoundry
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../quickstart/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Quickstart
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../kind/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Kind (laptop)
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../installation/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Installation
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../topologies/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Topologies
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../expose/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Expose the UI and API
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../security/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Security and credentials
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../configuration/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Configuration
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../networking-config/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Networking config
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../storage-config/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Storage config
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../chart-values/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Chart values (defaults)
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../helm-repository/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Helm repository
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../crds/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    CRDs and upgrades
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../terraform/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Terraform provider
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../troubleshooting/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Troubleshooting
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-    
-      
-      
-  
-  
-    
-  
-  
-  
-    
-    
-      
-        
-          
         
       
         
@@ -988,18 +451,17 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked="">
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked="">
         
           
-          <div class="md-nav__link md-nav__container">
-            <a href="../" class="md-nav__link ">
-              
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
   
   
   <span class="md-ellipsis">
     
   
-    Features
+    Getting started
   
 
     
@@ -1007,43 +469,35 @@
   
   
 
-            </a>
-            
-              
-              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="">
-                <span class="md-nav__icon md-icon"></span>
-              </label>
-            
-          </div>
+            <span class="md-nav__icon md-icon"></span>
+          </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
-          <label class="md-nav__title" for="__nav_3">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
             <span class="md-nav__icon md-icon"></span>
             
   
-    Features
+    Getting started
   
 
           </label>
           <ul class="md-nav__list" data-md-scrollfix="">
             
               
-            
-              
                 
   
   
   
   
     <li class="md-nav__item">
-      <a href="../concepts/" class="md-nav__link">
+      <a href="../prerequisites/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Concepts and tenancy
+    Platform prerequisites
   
 
     
@@ -1064,14 +518,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../iam/" class="md-nav__link">
+      <a href="../why/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Auth and IAM
+    Why VirtFoundry
   
 
     
@@ -1092,14 +546,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../offerings/" class="md-nav__link">
+      <a href="../quickstart/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Service offerings
+    Quickstart
   
 
     
@@ -1120,14 +574,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../templates/" class="md-nav__link">
+      <a href="../kind/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Images and templates
+    Kind (laptop)
   
 
     
@@ -1148,14 +602,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../vms/" class="md-nav__link">
+      <a href="../installation/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Virtual machines
+    Installation
   
 
     
@@ -1176,42 +630,14 @@
   
   
     <li class="md-nav__item">
-      <a href="../access/" class="md-nav__link">
+      <a href="../topologies/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Console and SSH
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../storage/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Volumes and snapshots
+    Topologies
   
 
     
@@ -1248,7 +674,7 @@
   <span class="md-ellipsis">
     
   
-    VPCs and networks
+    Expose the UI and API
   
 
     
@@ -1266,7 +692,7 @@
   <span class="md-ellipsis">
     
   
-    VPCs and networks
+    Expose the UI and API
   
 
     
@@ -1292,10 +718,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
       
         <li class="md-nav__item">
-  <a href="#default-vpc" class="md-nav__link">
+  <a href="#port-forward" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Default VPC
+        Port-forward
       
     </span>
   </a>
@@ -1303,10 +729,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#private-networks" class="md-nav__link">
+  <a href="#ingress" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Private networks
+        Ingress
       
     </span>
   </a>
@@ -1314,10 +740,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#public-network-profile" class="md-nav__link">
+  <a href="#gateway-api" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Public network profile
+        Gateway API
       
     </span>
   </a>
@@ -1325,10 +751,21 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#related" class="md-nav__link">
+  <a href="#what-your-proxy-must-do" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Related
+        What your proxy must do
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#check-it" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Check it
       
     </span>
   </a>
@@ -1351,7 +788,581 @@
   
   
     <li class="md-nav__item">
-      <a href="../security-groups/" class="md-nav__link">
+      <a href="../security/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Security and credentials
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../configuration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configuration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../networking-config/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Networking config
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../storage-config/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Storage config
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../chart-values/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Chart values (defaults)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../helm-repository/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Helm repository
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../crds/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CRDs and upgrades
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../terraform/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Terraform provider
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../troubleshooting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Troubleshooting
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3">
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../features/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Features
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Features
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix="">
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../features/concepts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Concepts and tenancy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../features/iam/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Auth and IAM
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../features/offerings/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Service offerings
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../features/templates/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Images and templates
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../features/vms/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Virtual machines
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../features/access/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Console and SSH
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../features/storage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Volumes and snapshots
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../features/networking/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    VPCs and networks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../features/security-groups/" class="md-nav__link">
         
   
   
@@ -1379,7 +1390,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../vks/" class="md-nav__link">
+      <a href="../features/vks/" class="md-nav__link">
         
   
   
@@ -1407,7 +1418,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../api/" class="md-nav__link">
+      <a href="../features/api/" class="md-nav__link">
         
   
   
@@ -1510,7 +1521,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../project/website/" class="md-nav__link">
+      <a href="../../project/website/" class="md-nav__link">
         
   
   
@@ -1538,7 +1549,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../project/versioning/" class="md-nav__link">
+      <a href="../../project/versioning/" class="md-nav__link">
         
   
   
@@ -1566,7 +1577,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../project/umbrella-chart/" class="md-nav__link">
+      <a href="../../project/umbrella-chart/" class="md-nav__link">
         
   
   
@@ -1594,7 +1605,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../project/changelog/" class="md-nav__link">
+      <a href="../../project/changelog/" class="md-nav__link">
         
   
   
@@ -1622,7 +1633,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../project/governance/" class="md-nav__link">
+      <a href="../../project/governance/" class="md-nav__link">
         
   
   
@@ -1650,7 +1661,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../project/sponsorship/" class="md-nav__link">
+      <a href="../../project/sponsorship/" class="md-nav__link">
         
   
   
@@ -1705,10 +1716,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
       
         <li class="md-nav__item">
-  <a href="#default-vpc" class="md-nav__link">
+  <a href="#port-forward" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Default VPC
+        Port-forward
       
     </span>
   </a>
@@ -1716,10 +1727,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#private-networks" class="md-nav__link">
+  <a href="#ingress" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Private networks
+        Ingress
       
     </span>
   </a>
@@ -1727,10 +1738,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#public-network-profile" class="md-nav__link">
+  <a href="#gateway-api" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Public network profile
+        Gateway API
       
     </span>
   </a>
@@ -1738,10 +1749,21 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#related" class="md-nav__link">
+  <a href="#what-your-proxy-must-do" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Related
+        What your proxy must do
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#check-it" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Check it
       
     </span>
   </a>
@@ -1773,7 +1795,7 @@
   
   
     <li class="md-path__item">
-      <a href="../../.." class="md-path__link">
+      <a href="../.." class="md-path__link">
         
   <span class="md-ellipsis">
     Home
@@ -1791,10 +1813,10 @@
     
     
       <li class="md-path__item">
-        <a href="../" class="md-path__link">
+        <a href="../prerequisites/" class="md-path__link">
           
   <span class="md-ellipsis">
-    Features
+    Getting started
   </span>
 
         </a>
@@ -1813,7 +1835,7 @@
 
 
   
-    <a href="https://github.com/virtfoundry/helm-charts/edit/main/docs/guide/features/networking.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
+    <a href="https://github.com/virtfoundry/helm-charts/edit/main/docs/guide/expose.md" title="Edit this page" class="md-content__button md-icon" rel="edit">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"></path></svg>
     </a>
@@ -1821,111 +1843,78 @@
   
 
 
-<h1 id="vpcs-and-networks">VPCs and networks<a class="headerlink" href="#vpcs-and-networks" title="Permanent link">¶</a></h1>
-<p>Networking is Multus-based: each tenant gets a <strong>default VPC</strong>, optional extra VPCs, and <strong>private networks</strong> (NADs) plus an optional <strong>public network</strong> profile from Helm.</p>
-<h2 id="default-vpc">Default VPC<a class="headerlink" href="#default-vpc" title="Permanent link">¶</a></h2>
-<p>On tenant create, VirtFoundry bootstraps a default VPC (typically <code>10.0.0.0/16</code>) with its own Kubernetes namespace for Multus resources.</p>
-<p><strong>UI:</strong> Network → <strong>VPCs</strong> (<code>/vpcs</code>)</p>
+<h1 id="expose-the-ui-and-api">Expose the UI and API<a class="headerlink" href="#expose-the-ui-and-api" title="Permanent link">¶</a></h1>
+<p>The chart creates <code>ClusterIP</code> Services only. Nothing is reachable from outside the cluster until you choose one of the paths below. The UI Service (<code>virtfoundry-ui</code>, port 80) is the single entry point: its nginx serves the console and proxies <code>/api/</code> and <code>/ws/</code> to the API, so you expose <strong>one</strong> host.</p>
 <table>
 <thead>
 <tr>
-<th>Action</th>
-<th>API</th>
+<th>Path</th>
+<th>Use it for</th>
+<th>TLS</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>List / create</td>
-<td><code>GET</code>/<code>POST /api/v1/vpcs</code></td>
+<td><a href="#port-forward">Port-forward</a></td>
+<td>First login, a quick look</td>
+<td>No (local only)</td>
 </tr>
 <tr>
-<td>Update / delete</td>
-<td><code>PATCH</code>/<code>DELETE /api/v1/vpcs/{id}</code></td>
+<td><a href="#ingress">Ingress</a></td>
+<td>A cluster with an Ingress controller</td>
+<td>Yes, required by default</td>
 </tr>
 <tr>
-<td>Suggest CIDR</td>
-<td><code>GET /api/v1/vpcs/cidr-plan</code></td>
+<td><a href="#gateway-api">Gateway API</a></td>
+<td>A cluster with a Gateway (Traefik, Envoy, Cilium, …)</td>
+<td>On the Gateway listener</td>
 </tr>
 </tbody>
 </table>
-<p>The CIDR planner helps pick a non-overlapping VPC CIDR.</p>
-<h2 id="private-networks">Private networks<a class="headerlink" href="#private-networks" title="Permanent link">¶</a></h2>
-<p>Isolated L2 networks attached to a VPC; VMs join via Multus NICs.</p>
-<p>Helm <code>platform.networking.isolated.enabled</code> defaults to <strong><code>false</code></strong> (API+UI-only). Turn it on (and accept the host bridge DaemonSet privileges) when you need tenant VPC bridges on the nodes — see <a href="../../networking-config/#host-bridges-isolated-public">Host bridges</a>.</p>
-<p><strong>UI:</strong> Network → <strong>Networks</strong> (<code>/networks</code>)</p>
-<table>
-<thead>
-<tr>
-<th>Action</th>
-<th>API</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>List / create</td>
-<td><code>GET</code>/<code>POST /api/v1/networks</code></td>
-</tr>
-<tr>
-<td>Update / delete</td>
-<td><code>PATCH</code>/<code>DELETE /api/v1/networks/{id}</code></td>
-</tr>
-<tr>
-<td>Subnet CIDR plan</td>
-<td><code>GET /api/v1/networks/cidr-plan?vpc_id=…&amp;prefix=24</code></td>
-</tr>
-</tbody>
-</table>
-<h2 id="public-network-profile">Public network profile<a class="headerlink" href="#public-network-profile" title="Permanent link">¶</a></h2>
-<p>When Helm enables <code>platform.networking.public</code>, the cluster exposes a shared public pool (bridge, IP range, DNS). The UI <strong>Public</strong> page (<code>/networks/public</code>) is largely <strong>read-only</strong> — operators configure the pool in values.</p>
-<p>“Public” is <strong>not</strong> “must be a VLAN”. It is a second NIC on an L2 your users (or the house router) can already reach. <strong>Laptop:</strong> follow <strong><a href="../../kind/">Kind</a></strong> first.</p>
-<table>
-<thead>
-<tr>
-<th>Underlay</th>
-<th>Typical <code>uplink</code></th>
-<th><code>cidr</code></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><strong>Kind (laptop)</strong></td>
-<td>omit, or <code>eth1</code> (extra Docker net) — never <code>eth0</code></td>
-<td>off, or <code>10.0.50.0/24</code> on Docker</td>
-</tr>
-<tr>
-<td>Dedicated VLAN (tagged)</td>
-<td>Stable VLAN iface, same name on every node (<code>vlan50</code>)</td>
-<td>A subnet <strong>beside</strong> Kubernetes (e.g. <code>10.0.50.0/24</code>)</td>
-</tr>
-<tr>
-<td>No VLAN — second NIC on the LAN</td>
-<td>That NIC</td>
-<td>The house LAN; reserve <code>ipPool</code> in DHCP</td>
-</tr>
-<tr>
-<td>No VLAN — node IP already on <code>br0</code></td>
-<td><code>""</code> and <code>bridge.name: br0</code></td>
-<td>Same LAN as the nodes</td>
-</tr>
-<tr>
-<td>Lab only</td>
-<td>—</td>
-<td><code>public.enabled: false</code> — VMs on the pod network</td>
-</tr>
-</tbody>
-</table>
-<p>The NAD is CNI <strong>bridge</strong> onto <code>public.bridge.name</code>. Do not set <code>uplink</code> to the Kubernetes mgmt NIC (bridge-keeper will enslave it and drop the node IP). <code>public.mode: macvlan</code> does not change the NAD yet.</p>
-<p>See <a href="../../networking-config/#public-networking">Configuration</a> and <a href="../../topologies/#public-network-underlay">Topologies — public underlay</a> for values and MetalLB reserved ranges.</p>
+<p>Enable <strong>one</strong> of Ingress or Gateway, not both.</p>
 <div class="admonition note">
-<p class="admonition-title">Lab without Multus bridges</p>
-<p>You can still deploy container-disk VMs on the pod network to validate the control plane. Full L2 demos need host bridges as described in topologies.</p>
+<p class="admonition-title">Values prefix</p>
+<p>The examples use the standalone <code>virtfoundry</code> chart. With the one-release install (<code>virtfoundry-platform</code>), put the same keys under <code>core.</code>: <code>--set core.gateway.enabled=true</code>, and upgrade <code>virtfoundry/virtfoundry-platform</code>.</p>
 </div>
-<h2 id="related">Related<a class="headerlink" href="#related" title="Permanent link">¶</a></h2>
+<h2 id="port-forward">Port-forward<a class="headerlink" href="#port-forward" title="Permanent link">¶</a></h2>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>-n<span class="w"> </span>virtfoundry-system<span class="w"> </span>port-forward<span class="w"> </span>svc/virtfoundry-ui<span class="w"> </span><span class="m">8080</span>:80
+</code></pre></div>
+<p>Open <a href="http://127.0.0.1:8080">http://127.0.0.1:8080</a>. This needs chart <strong>0.11.3 or newer</strong>: on older charts the realtime updates and the console fail on a non-default port (<a href="../troubleshooting/">Troubleshooting</a>).</p>
+<h2 id="ingress">Ingress<a class="headerlink" href="#ingress" title="Permanent link">¶</a></h2>
+<p>The chart refuses to create an Ingress without TLS. Bring a certificate Secret, or let cert-manager create it:</p>
+<div class="highlight"><pre><span></span><code>helm<span class="w"> </span>upgrade<span class="w"> </span>virtfoundry<span class="w"> </span>virtfoundry/virtfoundry<span class="w"> </span>-n<span class="w"> </span>virtfoundry-system<span class="w"> </span>--reuse-values<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--set<span class="w"> </span>ingress.enabled<span class="o">=</span><span class="nb">true</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--set<span class="w"> </span>ingress.className<span class="o">=</span>nginx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--set<span class="w"> </span>ingress.host<span class="o">=</span>iaas.example.com<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--set<span class="w"> </span><span class="s1">'ingress.tls[0].secretName=virtfoundry-tls'</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--set<span class="w"> </span><span class="s1">'ingress.tls[0].hosts[0]=iaas.example.com'</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--set-string<span class="w"> </span><span class="s1">'ingress.annotations.cert-manager\.io/cluster-issuer=letsencrypt-prod'</span>
+</code></pre></div>
+<p>Drop the last line when the Secret already exists. For a lab without TLS, replace the two <code>ingress.tls</code> lines with <code>--set ingress.allowCleartext=true</code>. Passwords and tokens then travel in clear text: do not do this on a network you do not control.</p>
+<h2 id="gateway-api">Gateway API<a class="headerlink" href="#gateway-api" title="Permanent link">¶</a></h2>
+<p>The chart creates an <code>HTTPRoute</code> and attaches it to <strong>your</strong> Gateway. The certificate lives on the Gateway listener, not in the chart.</p>
+<div class="highlight"><pre><span></span><code>helm<span class="w"> </span>upgrade<span class="w"> </span>virtfoundry<span class="w"> </span>virtfoundry/virtfoundry<span class="w"> </span>-n<span class="w"> </span>virtfoundry-system<span class="w"> </span>--reuse-values<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--set<span class="w"> </span>gateway.enabled<span class="o">=</span><span class="nb">true</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--set<span class="w"> </span><span class="s1">'gateway.parentRefs[0].name=my-gateway'</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--set<span class="w"> </span><span class="s1">'gateway.parentRefs[0].namespace=gateway-system'</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--set<span class="w"> </span><span class="s1">'gateway.parentRefs[0].sectionName=websecure'</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--set<span class="w"> </span><span class="s1">'gateway.hostnames[0]=iaas.example.com'</span>
+</code></pre></div>
+<p><code>sectionName</code> is the name of the listener on your Gateway. Use the HTTPS listener. Binding the cleartext listener (often <code>web</code>) serves the console over HTTP, which is fine for a lab only. For an HTTP to HTTPS redirect see <a href="../configuration/#gateway-api-https">Configuration</a>.</p>
+<h2 id="what-your-proxy-must-do">What your proxy must do<a class="headerlink" href="#what-your-proxy-must-do" title="Permanent link">¶</a></h2>
+<p>The console keeps two WebSocket connections open (<code>/ws/events</code> for live updates, <code>/ws/console</code> for the VM console). Whatever sits in front of the UI Service has to:</p>
 <ul>
-<li><a href="../security-groups/">Security groups</a></li>
-<li><a href="../vms/">Virtual machines</a> — attach <code>network_ids</code> at deploy</li>
-<li><a href="../concepts/">Concepts</a> — tenant namespaces</li>
+<li>Pass the WebSocket upgrade (<code>Upgrade</code> and <code>Connection</code> headers). Ingress-nginx, Traefik and Gateway API implementations do this by default.</li>
+<li>Keep the <code>Host</code> header as the browser sent it, <strong>including the port</strong>. The API compares it with the <code>Origin</code> header and answers 403 when they differ.</li>
+<li>Allow long-lived connections. The chart sets one-hour read and send timeouts for ingress-nginx; set the equivalent on other proxies, or the console disconnects.</li>
 </ul>
+<p>Serving the UI and the API from <strong>different</strong> hosts is the only case that needs <code>api.security.allowedOrigins</code> (<a href="../configuration/#allowed-origins-cors-websockets">Configuration</a>).</p>
+<h2 id="check-it">Check it<a class="headerlink" href="#check-it" title="Permanent link">¶</a></h2>
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-fsS<span class="w"> </span>https://iaas.example.com/api/v1/healthz
+<span class="c1"># {"status":"ok","service":"virtfoundry-iaas","hypervisor":"kubevirt"}</span>
+</code></pre></div>
+<p>Then log in and open the browser console: there must be no <code>WebSocket connection ... failed</code> line. If there is one, go to <a href="../troubleshooting/">Troubleshooting</a>.</p>
+<p>Tested: port-forward and Gateway API (HTTP listener, Traefik) on the reference cluster with 0.11.3. The Ingress examples are checked by rendering the chart, not on a live Ingress controller.</p>
 
 
 
@@ -1963,7 +1952,7 @@
       <nav class="md-footer__inner md-grid" aria-label="Footer">
         
           
-          <a href="../storage/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Volumes and snapshots">
+          <a href="../topologies/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Topologies">
             <div class="md-footer__button md-icon">
               
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
@@ -1973,20 +1962,20 @@
                 Previous
               </span>
               <div class="md-ellipsis">
-                Volumes and snapshots
+                Topologies
               </div>
             </div>
           </a>
         
         
           
-          <a href="../security-groups/" class="md-footer__link md-footer__link--next" aria-label="Next: Security groups">
+          <a href="../security/" class="md-footer__link md-footer__link--next" aria-label="Next: Security and credentials">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 Next
               </span>
               <div class="md-ellipsis">
-                Security groups
+                Security and credentials
               </div>
             </div>
             <div class="md-footer__button md-icon">
@@ -2035,12 +2024,12 @@
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.instant", "navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.expand", "navigation.path", "navigation.top", "navigation.footer", "navigation.indexes", "search.suggest", "search.highlight", "search.share", "content.code.copy", "content.code.annotate", "content.tabs.link", "content.action.edit", "toc.follow"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.expand", "navigation.path", "navigation.top", "navigation.footer", "navigation.indexes", "search.suggest", "search.highlight", "search.share", "content.code.copy", "content.code.annotate", "content.tabs.link", "content.action.edit", "toc.follow"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
-        <script src="../../../javascripts/carousel.js"></script>
+        <script src="../../javascripts/carousel.js"></script>
       
     
   

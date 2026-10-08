@@ -10,7 +10,7 @@
         <link rel="canonical" href="https://virtfoundry.github.io/helm-charts/docs/guide/configuration/">
       
       
-        <link rel="prev" href="../topologies/">
+        <link rel="prev" href="../security/">
       
       
         <link rel="next" href="../networking-config/">
@@ -431,6 +431,10 @@
       
         
       
+        
+      
+        
+      
     
     
     
@@ -634,6 +638,62 @@
     
   
     Topologies
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../expose/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Expose the UI and API
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../security/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Security and credentials
   
 
     
@@ -2254,8 +2314,11 @@ and not sentinels — a Secret missing <code>JWT_SECRET</code> fails the install
 a crash-looping API.</p>
 <h3 id="upgrades-do-not-reset-credentials">Upgrades do not reset credentials<a class="headerlink" href="#upgrades-do-not-reset-credentials" title="Permanent link">¶</a></h3>
 <p><code>helm upgrade</code> without <code>--set secrets.*</code> reads the current values back from the live
-Secret, so the root password stays valid and issued tokens keep verifying. Credentials
-change only when you pass a new value explicitly.</p>
+Secret, so the root password stays valid and issued tokens keep verifying.</p>
+<p>Passing a new <code>secrets.jwtSecret</code> changes the signing key (after the API restarts). Passing a
+new <code>secrets.rootPassword</code> does <strong>not</strong> change the password you log in with: the API uses it
+only to create <code>root</code> on the first start. To change it, see
+<a href="../security/#change-the-root-password">Security and credentials</a>.</p>
 <p><code>secrets.autoGenerateJwtSecret: true</code> extends that to the first install: the chart
 generates a 48-char secret, and later upgrades reuse the stored one. If the live Secret
 cannot be read during an upgrade, the render <strong>fails</strong> rather than silently rotating the
@@ -2452,7 +2515,7 @@ make<span class="w"> </span>render-local-config<span class="w"> </span><span cla
       <nav class="md-footer__inner md-grid" aria-label="Footer">
         
           
-          <a href="../topologies/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Topologies">
+          <a href="../security/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Security and credentials">
             <div class="md-footer__button md-icon">
               
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"></path></svg>
@@ -2462,7 +2525,7 @@ make<span class="w"> </span>render-local-config<span class="w"> </span><span cla
                 Previous
               </span>
               <div class="md-ellipsis">
-                Topologies
+                Security and credentials
               </div>
             </div>
           </a>
