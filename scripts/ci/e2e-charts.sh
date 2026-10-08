@@ -111,7 +111,7 @@ scenario_quickstart() {
 
   for d in $(kubectl -n "$NS" get deploy -o name); do
     kubectl -n "$NS" rollout status "$d" --timeout=300s >/dev/null \
-      || { kubectl -n "$NS" get pods; kubectl -n "$NS" describe "$d" | tail -20; fail "$d did not become ready"; }
+      || { kubectl -n "$NS" get pods; kubectl -n "$NS" logs "$d" --tail=40 --previous 2>/dev/null || kubectl -n "$NS" logs "$d" --tail=40; fail "$d did not become ready"; }
   done
   ok "control plane pods ready: $(kubectl -n "$NS" get deploy -o name | tr '\n' ' ')"
 
