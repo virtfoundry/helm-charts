@@ -117,7 +117,7 @@ Pick **one** path.
 
 === "Ingress / Gateway API"
 
-    Use your cluster’s IngressClass or Gateway + HTTPRoute. Example values and Gateway notes: [Configuration](configuration.md), [Topologies](topologies.md).
+    Copy-paste commands for both, and what your proxy must pass through: [Expose the UI and API](expose.md).
 
 ---
 
@@ -125,6 +125,8 @@ Pick **one** path.
 
 - **User:** `root`
 - **Password:** the `secrets.rootPassword` you set (`choose-a-strong-password` above)
+
+Before other people use it, read [Security and credentials](security.md): HTTPS, how to change the root password, and why daily work should not use `root`.
 
 ---
 
@@ -169,6 +171,8 @@ curl -fsS http://127.0.0.1:8080/api/v1/healthz
 | Topic | Doc |
 |-------|-----|
 | What you can do after login | [Features overview](features/index.md) |
+| Reach the console from outside the cluster | [Expose the UI and API](expose.md) |
+| Passwords, HTTPS, who can do what | [Security and credentials](security.md) |
 | Full install + why each dependency | [Installation](installation.md) |
 | Min vs production layouts | [Topologies](topologies.md) |
 | Laptop (kind, no VLAN) | [Kind](kind.md) |

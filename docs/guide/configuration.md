@@ -110,8 +110,12 @@ a crash-looping API.
 ### Upgrades do not reset credentials
 
 `helm upgrade` without `--set secrets.*` reads the current values back from the live
-Secret, so the root password stays valid and issued tokens keep verifying. Credentials
-change only when you pass a new value explicitly.
+Secret, so the root password stays valid and issued tokens keep verifying.
+
+Passing a new `secrets.jwtSecret` changes the signing key (after the API restarts). Passing a
+new `secrets.rootPassword` does **not** change the password you log in with: the API uses it
+only to create `root` on the first start. To change it, see
+[Security and credentials](security.md#change-the-root-password).
 
 `secrets.autoGenerateJwtSecret: true` extends that to the first install: the chart
 generates a 48-char secret, and later upgrades reuse the stored one. If the live Secret
