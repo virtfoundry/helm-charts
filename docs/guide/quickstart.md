@@ -1,6 +1,29 @@
 # Quickstart (under 30 minutes)
 
-Goal: **UI login + first VM**. On a laptop, start with **[Kind](kind.md)** (Docker, no VLAN). On a cluster that already has Kubernetes, KubeVirt, Multus, and CDI, continue below.
+Goal: **UI login + first VM**.
+
+## Who this is for, and what you need
+
+VirtFoundry is a control plane **on top of an existing Kubernetes cluster**. It does not install Kubernetes, KubeVirt, Multus, CDI or storage for you. Before you start you need:
+
+- A Kubernetes cluster you can `kubectl` into as cluster admin.
+- **KubeVirt, Multus and CDI** installed, and a default **StorageClass** (see [Platform prerequisites](prerequisites.md)).
+- Linux nodes with `/dev/kvm` (nested virtualization when the nodes are VMs).
+- Room for the control plane plus your VMs. The reference cluster has 2 nodes; give each a few CPU cores and several GB of RAM.
+- `helm` 3 and `kubectl` on your machine.
+
+No cluster? Use **[Kind](kind.md)** on a Linux host (Docker, no VLAN). Kind does not work on macOS.
+
+### What has been tested
+
+| Area | Verified |
+|------|----------|
+| Cluster | 2 nodes, Cilium (kube-proxy replacement), Longhorn, MetalLB |
+| Install | Quickstart below, clean cluster, release 0.11.3; Kind end-to-end in CI |
+| Features | VM deploy, stop/start, console, snapshots, volumes, security groups, VKS cluster, Terraform provider |
+| **Not tested** | EKS/GKE/AKS, k3s, Talos, other CNIs or storage, ARM nodes |
+
+Anything in the "not tested" row may work, but nobody has checked. Report what you find. On a laptop, start with **[Kind](kind.md)** (Docker, no VLAN). On a cluster that already has Kubernetes, KubeVirt, Multus, and CDI, continue below.
 
 If you still need to install those platform components, see **[Platform prerequisites](prerequisites.md)** (official KubeVirt, Multus, CDI links) or the full [Installation](installation.md) guide.
 
@@ -31,21 +54,32 @@ You need at least one **default** or known StorageClass. Prefer [Longhorn](https
 helm repo add virtfoundry https://virtfoundry.github.io/helm-charts
 helm repo update
 
-# CRDs, then the operator (required)
+# 1. CRDs (separate release: they hold your data, Helm never deletes them)
 helm install virtfoundry-crds virtfoundry/virtfoundry-crds \
   --version 0.11.3 \
   --namespace virtfoundry-system --create-namespace
-helm install virtfoundry-operator virtfoundry/virtfoundry-operator \
-  --version 0.11.3 \
-  --namespace virtfoundry-system
 
-# API + UI
-helm install virtfoundry virtfoundry/virtfoundry \
+# 2. Operator + API + UI in one release
+helm install virtfoundry virtfoundry/virtfoundry-platform \
   --version 0.11.3 \
   --namespace virtfoundry-system \
-  --set secrets.rootPassword='choose-a-strong-password' \
-  --set secrets.jwtSecret="$(openssl rand -hex 32)"
+  --set-string core.secrets.rootPassword='choose-a-strong-password' \
+  --set-string core.secrets.jwtSecret="$(openssl rand -hex 32)"
 ```
+
+??? note "Advanced: three separate releases"
+    Install the operator and the API/UI as their own releases when you want to upgrade them independently:
+
+    ```bash
+    helm install virtfoundry-operator virtfoundry/virtfoundry-operator \
+      --version 0.11.3 --namespace virtfoundry-system
+    helm install virtfoundry virtfoundry/virtfoundry \
+      --version 0.11.3 --namespace virtfoundry-system \
+      --set secrets.rootPassword='choose-a-strong-password' \
+      --set secrets.jwtSecret="$(openssl rand -hex 32)"
+    ```
+
+    Values then sit at the top level (`secrets.*`) instead of under `core.*`.
 
 Wait until pods are ready:
 
@@ -55,14 +89,14 @@ kubectl get crd | grep virtfoundry.io
 ```
 
 !!! note "Helm `--set` is not optional for secrets"
-    `secrets.rootPassword` (12+ chars) and `secrets.jwtSecret` (32+ chars) must be passed on **this same** `helm install` (or via `-f`, or replaced by `secrets.existingSecret`). The chart has no defaults for them and the install fails without them — see [Secrets](configuration.md#secrets). They are chart values, not extra kubectl steps. Public CIDR and StorageClass do **not** need `--set` on a typical homelab: storage `auto` selects Longhorn when present; public stays off unless you enable it. Details: [Chart values](chart-values.md).
+    `core.secrets.rootPassword` (12+ chars) and `core.secrets.jwtSecret` (32+ chars) (`secrets.*` with the three separate releases) must be passed on **this same** `helm install` (or via `-f`, or replaced by `secrets.existingSecret`). The chart has no defaults for them and the install fails without them — see [Secrets](configuration.md#secrets). They are chart values, not extra kubectl steps. Public CIDR and StorageClass do **not** need `--set` on a typical homelab: storage `auto` selects Longhorn when present; public stays off unless you enable it. Details: [Chart values](chart-values.md).
 
 Optional — pin the CSI snapshot class (only if auto did not pick Longhorn):
 
 ```bash
-helm upgrade virtfoundry virtfoundry/virtfoundry -n virtfoundry-system \
+helm upgrade virtfoundry virtfoundry/virtfoundry-platform -n virtfoundry-system \
   --reuse-values \
-  --set platform.storage.snapshotClass=longhorn
+  --set core.platform.storage.snapshotClass=longhorn
 ```
 
 Empty `snapshotClass` uses Longhorn when that is the resolved default class, otherwise the cluster default `VolumeSnapshotClass`.
