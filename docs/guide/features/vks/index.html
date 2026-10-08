@@ -1359,10 +1359,32 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#before-you-start" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Before you start
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#create-a-cluster" class="md-nav__link">
     <span class="md-ellipsis">
       
         Create a cluster
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#use-the-cluster" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Use the cluster
       
     </span>
   </a>
@@ -1738,10 +1760,32 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#before-you-start" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Before you start
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#create-a-cluster" class="md-nav__link">
     <span class="md-ellipsis">
       
         Create a cluster
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#use-the-cluster" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Use the cluster
       
     </span>
   </a>
@@ -1911,6 +1955,44 @@
 <br>
 <figcaption>Compute → VKS Clusters. Click to zoom.</figcaption>
 </figure>
+<h2 id="before-you-start">Before you start<a class="headerlink" href="#before-you-start" title="Permanent link">¶</a></h2>
+<p>VKS is optional and has its own prerequisites, on top of the platform ones:</p>
+<table>
+<thead>
+<tr>
+<th>You need</th>
+<th>Check</th>
+<th>Why</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>The VKS controller</td>
+<td><code>kubectl -n virtfoundry-system get pods \| grep vks</code></td>
+<td><a href="../../installation/#install-vks-optional">Install VKS</a></td>
+</tr>
+<tr>
+<td>Kamaji with a ready <code>DataStore</code></td>
+<td><code>kubectl get datastore</code> shows <code>READY true</code></td>
+<td>Runs each cluster's API server and etcd</td>
+</tr>
+<tr>
+<td>A LoadBalancer implementation (MetalLB)</td>
+<td><code>kubectl -n metallb-system get ipaddresspool</code></td>
+<td>Gives each control plane its address</td>
+</tr>
+<tr>
+<td>The control-plane address reachable from where you run <code>kubectl</code></td>
+<td>See <a href="#control-plane-address">Control plane address</a></td>
+<td>The kubeconfig points at that address</td>
+</tr>
+<tr>
+<td>The node template</td>
+<td><code>kubectl -n virtfoundry-system get templates.virtfoundry.io \| grep node</code></td>
+<td>Seeded by core at startup (<code>ubuntu-node-1-36-5</code>)</td>
+</tr>
+</tbody>
+</table>
 <h2 id="create-a-cluster">Create a cluster<a class="headerlink" href="#create-a-cluster" title="Permanent link">¶</a></h2>
 <div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">virtfoundry.io/v1alpha1</span>
 <span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">VKSCluster</span>
@@ -1926,9 +2008,21 @@
 <span class="w">    </span><span class="nt">networkRef</span><span class="p">:</span><span class="w">  </span><span class="p p-Indicator">{</span><span class="nt"> name</span><span class="p">:</span><span class="w"> </span><span class="nv">default-default</span><span class="w"> </span><span class="p p-Indicator">}</span><span class="w">   </span><span class="c1"># Network CR name: &lt;vpc&gt;-&lt;network&gt;</span>
 </code></pre></div>
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>vkscluster.yaml
-kubectl<span class="w"> </span>get<span class="w"> </span>vksc<span class="w"> </span>-A
+kubectl<span class="w"> </span>get<span class="w"> </span>vksc<span class="w"> </span>-A<span class="w"> </span>--watch<span class="w">     </span><span class="c1"># PHASE goes to Ready in one to two minutes</span>
 </code></pre></div>
 <p>The Kubernetes version must match the node image template (<code>ubuntu-node-1-36-5</code> pairs with <code>v1.36.5</code>).</p>
+<p><code>networkRef</code> is the name of the Network <strong>resource</strong>, which is <code>&lt;vpc&gt;-&lt;network&gt;</code>: the network shown as <code>default</code> in the console is <code>default-default</code>. List them with <code>kubectl -n virtfoundry-tenant-default get networks.virtfoundry.io</code>. The REST API, the console and Terraform also accept the display name (from 0.11.3).</p>
+<h2 id="use-the-cluster">Use the cluster<a class="headerlink" href="#use-the-cluster" title="Permanent link">¶</a></h2>
+<p>The admin kubeconfig is a Secret in the tenant namespace, named <code>&lt;cluster&gt;-admin-kubeconfig</code>:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>-n<span class="w"> </span>virtfoundry-tenant-default<span class="w"> </span>get<span class="w"> </span>secret<span class="w"> </span>demo-admin-kubeconfig<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">'{.data.admin\.conf}'</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>base64<span class="w"> </span>-d<span class="w"> </span>&gt;<span class="w"> </span>demo.kubeconfig
+
+kubectl<span class="w"> </span>--kubeconfig<span class="w"> </span>demo.kubeconfig<span class="w"> </span>get<span class="w"> </span>nodes
+<span class="c1"># demo-worker-0   Ready   &lt;none&gt;   36s   v1.36.5</span>
+</code></pre></div>
+<p>From the API: <code>GET /api/v1/vks/clusters/demo/kubeconfig</code> returns the same file. The console has a download button on the cluster page.</p>
+<p>Checked on the reference cluster with 0.11.3: this manifest reaches <code>Ready</code> in about 70 seconds and the worker node joins as <code>Ready</code>.</p>
+<p>Delete the cluster with <code>kubectl delete vksc demo -n virtfoundry-tenant-default</code>. The control plane, the worker VMs and the kubeconfig go with it.</p>
 <h2 id="node-image">Node image<a class="headerlink" href="#node-image" title="Permanent link">¶</a></h2>
 <p>The worker image is not embedded in the platform. Core seeds a VM template (<code>ubuntu-node-1-36-5</code>) at startup. It points to a digest-pinned containerDisk, <code>ghcr.io/virtfoundry/node-ubuntu</code>, built by <a href="https://github.com/virtfoundry/vks-image-factory">vks-image-factory</a> (Ubuntu LTS, containerd, kubelet and kubeadm). KubeVirt pulls it on first use, so nodes need access to <code>ghcr.io</code>, or a mirror that your container-image allowlist covers.</p>
 <h2 id="control-plane-address">Control plane address<a class="headerlink" href="#control-plane-address" title="Permanent link">¶</a></h2>
@@ -1964,6 +2058,7 @@ kubectl<span class="w"> </span>get<span class="w"> </span>vksc<span class="w"> <
 </tbody>
 </table>
 <p>With the defaults, the VIP comes from the cluster load balancer (MetalLB autoAssign) and no pool is pinned. Pin a pool only when you need a specific range. <code>NodePort</code> is a lab escape hatch.</p>
+<p>The address has to be reachable from two places: the worker VMs (to join) and wherever you run <code>kubectl</code>. With MetalLB in layer 2 mode that means the same L2 network as the pool. With BGP, your router must accept the <code>/32</code> and the node that receives the traffic must deliver it to the Service. If <code>kubectl</code> times out while the cluster is <code>Ready</code>, the address is not routed to you: test with <code>curl -k https://&lt;address&gt;:443/version</code>.</p>
 <h2 id="kubeconfig-and-api">Kubeconfig and API<a class="headerlink" href="#kubeconfig-and-api" title="Permanent link">¶</a></h2>
 <ul>
 <li>Permissions: <code>vks:read</code>, <code>vks:write</code>, <code>vks:kubeconfig</code>.</li>
