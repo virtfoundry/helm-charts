@@ -4,6 +4,10 @@ See [docs/project/changelog.md](docs/project/changelog.md) for the full release 
 
 ## [Unreleased]
 
+### Changed
+
+- Quickstart: starts with who it is for and what you need (cluster, KubeVirt, Multus, CDI, StorageClass, `/dev/kvm`), a table of what was tested and what was not, and installs with one `virtfoundry-platform` release after the CRDs. The three separate releases are kept as an advanced option.
+
 ### Fixed
 
 - The UI nginx sent `Host` without the port, so WebSocket upgrades (`/ws/events`, `/ws/console`) were rejected with 403 when the UI was served on a non-default port, such as the quickstart's `kubectl port-forward 8080:80`. It now keeps the port (`$http_host`); `scripts/ci/assert-ui-nginx-host.sh` guards it ([Troubleshooting](docs/guide/troubleshooting.md)).
