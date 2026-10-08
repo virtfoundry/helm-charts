@@ -6,6 +6,7 @@ See [docs/project/changelog.md](docs/project/changelog.md) for the full release 
 
 ### Added
 
+- Chart e2e has a `quickstart` scenario: it runs the install commands taken from [the quickstart](docs/guide/quickstart.md) on Kind, waits for the control plane, then runs the documented health check and logs in as `root`. A change to the docs or the charts that breaks the first-time path now fails CI.
 - Docs: [Expose the UI and API](docs/guide/expose.md) (port-forward, Ingress, Gateway API, what the proxy must pass through) and [Security and credentials](docs/guide/security.md) (where the credentials live, how to change the root password, signing key rotation).
 - `scripts/release/release.sh`: `bump X.Y.Z` opens the release PR in core, operator, vks, helm-charts and the org profile; `tag X.Y.Z` tags them in order and waits for each tag's workflows. It only rewrites known pin shapes and lists the other mentions of the old version for review ([Versioning](docs/project/versioning.md)).
 

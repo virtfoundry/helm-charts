@@ -1,8 +1,9 @@
 name: Chart e2e
 
 # Installs the charts on a throwaway Kind cluster and checks the CRD flow:
-# fresh install, umbrella install, and migration from the 0.10.x operator chart.
-# Only Helm and the API server are exercised (no KubeVirt), so workloads are not waited for.
+# fresh install, umbrella install, migration from the 0.10.x operator chart, and the quickstart.
+# The quickstart scenario runs the commands of docs/guide/quickstart.md and waits for the control
+# plane, health check and root login. There is no KubeVirt, so no scenario deploys a VM.
 
 on:
   push:
@@ -11,6 +12,7 @@ on:
     branches: [main]
     paths:
       - "charts/**"
+      - "docs/guide/quickstart.md"
       - "scripts/ci/e2e-charts.sh"
       - ".github/workflows/chart-e2e.yaml"
   workflow_dispatch:
@@ -25,11 +27,11 @@ concurrency:
 jobs:
   e2e:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 20
     strategy:
       fail-fast: false
       matrix:
-        scenario: [fresh, umbrella, migrate]
+        scenario: [fresh, umbrella, migrate, quickstart]
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
 
