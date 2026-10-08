@@ -80,6 +80,37 @@ scenario_umbrella() {
   ok "umbrella chart installs on top of the CRD chart, ships no CRDs"
 }
 
+prereq_crds() { # the CRDs the quickstart asks for in step 0, without their controllers
+  # Schema-less stubs: enough for the control plane to start and write its objects.
+  # Nothing reconciles them, so no VM can run on this cluster.
+  local group version kind plural
+  while read -r group version kind plural; do
+    kubectl apply -f - >/dev/null <<EOF
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata: { name: $plural.$group }
+spec:
+  group: $group
+  scope: Namespaced
+  names: { kind: $kind, plural: $plural, singular: $(echo "$kind" | tr '[:upper:]' '[:lower:]') }
+  versions:
+    - name: $version
+      served: true
+      storage: true
+      subresources: { status: {} }
+      schema: { openAPIV3Schema: { type: object, x-kubernetes-preserve-unknown-fields: true } }
+EOF
+  done <<'CRDS'
+k8s.cni.cncf.io v1 NetworkAttachmentDefinition network-attachment-definitions
+kubevirt.io v1 VirtualMachine virtualmachines
+kubevirt.io v1 VirtualMachineInstance virtualmachineinstances
+cdi.kubevirt.io v1beta1 DataVolume datavolumes
+snapshot.kubevirt.io v1beta1 VirtualMachineSnapshot virtualmachinesnapshots
+CRDS
+  kubectl wait --for=condition=Established crd --timeout=60s \
+    network-attachment-definitions.k8s.cni.cncf.io virtualmachines.kubevirt.io datavolumes.cdi.kubevirt.io >/dev/null
+}
+
 quickstart_install() { # the documented install commands, pointed at the local charts
   # Changes to what the reader copies: no "helm repo", local charts instead of the published
   # version, and no KubeVirt patch Job (there is no KubeVirt on this cluster).
@@ -94,6 +125,10 @@ print(out + " \\\n  --set core.platform.kubevirt.cpuAllocationRatio=0 --set core
 PY
 }
 
+doc_prereq_crds() { # the CRD names step 0 of the quickstart tells the reader to check
+  grep -oE '^kubectl get crd [a-z0-9.-]+' docs/guide/quickstart.md | awk '{print $4}'
+}
+
 scenario_quickstart() {
   local doc=docs/guide/quickstart.md install pf health pass token pid
   install="$(quickstart_install)"
@@ -104,6 +139,9 @@ scenario_quickstart() {
   health="$(grep -m1 -oE 'curl -fsS http://127\.0\.0\.1:[0-9]+/[a-z0-9/]+' "$doc")" || fail "no health check command in the quickstart"
   pass="$(grep -m1 -oE "rootPassword='[^']+'" "$doc" | cut -d"'" -f2)"
 
+  prereq_crds
+  for c in $(doc_prereq_crds); do kubectl get crd "$c" >/dev/null || fail "quickstart step 0 asks for CRD $c, which the test cluster lacks"; done
+  ok "prerequisite CRDs from quickstart step 0 exist (stubs, no controllers)"
   helm dependency update charts/virtfoundry-platform >/dev/null
   bash -euo pipefail -c "$install" >/dev/null || fail "the quickstart install commands failed"
   [ "$(helm list -n "$NS" --deployed -q | wc -l | tr -d ' ')" = 2 ] || fail "expected 2 deployed releases (crds, virtfoundry)"
