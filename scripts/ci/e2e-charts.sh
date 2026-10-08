@@ -159,7 +159,7 @@ scenario_quickstart() {
   $health | grep -q '"status":"ok"' || fail "health check from the quickstart did not answer ok: $health"
   ok "documented health check answers ok"
 
-  token="$(curl -fsS -X POST "${health%/api/*}/api/v1/auth/login" -H 'Content-Type: application/json' \
+  token="$(curl -fsS -X POST "$(grep -oE 'http://[0-9.]+:[0-9]+' <<<"$health")/api/v1/auth/login" -H 'Content-Type: application/json' \
     -d "{\"username\":\"root\",\"password\":\"$pass\"}" | python3 -c 'import sys,json; print(json.load(sys.stdin).get("token",""))')"
   [ -n "$token" ] || fail "login as root with the documented password failed"
   ok "login as root with the documented password works"
