@@ -29,7 +29,8 @@ export OLD NEW SUMMARY
 repo_version() { # the version a repository currently declares
   case "$1" in
     core) sed -n 's/.*"version": *"\([^"]*\)".*/\1/p' "$ROOT/core/ui/package.json" | head -1 ;;
-    operator|vks|helm-charts) sed -n 's/^version: *//p' "$ROOT/$1"/charts/*/Chart.yaml | sort -u | head -1 ;;
+    vks|helm-charts) sed -n 's/^version: *//p' "$ROOT/$1"/charts/*/Chart.yaml | sort -u | head -1 ;;
+    operator) sed -n 's/^## \[\([0-9][0-9.]*\)\].*/\1/p' "$ROOT/operator/CHANGELOG.md" | head -1 ;; # no chart there: it lives in helm-charts
   esac
 }
 
@@ -112,6 +113,7 @@ wait_runs() { # every workflow run on the tag finished and none failed
 
 tag_repo() {
   local r="$1" d="$ROOT/$1"
+  git -C "$d" diff --quiet && git -C "$d" diff --cached --quiet || die "$r has uncommitted changes"
   git -C "$d" checkout -q main && git -C "$d" pull -q --ff-only
   [[ "$(repo_version "$r")" == "$NEW" ]] || die "$r main declares $(repo_version "$r"), not $NEW: merge the release PR first"
   if [[ "$DRY_RUN" == 1 ]]; then echo "would tag $r v$NEW"; return; fi

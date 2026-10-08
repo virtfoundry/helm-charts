@@ -1,4 +1,4 @@
-.PHONY: help lint template security-gates verify-operator-chart-rbac verify-operator-chart-drift verify-api-rbac-contract verify-crds-chart sync-crds-chart verify-platform-parity e2e-charts setup-kubevirt setup-multus setup-cdi render-local-config docs-build docs-serve
+.PHONY: help lint template security-gates verify-operator-chart-rbac verify-api-rbac-contract verify-crds-chart sync-crds-chart verify-platform-parity e2e-charts setup-kubevirt setup-multus setup-cdi render-local-config docs-build docs-serve
 
 CHART := ./charts/virtfoundry
 OPERATOR_CHART := ./charts/virtfoundry-operator
@@ -29,11 +29,8 @@ template: ## Render Helm templates locally
 security-gates: ## PR gates for secrets fail-closed (#37) and scoped platform RBAC (#38)
 	bash ./scripts/ci/security-gates.sh
 
-verify-operator-chart-rbac: ## PR gate for least-privilege operator ClusterRole (#43)
+verify-operator-chart-rbac: ## PR gate: operator chart RBAC matches what the controllers need (runs the operator's check; needs Go, and network unless OPERATOR_DIR is set)
 	bash ./scripts/ci/verify-operator-chart-rbac.sh
-
-verify-operator-chart-drift: ## PR gate: operator chart mirror matches virtfoundry/operator (needs network)
-	bash ./scripts/ci/verify-operator-chart-drift.sh
 
 verify-api-rbac-contract: ## PR gate: API RBAC satisfies core's docs/rbac-contract.yaml (needs network)
 	bash ./scripts/ci/verify-api-rbac-contract.sh

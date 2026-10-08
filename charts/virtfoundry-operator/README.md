@@ -76,3 +76,14 @@ helm install virtfoundry-operator virtfoundry/virtfoundry-operator \
 ## Docs
 
 [Installation guide](https://virtfoundry.github.io/helm-charts/docs/guide/installation/)
+
+## Where this chart lives
+
+This directory is the only copy of the operator chart. The operator repository has the controller code and no chart.
+
+A change to the operator's permissions takes two pull requests, in this order:
+
+1. Here: add the rule to `templates/rbac.yaml`. Extra permission before the code that uses it is harmless.
+2. In [`virtfoundry/operator`](https://github.com/virtfoundry/operator): add the `+kubebuilder:rbac` marker and the code.
+
+Both repositories run the same check (`make verify-operator-chart-rbac` here, `make verify-chart-rbac` there). It fails when the chart's ClusterRole differs from what the controllers declare. To remove a permission, reverse the order: operator first, then here.

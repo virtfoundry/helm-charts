@@ -18,6 +18,7 @@ Format based on [Keep a Changelog](https://keepachangelog.com/). Versioning: [Se
 
 ### Changed
 
+- `charts/virtfoundry-operator` is now the only copy of the operator chart: the operator repository no longer carries one, and the drift gate is gone. The RBAC gate runs the operator's own check (ClusterRole against the kubebuilder markers) on this chart; the copy of that check kept here had fallen behind.
 - VKS docs: the chart installs from OCI (`oci://ghcr.io/virtfoundry/charts/virtfoundry-vks`) instead of a git clone, with a prerequisite checklist, how to get the kubeconfig and use the cluster, what `networkRef` must be, and when the control-plane address is reachable.
 - Quickstart: starts with who it is for and what you need (cluster, KubeVirt, Multus, CDI, StorageClass, `/dev/kvm`), a table of what was tested and what was not, and installs with one `virtfoundry-platform` release after the CRDs. The three separate releases are kept as an advanced option.
 
