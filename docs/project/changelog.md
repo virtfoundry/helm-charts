@@ -8,6 +8,7 @@ Format based on [Keep a Changelog](https://keepachangelog.com/). Versioning: [Se
 
 ### Added
 
+- Chart e2e has a `quickstart` scenario: it runs the install commands taken from [the quickstart](../guide/quickstart.md) on Kind, waits for the control plane, then runs the documented health check and logs in as `root`. A change to the docs or the charts that breaks the first-time path now fails CI.
 - `scripts/release/release.sh`: `bump X.Y.Z` opens the release PR in core, operator, vks, helm-charts and the org profile; `tag X.Y.Z` tags them in order and waits for each tag's workflows. It only rewrites known pin shapes and lists the other mentions of the old version for review ([Versioning](versioning.md)).
 
 ### Changed

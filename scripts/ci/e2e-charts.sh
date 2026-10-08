@@ -1,10 +1,12 @@
 #!/usr/bin/env bash
 # End-to-end checks of the chart install flow on a THROWAWAY cluster (Kind in CI).
 # Only Helm and the API server are exercised: no KubeVirt, no nodes needed, so
-# workloads are never waited for.
+# workloads are never waited for (except in the quickstart scenario, which waits for the
+# control plane pods; it still cannot deploy a VM without KubeVirt).
 #
 #   e2e-charts.sh fresh     crds -> operator -> core from the local charts
 #   e2e-charts.sh umbrella  crds -> virtfoundry-platform (local, pulls the VKS OCI chart)
+#   e2e-charts.sh quickstart  the commands of docs/guide/quickstart.md, then pods ready, health and login
 #   e2e-charts.sh migrate   0.10.x operator chart owns the CRDs -> adopt -> CRD chart -> operator
 #                           without crds/ -> uninstall the CRD release; data must survive
 #
@@ -18,11 +20,13 @@ ROOT=e2e-render-only-password
 JWT=e2e-render-only-jwt-secret-0123456789abcdef
 EXPECTED_CRDS=16
 
-server="$(kubectl config view --minify -o jsonpath='{.clusters[0].cluster.server}')"
-case "$server" in
-  https://127.0.0.1:*|https://localhost:*|https://\[::1\]:*) ;;
-  *) echo "REFUSING: API server $server is not local. This script deletes CRDs." >&2; exit 2 ;;
-esac
+if [ "${1:-}" != print-quickstart ]; then # print-quickstart touches no cluster
+  server="$(kubectl config view --minify -o jsonpath='{.clusters[0].cluster.server}')"
+  case "$server" in
+    https://127.0.0.1:*|https://localhost:*|https://\[::1\]:*) ;;
+    *) echo "REFUSING: API server $server is not local. This script deletes CRDs." >&2; exit 2 ;;
+  esac
+fi
 
 fail() { echo "FAIL: $*" >&2; exit 1; }
 ok()   { echo "OK: $*"; }
@@ -76,6 +80,53 @@ scenario_umbrella() {
   ok "umbrella chart installs on top of the CRD chart, ships no CRDs"
 }
 
+quickstart_install() { # the documented install commands, pointed at the local charts
+  # Changes to what the reader copies: no "helm repo", local charts instead of the published
+  # version, and no KubeVirt patch Job (there is no KubeVirt on this cluster).
+  python3 - <<'PY'
+import re
+s = open("docs/guide/quickstart.md").read()
+block = re.search(r"```bash\n(.*?)```", s[s.index("## 1. Install VirtFoundry"):], re.S).group(1)
+lines = [l for l in block.splitlines()
+         if not re.match(r"helm repo (add|update)", l) and not re.match(r" *--version [0-9.]+ \\$", l)]
+out = re.sub(r"virtfoundry/(virtfoundry[a-z-]*)", r"charts/\1", "\n".join(lines)).strip()
+print(out + " \\\n  --set core.platform.kubevirt.cpuAllocationRatio=0 --set core.platform.kubevirt.featureGates.enabled=false")
+PY
+}
+
+scenario_quickstart() {
+  local doc=docs/guide/quickstart.md install pf health pass token pid
+  install="$(quickstart_install)"
+  for want in 'helm install virtfoundry-crds charts/virtfoundry-crds' 'charts/virtfoundry-platform' 'core.secrets.rootPassword'; do
+    grep -qF -- "$want" <<<"$install" || fail "the quickstart install block changed shape (no \"$want\"): update scripts/ci/e2e-charts.sh"
+  done
+  pf="$(grep -m1 -oE 'kubectl -n virtfoundry-system port-forward svc/[a-z-]+ [0-9]+:[0-9]+' "$doc")" || fail "no port-forward command in the quickstart"
+  health="$(grep -m1 -oE 'curl -fsS http://127\.0\.0\.1:[0-9]+/[a-z0-9/]+' "$doc")" || fail "no health check command in the quickstart"
+  pass="$(grep -m1 -oE "rootPassword='[^']+'" "$doc" | cut -d"'" -f2)"
+
+  helm dependency update charts/virtfoundry-platform >/dev/null
+  bash -euo pipefail -c "$install" >/dev/null || fail "the quickstart install commands failed"
+  [ "$(helm list -n "$NS" --deployed -q | wc -l | tr -d ' ')" = 2 ] || fail "expected 2 deployed releases (crds, virtfoundry)"
+  ok "quickstart install commands run: crds + one platform release"
+
+  for d in $(kubectl -n "$NS" get deploy -o name); do
+    kubectl -n "$NS" rollout status "$d" --timeout=300s >/dev/null \
+      || { kubectl -n "$NS" get pods; kubectl -n "$NS" describe "$d" | tail -20; fail "$d did not become ready"; }
+  done
+  ok "control plane pods ready: $(kubectl -n "$NS" get deploy -o name | tr '\n' ' ')"
+
+  $pf >/dev/null 2>&1 & pid=$!
+  trap 'kill $pid 2>/dev/null || true' RETURN
+  for _ in $(seq 1 30); do $health >/dev/null 2>&1 && break; sleep 2; done
+  $health | grep -q '"status":"ok"' || fail "health check from the quickstart did not answer ok: $health"
+  ok "documented health check answers ok"
+
+  token="$(curl -fsS -X POST "${health%/api/*}/api/v1/auth/login" -H 'Content-Type: application/json' \
+    -d "{\"username\":\"root\",\"password\":\"$pass\"}" | python3 -c 'import sys,json; print(json.load(sys.stdin).get("token",""))')"
+  [ -n "$token" ] || fail "login as root with the documented password failed"
+  ok "login as root with the documented password works"
+}
+
 scenario_migrate() {
   helm repo add virtfoundry https://virtfoundry.github.io/helm-charts --force-update >/dev/null
   helm repo update virtfoundry >/dev/null
@@ -126,6 +177,7 @@ PY
 }
 
 case "${1:-}" in
-  fresh|umbrella|migrate) reset; "scenario_$1"; echo "PASS: $1" ;;
-  *) echo "usage: $0 fresh|umbrella|migrate" >&2; exit 64 ;;
+  fresh|umbrella|migrate|quickstart) reset; "scenario_$1"; echo "PASS: $1" ;;
+  print-quickstart) quickstart_install ;; # what the quickstart scenario would run, without a cluster
+  *) echo "usage: $0 fresh|umbrella|migrate|quickstart|print-quickstart" >&2; exit 64 ;;
 esac
