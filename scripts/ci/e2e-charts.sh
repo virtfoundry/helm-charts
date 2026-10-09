@@ -55,6 +55,10 @@ scenario_fresh() {
   [ "$(crd_count)" = "$EXPECTED_CRDS" ] || fail "expected $EXPECTED_CRDS CRDs after the CRD chart, got $(crd_count)"
   ok "CRD chart installs $EXPECTED_CRDS CRDs"
   helm install virtfoundry-operator charts/virtfoundry-operator -n "$NS" >/dev/null
+  # *.tgz subchart tarballs are gitignored, so the e2e runner downloads
+  # them on demand. Required as long as the chart declares `dependencies:`.
+  helm repo add metrics-server https://kubernetes-sigs.github.io/metrics-server >/dev/null 2>&1 || true
+  helm dependency update charts/virtfoundry >/dev/null
   helm install virtfoundry charts/virtfoundry -n "$NS" "${secrets[@]}" "${no_kubevirt[@]}" >/dev/null
   [ "$(helm list -n "$NS" --deployed -q | wc -l | tr -d ' ')" = 3 ] || fail "expected 3 deployed releases"
   ok "crds, operator and core releases deployed"

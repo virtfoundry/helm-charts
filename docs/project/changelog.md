@@ -11,6 +11,7 @@ Format based on [Keep a Changelog](https://keepachangelog.com/). Versioning: [Se
 - Chart e2e has a `quickstart` scenario: it runs the install commands taken from [the quickstart](../guide/quickstart.md) on Kind, waits for the control plane, then runs the documented health check and logs in as `root`. A change to the docs or the charts that breaks the first-time path now fails CI.
 - Docs: [Expose the UI and API](../guide/expose.md) (port-forward, Ingress, Gateway API, what the proxy must pass through) and [Security and credentials](../guide/security.md) (where the credentials live, how to change the root password, signing key rotation).
 - `scripts/release/release.sh`: `bump X.Y.Z` opens the release PR in core, operator, vks, helm-charts and the org profile; `tag X.Y.Z` tags them in order and waits for each tag's workflows. It only rewrites known pin shapes and lists the other mentions of the old version for review ([Versioning](versioning.md)).
+- **Metrics-server as a subchart** in `charts/virtfoundry/Chart.yaml`, pinned to `~3.12.0` and gated by `metrics-server.enabled` (default `true`). The dashboard **Cluster overview** now reads real CPU and memory usage from `metrics.k8s.io` once the subchart is in place. Managed clusters (AKS / EKS / GKE) that already ship metrics-server can opt out with `metrics-server.enabled=false`. The homelab / kind overlay (`values-kind.yaml`) appends `--kubelet-insecure-tls` and `--kubelet-preferred-address-types=InternalIP,ExternalIP,Hostname` so metrics-server can scrape kind kubelets whose serving cert does not chain back to the cluster CA. Closes the cross-repo half of the dashboard Tier 2 rollout ([core#255](https://github.com/virtfoundry/core/pull/255)).
 
 ### Fixed
 
@@ -95,6 +96,9 @@ Format based on [Keep a Changelog](https://keepachangelog.com/). Versioning: [Se
 ### Security
 
 - CodeQL, Scorecard, Dependabot (grouped monthly) and dependency review.
+=======
+- **Metrics-server as a subchart** in `charts/virtfoundry/Chart.yaml`, pinned to `~3.12.0` and gated by `metrics-server.enabled` (default `true`). The dashboard **Cluster overview** now reads real CPU and memory usage from `metrics.k8s.io` once the subchart is in place. Managed clusters (AKS / EKS / GKE) that already ship metrics-server can opt out with `metrics-server.enabled=false`. The homelab / kind overlay (`values-kind.yaml`) appends `--kubelet-insecure-tls` so metrics-server can scrape kubelets whose serving cert does not chain back to the cluster CA. Closes the cross-repo half of the dashboard Tier 2 rollout ([core#255](https://github.com/virtfoundry/core/pull/255)).
+>>>>>>> f269f03 (feat(helm): bundle metrics-server as a subchart)
 
 ## [0.9.0] - 2026-10-01
 
