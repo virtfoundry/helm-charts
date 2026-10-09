@@ -261,3 +261,53 @@ platform:
     # virtfoundry-cdi-importer-egress there on EnsureTenantNamespace — a chart
     # NetworkPolicy here cannot cover them. Docs + private-mirror example:
     # docs/guide/features/templates.md#cdi-importer-egress
+
+# metrics-server: subchart installed by default so the API can read
+# metrics.k8s.io for the dashboard Tier 2 usage bars. Set to `enabled: false`
+# on clusters that already ship metrics-server (AKS / EKS / GKE, or a
+# pre-existing homelab install) to avoid two controllers fighting for the
+# same API registration.
+#
+# All resources created by the subchart are prefixed with
+# `virtfoundry-metrics-server` (Deployment, Service, ServiceAccount,
+# ClusterRole / ClusterRoleBinding, APIService is left untouched because
+# v1beta1.metrics.k8s.io is a fixed cluster-wide API). The prefix keeps
+# the install co-existing with any other metrics-server the cluster may
+# already carry — labels, the apiservice name, and the upstream
+# `app.kubernetes.io/name` label are also rewritten so `kubectl get
+# -l app.kubernetes.io/name=virtfoundry-metrics-server` matches every
+# object.
+#
+# The subchart upstream renders every resource with the **release
+# namespace** (the namespace passed to `helm install --namespace`).
+# Install with `--namespace virtfoundry-system` (the recommended
+# install) and the metrics-server resources land in virtfoundry-system
+# next to the rest of the control plane; the APIService then points
+# to the Service in the same namespace. Installing with a different
+# namespace is fine — the chain stays internal.
+metrics-server:
+  enabled: true
+  # fullnameOverride rewrites every resource name rendered by the
+  # subchart (Deployment, Service, ServiceAccount, ClusterRole,
+  # ClusterRoleBinding, etc.). nameOverride is set to the same value so
+  # the upstream app.kubernetes.io/name label and the chart-managed
+  # selector labels line up with it.
+  fullnameOverride: virtfoundry-metrics-server
+  nameOverride: virtfoundry-metrics-server
+  # Override the subchart args. The homelab / kind overlay
+  # (charts/virtfoundry/values-kind.yaml) appends --kubelet-insecure-tls so
+  # the metrics-server can scrape kubelets whose serving cert does not chain
+  # back to the cluster CA. Add your own entry here for production-grade
+  # kubelet serving certs.
+  args: []
+  # resource requests/limits (passed through to the subchart's deployment).
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 500m
+      memory: 256Mi
+  # replicas: 2 (HA) for production; homelab / kind leave it at 1.
+  replicas: 1
+
