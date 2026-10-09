@@ -15,6 +15,21 @@ ui:
     port: 80
     nodePort: 30880
 
+# kind kubelets use self-signed serving certs and resolve by hostname
+# differently than production clusters, so the metrics-server subchart
+# (installed by the parent chart) needs both flags below to scrape
+# them. Production clusters with a real kubelet CA chain should leave
+# args empty.
+#
+#   --kubelet-insecure-tls              # accept self-signed kubelet certs
+#   --kubelet-preferred-address-types=InternalIP,ExternalIP,Hostname
+#                                       # resolve nodes by IP, not by a
+#                                       # hostname the in-Docker DNS won't see
+metrics-server:
+  args:
+    - --kubelet-insecure-tls
+    - --kubelet-preferred-address-types=InternalIP,ExternalIP,Hostname
+
 platform:
   networking:
     public:

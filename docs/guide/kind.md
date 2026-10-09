@@ -112,6 +112,8 @@ Deploy a **container-disk** VM (Templates → small offering → Console). The g
 
 Isolated VPCs still work when you use `values-kind.yaml` (sets `isolated.enabled: true` and tolerates the control-plane taint): bridge-keeper creates `virtfoundry-br0` **inside** the kind node. That L2 never leaves Docker. Chart defaults leave isolated **off** so a bare install stays API+UI-only.
 
+The same overlay also passes `--kubelet-insecure-tls` to the **metrics-server** subchart the parent chart bundles by default. kind kubelets use self-signed serving certs; the flag is what makes the dashboard's **Cluster overview** show real CPU and memory usage on a laptop. Production clusters with a proper kubelet CA chain should leave `metrics-server.args` empty.
+
 ---
 
 ## 4. Optional — local “public” IPs (still no VLAN)
