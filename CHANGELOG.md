@@ -6,6 +6,7 @@ See [docs/project/changelog.md](docs/project/changelog.md) for the full release 
 
 ### Added
 
+- API ClusterRole grants the two read-only rules behind the dashboard **Cluster overview** (core#255): `apiextensions.k8s.io/customresourcedefinitions` `get`/`list` (addons strip; the API lists CRDs metadata-only via `PartialObjectMetadataList`, so no OpenAPI schemas cross the wire) and `metrics.k8s.io/nodes` `get`/`list` (host usage bars; inert on clusters without metrics-server). Both are consumed through the discovery REST client, so `rbac_contract_test` in core cannot see them — they are listed under `dynamicClient` in core's `docs/rbac-contract.yaml`.
 - Chart e2e has a `quickstart` scenario: it runs the install commands taken from [the quickstart](docs/guide/quickstart.md) on Kind, waits for the control plane, then runs the documented health check and logs in as `root`. A change to the docs or the charts that breaks the first-time path now fails CI.
 - Docs: [Expose the UI and API](docs/guide/expose.md) (port-forward, Ingress, Gateway API, what the proxy must pass through) and [Security and credentials](docs/guide/security.md) (where the credentials live, how to change the root password, signing key rotation).
 - `scripts/release/release.sh`: `bump X.Y.Z` opens the release PR in core, operator, vks, helm-charts and the org profile; `tag X.Y.Z` tags them in order and waits for each tag's workflows. It only rewrites known pin shapes and lists the other mentions of the old version for review ([Versioning](docs/project/versioning.md)).
