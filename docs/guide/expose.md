@@ -19,7 +19,7 @@ Enable **one** of Ingress or Gateway, not both.
 kubectl -n virtfoundry-system port-forward svc/virtfoundry-ui 8080:80
 ```
 
-Open <http://127.0.0.1:8080>. This needs chart **0.11.3 or newer**: on older charts the realtime updates and the console fail on a non-default port ([Troubleshooting](troubleshooting.md)).
+Open <http://127.0.0.1:8080>. This needs chart **0.12.0 or newer**: on older charts the realtime updates and the console fail on a non-default port ([Troubleshooting](troubleshooting.md)).
 
 ## Ingress
 
