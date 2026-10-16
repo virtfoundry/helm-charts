@@ -1879,7 +1879,7 @@
 <h2 id="port-forward">Port-forward<a class="headerlink" href="#port-forward" title="Permanent link">¶</a></h2>
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>-n<span class="w"> </span>virtfoundry-system<span class="w"> </span>port-forward<span class="w"> </span>svc/virtfoundry-ui<span class="w"> </span><span class="m">8080</span>:80
 </code></pre></div>
-<p>Open <a href="http://127.0.0.1:8080">http://127.0.0.1:8080</a>. This needs chart <strong>0.11.3 or newer</strong>: on older charts the realtime updates and the console fail on a non-default port (<a href="../troubleshooting/">Troubleshooting</a>).</p>
+<p>Open <a href="http://127.0.0.1:8080">http://127.0.0.1:8080</a>. This needs chart <strong>0.12.0 or newer</strong>: on older charts the realtime updates and the console fail on a non-default port (<a href="../troubleshooting/">Troubleshooting</a>).</p>
 <h2 id="ingress">Ingress<a class="headerlink" href="#ingress" title="Permanent link">¶</a></h2>
 <p>The chart refuses to create an Ingress without TLS. Bring a certificate Secret, or let cert-manager create it:</p>
 <div class="highlight"><pre><span></span><code>helm<span class="w"> </span>upgrade<span class="w"> </span>virtfoundry<span class="w"> </span>virtfoundry/virtfoundry<span class="w"> </span>-n<span class="w"> </span>virtfoundry-system<span class="w"> </span>--reuse-values<span class="w"> </span><span class="se">\</span>
