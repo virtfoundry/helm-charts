@@ -139,6 +139,13 @@ spec:
                   - name
                   type: object
                 type: array
+              tags:
+                description: |-
+                  Tags are free-form user labels persisted on the Instance and returned
+                  unchanged by the REST API and UI.
+                items:
+                  type: string
+                type: array
               templateRef:
                 description: TemplateRef names the Template CR.
                 properties:

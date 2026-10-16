@@ -64,6 +64,13 @@ spec:
                 - isolated
                 - shared
                 type: string
+              tags:
+                description: |-
+                  Tags are free-form user labels persisted on the Network and returned
+                  unchanged by the REST API and UI.
+                items:
+                  type: string
+                type: array
               vpcRef:
                 description: VPCRef names the parent VPC CR.
                 properties:
