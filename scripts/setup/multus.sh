@@ -33,12 +33,22 @@ MANIFEST_URL="${MULTUS_MANIFEST_URL:-https://raw.githubusercontent.com/k8snetwor
 # v4.3.1-thick image by digest (override with MULTUS_IMAGE, or set it empty to keep the manifest as is).
 MULTUS_IMAGE="${MULTUS_IMAGE-ghcr.io/k8snetworkplumbingwg/multus-cni@sha256:a357a79359b80ddd5f4699117946cacf3b54f5baecf7944535594863e875fc25}"
 
+# The thick daemon execs the delegate CNI (e.g. cilium-cni) inside its own cgroup. The upstream
+# 50Mi limit is too small to keep that binary in page cache: on a loaded node it refaults from
+# disk at hundreds of MB/s and pod sandboxes hang in ContainerCreating. Override with
+# MULTUS_MEMORY, or set it empty to keep the manifest as is.
+MULTUS_MEMORY="${MULTUS_MEMORY-256Mi}"
+
 render_manifest() {
-  if [ -z "$MULTUS_IMAGE" ]; then
-    curl -fsSL "$MANIFEST_URL"
-    return
+  local manifest
+  manifest="$(curl -fsSL "$MANIFEST_URL")"
+  if [ -n "$MULTUS_IMAGE" ]; then
+    manifest="$(printf '%s\n' "$manifest" | sed "s#ghcr.io/k8snetworkplumbingwg/multus-cni:snapshot-thick#${MULTUS_IMAGE}#g")"
   fi
-  curl -fsSL "$MANIFEST_URL" | sed "s#ghcr.io/k8snetworkplumbingwg/multus-cni:snapshot-thick#${MULTUS_IMAGE}#g"
+  if [ -n "$MULTUS_MEMORY" ]; then
+    manifest="$(printf '%s\n' "$manifest" | sed "s#memory: \"50Mi\"#memory: \"${MULTUS_MEMORY}\"#g")"
+  fi
+  printf '%s\n' "$manifest"
 }
 
 echo "==> Kubeconfig: $KUBECONFIG"

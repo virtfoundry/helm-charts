@@ -109,6 +109,9 @@ kubectl get pods -n kube-system -l app=multus
 kubectl get crd network-attachment-definitions.k8s.cni.cncf.io
 ```
 
+!!! tip "Raise the Multus memory limit"
+    The upstream thick manifest limits `kube-multus-ds` to 50Mi. The daemon runs the delegate CNI (for example `cilium-cni`) inside that cgroup, so on a loaded node the binary is evicted and re-read from disk constantly and pods hang in `ContainerCreating`. `scripts/setup/multus.sh` installs 256Mi (override with `MULTUS_MEMORY`). If you installed Multus another way, set `resources.limits.memory` and `resources.requests.memory` on `kube-multus-ds` to `256Mi`.
+
 ---
 
 ### CDI — required for ISO and import workflows
