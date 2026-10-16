@@ -61,6 +61,18 @@ rules:
   - apiGroups: [""]
     resources: ["events"]
     verbs: ["get", "list", "watch"]
+  # Dashboard cluster overview: the addons strip discovers installed addons by
+  # listing CRDs metadata-only (PartialObjectMetadataList — names and labels,
+  # never the OpenAPI schemas). Read-only: the API never writes CRDs.
+  - apiGroups: ["apiextensions.k8s.io"]
+    resources: ["customresourcedefinitions"]
+    verbs: ["get", "list"]
+  # Dashboard host usage bars, served by metrics-server (documented cluster
+  # prerequisite). When the API is absent the dashboard omits usage instead of
+  # failing, so this grant is inert on clusters without metrics-server.
+  - apiGroups: ["metrics.k8s.io"]
+    resources: ["nodes"]
+    verbs: ["get", "list"]
   - apiGroups: ["networking.k8s.io"]
     resources: ["networkpolicies"]
     verbs: ["get", "list", "create", "update", "delete"]

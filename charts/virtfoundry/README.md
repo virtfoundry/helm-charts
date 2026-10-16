@@ -90,6 +90,8 @@ cannot enumerate Secrets, mutate Nodes, or schedule pods of its own:
 | Resource | Verbs | Why |
 |----------|-------|-----|
 | `nodes` | `get`, `list` | Hypervisor capacity view. No `delete`/`patch` — nothing in the API mutates Nodes |
+| `metrics.k8s.io/nodes` | `get`, `list` | Dashboard usage bars; served by metrics-server (cluster prerequisite), inert without it |
+| `apiextensions.k8s.io/customresourcedefinitions` | `get`, `list` | Dashboard addons strip; read metadata-only (`PartialObjectMetadataList`), never the schemas |
 | `pods`, `pods/log` | `get`, `list` | Console and log endpoints; virt-launcher pods are created by KubeVirt |
 | `namespaces` | `get`, `list`, `create`, `delete` | Tenant and VPC namespaces, created at runtime |
 | `resourcequotas` | `get`, `list`, `create` | Written once per tenant namespace |
