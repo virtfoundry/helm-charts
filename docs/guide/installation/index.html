@@ -2291,6 +2291,10 @@ kubectl<span class="w"> </span>get<span class="w"> </span>crd<span class="w"> </
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span>-n<span class="w"> </span>kube-system<span class="w"> </span>-l<span class="w"> </span><span class="nv">app</span><span class="o">=</span>multus
 kubectl<span class="w"> </span>get<span class="w"> </span>crd<span class="w"> </span>network-attachment-definitions.k8s.cni.cncf.io
 </code></pre></div>
+<div class="admonition tip">
+<p class="admonition-title">Raise the Multus memory limit</p>
+<p>The upstream thick manifest limits <code>kube-multus-ds</code> to 50Mi. The daemon runs the delegate CNI (for example <code>cilium-cni</code>) inside that cgroup, so on a loaded node the binary is evicted and re-read from disk constantly and pods hang in <code>ContainerCreating</code>. <code>scripts/setup/multus.sh</code> installs 256Mi (override with <code>MULTUS_MEMORY</code>). If you installed Multus another way, set <code>resources.limits.memory</code> and <code>resources.requests.memory</code> on <code>kube-multus-ds</code> to <code>256Mi</code>.</p>
+</div>
 <hr>
 <h3 id="cdi-required-for-iso-and-import-workflows">CDI — required for ISO and import workflows<a class="headerlink" href="#cdi-required-for-iso-and-import-workflows" title="Permanent link">¶</a></h3>
 <p><a href="https://github.com/kubevirt/containerized-data-importer">CDI</a> provides <code>DataVolume</code> resources. VirtFoundry uses CDI when:</p>
