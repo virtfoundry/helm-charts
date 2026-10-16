@@ -21,6 +21,7 @@ PAGES = [
     ("07-networks.png", "/networks"),
     ("08-vm-snapshots.png", "/vm-snapshots"),
     ("09-clusters.png", "/clusters"),
+    ("10-settings.png", "/settings"),
 ]
 
 
@@ -31,9 +32,8 @@ def main() -> None:
     with sync_playwright() as p:
         browser = p.chromium.launch(headless=True)
         page = browser.new_page(viewport={"width": 1440, "height": 900}, device_scale_factor=2, color_scheme="dark")
-        page.add_init_script("localStorage.setItem('virtfoundry_theme', 'dark')")
+        page.add_init_script("localStorage.setItem('virtfoundry_theme', 'dark'); localStorage.setItem('virtfoundry_locale', 'en')")
         page.goto(f"{BASE}/login", wait_until="networkidle")
-        page.get_by_role("button", name="EN", exact=True).click()
         page.screenshot(path=str(OUT / "01-login.png"), full_page=False)
         print(f"wrote {OUT / '01-login.png'}")
         page.get_by_placeholder("root or tenant-admin").fill(USER)
