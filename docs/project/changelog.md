@@ -15,12 +15,14 @@ Format based on [Keep a Changelog](https://keepachangelog.com/). Versioning: [Se
 ### Fixed
 
 - Configuration said credentials change when a new value is passed. A new `secrets.rootPassword` does not change the login password after the first start: the API only uses it to create `root`.
+- `scripts/setup/multus.sh` installs Multus with a 256Mi memory limit instead of the upstream 50Mi (`MULTUS_MEMORY` overrides it). The thick daemon runs the delegate CNI inside its own cgroup; at 50Mi `cilium-cni` was evicted and re-read from disk (about 100k refaults per second) and pod sandboxes hung in `ContainerCreating` on a loaded node ([#144](https://github.com/virtfoundry/helm-charts/pull/144)). If you installed Multus another way, raise `kube-multus-ds` to 256Mi.
 
 ### Changed
 
 - `charts/virtfoundry-operator` is now the only copy of the operator chart: the operator repository no longer carries one, and the drift gate is gone. The RBAC gate runs the operator's own check (ClusterRole against the kubebuilder markers) on this chart; the copy of that check kept here had fallen behind.
 - VKS docs: the chart installs from OCI (`oci://ghcr.io/virtfoundry/charts/virtfoundry-vks`) instead of a git clone, with a prerequisite checklist, how to get the kubeconfig and use the cluster, what `networkRef` must be, and when the control-plane address is reachable.
 - Quickstart: starts with who it is for and what you need (cluster, KubeVirt, Multus, CDI, StorageClass, `/dev/kvm`), a table of what was tested and what was not, and installs with one `virtfoundry-platform` release after the CRDs. The three separate releases are kept as an advanced option.
+- Docs site redesigned (Geist type, navy header, the real logo) and the UI screenshots re-captured for the redesigned console, including a new Settings page shot ([#143](https://github.com/virtfoundry/helm-charts/pull/143)).
 
 ## [0.11.3] - 2026-10-07
 
