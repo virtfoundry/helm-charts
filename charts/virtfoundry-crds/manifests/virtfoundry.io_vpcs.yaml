@@ -65,6 +65,13 @@ spec:
               name:
                 description: Name display label shown in UI/REST.
                 type: string
+              tags:
+                description: |-
+                  Tags are free-form user labels persisted on the VPC and returned
+                  unchanged by the REST API and UI.
+                items:
+                  type: string
+                type: array
             required:
             - cidr
             - name
