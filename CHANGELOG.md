@@ -4,6 +4,8 @@ See [docs/project/changelog.md](docs/project/changelog.md) for the full release 
 
 ## [Unreleased]
 
+## [0.12.0] - 2026-10-16
+
 ### Added
 
 - API ClusterRole grants the two read-only rules behind the dashboard **Cluster overview** (core#255): `apiextensions.k8s.io/customresourcedefinitions` `get`/`list` (addons strip; the API lists CRDs metadata-only via `PartialObjectMetadataList`, so no OpenAPI schemas cross the wire) and `metrics.k8s.io/nodes` `get`/`list` (host usage bars; inert on clusters without metrics-server). Both are consumed through the discovery REST client, so `rbac_contract_test` in core cannot see them — they are listed under `dynamicClient` in core's `docs/rbac-contract.yaml`.

@@ -6,6 +6,8 @@ Format based on [Keep a Changelog](https://keepachangelog.com/). Versioning: [Se
 
 ## [Unreleased]
 
+## [0.12.0] - 2026-10-16
+
 ### Added
 
 - Chart e2e has a `quickstart` scenario: it runs the install commands taken from [the quickstart](../guide/quickstart.md) on Kind, waits for the control plane, then runs the documented health check and logs in as `root`. A change to the docs or the charts that breaks the first-time path now fails CI.
