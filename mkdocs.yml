@@ -9,11 +9,11 @@ theme:
   name: material
   custom_dir: overrides
   language: en
-  logo: assets/logo.svg
+  logo: assets/logo.png
   favicon: assets/favicon.svg
   font:
-    text: Inter
-    code: JetBrains Mono
+    text: Geist
+    code: Geist Mono
   palette:
     - scheme: virtfoundry-light
       primary: custom
