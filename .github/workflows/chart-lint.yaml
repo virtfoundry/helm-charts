@@ -20,6 +20,17 @@ jobs:
       - name: Install Helm
         uses: azure/setup-helm@9bc31f4ebc9c6b171d7bfbaa5d006ae7abdb4310 # v5.0.1
 
+      - name: Add subchart repos
+        # *.tgz subchart tarballs are gitignored, so the CI runner has to
+        # download them from the upstream chart repos before lint/template.
+        # Required as long as the chart declares `dependencies:`.
+        run: |
+          helm repo add metrics-server https://kubernetes-sigs.github.io/metrics-server
+          helm repo update
+
+      - name: Helm dependency build (virtfoundry)
+        run: helm dependency build ./charts/virtfoundry
+
       - name: Helm lint
         run: helm lint ./charts/virtfoundry --set-string secrets.rootPassword="$CI_ROOT_PASSWORD" --set-string secrets.jwtSecret="$CI_JWT_SECRET"
 

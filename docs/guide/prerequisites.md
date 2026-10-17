@@ -15,6 +15,14 @@ Install these **before** `virtfoundry-operator` and `virtfoundry`. VirtFoundry d
 | **StorageClass** ([Longhorn](https://longhorn.io/docs/latest/deploy/install/) recommended) | [Longhorn install](https://longhorn.io/docs/latest/deploy/install/install-with-helm/) | `kubectl get sc` |
 | **virtfoundry-operator** | [Installation](installation.md) | `kubectl get crd tenants.virtfoundry.io` |
 
+## Bundled by the chart
+
+The `virtfoundry` chart installs the following as a **subchart** by default. Set `metrics-server.enabled: false` in your `values.yaml` if your cluster already provides it (AKS / EKS / GKE ship it pre-installed).
+
+| Component | Why | Notes |
+|-----------|-----|-------|
+| **[metrics-server](https://github.com/kubernetes-sigs/metrics-server)** | Surfaces `metrics.k8s.io` so the dashboard **Cluster overview** can show real CPU and memory usage (Tier 2). The homelab / kind overlay (`-f values-kind.yaml`) appends `--kubelet-insecure-tls` so the metrics-server can scrape kubelets whose serving cert does not chain back to the cluster CA. | Always pinned to `~3.12.0` in the parent chart's `dependencies` block. Override the version through a `helm dependency update` if you need a different minor. |
+
 ## Recommended
 
 | Component | Docs | When |
