@@ -1,0 +1,6 @@
+# Artifact Hub repository metadata, served at the root of https://virtfoundry.github.io/helm-charts
+# Fill repositoryID after adding the repo at artifacthub.io (Control Panel > Repositories).
+repositoryID: c9b22622-4d8b-43ae-9a25-c413d3f0724c
+owners:
+  - name: Matheus Thurler
+    email: matheusthurlernf@gmail.com
