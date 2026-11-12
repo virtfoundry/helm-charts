@@ -262,43 +262,34 @@ platform:
     # NetworkPolicy here cannot cover them. Docs + private-mirror example:
     # docs/guide/features/templates.md#cdi-importer-egress
 
-# metrics-server: subchart installed by default so the API can read
-# metrics.k8s.io for the dashboard Tier 2 usage bars. Set to `enabled: false`
-# on clusters that already ship metrics-server (AKS / EKS / GKE, or a
-# pre-existing homelab install) to avoid two controllers fighting for the
-# same API registration.
+# metrics-server: opt-in subchart that serves metrics.k8s.io for the
+# dashboard Cluster overview usage bars. Off by default:
+# v1beta1.metrics.k8s.io is a fixed cluster-wide APIService, so on a cluster
+# that already runs metrics-server (AKS / EKS / GKE, k3s, or a homelab
+# install) a second owner makes the Helm install fail on ownership metadata
+# and Argo CD selfHeal fight the two controllers. Enable it where the cluster
+# has no metrics-server; the kind overlay (values-kind.yaml) does.
 #
-# All resources created by the subchart are prefixed with
-# `virtfoundry-metrics-server` (Deployment, Service, ServiceAccount,
-# ClusterRole / ClusterRoleBinding, APIService is left untouched because
-# v1beta1.metrics.k8s.io is a fixed cluster-wide API). The prefix keeps
-# the install co-existing with any other metrics-server the cluster may
-# already carry — labels, the apiservice name, and the upstream
-# `app.kubernetes.io/name` label are also rewritten so `kubectl get
-# -l app.kubernetes.io/name=virtfoundry-metrics-server` matches every
-# object.
+# All objects the subchart renders are renamed to `virtfoundry-metrics-server`
+# (Deployment, Service, ServiceAccount, ClusterRole / ClusterRoleBinding,
+# RoleBinding) and the `app.kubernetes.io/name` label is rewritten with them.
+# The APIService name stays v1beta1.metrics.k8s.io and the auth-reader
+# RoleBinding stays in kube-system (both fixed upstream); renaming therefore
+# does not make two metrics-server installs coexist.
 #
-# The subchart upstream renders every resource with the **release
-# namespace** (the namespace passed to `helm install --namespace`).
-# Install with `--namespace virtfoundry-system` (the recommended
-# install) and the metrics-server resources land in virtfoundry-system
-# next to the rest of the control plane; the APIService then points
-# to the Service in the same namespace. Installing with a different
-# namespace is fine — the chain stays internal.
+# Upstream renders into the release namespace (`helm install --namespace`),
+# so with the recommended `--namespace virtfoundry-system` the chain
+# APIService -> Service -> Pod stays inside virtfoundry-system.
 metrics-server:
-  enabled: true
+  enabled: false
   # fullnameOverride rewrites every resource name rendered by the
-  # subchart (Deployment, Service, ServiceAccount, ClusterRole,
-  # ClusterRoleBinding, etc.). nameOverride is set to the same value so
-  # the upstream app.kubernetes.io/name label and the chart-managed
-  # selector labels line up with it.
+  # subchart. nameOverride is set to the same value so the upstream
+  # app.kubernetes.io/name label and the selector labels line up with it.
   fullnameOverride: virtfoundry-metrics-server
   nameOverride: virtfoundry-metrics-server
-  # Override the subchart args. The homelab / kind overlay
-  # (charts/virtfoundry/values-kind.yaml) appends --kubelet-insecure-tls so
-  # the metrics-server can scrape kubelets whose serving cert does not chain
-  # back to the cluster CA. Add your own entry here for production-grade
-  # kubelet serving certs.
+  # Extra subchart args. The kind overlay adds --kubelet-insecure-tls for
+  # self-signed kubelet serving certs; production clusters with a proper
+  # kubelet CA chain leave this empty.
   args: []
   # resource requests/limits (passed through to the subchart's deployment).
   resources:

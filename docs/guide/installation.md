@@ -62,8 +62,8 @@ Then open <http://127.0.0.1:8080>.
 !!! note "Not bundled in the Helm chart by default"
     KubeVirt, Multus, and CDI are **cluster-scoped platform operators**. They are installed separately so you can pin versions, align with your distro, and upgrade them independently of VirtFoundry releases.
 
-!!! note "Bundled by the chart"
-    The `virtfoundry` chart installs **[metrics-server](https://github.com/kubernetes-sigs/metrics-server)** as a subchart by default (pinned to `~3.12.0`, namespace `kube-system`) so the dashboard **Cluster overview** can show real CPU and memory usage. Managed clusters (AKS / EKS / GKE) already ship metrics-server; set `metrics-server.enabled: false` to skip the subchart. See [Bundled components](prerequisites.md#bundled-by-the-chart).
+!!! note "metrics-server is opt-in"
+    The `virtfoundry` chart can install **[metrics-server](https://github.com/kubernetes-sigs/metrics-server)** as a subchart (pinned to `~3.12.0`) so the dashboard **Cluster overview** can show real CPU and memory usage. It is off by default: `v1beta1.metrics.k8s.io` is a fixed cluster-wide APIService, so clusters that already run metrics-server (AKS / EKS / GKE, k3s, an existing install) must leave it off. Enable it with `--set metrics-server.enabled=true` on a cluster without one. See [Bundled components](prerequisites.md#bundled-by-the-chart).
 
 ---
 
@@ -187,15 +187,15 @@ helm install virtfoundry virtfoundry/virtfoundry \
 ```
 
 !!! note "metrics-server subchart shares the release namespace"
-    The [metrics-server subchart](prerequisites.md#bundled-by-the-chart) renders every resource (Deployment, Service, ServiceAccount, ClusterRole, ClusterRoleBinding, APIService) in the **release namespace** — the one you pass to `--namespace`. With the command above (`--namespace virtfoundry-system`), all metrics-server resources land in `virtfoundry-system` next to the rest of the control plane, and the internal chain `APIService → Service → Pod` is fully self-contained in the same namespace.
+    When enabled, the [metrics-server subchart](prerequisites.md#bundled-by-the-chart) renders the Deployment, Service, ServiceAccount, ClusterRole and ClusterRoleBinding in the **release namespace** — the one you pass to `--namespace`. With the command above (`--namespace virtfoundry-system`), they land in `virtfoundry-system` next to the rest of the control plane, and the chain `APIService → Service → Pod` stays inside it. Two objects are fixed upstream and do not follow the release: the `v1beta1.metrics.k8s.io` APIService (cluster-scoped, that is why the subchart is opt-in) and the `auth-reader` RoleBinding, which references the `extension-apiserver-authentication` ConfigMap in `kube-system`.
 
     ```
-    APIService v1beta1.metrics.k8s.io (in virtfoundry-system)
+    APIService v1beta1.metrics.k8s.io (cluster-scoped)
       -> Service virtfoundry-metrics-server   (in virtfoundry-system)
       -> Pod virtfoundry-metrics-server-xxx   (in virtfoundry-system)
     ```
 
-    The upstream subchart hard-codes the namespace to `{{ .Release.Namespace }}` (there is no `Values.namespace` override), so installing with a different namespace — e.g. `--namespace monitoring` — moves the whole chain there; the `APIService` and the Service stay co-located.
+    The upstream subchart hard-codes the namespace to `{{ .Release.Namespace }}` (there is no `Values.namespace` override), so installing with a different namespace — e.g. `--namespace monitoring` — moves the namespaced resources there; the APIService and the Service stay co-located.
 
 The chart ships no credential defaults — see [Secrets](configuration.md#secrets) for the
 rules and for the `secrets.existingSecret` path.

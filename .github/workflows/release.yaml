@@ -27,6 +27,16 @@ jobs:
       - name: Install Helm
         uses: azure/setup-helm@9bc31f4ebc9c6b171d7bfbaa5d006ae7abdb4310 # v5.0.1
 
+      - name: Add subchart repos
+        # *.tgz subchart tarballs are gitignored, so the runner has to fetch
+        # them from the upstream chart repos before lint/template/release.
+        run: |
+          helm repo add metrics-server https://kubernetes-sigs.github.io/metrics-server
+          helm repo update
+
+      - name: Helm dependency build (virtfoundry)
+        run: helm dependency build ./charts/virtfoundry
+
       - name: Lint chart
         env:
           # Throwaway render-only credentials: the chart ships no defaults and refuses

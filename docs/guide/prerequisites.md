@@ -17,11 +17,11 @@ Install these **before** `virtfoundry-operator` and `virtfoundry`. VirtFoundry d
 
 ## Bundled by the chart
 
-The `virtfoundry` chart installs the following as a **subchart** by default. Set `metrics-server.enabled: false` in your `values.yaml` if your cluster already provides it (AKS / EKS / GKE ship it pre-installed).
+The `virtfoundry` chart can install the following as an **opt-in subchart** (`metrics-server.enabled: true`, default `false`). Leave it off where the cluster already provides metrics-server (AKS / EKS / GKE, k3s, an existing homelab install): the `v1beta1.metrics.k8s.io` APIService is cluster-wide, so a second owner breaks the install and makes GitOps controllers fight over it.
 
 | Component | Why | Notes |
 |-----------|-----|-------|
-| **[metrics-server](https://github.com/kubernetes-sigs/metrics-server)** | Surfaces `metrics.k8s.io` so the dashboard **Cluster overview** can show real CPU and memory usage (Tier 2). The homelab / kind overlay (`-f values-kind.yaml`) appends `--kubelet-insecure-tls` so the metrics-server can scrape kubelets whose serving cert does not chain back to the cluster CA. | Always pinned to `~3.12.0` in the parent chart's `dependencies` block. Override the version through a `helm dependency update` if you need a different minor. |
+| **[metrics-server](https://github.com/kubernetes-sigs/metrics-server)** | Surfaces `metrics.k8s.io` so the dashboard **Cluster overview** can show real CPU and memory usage (Tier 2). Without it the section reports usage as unavailable; nothing else degrades. The homelab / kind overlay (`-f values-kind.yaml`) enables it and appends `--kubelet-insecure-tls` so it can scrape kubelets whose serving cert does not chain back to the cluster CA. | Always pinned to `~3.12.0` in the parent chart's `dependencies` block. Override the version through a `helm dependency update` if you need a different minor. |
 
 ## Recommended
 
