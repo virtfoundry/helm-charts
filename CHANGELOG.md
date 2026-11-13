@@ -4,6 +4,21 @@ See [docs/project/changelog.md](docs/project/changelog.md) for the full release 
 
 ## [Unreleased]
 
+## [0.13.0] - 2026-11-13
+
+### Fixed
+
+- bridge-keeper keeps the host FORWARD rules that make tenant isolation hold: DROP between tenant bridges (`-i vfb+ -o vfb+`), ACCEPT to and from them for egress. It re-sources `bridge-lib.sh` every cycle, so a ConfigMap update applies without restarting the pod ([#150](https://github.com/virtfoundry/helm-charts/pull/150), [#151](https://github.com/virtfoundry/helm-charts/pull/151)).
+
+### Upgrade notes
+
+- Set `platform.networking.isolated.bridge.address` to `""`: tenant bridges get their gateway from the NAD, and a fixed address on `virtfoundry-br0` makes the host route that CIDR through a bridge with no ports. The keeper does not remove an address that is already there; delete it once with `ip addr del`.
+- Tenants that already share a VPC CIDR keep it; core only refuses new overlapping VPCs. Give each tenant a distinct CIDR before they run VMs on the same node.
+
+### Changed
+
+- Version aligned with the VirtFoundry 0.13.0 release.
+
 ## [0.12.0] - 2026-10-16
 
 ### Added
