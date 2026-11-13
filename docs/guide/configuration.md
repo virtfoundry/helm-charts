@@ -13,7 +13,7 @@ VirtFoundry runtime configuration is YAML rendered by Helm into a ConfigMap. **H
 | `api.security.allowedOrigins` | `security.allowed_origins` | CORS / WS Origin allowlist — see [Allowed origins](#allowed-origins-cors-websockets) |
 | `platform.networking.public.*` | `networking.public.*` | Shared VM network (off by default) |
 | `platform.networking.isolated.enabled` | — | Host bridge DaemonSet for tenant VPCs (off by default; see [Host bridges](networking-config.md#host-bridges-isolated-public)) |
-| `platform.networking.isolated.bridge.name` | `networking.isolated.bridge_name` | Tenant VPC bridge |
+| `platform.networking.isolated.bridge.name` | `networking.isolated.bridge_name` | Legacy shared bridge (tenants use per-tenant `vfb*` bridges since 0.13) |
 | `platform.networking.vm.*` | `networking.vm.*` | Default VM networking |
 | `platform.storage.*` | `storage.*` | Default StorageClass for CDI/ISO disks |
 | `secrets.jwtSecret` | — | Env `JWT_SECRET` on API (not in ConfigMap) — see [Secrets](#secrets) |
