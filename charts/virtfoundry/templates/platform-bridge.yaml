@@ -91,10 +91,11 @@ spec:
             - -c
             - |
               set -e
-              . /scripts/bridge-lib.sh
               INTERVAL="{{ $interval }}"
               echo "bridge-keeper interval=${INTERVAL}s on $(hostname)"
               while true; do
+                # Re-source every cycle: ConfigMap updates apply without a pod restart.
+                . /scripts/bridge-lib.sh
                 if ensure_all_bridges; then
                   :
                 else
