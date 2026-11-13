@@ -65,7 +65,7 @@ PIN_RE='(--version[ =]|\bversion: |appVersion: "?|\btag: "?|\b(?:core|ui|operato
 export PIN_RE
 
 bump_repo() {
-  local r="$1" d="$ROOT/$1" skip='(^|/)(CHANGELOG\.md|changelog\.md|package-lock\.json|PRODUCT\.md)$'
+  local r="$1" d="$ROOT/$1" skip='(^|/)(CHANGELOG\.md|changelog\.md|package-lock\.json|PRODUCT\.md|go\.sum|go\.mod)$'
   [[ -d "$d/.git" ]] || die "$d is not a git clone"
   git -C "$d" diff --quiet && git -C "$d" diff --cached --quiet || die "$r has uncommitted changes"
   git -C "$d" checkout -q main && git -C "$d" pull -q --ff-only
@@ -82,7 +82,7 @@ bump_repo() {
     if [[ $r == helm-charts ]]; then # new first row in the compatibility table, copied from the last release
       perl -pi -e 'if (!$d && /^\| \Q$ENV{OLD}\E \|/) { ($n=$_) =~ s/\Q$ENV{OLD}\E/$ENV{NEW}/g; print $n; $d=1 }' docs/project/versioning.md
     fi
-    left="$(git grep -nF "$OLD" -- . ':!*CHANGELOG.md' ':!*changelog.md' ':!*package-lock.json' ':!*PRODUCT.md' | cut -c1-160 || true)"
+    left="$(git grep -nF "$OLD" -- . ':!*CHANGELOG.md' ':!*changelog.md' ':!*package-lock.json' ':!*PRODUCT.md' ':!*go.sum' ':!*go.mod' | cut -c1-160 || true)"
     if [[ -n "$left" ]]; then printf 'kept in %s (mentions of %s that are not pins, check by hand):\n%s\n' "$r" "$OLD" "$left"; fi )
   if [[ "$DRY_RUN" == 1 ]]; then
     echo "== $r (dry run)"; git -C "$d" diff --stat | tail -n 25
