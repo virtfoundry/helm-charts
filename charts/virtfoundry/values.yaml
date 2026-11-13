@@ -261,3 +261,44 @@ platform:
     # virtfoundry-cdi-importer-egress there on EnsureTenantNamespace — a chart
     # NetworkPolicy here cannot cover them. Docs + private-mirror example:
     # docs/guide/features/templates.md#cdi-importer-egress
+
+# metrics-server: opt-in subchart that serves metrics.k8s.io for the
+# dashboard Cluster overview usage bars. Off by default:
+# v1beta1.metrics.k8s.io is a fixed cluster-wide APIService, so on a cluster
+# that already runs metrics-server (AKS / EKS / GKE, k3s, or a homelab
+# install) a second owner makes the Helm install fail on ownership metadata
+# and Argo CD selfHeal fight the two controllers. Enable it where the cluster
+# has no metrics-server; the kind overlay (values-kind.yaml) does.
+#
+# All objects the subchart renders are renamed to `virtfoundry-metrics-server`
+# (Deployment, Service, ServiceAccount, ClusterRole / ClusterRoleBinding,
+# RoleBinding) and the `app.kubernetes.io/name` label is rewritten with them.
+# The APIService name stays v1beta1.metrics.k8s.io and the auth-reader
+# RoleBinding stays in kube-system (both fixed upstream); renaming therefore
+# does not make two metrics-server installs coexist.
+#
+# Upstream renders into the release namespace (`helm install --namespace`),
+# so with the recommended `--namespace virtfoundry-system` the chain
+# APIService -> Service -> Pod stays inside virtfoundry-system.
+metrics-server:
+  enabled: false
+  # fullnameOverride rewrites every resource name rendered by the
+  # subchart. nameOverride is set to the same value so the upstream
+  # app.kubernetes.io/name label and the selector labels line up with it.
+  fullnameOverride: virtfoundry-metrics-server
+  nameOverride: virtfoundry-metrics-server
+  # Extra subchart args. The kind overlay adds --kubelet-insecure-tls for
+  # self-signed kubelet serving certs; production clusters with a proper
+  # kubelet CA chain leave this empty.
+  args: []
+  # resource requests/limits (passed through to the subchart's deployment).
+  resources:
+    requests:
+      cpu: 100m
+      memory: 128Mi
+    limits:
+      cpu: 500m
+      memory: 256Mi
+  # replicas: 2 (HA) for production; homelab / kind leave it at 1.
+  replicas: 1
+

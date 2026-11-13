@@ -15,6 +15,16 @@ ui:
     port: 80
     nodePort: 30880
 
+# The metrics-server subchart is opt-in (chart default is `enabled: false`)
+# and this overlay turns it on: kind kubelets use self-signed serving certs,
+# so the upstream default `--kubelet-preferred-address-types` still applies
+# and only --kubelet-insecure-tls is needed. Production clusters with a real
+# kubelet CA chain leave this off.
+metrics-server:
+  enabled: true
+  args:
+    - --kubelet-insecure-tls
+
 platform:
   networking:
     public:
