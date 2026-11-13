@@ -290,9 +290,26 @@ data:
       return 0
     }
 
+    # Per-tenant isolated bridges ("vfb"+hex, created by the CNI) have their gateway on
+    # the node. The host FORWARD policy is DROP, so: never route between tenant bridges,
+    # allow tenant <-> outside. Idempotent; DROP must stay above the ACCEPTs.
+    ensure_tenant_forward() {
+      command -v iptables >/dev/null 2>&1 || apk add --no-cache iptables >/dev/null 2>&1 || {
+        echo "WARN: iptables unavailable on $(hostname); tenant FORWARD rules not applied" >&2
+        return 0
+      }
+      for r in "-i vfb+ -j ACCEPT" "-o vfb+ -j ACCEPT"; do
+        # shellcheck disable=SC2086
+        iptables -C FORWARD $r 2>/dev/null || { iptables -I FORWARD 1 $r && echo "REPAIR: FORWARD $r on $(hostname)"; }
+      done
+      iptables -C FORWARD -i vfb+ -o vfb+ -j DROP 2>/dev/null || { iptables -I FORWARD 1 -i vfb+ -o vfb+ -j DROP && echo "REPAIR: FORWARD tenant-to-tenant DROP on $(hostname)"; }
+      return 0
+    }
+
     ensure_all_bridges() {
       {{- if .Values.platform.networking.isolated.enabled }}
       setup_bridge "{{ .Values.platform.networking.isolated.bridge.name }}" "" "{{ .Values.platform.networking.isolated.bridge.address }}"
+      ensure_tenant_forward
       {{- end }}
       {{- if .Values.platform.networking.public.enabled }}
       setup_bridge "{{ .Values.platform.networking.public.bridge.name }}" "{{ .Values.platform.networking.public.bridge.uplink }}" "{{ .Values.platform.networking.public.bridge.address }}" "per-node"
