@@ -4,6 +4,12 @@ See [docs/project/changelog.md](docs/project/changelog.md) for the full release 
 
 ## [Unreleased]
 
+## [0.13.0] - 2026-11-13
+
+### Changed
+
+- Version aligned with the VirtFoundry 0.13.0 release.
+
 ## [0.12.0] - 2026-10-16
 
 ### Added
