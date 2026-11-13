@@ -1896,17 +1896,17 @@
 <tr>
 <td><code>isolated.enabled</code></td>
 <td><code>false</code></td>
-<td>Tenant VPC L2 on an internal bridge (<code>virtfoundry-br0</code>)</td>
+<td>Tenant VPC L2 on internal bridges, one per tenant (<code>vfb</code> + 8 hex of the namespace hash, created by the operator). The keeper adds <code>FORWARD</code> rules that DROP traffic between tenant bridges</td>
 </tr>
 <tr>
 <td><code>isolated.bridge.name</code></td>
 <td><code>virtfoundry-br0</code></td>
-<td>Linux bridge name (≤15 chars)</td>
+<td>Legacy shared bridge, kept for upgrades. Tenant networks no longer attach to it</td>
 </tr>
 <tr>
 <td><code>isolated.bridge.address</code></td>
 <td><code>""</code></td>
-<td>Optional host IPv4/CIDR on the isolated bridge (e.g. <code>10.0.0.1/24</code> when Multus IPAM uses <code>.1</code> as gateway)</td>
+<td>Leave empty. Tenant bridges get their gateway from the NAD (<code>isGateway</code>), and an address on the legacy bridge makes the host route that CIDR through a bridge with no ports. After upgrading from 0.12, remove an old address once with <code>ip addr del</code> (the keeper does not)</td>
 </tr>
 <tr>
 <td><code>bridge.namespace</code></td>
