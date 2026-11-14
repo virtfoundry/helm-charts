@@ -21,3 +21,9 @@ maintainers:
     url: https://github.com/Matheus-Thurler
   - name: virtfoundry
     url: https://github.com/virtfoundry
+dependencies:
+  - name: metrics-server
+    version: "~3.12.0"
+    repository: "https://kubernetes-sigs.github.io/metrics-server"
+    condition: metrics-server.enabled
+
