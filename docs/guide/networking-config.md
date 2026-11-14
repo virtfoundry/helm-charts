@@ -49,9 +49,9 @@ Identity: dedicated ServiceAccount with `automountServiceAccountToken: false` (n
 
 | Key | Default | Description |
 |-----|---------|-------------|
-| `isolated.enabled` | `false` | Tenant VPC L2 on an internal bridge (`virtfoundry-br0`) |
-| `isolated.bridge.name` | `virtfoundry-br0` | Linux bridge name (≤15 chars) |
-| `isolated.bridge.address` | `""` | Optional host IPv4/CIDR on the isolated bridge (e.g. `10.0.0.1/24` when Multus IPAM uses `.1` as gateway) |
+| `isolated.enabled` | `false` | Tenant VPC L2 on internal bridges, one per tenant (`vfb` + 8 hex of the namespace hash, created by the operator). The keeper adds `FORWARD` rules that DROP traffic between tenant bridges |
+| `isolated.bridge.name` | `virtfoundry-br0` | Legacy shared bridge, kept for upgrades. Tenant networks no longer attach to it |
+| `isolated.bridge.address` | `""` | Leave empty. Tenant bridges get their gateway from the NAD (`isGateway`), and an address on the legacy bridge makes the host route that CIDR through a bridge with no ports. After upgrading from 0.12, remove an old address once with `ip addr del` (the keeper does not) |
 | `bridge.namespace` | `kube-system` | Namespace for the DaemonSet + scripts ConfigMap |
 | `bridge.image` | alpine@sha256:… | Pin / override (prefer a prebuilt image with dnsmasq) |
 | `bridge.nodeSelector` | `{}` | Optional node selection |
