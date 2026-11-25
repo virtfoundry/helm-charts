@@ -23,23 +23,25 @@ helm repo add virtfoundry https://virtfoundry.github.io/helm-charts
 helm repo update
 
 # After KubeVirt, Multus, CDI
+# 1. CRDs (separate release: they hold your data, Helm never deletes them)
 helm install virtfoundry-crds virtfoundry/virtfoundry-crds \
   --version 0.13.0 \
   -n virtfoundry-system --create-namespace
-helm install virtfoundry-operator virtfoundry/virtfoundry-operator \
-  --version 0.13.0 \
-  -n virtfoundry-system
 
-helm install virtfoundry virtfoundry/virtfoundry \
+# 2. Operator + API + UI in one release (add --set vks.enabled=true for VKS)
+helm install virtfoundry virtfoundry/virtfoundry-platform \
   --version 0.13.0 \
-  -n virtfoundry-system --create-namespace \
-  --set secrets.rootPassword='choose-a-strong-password' \
-  --set secrets.jwtSecret="$(openssl rand -hex 32)"
+  -n virtfoundry-system \
+  --set-string core.secrets.rootPassword='choose-a-strong-password' \
+  --set-string core.secrets.jwtSecret="$(openssl rand -hex 32)"
 ```
 
-The chart ships **no** credential defaults: install fails until `secrets.rootPassword`
-(min 12 chars) and `secrets.jwtSecret` (min 32 chars) are set, or `secrets.existingSecret`
+The chart ships **no** credential defaults: install fails until `core.secrets.rootPassword`
+(min 12 chars) and `core.secrets.jwtSecret` (min 32 chars) are set, or `core.secrets.existingSecret`
 points at a Secret you manage. See [Secrets](docs/guide/configuration.md#secrets).
+
+Prefer separate releases for the operator, the API/UI and VKS (for example one Argo CD
+Application each)? See [Installation](docs/guide/installation.md#install-virtfoundry-from-helm-repository).
 
 ## Local validation
 

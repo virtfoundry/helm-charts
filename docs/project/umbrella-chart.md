@@ -14,7 +14,7 @@ VirtFoundry **0.10.x** ships and deploys as **three independent Helm charts** an
 
 Install docs, [Versioning](versioning.md), and sync waves (operator before core before VKS) remain **operator-first, three releases**. No umbrella chart is published to the Helm index in 0.10.x.
 
-The VKS chart source today lives in the [`virtfoundry/vks`](https://github.com/virtfoundry/vks) repository (`charts/virtfoundry-vks`); operator and core charts live in [`virtfoundry/helm-charts`](https://github.com/virtfoundry/helm-charts). A future umbrella release may vendor or depend on packaged charts from one or both repos — details TBD when the chart is implemented.
+**Status (0.13):** implemented. `virtfoundry-platform` is published to the Helm index and is the recommended install path ([Quickstart](../guide/quickstart.md)); operator and core are `file://` dependencies inside this repo, and `virtfoundry-vks` is an OCI dependency (`oci://ghcr.io/virtfoundry/charts`) built in [`virtfoundry/vks`](https://github.com/virtfoundry/vks). The three-release path stays supported for GitOps. The sections below are the original design notes.
 
 ## Decisions
 
