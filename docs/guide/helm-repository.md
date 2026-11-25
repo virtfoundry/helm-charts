@@ -3,7 +3,7 @@
 The chart is published to **GitHub Pages** when a git tag `v*` is pushed.
 
 !!! note "VKS chart"
-    The Helm repository publishes `virtfoundry` and `virtfoundry-operator`. The `virtfoundry-vks` chart is installed from the [`virtfoundry/vks`](https://github.com/virtfoundry/vks) repository ([Installation](installation.md#install-vks-optional)).
+    The Helm repository publishes `virtfoundry-crds`, `virtfoundry-operator`, `virtfoundry` and `virtfoundry-platform`. The `virtfoundry-vks` chart is published as an OCI artifact (`oci://ghcr.io/virtfoundry/charts/virtfoundry-vks`); the `virtfoundry-platform` chart pulls it in with `--set vks.enabled=true` ([Installation](installation.md#install-vks-optional)).
 
 ## User install
 
@@ -13,7 +13,9 @@ helm repo update
 helm search repo virtfoundry/virtfoundry --versions
 ```
 
-**Prerequisites on the cluster:** KubeVirt, Multus, CDI (ISO/import), StorageClass, Ingress or Gateway API — see [Installation](installation.md#prerequisites-overview). Then install a specific chart version (operator first):
+**Prerequisites on the cluster:** KubeVirt, Multus, CDI (ISO/import), StorageClass, Ingress or Gateway API — see [Installation](installation.md#prerequisites-overview).
+
+The recommended path is `virtfoundry-crds` plus `virtfoundry-platform` (one release), shown in the [Quickstart](quickstart.md). To install the charts as separate releases instead, pin a version (operator first):
 
 ```bash
 helm install virtfoundry-crds virtfoundry/virtfoundry-crds --version 0.13.0 \

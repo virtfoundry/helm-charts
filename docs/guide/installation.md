@@ -163,6 +163,9 @@ Or install from upstream docs and verify CRDs before proceeding.
 
 ## Install VirtFoundry from Helm repository
 
+!!! tip "Recommended: one release"
+    Most installs should use `virtfoundry-crds` plus the `virtfoundry-platform` chart (operator, API, UI and optional VKS in one release), as in the [Quickstart](quickstart.md). This section documents the **three separate releases** path, for GitOps setups that upgrade the operator, the API/UI and VKS independently.
+
 After platform prerequisites are healthy:
 
 ```bash

@@ -3,7 +3,7 @@
 VirtFoundry Kubernetes Service (VKS) gives a tenant a managed Kubernetes cluster, EKS-style. The control plane runs on the platform ([Kamaji](https://kamaji.clastix.io/)); workers are regular VirtFoundry VMs. The tenant gets a kubeconfig.
 
 !!! note "Separate chart"
-    VKS ships as its own chart, `virtfoundry-vks`, from the [`virtfoundry/vks`](https://github.com/virtfoundry/vks) repository. Install order: operator, then core, then VKS ([Versioning](../../project/versioning.md)).
+    VKS ships as its own chart, `virtfoundry-vks`, built in the [`virtfoundry/vks`](https://github.com/virtfoundry/vks) repository and published to `oci://ghcr.io/virtfoundry/charts/virtfoundry-vks`. With the one-release install, enable it with `--set vks.enabled=true` on the `virtfoundry-platform` chart; with separate releases, install it after the operator and core ([Installation](../installation.md#install-vks-optional), [Versioning](../../project/versioning.md)).
 
 ## How it works
 
