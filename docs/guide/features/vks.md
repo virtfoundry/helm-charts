@@ -106,7 +106,7 @@ The address has to be reachable from two places: the worker VMs (to join) and wh
 ## Kubeconfig and API
 
 - Permissions: `vks:read`, `vks:write`, `vks:kubeconfig`.
-- API: gRPC `virtfoundry.vks.v1alpha1.ClusterService` on the same port as REST. REST `/api/v1/vks/clusters` is a thin shim for the console.
+- API: gRPC `virtfoundry.vks.v1alpha1.ClusterService` on the same port as REST (experimental, off by default: set `VIRTFOUNDRY_GRPC=1` on the API). REST `/api/v1/vks/clusters` is a thin shim for the console.
 - Terraform: [`virtfoundry_vks_cluster`](../terraform.md#vks-clusters) and `virtfoundry_vks_kubeconfig`.
 
 !!! warning "Kubeconfig is a credential"
