@@ -1575,6 +1575,17 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#fixed" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fixed
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#added" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1642,7 +1653,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#fixed" class="md-nav__link">
+  <a href="#fixed_1" class="md-nav__link">
     <span class="md-ellipsis">
       
         Fixed
@@ -1692,7 +1703,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#fixed_1" class="md-nav__link">
+  <a href="#fixed_2" class="md-nav__link">
     <span class="md-ellipsis">
       
         Fixed
@@ -1976,7 +1987,7 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#fixed_2" class="md-nav__link">
+  <a href="#fixed_3" class="md-nav__link">
     <span class="md-ellipsis">
       
         Fixed
@@ -2215,7 +2226,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#fixed_3" class="md-nav__link">
+  <a href="#fixed_4" class="md-nav__link">
     <span class="md-ellipsis">
       
         Fixed
@@ -2369,6 +2380,17 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#fixed" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fixed
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#added" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2436,7 +2458,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#fixed" class="md-nav__link">
+  <a href="#fixed_1" class="md-nav__link">
     <span class="md-ellipsis">
       
         Fixed
@@ -2486,7 +2508,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#fixed_1" class="md-nav__link">
+  <a href="#fixed_2" class="md-nav__link">
     <span class="md-ellipsis">
       
         Fixed
@@ -2770,7 +2792,7 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#fixed_2" class="md-nav__link">
+  <a href="#fixed_3" class="md-nav__link">
     <span class="md-ellipsis">
       
         Fixed
@@ -3009,7 +3031,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#fixed_3" class="md-nav__link">
+  <a href="#fixed_4" class="md-nav__link">
     <span class="md-ellipsis">
       
         Fixed
@@ -3129,6 +3151,10 @@
 <p>All notable changes to the <strong>Helm chart and deploy tooling</strong> are documented here.</p>
 <p>Format based on <a href="https://keepachangelog.com/">Keep a Changelog</a>. Versioning: <a href="../versioning/">SemVer</a>.</p>
 <h2 id="unreleased">[Unreleased]<a class="headerlink" href="#unreleased" title="Permanent link">¶</a></h2>
+<h3 id="fixed">Fixed<a class="headerlink" href="#fixed" title="Permanent link">¶</a></h3>
+<ul>
+<li>bridge-keeper: VMs of the same tenant on the same node can reach each other again. Since 0.13.0 the tenant isolation rule also dropped traffic switched inside one bridge on nodes with <code>br_netfilter</code>. It now drops routed packets only and the keeper removes the old rule.</li>
+</ul>
 <h3 id="added">Added<a class="headerlink" href="#added" title="Permanent link">¶</a></h3>
 <ul>
 <li><code>virtfoundry-operator</code>: <code>nodeLocalDNS</code> value (default <code>false</code>) passes <code>--node-local-dns</code> to the operator, so tenant namespaces can resolve names on clusters with NodeLocal DNSCache (<a href="https://github.com/virtfoundry/operator/pull/88">operator#88</a>).</li>
@@ -3145,7 +3171,7 @@
 <li>Docs: <a href="../../guide/expose/">Expose the UI and API</a> (port-forward, Ingress, Gateway API, what the proxy must pass through) and <a href="../../guide/security/">Security and credentials</a> (where the credentials live, how to change the root password, signing key rotation).</li>
 <li><code>scripts/release/release.sh</code>: <code>bump X.Y.Z</code> opens the release PR in core, operator, vks, helm-charts and the org profile; <code>tag X.Y.Z</code> tags them in order and waits for each tag's workflows. It only rewrites known pin shapes and lists the other mentions of the old version for review (<a href="../versioning/">Versioning</a>).</li>
 </ul>
-<h3 id="fixed">Fixed<a class="headerlink" href="#fixed" title="Permanent link">¶</a></h3>
+<h3 id="fixed_1">Fixed<a class="headerlink" href="#fixed_1" title="Permanent link">¶</a></h3>
 <ul>
 <li>Configuration said credentials change when a new value is passed. A new <code>secrets.rootPassword</code> does not change the login password after the first start: the API only uses it to create <code>root</code>.</li>
 <li><code>scripts/setup/multus.sh</code> installs Multus with a 256Mi memory limit instead of the upstream 50Mi (<code>MULTUS_MEMORY</code> overrides it). The thick daemon runs the delegate CNI inside its own cgroup; at 50Mi <code>cilium-cni</code> was evicted and re-read from disk (about 100k refaults per second) and pod sandboxes hung in <code>ContainerCreating</code> on a loaded node (<a href="https://github.com/virtfoundry/helm-charts/pull/144">#144</a>). If you installed Multus another way, raise <code>kube-multus-ds</code> to 256Mi.</li>
@@ -3163,7 +3189,7 @@
 <li>Chart / image pins aligned with core/operator/vks <strong>0.11.3</strong> (core: VKS accepts the network display name, <code>/api/v1/healthz</code>).</li>
 <li><code>virtfoundry-vks</code> sample and VKS guide use the Network CR name (<code>default-default</code>) in <code>networkRef</code>.</li>
 </ul>
-<h3 id="fixed_1">Fixed<a class="headerlink" href="#fixed_1" title="Permanent link">¶</a></h3>
+<h3 id="fixed_2">Fixed<a class="headerlink" href="#fixed_2" title="Permanent link">¶</a></h3>
 <ul>
 <li>The UI nginx sent <code>Host</code> without the port, so WebSocket upgrades (<code>/ws/events</code>, <code>/ws/console</code>) were rejected with 403 when the UI was served on a non-default port, such as the quickstart's <code>kubectl port-forward 8080:80</code>. It now keeps the port (<code>$http_host</code>); <code>scripts/ci/assert-ui-nginx-host.sh</code> guards it (<a href="../../guide/troubleshooting/">Troubleshooting</a>).</li>
 <li>The UI and API pods now roll when their ConfigMaps change (checksum annotations). Before, <code>helm upgrade</code> changed the ConfigMap and left the pod running with the old file, because the nginx config is mounted with <code>subPath</code>.</li>
@@ -3247,7 +3273,7 @@
 <li>Chart / image pins aligned with core <strong>0.8.0</strong> (UI day-2 polish). No chart schema change.</li>
 </ul>
 <h2 id="073-2026-09-25"><a href="https://github.com/virtfoundry/helm-charts/compare/v0.7.2...v0.7.3">0.7.3</a> - 2026-09-25<a class="headerlink" href="#073-2026-09-25" title="Permanent link">¶</a></h2>
-<h3 id="fixed_2">Fixed<a class="headerlink" href="#fixed_2" title="Permanent link">¶</a></h3>
+<h3 id="fixed_3">Fixed<a class="headerlink" href="#fixed_3" title="Permanent link">¶</a></h3>
 <ul>
 <li>Control-plane NetworkPolicy DNS egress allows NodeLocalDNS (port 53 without CoreDNS-only selectors) so the UI can resolve <code>virtfoundry-api</code> on Kubespray clusters.</li>
 </ul>
@@ -3346,7 +3372,7 @@ kubectl<span class="w"> </span>-n<span class="w"> </span>virtfoundry-system<span
 <li>Platform bridge DaemonSet: optional bridge IP + VM pool host routes via the public bridge</li>
 <li>Default container images bumped to <code>0.2.0</code></li>
 </ul>
-<h3 id="fixed_3">Fixed<a class="headerlink" href="#fixed_3" title="Permanent link">¶</a></h3>
+<h3 id="fixed_4">Fixed<a class="headerlink" href="#fixed_4" title="Permanent link">¶</a></h3>
 <ul>
 <li>Public VM networking: bridge Multus without host-local IPAM (guest IP via cloud-init pool)</li>
 </ul>
