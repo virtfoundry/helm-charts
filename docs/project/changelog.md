@@ -8,6 +8,7 @@ Format based on [Keep a Changelog](https://keepachangelog.com/). Versioning: [Se
 
 ### Fixed
 
+- `virtfoundry`: with `api.replicas > 1`, API pods wait 5s before stopping (`preStop` sleep, Kubernetes 1.30+), so requests are not sent to a pod that already closed its listener.
 - bridge-keeper: VMs of the same tenant on the same node can reach each other again. Since 0.13.0 the tenant isolation rule also dropped traffic switched inside one bridge on nodes with `br_netfilter`. It now drops routed packets only and the keeper removes the old rule.
 
 ### Added
