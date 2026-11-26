@@ -1,3 +1,7 @@
+{{- $multi := gt (int .Values.api.replicas) 1 }}
+{{- if and $multi (not (.Values.api.multiReplica | default dict).enabled) }}
+{{- fail "api.replicas > 1 requires api.multiReplica.enabled=true: the audit log, async jobs, login throttle and console ticket single use are still per pod. See api.multiReplica in values.yaml." }}
+{{- end }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -20,6 +24,15 @@ spec:
     spec:
       {{- include "virtfoundry.imagePullSecrets" . | nindent 6 }}
       serviceAccountName: {{ .Values.fullnamePrefix }}-api
+      {{- if $multi }}
+      topologySpreadConstraints:
+        - maxSkew: 1
+          topologyKey: kubernetes.io/hostname
+          whenUnsatisfiable: ScheduleAnyway
+          labelSelector:
+            matchLabels:
+              app: {{ .Values.fullnamePrefix }}-api
+      {{- end }}
       securityContext:
         runAsNonRoot: true
         runAsUser: {{ .Values.api.securityContext.runAsUser | default 65532 }}
@@ -97,3 +110,16 @@ spec:
     - port: {{ .Values.api.service.port }}
       targetPort: 8080
       name: http
+{{- if $multi }}
+---
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: {{ .Values.fullnamePrefix }}-api
+  namespace: {{ .Values.namespace }}
+spec:
+  minAvailable: 1
+  selector:
+    matchLabels:
+      app: {{ .Values.fullnamePrefix }}-api
+{{- end }}

@@ -109,6 +109,14 @@ api:
     type: ClusterIP
     port: 8080
   replicas: 1
+  # replicas > 1 fails to render unless enabled. Part of the API state still lives
+  # in each pod: the audit log, `async: true` jobs, login throttle counters (the
+  # limit multiplies by the replica count), console ticket single use (30 s replay
+  # window on another pod) and tenant/role caches (up to 30 s stale).
+  # When enabled, the chart also adds a PodDisruptionBudget and spreads pods
+  # across nodes.
+  multiReplica:
+    enabled: false
   securityContext:
     runAsUser: 65532
     runAsGroup: 65532
