@@ -44,6 +44,13 @@ spec:
         - name: api
           image: {{ .Values.images.api }}
           imagePullPolicy: {{ .Values.images.pullPolicy }}
+          {{- if $multi }}
+          # Keep serving while the Service drops this endpoint, before SIGTERM.
+          lifecycle:
+            preStop:
+              sleep:
+                seconds: 5
+          {{- end }}
           ports:
             - containerPort: 8080
               name: http
