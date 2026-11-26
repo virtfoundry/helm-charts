@@ -2057,6 +2057,14 @@ helm<span class="w"> </span>upgrade<span class="w"> </span>--install<span class=
 <span class="w">    </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ClusterIP</span>
 <span class="w">    </span><span class="nt">port</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">8080</span>
 <span class="w">  </span><span class="nt">replicas</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+<span class="w">  </span><span class="c1"># replicas &gt; 1 fails to render unless enabled. Part of the API state still lives</span>
+<span class="w">  </span><span class="c1"># in each pod: the audit log, `async: true` jobs, login throttle counters (the</span>
+<span class="w">  </span><span class="c1"># limit multiplies by the replica count), console ticket single use (30 s replay</span>
+<span class="w">  </span><span class="c1"># window on another pod) and tenant/role caches (up to 30 s stale).</span>
+<span class="w">  </span><span class="c1"># When enabled, the chart also adds a PodDisruptionBudget and spreads pods</span>
+<span class="w">  </span><span class="c1"># across nodes.</span>
+<span class="w">  </span><span class="nt">multiReplica</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
 <span class="w">  </span><span class="nt">securityContext</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">runAsUser</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">65532</span>
 <span class="w">    </span><span class="nt">runAsGroup</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">65532</span>
