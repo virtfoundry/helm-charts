@@ -1,0 +1,87 @@
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.21.0
+  name: targetgroups.virtfoundry.io
+spec:
+  group: virtfoundry.io
+  names:
+    kind: TargetGroup
+    listKind: TargetGroupList
+    plural: targetgroups
+    shortNames:
+    - vf-tg
+    singular: targetgroup
+  scope: Namespaced
+  versions:
+  - name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        description: TargetGroup is the Schema for the targetgroups API.
+        properties:
+          apiVersion:
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
+            type: string
+          kind:
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: TargetGroupSpec is the desired state of a TargetGroup.
+            properties:
+              name:
+                description: Name display label shown in UI/REST.
+                type: string
+              port:
+                description: Port is the backend port every target listens on.
+                format: int32
+                maximum: 65535
+                minimum: 1
+                type: integer
+              protocol:
+                default: tcp
+                description: Protocol is tcp or udp.
+                enum:
+                - tcp
+                - udp
+                type: string
+              targets:
+                description: Targets are the registered backends.
+                items:
+                  description: TargetGroupTarget is one backend registered in a TargetGroup.
+                  properties:
+                    id:
+                      description: ID is the stable REST identifier of the target.
+                      type: string
+                    ip:
+                      description: IP is the backend address the load balancer forwards
+                        to.
+                      minLength: 1
+                      type: string
+                    vmID:
+                      description: VMID is the REST identifier of the backing VM.
+                      type: string
+                  required:
+                  - id
+                  - ip
+                  type: object
+                type: array
+            required:
+            - name
+            - port
+            type: object
+        type: object
+    served: true
+    storage: true

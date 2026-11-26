@@ -18,7 +18,7 @@ NS=virtfoundry-system
 OLD_OPERATOR_VERSION="${OLD_OPERATOR_VERSION:-0.10.0}"
 ROOT=e2e-render-only-password
 JWT=e2e-render-only-jwt-secret-0123456789abcdef
-EXPECTED_CRDS=16
+EXPECTED_CRDS=18
 
 if [ "${1:-}" != print-quickstart ]; then # print-quickstart touches no cluster
   server="$(kubectl config view --minify -o jsonpath='{.clusters[0].cluster.server}')"

@@ -64,10 +64,25 @@ jobs:
 
       # The chart lives here; the RBAC check lives in the operator repository, next to the
       # ClusterRole generated from the kubebuilder markers.
+      # A permission or CRD change spans two repositories: a pull request is checked against the
+      # operator branch with the same name, when one exists. Pushes to main always use main.
+      - name: Pick the operator ref
+        id: operator
+        env:
+          HEAD_REF: ${{ github.head_ref }}
+        run: |
+          ref=main
+          if [ -n "$HEAD_REF" ] && git ls-remote --exit-code --heads https://github.com/virtfoundry/operator.git "refs/heads/$HEAD_REF" >/dev/null; then
+            ref="$HEAD_REF"
+          fi
+          echo "Operator ref: $ref"
+          echo "ref=$ref" >> "$GITHUB_OUTPUT"
+
       - name: Checkout operator (RBAC check)
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           repository: virtfoundry/operator
+          ref: ${{ steps.operator.outputs.ref }}
           path: .operator
           persist-credentials: false
 
@@ -88,7 +103,7 @@ jobs:
         run: bash ./scripts/ci/verify-api-rbac-contract.sh
 
       - name: CRD chart gate (matches operator/vks, keeps CRDs on uninstall)
-        run: bash ./scripts/ci/verify-crds-chart.sh
+        run: OPERATOR_DIR="$GITHUB_WORKSPACE/.operator" bash ./scripts/ci/verify-crds-chart.sh
 
       - name: Platform umbrella parity gate (same resources as the standalone charts)
         run: bash ./scripts/ci/verify-platform-parity.sh
