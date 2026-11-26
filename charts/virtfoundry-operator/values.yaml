@@ -18,6 +18,11 @@ replicas: 1
 
 leaderElection: true
 
+# Set true when pods resolve DNS through NodeLocal DNSCache (Kubespray default).
+# Tenant policies then allow port 53 to any destination. Needs an operator
+# release with --node-local-dns.
+nodeLocalDNS: false
+
 # ContainerDisk image allowlist (issue #22). Empty → built-in
 # quay.io/containerdisks/ + quay.io/kubevirt/ + ghcr.io/virtfoundry/.
 # Setting prefixes replaces the built-in list (private registry mirrors).

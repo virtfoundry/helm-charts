@@ -6,6 +6,10 @@ Format based on [Keep a Changelog](https://keepachangelog.com/). Versioning: [Se
 
 ## [Unreleased]
 
+### Added
+
+- `virtfoundry-operator`: `nodeLocalDNS` value (default `false`) passes `--node-local-dns` to the operator, so tenant namespaces can resolve names on clusters with NodeLocal DNSCache ([operator#88](https://github.com/virtfoundry/operator/pull/88)).
+
 ## [0.13.0] - 2026-11-13
 
 ### Changed

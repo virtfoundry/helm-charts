@@ -34,6 +34,9 @@ spec:
             {{- if .Values.leaderElection }}
             - --leader-elect
             {{- end }}
+            {{- if .Values.nodeLocalDNS }}
+            - --node-local-dns
+            {{- end }}
             - --health-probe-bind-address=:8081
             - --metrics-bind-address=0
           env:
