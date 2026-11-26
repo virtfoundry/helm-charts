@@ -2231,6 +2231,11 @@ helm<span class="w"> </span>upgrade<span class="w"> </span>--install<span class=
 
 <span class="nt">leaderElection</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 
+<span class="c1"># Set true when pods resolve DNS through NodeLocal DNSCache (Kubespray default).</span>
+<span class="c1"># Tenant policies then allow port 53 to any destination. Needs an operator</span>
+<span class="c1"># release with --node-local-dns.</span>
+<span class="nt">nodeLocalDNS</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+
 <span class="c1"># ContainerDisk image allowlist (issue #22). Empty → built-in</span>
 <span class="c1"># quay.io/containerdisks/ + quay.io/kubevirt/ + ghcr.io/virtfoundry/.</span>
 <span class="c1"># Setting prefixes replaces the built-in list (private registry mirrors).</span>
