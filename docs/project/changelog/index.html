@@ -3175,6 +3175,7 @@
 <h2 id="unreleased">[Unreleased]<a class="headerlink" href="#unreleased" title="Permanent link">¶</a></h2>
 <h3 id="fixed">Fixed<a class="headerlink" href="#fixed" title="Permanent link">¶</a></h3>
 <ul>
+<li><code>virtfoundry</code>: with <code>api.replicas &gt; 1</code>, API pods wait 5s before stopping (<code>preStop</code> sleep, Kubernetes 1.30+), so requests are not sent to a pod that already closed its listener.</li>
 <li>bridge-keeper: VMs of the same tenant on the same node can reach each other again. Since 0.13.0 the tenant isolation rule also dropped traffic switched inside one bridge on nodes with <code>br_netfilter</code>. It now drops routed packets only and the keeper removes the old rule.</li>
 </ul>
 <h3 id="added">Added<a class="headerlink" href="#added" title="Permanent link">¶</a></h3>
