@@ -4,6 +4,10 @@ See [docs/project/changelog.md](docs/project/changelog.md) for the full release 
 
 ## [Unreleased]
 
+### Fixed
+
+- bridge-keeper: VMs of the same tenant on the same node can reach each other again. Since 0.13.0 the tenant isolation rule also dropped traffic switched inside one bridge on nodes with `br_netfilter`. It now drops routed packets only and the keeper removes the old rule.
+
 ### Added
 
 - `virtfoundry-operator`: `nodeLocalDNS` value (default `false`) passes `--node-local-dns` to the operator, so tenant namespaces can resolve names on clusters with NodeLocal DNSCache ([operator#88](https://github.com/virtfoundry/operator/pull/88)).

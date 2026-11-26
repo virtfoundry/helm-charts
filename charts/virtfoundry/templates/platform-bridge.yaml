@@ -303,7 +303,19 @@ data:
         # shellcheck disable=SC2086
         iptables -C FORWARD $r 2>/dev/null || { iptables -I FORWARD 1 $r && echo "REPAIR: FORWARD $r on $(hostname)"; }
       done
-      iptables -C FORWARD -i vfb+ -o vfb+ -j DROP 2>/dev/null || { iptables -I FORWARD 1 -i vfb+ -o vfb+ -j DROP && echo "REPAIR: FORWARD tenant-to-tenant DROP on $(hostname)"; }
+      # With br_netfilter, frames switched inside one bridge also cross FORWARD, so the
+      # DROP matches routed packets only. Bridged traffic cannot leave its bridge.
+      r="-i vfb+ -o vfb+ -m physdev ! --physdev-is-bridged -j DROP"
+      # shellcheck disable=SC2086
+      iptables -C FORWARD $r 2>/dev/null || { iptables -I FORWARD 1 $r && echo "REPAIR: FORWARD tenant-to-tenant DROP on $(hostname)"; }
+      # Remove the 0.13.0 rule, which also dropped VM-to-VM traffic on one bridge. Only
+      # once the new rule is in place, so isolation never has a gap.
+      # shellcheck disable=SC2086
+      if iptables -C FORWARD $r 2>/dev/null; then
+        while iptables -D FORWARD -i vfb+ -o vfb+ -j DROP 2>/dev/null; do echo "REPAIR: removed 0.13.0 DROP on $(hostname)"; done
+      else
+        iptables -C FORWARD -i vfb+ -o vfb+ -j DROP 2>/dev/null || iptables -I FORWARD 1 -i vfb+ -o vfb+ -j DROP
+      fi
       return 0
     }
 
