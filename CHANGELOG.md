@@ -11,12 +11,13 @@ See [docs/project/changelog.md](docs/project/changelog.md) for the full release 
 
 ### Added
 
+- `virtfoundry-crds`: `LoadBalancer` and `TargetGroup` CRDs, with the matching operator and API RBAC.
 - `virtfoundry`: `api.multiReplica.enabled` (default `false`). With it and `api.replicas > 1`, the chart adds a PodDisruptionBudget (`minAvailable: 1`) and spreads API pods across nodes.
 - `virtfoundry-operator`: `nodeLocalDNS` value (default `false`) passes `--node-local-dns` to the operator, so tenant namespaces can resolve names on clusters with NodeLocal DNSCache ([operator#88](https://github.com/virtfoundry/operator/pull/88)).
 
 ### Upgrade notes
 
-- `api.replicas > 1` now fails to render unless `api.multiReplica.enabled=true`. The audit log, `async: true` jobs, login throttle counters, console ticket single use and tenant/role caches are still per pod.
+- `api.replicas > 1` now fails to render unless `api.multiReplica.enabled=true`. `async: true` jobs, login throttle counters, console ticket single use and tenant/role caches are still per pod.
 
 ## [0.13.0] - 2026-11-13
 
