@@ -6,6 +6,10 @@ Format based on [Keep a Changelog](https://keepachangelog.com/). Versioning: [Se
 
 ## [Unreleased]
 
+### Fixed
+
+- bridge-keeper: VMs of the same tenant on the same node can reach each other again. Since 0.13.0 the tenant isolation rule also dropped traffic switched inside one bridge on nodes with `br_netfilter`. It now drops routed packets only and the keeper removes the old rule.
+
 ### Added
 
 - `virtfoundry`: `api.multiReplica.enabled` (default `false`). With it and `api.replicas > 1`, the chart adds a PodDisruptionBudget (`minAvailable: 1`) and spreads API pods across nodes.
